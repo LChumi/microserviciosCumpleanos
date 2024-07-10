@@ -1,28 +1,6 @@
 spring:
   application:
-    name: mcsv-ecommerce
-
-  datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@192.168.112.46:1521/db01
-    username: data_usr
-    password: dataicep1
-
-  jpa:
-    hibernate:
-      ddl-auto: none
-    database: oracle
-    show-sql: true
+    name: msvc-ecommerce
 
   config:
     import: optional:configserver:http://localhost:8888
-
-server:
-  port: 8081
-
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
