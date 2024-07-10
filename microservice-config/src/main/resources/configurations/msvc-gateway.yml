@@ -1,6 +1,6 @@
 eureka:
   client:
-    register-with-eureka: false
+    register-with-eureka: true
 
 server:
   port: 8080
@@ -16,10 +16,10 @@ spring:
           enabled: true
       routes:
         - id: ecommerce
-          uri: http://localhost:8081
+          uri: lb://msvc-ecommerce
           predicates:
             - Path=/ec/**
         - id: inventory
-          uri: http://localhost:9091
+          uri: lb://msvc-inventory
           predicates:
             - Path=/inv/**
