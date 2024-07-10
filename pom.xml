@@ -23,6 +23,7 @@
 		<module>microservice-ecommerce</module>
 		<module>microservice-inventario</module>
 		<module>microservice-adiminserver</module>
+		<module>microservice-pos</module>
 	</modules>
 
 	<properties>
