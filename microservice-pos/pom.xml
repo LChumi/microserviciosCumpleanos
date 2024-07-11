@@ -66,6 +66,28 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Dependencias de swagger -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<!-- Dependencias locales -->
+		<dependency>
+			<groupId>com</groupId>
+			<artifactId>jSerialComm</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>com</groupId>
+			<artifactId>jCajaPOSDF</artifactId>
+			<version>1</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
