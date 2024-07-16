@@ -23,3 +23,7 @@ spring:
           uri: lb://msvc-inventory
           predicates:
             - Path=/inv/**
+        - id: pos
+          uri: lb://msvc-pos
+          predicates:
+            - Path=/admin/**
