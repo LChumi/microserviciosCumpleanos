@@ -161,7 +161,4 @@ public class Ccomproba {
 
     @Column(name = "CCO_NODESPACHO")
     private Long noDespacho;
-
-
-
 }
