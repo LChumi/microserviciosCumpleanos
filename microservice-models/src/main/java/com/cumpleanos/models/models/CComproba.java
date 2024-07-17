@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "CCOMPROBA")
 @Data
-public class Ccomproba {
+public class CComproba {
 
     @Id
     @Column(name = "CCO_CODIGO")
