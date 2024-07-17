@@ -1,34 +1,53 @@
 package com.cumlpeanos.pos.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Entity
-@Table(name = "RECIBO_POS")
+@Table(name = "RECIBO_POS_V")
 @Data
-public class ReciboPOS {
+public class ReciboPOSView {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "RPO_CODIGO")
-    @Setter(AccessLevel.NONE)
-    private Long id;
-
-    @Column(name = "RPO_EMPRESA")
-    private Long empresa;
-
-    @Column(name = "RPO_USR_LIQUIDA")
-    private int usr_liquida;
 
     @Column(name = "RPO_CCO_COMPROBA")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private BigInteger ccoComproba;
+    private BigInteger ccoComprobaId;
+
+    @Id
+    @Column(name = "CAP_CODIGO")
+    private Long codigo;
+
+    @Column(name = "CAP_EMPRESA")
+    private Long empresa;
+
+    @Column(name = "CAP_DESCRIPCION")
+    private String descripcion;
+
+    @Column(name = "CAP_ALMACEN")
+    private int almacen;
+
+    @Column(name = "CAP_PVENTA")
+    private int pventa;
+
+    @Column(name = "CAP_IP")
+    private String ip;
+
+    @Column(name = "CAP_NOMBRE_EQUIPO")
+    private String nombreEquipo;
+
+    @Column(name = "CAP_PUERTO")
+    private String puertoCom;
+
+    @Column(name = "RPO_CODIGO")
+    private Long rpoCodigo;
+
+    @Column(name = "RPO_USR_LIQUIDA")
+    private Long rpoUsrLiquida;
 
     @Column(name = "RPO_SUBTOTAL_0")
     private BigDecimal subtotal0;
@@ -40,7 +59,7 @@ public class ReciboPOS {
     private BigDecimal descuento;
 
     @Column(name = "RPO_IMPUESTO")
-    private int impuesto;
+    private Long impuesto;
 
     @Column(name = "RPO_PORC_IMPUESTO")
     private BigDecimal porcImpuesto;
@@ -55,10 +74,10 @@ public class ReciboPOS {
     private String tarjetaHabiente;
 
     @Column(name = "RPO_NUM_APROB")
-    private String num_aprob;
+    private String numAprobacion;
 
     @Column(name = "RPO_NOM_EMISOR")
-    private String nom_emisor;
+    private String nomEmisor;
 
     @Column(name = "RPO_REFERENCIA")
     private String referencia;
@@ -73,7 +92,7 @@ public class ReciboPOS {
     private String nomAdquiriente;
 
     @Column(name = "RPO_NUM_TARJETA")
-    private String num_tarjeta;
+    private String numTajeta;
 
     @Column(name = "RPO_FECHA")
     private String fecha;
@@ -85,11 +104,11 @@ public class ReciboPOS {
     private String resultado;
 
     @Column(name = "RPO_ALMACEN")
-    private int almacen;
+    private Long rpoAlmacen;
 
     @Column(name = "RPO_PVENTA")
-    private int pventa;
+    private Long rpoPventa;
 
     @Column(name = "RPO_CCO_RECIBO")
-    private BigInteger ccoRecibo;
+    private Long ccoRecibo;
 }
