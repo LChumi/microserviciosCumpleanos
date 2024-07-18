@@ -27,4 +27,4 @@ spring:
         - id: pos
           uri: lb://msvc-pos
           predicates:
-            - Path=/admin/cajapos/**
+            - Path=/admin/**
