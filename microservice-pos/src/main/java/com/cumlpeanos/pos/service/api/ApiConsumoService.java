@@ -19,11 +19,16 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class ApiConsumoService {
 
+    //TODO http://host|ip:8080/endpoint ->
     private static final String BASE_URL="http://";
+    private static final String PUERTO=":8080/";
+    private static final String PROCESAR_PAGO="pos/procesarPago";
+    private static final String ANULAR_PAGO="anular-pago/";
+    private static final String ULTIMA_TRANSACCION="ultima-transaccion/";
     private final RestTemplate restTemplate;
 
-    public DatosRecepcionResponse procesarPago(String ip, String puertoCom){
-        String url=BASE_URL+ip+":8080/"+puertoCom;
+    public DatosRecepcionResponse procesarPago(String ip, String puertoCom){ //datos null !
+        String url=BASE_URL+ip+PUERTO+PROCESAR_PAGO+puertoCom;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

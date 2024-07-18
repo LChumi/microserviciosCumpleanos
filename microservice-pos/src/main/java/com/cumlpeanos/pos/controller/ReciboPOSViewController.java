@@ -26,8 +26,23 @@ public class ReciboPOSViewController {
             }
             return ResponseEntity.ok(reciboPOSView);
         }catch (Exception e){
-            log.error("ERROR al buscar en el servicio message{}",e.getMessage());
+            log.error("ERROR al buscar en el servicio  por almacen message{}",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("usr-liquida/{usr}/empresa{empresa}")
+    public ResponseEntity<ReciboPOSView> getReciboByUsr(@PathVariable Long usr, @PathVariable Long empresa){
+        try {
+            ReciboPOSView reciboPOSView = service.findByUsrLiquidaAndEmpresa(usr, empresa);
+            if (reciboPOSView == null ){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.ok(reciboPOSView);
+        }catch (Exception e){
+            log.error("ERROR al buscar en el servicio por usr_liquida message{}",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

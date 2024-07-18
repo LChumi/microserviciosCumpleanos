@@ -81,17 +81,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-		<!-- Dependencias locales -->
-		<dependency>
-			<groupId>com</groupId>
-			<artifactId>jSerialComm</artifactId>
-			<version>1</version>
-		</dependency>
-		<dependency>
-			<groupId>com</groupId>
-			<artifactId>jCajaPOSDF</artifactId>
-			<version>1</version>
-		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

@@ -4,4 +4,5 @@ import com.cumlpeanos.pos.models.entity.ReciboPOSView;
 
 public interface IReciboPOSViewService {
     ReciboPOSView findByAlmacenAndPventa(int almacen, int pventa);
+    ReciboPOSView findByUsrLiquidaAndEmpresa(Long usrLiquida, Long empresa);
 }

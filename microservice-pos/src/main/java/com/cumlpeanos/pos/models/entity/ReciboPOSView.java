@@ -47,7 +47,7 @@ public class ReciboPOSView {
     private Long rpoCodigo;
 
     @Column(name = "RPO_USR_LIQUIDA")
-    private Long rpoUsrLiquida;
+    private Long usrLiquida;
 
     @Column(name = "RPO_SUBTOTAL_0")
     private BigDecimal subtotal0;
