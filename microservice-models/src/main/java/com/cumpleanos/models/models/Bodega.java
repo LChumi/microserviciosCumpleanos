@@ -74,6 +74,24 @@ public class Bodega {
     @Column(name = "BOD_VER_CAL")
     private Long verCal;
 
+    @Column(name = "BOD_TIPO")
+    private Long tipo;
+
+    @Column(name = "BOD_PROVEEDOR")
+    private Long proveedor;
+
+    @Column(name = "BOD_COMPRA")
+    private Long compra;
+
+    @Column(name = "BOD_MAYORISTA")
+    private Long mayorista;
+
+    @Column(name = "BOD_BODEGA_WEB")
+    private Long bodega_web;
+
+    @Column(name = "BOD_BODEGA_WEB_DEF")
+    private Long bodega_web_def;
+
     @Column(name = "BOD_FECHA_INICIO")
     private LocalDate fechaInicio;
 
