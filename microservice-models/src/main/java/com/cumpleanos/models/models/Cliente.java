@@ -154,5 +154,4 @@ public class Cliente {
     private Long cuentacla;
 
     //CLIRUTA -> ADELANTE
-
 }

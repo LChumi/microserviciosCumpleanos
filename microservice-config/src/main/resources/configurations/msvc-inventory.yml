@@ -32,6 +32,14 @@ management:
     web:
       exposure:
         include: "*"
+        exclude: "beans"
   endpoint:
     health:
       show-details: always
+  info:
+    env:
+      enabled: true
+info:
+  app:
+    name: Msvc Inventory
+    version: 0.0.1
