@@ -43,3 +43,12 @@ info:
   app:
     name: Msvc Ecommerce
     version: 0.0.1
+
+logging:
+  level:
+    root: info;
+    com:
+      cumple:
+        pos: debug
+  file:
+    name: C:\\Proyectos\\Microserivicios\\logs\\ecommerce.log
