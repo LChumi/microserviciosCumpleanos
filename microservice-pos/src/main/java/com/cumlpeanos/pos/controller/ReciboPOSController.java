@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 
 @RestController
-@RequestMapping("/admin/recibo/")
+@RequestMapping("/pos/recibo/")
 @CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor

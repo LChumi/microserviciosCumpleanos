@@ -15,7 +15,6 @@ import java.math.BigInteger;
 public class ReciboPOS {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "RPO_CODIGO")
     @Setter(AccessLevel.NONE)
     private Long id;
@@ -92,4 +91,10 @@ public class ReciboPOS {
 
     @Column(name = "RPO_CCO_RECIBO")
     private BigInteger ccoRecibo;
+
+    @Column(name = "RPO_ANULADO")
+    private Long anulado;
+
+    @Column(name = "RPO_CUOTAS")
+    private Long cuotas;
 }

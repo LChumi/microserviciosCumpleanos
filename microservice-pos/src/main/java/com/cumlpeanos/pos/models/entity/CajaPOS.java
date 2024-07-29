@@ -11,7 +11,6 @@ import lombok.Setter;
 public class CajaPOS {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "CAP_CODIGO")
     @Setter(AccessLevel.NONE)
     private Long id;

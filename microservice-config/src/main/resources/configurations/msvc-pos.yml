@@ -21,8 +21,6 @@ spring:
         dialect: org.hibernate.dialect.OracleDialect
 
 eureka:
-  instance:
-    hostname: localhost
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
@@ -39,6 +37,7 @@ management:
   info:
     env:
       enabled: true
+
 info:
   app:
     name: Msvc Caja POS
@@ -46,7 +45,7 @@ info:
 
 logging:
   level:
-    root: info;
+    root: info
     com:
       cumple:
         pos: debug

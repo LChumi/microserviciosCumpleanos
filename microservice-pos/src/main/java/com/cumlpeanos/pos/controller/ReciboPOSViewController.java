@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/public/reciboView/")
+@RequestMapping("/pos/reciboView/")
 @CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
@@ -42,6 +42,15 @@ public class ReciboPOSViewController {
         }catch (Exception e){
             log.error("ERROR al buscar en el servicio por usr_liquida message{}",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("prueba")
+    public Long prueba(){
+        try {
+            return 1L;
+        }catch (Exception e){
+            return 0L;
         }
     }
 
