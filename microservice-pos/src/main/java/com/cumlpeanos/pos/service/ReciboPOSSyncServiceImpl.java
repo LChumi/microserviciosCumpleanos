@@ -99,6 +99,4 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
             return e.getMessage();
         }
     }
-
-
 }

@@ -18,5 +18,4 @@ public class OpenAPIConfiguration {
                         .license(new License().name("Apache License Version 2.0").url("https://www.apache.org/licenses/LICENSE-2.0"))
                 );// opcional externalDosc para demas licencias
     }
-
 }

@@ -24,5 +24,4 @@ public class ReciboPOSViewServiceImpl implements IReciboPOSViewService{
         return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
                 .orElseThrow(() -> new RuntimeException("No se encontro datos en la vista Recibo POS "));
     }
-
 }
