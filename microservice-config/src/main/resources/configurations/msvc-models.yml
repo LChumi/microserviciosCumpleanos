@@ -22,7 +22,7 @@ spring:
 
 eureka:
   instance:
-    hostname: localhost
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
@@ -31,18 +31,19 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
-        exclude: "beans"
+        include: "health,info,logfile"
+        exclude: "beans,env,threaddump,logfile"
   endpoint:
     health:
-      show-details: always
+      show-details: never
   info:
     env:
       enabled: true
+
 info:
   app:
-    name: Msvc Main Models
-    version: 0.0.1
+    name: ${spring.application.name}
+    version: 1.0
 
 logging:
   level:

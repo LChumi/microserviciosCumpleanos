@@ -2,6 +2,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 server:
   port: 8081
@@ -28,3 +30,21 @@ spring:
           uri: lb://msvc-pos
           predicates:
             - Path=/pos/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+        exclude: "beans,env,threaddump"
+  endpoint:
+    health:
+      show-details: never
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0

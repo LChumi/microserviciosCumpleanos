@@ -24,24 +24,26 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
-        exclude: "beans"
+        include: "health,info,logfile"
+        exclude: "beans,env,threaddump"
   endpoint:
     health:
-      show-details: always
+      show-details: never
   info:
     env:
       enabled: true
 
 info:
   app:
-    name: Msvc Caja POS
-    version: 0.0.1
+    name: ${spring.application.name}
+    version: 1.0
 
 logging:
   level:
