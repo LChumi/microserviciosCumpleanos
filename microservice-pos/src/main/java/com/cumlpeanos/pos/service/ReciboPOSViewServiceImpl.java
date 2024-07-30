@@ -32,6 +32,8 @@ public class ReciboPOSViewServiceImpl implements IReciboPOSViewService{
         dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
         dEnvio.setBase0(v.getSubtotal0().doubleValue());
         dEnvio.setIva(v.getValImpuesto().doubleValue());
+        dEnvio.setCuotas(0);
+        dEnvio.setTipoCredito(v.getTcrId());
 
         DatosRecepcionResponse response=apiService.procesarPago(v.getIp(),v.getPuertoCom(),dEnvio);
         //update bd recibo_pos repositorio.update

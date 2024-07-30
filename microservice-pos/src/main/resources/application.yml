@@ -4,3 +4,7 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8888
+
+pos:
+  base-url: "http://"
+  puerto: ":8080/"
