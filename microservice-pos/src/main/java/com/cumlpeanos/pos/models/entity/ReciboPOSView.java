@@ -14,13 +14,15 @@ import java.math.BigInteger;
 @Data
 public class ReciboPOSView {
 
-
-    @Column(name = "RPO_CCO_COMPROBA")
-    private BigInteger ccoComprobaId;
+    @Column(name = "RPO_USR_LIQUIDA")
+    private Long usrLiquida;
 
     @Id
     @Column(name = "CAP_CODIGO")
     private Long codigo;
+
+    @Column(name = "RPO_CCO_COMPROBA")
+    private BigInteger ccoComprobaId;
 
     @Column(name = "CAP_EMPRESA")
     private Long empresa;
@@ -45,9 +47,6 @@ public class ReciboPOSView {
 
     @Column(name = "RPO_CODIGO")
     private Long rpoCodigo;
-
-    @Column(name = "RPO_USR_LIQUIDA")
-    private Long usrLiquida;
 
     @Column(name = "RPO_SUBTOTAL_0")
     private BigDecimal subtotal0;
@@ -111,4 +110,7 @@ public class ReciboPOSView {
 
     @Column(name = "RPO_CCO_RECIBO")
     private Long ccoRecibo;
+
+    @Column(name = "TCR_ID")
+    private String tcrId;
 }

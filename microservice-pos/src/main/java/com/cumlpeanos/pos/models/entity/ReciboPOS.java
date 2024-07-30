@@ -92,9 +92,15 @@ public class ReciboPOS {
     @Column(name = "RPO_CCO_RECIBO")
     private BigInteger ccoRecibo;
 
+    @Column(name = "RPO_USRLIQ_FAC")
+    private Long usrLiqFac;
+
     @Column(name = "RPO_ANULADO")
     private Long anulado;
 
     @Column(name = "RPO_CUOTAS")
     private Long cuotas;
+
+    @Column(name = "RPO_TIPO_CREDITO_POS")
+    private Long tipoCredito;
 }
