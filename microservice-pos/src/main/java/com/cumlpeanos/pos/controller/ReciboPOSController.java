@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 
 @RestController
-@RequestMapping("/pos/recibo/")
+@RequestMapping("/pos/")
 @CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class ReciboPOSController {
 
     private final IReciboPOSService reciboPOSService;
 
-    @GetMapping("id/{id}/empresa/{empresa}")
+    @GetMapping("recibo/{id}/{empresa}")
     public ResponseEntity<ReciboPOS> porIdYEmpresa(@PathVariable Long id, @PathVariable Long empresa) {
         try {
             ReciboPOS reciboPOS= reciboPOSService.findByIdAndEmpresa(id, empresa);
@@ -33,7 +33,7 @@ public class ReciboPOSController {
         }
     }
 
-    @GetMapping("cco/{cco}")
+    @GetMapping("recibo/{cco}")
     public ResponseEntity<ReciboPOS> porCco(@PathVariable BigInteger cco) {
         try {
             ReciboPOS reciboPOS= reciboPOSService.findByCcoComproba(cco);

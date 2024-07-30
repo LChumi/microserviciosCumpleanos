@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/pos/cajapos/")
+@RequestMapping("/pos/")
 @CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ public class CajaPOSController {
 
     private final ICajaPOSService cajaPOSService;
 
-    @GetMapping("almacen/{almacen}/pventa/{pventa}")
+    @GetMapping("cajapos/{almacen}/{pventa}")
     public ResponseEntity<CajaPOS> porAlmacenYPventa(@PathVariable int almacen, @PathVariable int pventa) {
         try {
             CajaPOS cajaPOS= cajaPOSService.findByAlmacenAndPventa(almacen, pventa);
