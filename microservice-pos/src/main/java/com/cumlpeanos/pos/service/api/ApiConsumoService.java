@@ -54,7 +54,7 @@ public class ApiConsumoService {
             }
         } catch (HttpServerErrorException e) {
             log.error("ERROR: al enviar la solicitud Procesar Pago al cliente ip:{} en el puerto COM: {} statusCode:{} ", ip, puertoCom, e.getStatusCode());
-            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al Procesar el pago");
+            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al Procesar el pago "+e.getMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class ApiConsumoService {
             }
         } catch (HttpServerErrorException e) {
             log.error("ERROR: al listar puertos ip:{} statusCode:{}", ip, e.getStatusCode());
-            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente");
+            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente message: "+e.getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ public class ApiConsumoService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
-                log.error("Respuesta no satisfactoria en el cliente ip:{} en el puerto COM:{} statusCode:{}", ip, puertoCom, response.getStatusCode());
+                log.error("Respuesta no satisfactoria al anularPago cliente ip:{} en el puerto COM:{} statusCode:{}", ip, puertoCom, response.getStatusCode());
                 throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio Cliente respuesta no satisfactoria");
             }
         } catch (HttpServerErrorException e) {

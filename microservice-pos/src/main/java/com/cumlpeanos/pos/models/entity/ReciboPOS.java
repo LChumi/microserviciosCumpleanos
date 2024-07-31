@@ -101,6 +101,7 @@ public class ReciboPOS {
     @Column(name = "RPO_CUOTAS")
     private Long cuotas;
 
-    @Column(name = "RPO_TIPO_CREDITO_POS")
-    private Long tipoCredito;
+    @OneToOne
+    @JoinColumn(name = "RPO_TIPO_CREDITO_POS")
+    private TipoCreditoPOS tipoCreditoPOS;
 }
