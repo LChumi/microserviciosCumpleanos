@@ -29,9 +29,9 @@ public class ApiConsumoService {
     private final RestTemplate restTemplate;
 
     private static final String PROCESAR_PAGO="pos/procesarPago/";
-    private static final String ANULAR_PAGO="anular-pago/";
-    private static final String ULTIMA_TRANSACCION="ultima-transaccion/";
-    private static final String LISTA_PUERTOS_COM="listaPuertosCom";
+    private static final String ANULAR_PAGO="pos/anular-pago/";
+    private static final String ULTIMA_TRANSACCION="pos/ultima-transaccion/";
+    private static final String LISTA_PUERTOS_COM="pos/listaPuertosCom";
 
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
