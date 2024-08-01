@@ -112,5 +112,10 @@ public class ReciboPOSView {
     private Long ccoRecibo;
 
     @Column(name = "TCR_ID")
-    private String tcrId;
+    private String tipoCredito;
+
+    @Column(name = "RPO_CUOTAS")
+    private Long cuotas=0L;
+
+
 }

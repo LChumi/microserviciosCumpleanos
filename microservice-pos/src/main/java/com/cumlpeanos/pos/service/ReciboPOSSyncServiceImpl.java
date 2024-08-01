@@ -34,8 +34,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
             dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
             dEnvio.setBase0(v.getSubtotal0().doubleValue());
             dEnvio.setIva(v.getValImpuesto().doubleValue());
-            dEnvio.setCuotas(0);
-            dEnvio.setTipoCredito(v.getTcrId());
+            dEnvio.setCuotas(Math.toIntExact(v.getCuotas()));
+            dEnvio.setTipoCredito(v.getTipoCredito());
 
             DatosRecepcionResponse response = apiService.procesarPago(v.getIp(), v.getPuertoCom(), dEnvio);
             if (response == null) {
