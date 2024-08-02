@@ -77,7 +77,7 @@ public class ApiConsumoService {
     }
 
     public DatosRecepcionResponse anularPago(String ip, String puertoCom, String numReferencia) {
-        String url = String.format("%s%s%s%s%s", baseUrl, ip, puerto, ANULAR_PAGO, puertoCom);
+        String url = String.format("%s%s%s%s%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO, puertoCom,numReferencia);
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
 
         try {

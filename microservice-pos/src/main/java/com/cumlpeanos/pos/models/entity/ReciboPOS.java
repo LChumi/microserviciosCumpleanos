@@ -39,7 +39,7 @@ public class ReciboPOS {
     private BigDecimal descuento;
 
     @Column(name = "RPO_IMPUESTO")
-    private int impuesto;
+    private Long impuesto;
 
     @Column(name = "RPO_PORC_IMPUESTO")
     private BigDecimal porcImpuesto;

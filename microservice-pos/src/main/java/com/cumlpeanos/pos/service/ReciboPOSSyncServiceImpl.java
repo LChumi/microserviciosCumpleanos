@@ -7,17 +7,30 @@ import com.cumlpeanos.pos.models.entity.ReciboPOSView;
 import com.cumlpeanos.pos.repository.ReciboPOSRepository;
 import com.cumlpeanos.pos.repository.ReciboPOSViewRepositorio;
 import com.cumlpeanos.pos.service.api.ApiConsumoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
+
+    @Value("${file.path}")
+    private String ruta;
 
     private final ReciboPOSViewRepositorio repositorio;
     private final ApiConsumoService apiService;
@@ -27,30 +40,23 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
     @Transactional
     public String procesarPago(Long usrLiquida, Long empresa) {
         try {
-            ReciboPOSView v = repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
-                    .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS por UsrLiquida"));
+            ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
-            DatosEnvioRequest dEnvio = new DatosEnvioRequest();
-            dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
-            dEnvio.setBase0(v.getSubtotal0().doubleValue());
-            dEnvio.setIva(v.getValImpuesto().doubleValue());
-            dEnvio.setCuotas(Math.toIntExact(v.getCuotas()));
-            dEnvio.setTipoCredito(v.getTipoCredito());
+            DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
 
-            DatosRecepcionResponse response = apiService.procesarPago(v.getIp(), v.getPuertoCom(), dEnvio);
+            DatosRecepcionResponse response = apiService.procesarPago(reciboPOSView.getIp(),reciboPOSView.getPuertoCom(),dEnvio);
             if (response == null) {
-                return "No se pudo procesar el Recibo POS sin respuesta";
-            } else {
-                // Actualiza la base de datos recibo_pos
-                ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
-                        .orElseThrow(() -> new RuntimeException("No se encontró el recibo POS"));
-
-                actualizarReciboPOS(reciboPOS, response);
-                reciboPOSRepository.save(reciboPOS);
-                return "1";
+                throw new RuntimeException("No se pudo procesar el Recibo POS sin respuesta");
             }
+
+            actualizaGuardarReciboPOS(reciboPOSView,response);
+
+            return "1";
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al procesar el pago: {}", e.getMessage(), e);
+            return "Error de acceso a datos: " + e.getMessage();
         } catch (Exception e) {
-            log.error("ERROR al procesar el pago {}", e.getMessage(), e);
+            log.error("ERROR al procesar el pago: {}", e.getMessage(), e);
             return e.getMessage();
         }
     }
@@ -66,8 +72,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
     @Transactional
     public String anularPago(Long usrLiquida, Long empresa) {
         try {
-            ReciboPOSView v = repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
-                    .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS por UsrLiquida"));
+            ReciboPOSView v = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosRecepcionResponse response = apiService.anularPago(v.getIp(), v.getPuertoCom(), v.getReferencia());
             if (response == null) {
@@ -87,6 +92,33 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
         }
     }
 
+    private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
+        return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
+                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS para UsrLiquida y Empresa"));
+    }
+
+    private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v){
+        DatosEnvioRequest dEnvio = new DatosEnvioRequest();
+        dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
+        dEnvio.setBase0(v.getSubtotal0().doubleValue());
+        dEnvio.setIva(v.getValImpuesto().doubleValue());
+        dEnvio.setCuotas(Math.toIntExact(v.getCuotas()));
+        dEnvio.setTipoCredito(v.getTipoCredito());
+        return dEnvio;
+    }
+
+    private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response){
+        ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
+                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo"));
+        actualizarReciboPOS(reciboPOS,response);
+        try {
+            reciboPOSRepository.save(reciboPOS);
+        } catch (DataAccessException | PersistenceException e){
+            log.error("ERROR de acceso a datos al actualizar el pago: {}", e.getMessage(), e);
+            crearArchivoDatosNoGuardado(v.getUsrLiquida(),v.getEmpresa(),response);
+        }
+    }
+
     private void actualizarReciboPOS(ReciboPOS reciboPOS, DatosRecepcionResponse response) {
         reciboPOS.setTarjetaHabiente(response.getTarjetaHabiente());
         reciboPOS.setNum_aprob(response.getNumeroAprobacion());
@@ -98,5 +130,25 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
         reciboPOS.setResultado(response.getMensajeResultado());
         reciboPOS.setFecha(response.getFecha());
         reciboPOS.setHora(response.getHora());
+    }
+
+    /**
+     * Metodo para guardar la respuesta en caso de que la base de datos no de respuesta
+     */
+    private void crearArchivoDatosNoGuardado(Long usrLiquida, Long empresa, DatosRecepcionResponse response) {
+        try {
+            String nombreArchivo = String.format("response%s_%s.json", usrLiquida, empresa);
+            Path rutaArchivo = Paths.get(ruta,nombreArchivo);
+
+            // Convertir el objeto a JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(response);
+
+            List<String> lineas = Collections.singletonList(json);
+            Files.write(rutaArchivo,lineas);
+        }catch (IOException e){
+            log.error("ERROR al crear el archivo no guardado: {}", e.getMessage());
+            throw new RuntimeException("No se pudo crear el archivo de respaldo");
+        }
     }
 }

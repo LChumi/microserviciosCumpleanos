@@ -8,3 +8,6 @@ spring:
 pos:
   base-url: "http://"
   puerto: ":8080/"
+
+file:
+  path: "C:\Proyectos\Microserivicios\data_not_saved"

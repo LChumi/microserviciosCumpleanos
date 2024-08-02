@@ -25,7 +25,7 @@ public class ReciboPOSSyncController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             log.error("ERROR: en el servicio procesar Pago, message:{}",e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -47,7 +47,7 @@ public class ReciboPOSSyncController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e){
             log.error("ERROR: en el servicio anularPago, message:{}",e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 }
