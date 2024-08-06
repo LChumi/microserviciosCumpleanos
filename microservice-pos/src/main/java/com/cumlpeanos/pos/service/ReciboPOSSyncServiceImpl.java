@@ -7,21 +7,14 @@ import com.cumlpeanos.pos.models.entity.ReciboPOSView;
 import com.cumlpeanos.pos.repository.ReciboPOSRepository;
 import com.cumlpeanos.pos.repository.ReciboPOSViewRepositorio;
 import com.cumlpeanos.pos.service.api.ApiConsumoService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cumlpeanos.pos.utils.FilesUtils;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -29,12 +22,10 @@ import java.util.Map;
 @Slf4j
 public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
 
-    @Value("${file.path}")
-    private String ruta;
-
     private final ReciboPOSViewRepositorio repositorio;
     private final ApiConsumoService apiService;
     private final ReciboPOSRepository reciboPOSRepository;
+    private final FilesUtils filesUtils;
 
     @Override
     @Transactional
@@ -115,7 +106,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
             reciboPOSRepository.save(reciboPOS);
         } catch (DataAccessException | PersistenceException e){
             log.error("ERROR de acceso a datos al actualizar el pago: {}", e.getMessage(), e);
-            crearArchivoDatosNoGuardado(v.getUsrLiquida(),v.getEmpresa(),response);
+            filesUtils.crearArchivoDatosNoGuardado(v.getUsrLiquida(),v.getEmpresa(),response);
         }
     }
 
@@ -132,23 +123,4 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
         reciboPOS.setHora(response.getHora());
     }
 
-    /**
-     * Metodo para guardar la respuesta en caso de que la base de datos no de respuesta
-     */
-    private void crearArchivoDatosNoGuardado(Long usrLiquida, Long empresa, DatosRecepcionResponse response) {
-        try {
-            String nombreArchivo = String.format("response%s_%s.json", usrLiquida, empresa);
-            Path rutaArchivo = Paths.get(ruta,nombreArchivo);
-
-            // Convertir el objeto a JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(response);
-
-            List<String> lineas = Collections.singletonList(json);
-            Files.write(rutaArchivo,lineas);
-        }catch (IOException e){
-            log.error("ERROR al crear el archivo no guardado: {}", e.getMessage());
-            throw new RuntimeException("No se pudo crear el archivo de respaldo");
-        }
-    }
 }

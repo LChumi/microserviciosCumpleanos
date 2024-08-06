@@ -10,4 +10,4 @@ pos:
   puerto: ":8080/"
 
 file:
-  path: "C:\Proyectos\Microserivicios\data_not_saved"
+  path: "C:\\Proyectos\\Microserivicios\\data_not_saved"
