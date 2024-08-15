@@ -3,4 +3,4 @@ spring:
     name: msvc-recepcomprobantes
 
   config:
-    import: optional:configserver:http://localhost:888
+    import: optional:configserver:http://localhost:8888
