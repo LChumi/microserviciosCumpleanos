@@ -25,6 +25,7 @@
 		<module>microservice-inventario</module>
 		<module>microservice-adiminserver</module>
 		<module>microservice-pos</module>
+		<module>microservice-reccomprobantes</module>
 	</modules>
 
 	<properties>
