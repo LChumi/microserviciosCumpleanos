@@ -1,14 +1,17 @@
 package com.cumpleanos.reccomprobantes.models.xml.factura;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Impuesto {
-    private Integer codigo; // Cambiado a Integer
+    private String codigo;
     private String codigoPorcentaje;
-    private BigDecimal tarifa; // Usar BigDecimal para números decimales
-    private BigDecimal baseImponible; // Este es el campo relacionado con "0.9800"
-    private BigDecimal valor;
+    private String tarifa;
+    private String baseImponible;
+    private String valor;
 }
