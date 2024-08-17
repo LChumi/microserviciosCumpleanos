@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 public class XmlConverterUtils {
 
     public Factura convertirXmlAFactura(String xml){
-        String sanitizedXml = sanitizeXml(xml);
+        
         XmlMapper mapper = createSecureXmlMapper();
         try {
             Factura factura = mapper.readValue(xml, Factura.class);
@@ -25,7 +25,7 @@ public class XmlConverterUtils {
     }
 
     public ComprobanteRetencion convertirXmlAComprobanteRetencion(String xml){
-        String sanitizedXml = sanitizeXml(xml);
+        
         XmlMapper mapper = createSecureXmlMapper();
         try {
             ComprobanteRetencion retencion = mapper.readValue(xml, ComprobanteRetencion.class);
@@ -37,20 +37,16 @@ public class XmlConverterUtils {
     }
 
     public NotaCredito convertirXmlANotaCredito(String xml){
-        String sanitizedXml = sanitizeXml(xml);
         XmlMapper mapper = createSecureXmlMapper();
         try {
-            NotaCredito notaCredito = mapper.readValue(sanitizedXml, NotaCredito.class);
+            NotaCredito notaCredito = mapper.readValue(xml, NotaCredito.class);
             System.out.println("Transformando notaCredito ......................");
             return notaCredito;
         }catch (JsonProcessingException e) {
             throw new ConversionException("Error al convertir el xml a Nota de Credito",e);
         }
     }
-
-    private static String sanitizeXml(String xml){
-        return StringEscapeUtils.escapeXml(xml);
-    }
+    
 
     private static XmlMapper createSecureXmlMapper(){
         XmlFactory xmlFactory = new XmlFactory();
