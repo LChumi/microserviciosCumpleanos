@@ -1,0 +1,35 @@
+server:
+  port: 9090
+  forward-headers-strategy: framework
+spring:
+  application:
+    name: adminserver-service
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: never
+  info:
+    git:
+      enabled: true
+    build:
+      enabled: true
+    env:
+      enabled: true
+info:
+  app:
+    name: admin-service
+    description: Administrador de microservicios
+    version: 1.0

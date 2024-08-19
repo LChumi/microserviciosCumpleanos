@@ -1,0 +1,171 @@
+package com.cumpleanos.assist.service.http;
+
+import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.builders.ProductoPartidaBuilder;
+import com.cumpleanos.common.dtos.BodegaDTO;
+import com.cumpleanos.common.dtos.ProductoDTO;
+import com.cumpleanos.common.records.*;
+import com.cumpleanos.core.models.entities.*;
+import com.cumpleanos.core.models.ids.CreposicionId;
+import com.cumpleanos.core.models.ids.DreposicionId;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Set;
+
+@FeignClient(name = "models-service")
+public interface IModelsClient {
+
+    //TODO servicio que viene del controlador Ccomproba
+    @GetMapping("/models/cco/update/creposicion/{cco}/{ref}/{empresa}")
+    ResponseEntity<Boolean> updateCreposicion(@PathVariable BigInteger cco, @PathVariable Long ref, @PathVariable Long empresa);
+
+    //TODO servicio que viene del controlador AuthController
+    @GetMapping("/models/usuario/{userId}")
+    ResponseEntity<Usuario> findByUsrId(@PathVariable String userId);
+
+    @GetMapping("/models/usuario/{userId}/{clave}")
+    ResponseEntity<Usuario> findByUsrClave(@PathVariable String userId, @PathVariable String clave);
+
+    @GetMapping("/models/usuario/codigo/{codigo}")
+    ResponseEntity<Usuario> findByUsrCodigo(@PathVariable Long codigo);
+
+    //TODO servicio que viene del controlador EmpleadoController
+    @GetMapping("/models/empleado/id-usuario/{usuarioId}")
+    ResponseEntity<Empleado> getEmpleadoByUsuarioId(@PathVariable Long usuarioId);
+
+    //TODO servicio que viene del controlador PuntoVentaController
+    @GetMapping("/models/punto-venta/listar/{empresa}/{almacen}")
+    ResponseEntity<Set<PuntoVentaDTO>> listarPve(@PathVariable Long empresa, @PathVariable Long almacen);
+
+    //TODO servicio que viene del controlador DtipoDocController
+    @GetMapping("/models/dtipodoc/{empresa}/{tpdCodigo}")
+    ResponseEntity<DTipoDocDTO> getDtipoDoc(@PathVariable Long empresa, @PathVariable Long tpdCodigo);
+
+    //TODO servicio que viene del controlador AlmacenController
+    @GetMapping("/models/almacen/{empresa}")
+    ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable Long empresa);
+
+    @GetMapping("/models/almacen/get/{empresa}/{codigo}")
+    ResponseEntity<AlmacenDTO> getById(@PathVariable Long empresa, @PathVariable Long codigo);
+
+    //TODO servicio que viene del controlador DfacturaController
+    @PostMapping("/models/dfactura/new")
+    ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
+
+    @GetMapping("/models/dfactura/listBy/{cco}/{producto}")
+    ResponseEntity<List<DfacturaDTO>> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto);
+
+    @GetMapping("/models/dfactura/added-cant/{cco}/{producto}/{cantidad}/{precioReferencia}")
+    ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad, @PathVariable BigDecimal precioReferencia);
+
+    @GetMapping("/models/dfactura/added-cant/despacho/{cco}/{producto}/{cantidad}")
+    ResponseEntity<ServiceResponse> addedCanAprDespacho(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad);
+
+    //TODO servicio que viene del controlador DmovinvController
+    @GetMapping("/models/dmovinv/added-cant/despacho/{cco}/{producto}/{cantidad}")
+    ResponseEntity<ServiceResponse> addedCanAprDespachoDmovin(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad);
+
+    //Todo servicio que viene del controlador ClienteController
+    @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
+    ResponseEntity<ClienteRecord> findByRucAndEmpresa(@PathVariable String ruc, @PathVariable Short tipo, @PathVariable Long empresa);
+
+    @PostMapping("/models/cliente/new")
+    ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente);
+
+    @GetMapping("/models/cliente/id/{cliId}/{empresa}")
+    ResponseEntity<List<String>> getClientes(@PathVariable String cliId, @PathVariable Long empresa);
+
+    //TODO servicio que viene del controlador BodegaController
+    @GetMapping("/models/bodega/web/{empresa}")
+    ResponseEntity<BodegaDTO> getBodegaWeb(@PathVariable Long empresa);
+
+    @GetMapping("/models/bodega/id/{empresa}/{codigo}")
+    ResponseEntity<BodegaDTO> getBodega(@PathVariable Long empresa, @PathVariable Long codigo);
+
+    //TODO servicio que viene del controlador SistemaController
+    @GetMapping("models/sistema/id-empresa/{id}")
+    ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id);
+
+    @GetMapping("models/sistema/list/empresa-grupo/{empresa}/{excludeId}")
+    ResponseEntity<List<Sistema>> listByEmpresaGrupoExcludeId(@PathVariable Long empresa, @PathVariable Long excludeId);
+
+    //TODO servicio que viene del controlador FuctionOracleController
+    @GetMapping("/models/function-oralce/verificarJuridico/{ruc}")
+    ResponseEntity<Long> verificarJuridico(@PathVariable String ruc);
+
+    @GetMapping("/models/function-oracle/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
+    ResponseEntity<Long> verificarParametro(@PathVariable Long empresa,
+                                            @PathVariable String sigla,
+                                            @PathVariable String secuencia,
+                                            @PathVariable int tipo);
+
+    //TODO servicio que viene del controlador UbicacionController
+    @GetMapping("/models/ubicacion/{emp}/{nombre}")
+    ResponseEntity<List<Ubicacion>> getUbicacionByNombre(@PathVariable Long emp, @PathVariable String nombre);
+
+    //TODO servicio que viene del controlador ProductoController
+    @GetMapping("/models/producto/barra/{barra}/empresa/{empresa}")
+    ResponseEntity<ProductoDTO> getProductoByBarra(@PathVariable String barra, @PathVariable Long empresa);
+
+    @GetMapping("models/producto/id/{codigo}/{empresa}")
+    ResponseEntity<ProductoBuilder> getProductoById(@PathVariable Long codigo, @PathVariable Long empresa);
+
+    @PutMapping("models/producto/update")
+    ResponseEntity<ProductoDTO> updateProducto(@RequestBody ProductoBuilder producto);
+
+    @GetMapping("models/producto/matches/{empresa}")
+    ResponseEntity<String> getMatches(@PathVariable Long empresa, @RequestParam("barcode") String barcode, @RequestParam("item") String item);
+
+    //TODO servicio que viene del controlador de ProductoPartida
+    @GetMapping("models/producto-partida/get/{producto}/{empresa}/default")
+    ResponseEntity<ProductoPartidaBuilder> getPartidaByProductoAndEmpresa(@PathVariable Long producto, @PathVariable Long empresa);
+
+    @PostMapping("models/producto-partida/save")
+    ResponseEntity<ProductoPartida> saveParidaProducto(@RequestBody ProductoPartida partida);
+
+    @GetMapping("models/prodcuto-partida/update-default/{producto}/{partida}/{empresa}")
+    ResponseEntity<ServiceResponse> updatePartidaDefault(@PathVariable Long producto, @PathVariable Long partida, @PathVariable Long empresa);
+
+    //TODO servicio que viene del controlador de Importacion
+    @GetMapping("models/importacion/get/{cco}/{empresa}")
+    ResponseEntity<ImportacionDTO> getImportacion(@PathVariable BigInteger cco, @PathVariable Long empresa);
+
+    @GetMapping("models/imporitem/getByCco/{cco}/{producto}")
+    ResponseEntity<List<ImporItemDTO>> getProductoImpor(@PathVariable BigInteger cco, @PathVariable Long producto);
+
+    @GetMapping("models/imporitem/list-by/{cco}")
+    ResponseEntity<List<ImporItemDTO>> listByCco(@PathVariable BigInteger cco);
+
+    //ECOMMERCE
+    //TODO servicio que viene del controlador DreposicionController
+    @PostMapping("/models/dreposicion/save")
+    ResponseEntity<DreposicionDTO> saveDreposicion(@RequestBody Dreposicion dreposicion);
+
+    @GetMapping("/models/dreposicion/get/{barra}/{empresa}/{creposicion}")
+    ResponseEntity<DreposicionDTO> getByBarra(@PathVariable String barra, @PathVariable Long empresa, @PathVariable Long creposicion);
+
+    @DeleteMapping("models/dreposicion/delete")
+    ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id);
+
+    //TODO servicio que viene del controlador CreposicionController
+    @PostMapping("/models/creposicion/save")
+    ResponseEntity<Creposicion> saveCreposicion(@RequestBody Creposicion creposicion);
+
+    @GetMapping("/models/creposicion/find/{referencia}/{empresa}")
+    ResponseEntity<Boolean> findCreposicionByReferencia(@PathVariable String referencia, @PathVariable Long empresa);
+
+    @GetMapping("/models/creposicion/update/{empresa}/{codigo}/{usrliq}/{estado}")
+    ResponseEntity<ServiceResponse> finalizarPedido(@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado);
+
+    @PutMapping("/models/creposicion/update-fallido")
+    ResponseEntity<Void> estadoFallido(@RequestBody CreposicionId id);
+
+    //TODO servicio que viene del controlador ReposicionController
+    @PostMapping("/models/reposicion/crear-pago")
+    ResponseEntity<ReposicionPago> createPago(@RequestBody ReposicionPago reposicionPago);
+}

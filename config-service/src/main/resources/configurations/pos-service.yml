@@ -1,0 +1,50 @@
+server:
+  port: 9092
+  forward-headers-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: pos-service
+
+  config:
+    import: classpath:/configurations/application-secure.yml
+
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
+  endpoint:
+    health:
+      show-details: never
+  info:
+    git:
+      enabled: true
+    build:
+      enabled: true
+    env:
+      enabled: true
+
+info:
+  app:
+    name: pos-service
+    description: Servicio de gestion de pagos por apis externas
+    version: 1.0

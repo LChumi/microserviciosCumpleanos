@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: ecommerce-service
+
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
+server:
+  port: 8085
+  forward-header-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
+  endpoint:
+    health:
+      show-details: never
+  info:
+    git:
+      enabled: true
+    build:
+      enabled: true
+    env:
+      enabled: true
+
+info:
+  app:
+    name: ecommerce-service
+    description: Servicio gestor de Wordpress, WooCommerce
+    version: 1.0

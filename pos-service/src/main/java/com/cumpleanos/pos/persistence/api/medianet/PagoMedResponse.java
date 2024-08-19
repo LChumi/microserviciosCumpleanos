@@ -1,0 +1,38 @@
+package com.cumpleanos.pos.persistence.api.medianet;
+
+public record PagoMedResponse(
+        String resultado,
+        String mensajeResultado,
+        String codigoAutorizador,
+        String referencia,
+        String lote,
+        String hora,
+        String fecha,
+        String numeroAutorizacion,
+        String mid,
+        String tid,
+        String panEncriptado,
+        String fechaVencimiento,
+        String codigoRed,
+        String tarjetaTruncada,
+        String interes,
+        String cobrandSha,
+        String chipAppName,
+        String tipoCuenta,
+        String publicidad,
+        String cupo,
+        String montoMaxidolar,
+        String numTarjetaPayClub,
+        String bancoAdquirente,
+        String bancoEmisor,
+        String grupoTarjeta,
+        String modoLectura,
+        String nombreTarjetahabiente,
+        String montoFijo,
+        String aid,
+        String tvr,
+        String tsi,
+        String hash,
+        boolean aprobada
+) {
+}

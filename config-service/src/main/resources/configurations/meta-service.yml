@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: meta-service
+
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
+server:
+  port: 8084
+  forward-header-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    db:
+      enabled: true
+  info:
+    git:
+      enabled: true
+    build:
+      enabled: true
+    env:
+      enabled: true
+
+info:
+  app:
+    name: meta-service
+    description: Microservicios para integracion con Meta
+    version: 1.0
+
+whatsapp:
+  verify-token: ${META_WEBHOK}
+  graph-api-token: ${META_API_TOKEN}
+
+telegram:
+  bot-token: ${TELEGRAM_BOT_TOKEN}
+  group-admin-id: ${TELEGRAM_GROUP_ADMIN}

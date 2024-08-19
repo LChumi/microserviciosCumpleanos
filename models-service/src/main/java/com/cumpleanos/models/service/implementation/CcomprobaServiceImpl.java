@@ -1,0 +1,59 @@
+package com.cumpleanos.models.service.implementation;
+
+import com.cumpleanos.core.models.entities.Ccomproba;
+import com.cumpleanos.core.models.ids.CcomprobaId;
+import com.cumpleanos.models.persistence.repository.CcomprobaRepository;
+import com.cumpleanos.models.service.interfaces.ICcomprobaService;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+
+import java.math.BigInteger;
+
+@Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class CcomprobaServiceImpl extends GenericServiceImpl<Ccomproba, CcomprobaId> implements ICcomprobaService {
+    private final CcomprobaRepository repository;
+
+    @Override
+    public CrudRepository<Ccomproba, CcomprobaId> getRepository() {
+        return repository;
+    }
+
+    @Override
+    public Boolean updateBodegaCco(Long empresa, BigInteger codigo, Long bodega, String observacion) {
+        CcomprobaId id = new CcomprobaId();
+        id.setCodigo(codigo);
+        id.setEmpresa(empresa);
+
+        Ccomproba c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el comprobante "));
+        c.setCcoBodega(bodega);
+        c.setCcoConcepto(observacion);
+        repository.save(c);
+        return true;
+    }
+
+    @Override
+    public Boolean addReference(BigInteger cco, BigInteger ccoRef, Long empresa) {
+        CcomprobaId id = new CcomprobaId();
+        id.setCodigo(cco);
+        id.setEmpresa(empresa);
+
+        Ccomproba c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el comprobante "));
+        c.setRefComproba(ccoRef);
+        repository.save(c);
+        return true;
+    }
+
+    @Override
+    public Boolean addCreposicion(BigInteger cco, Long creposicion, Long empresa) {
+
+        Ccomproba c = repository.findById_Codigo(cco).orElseThrow(() -> new EntityNotFoundException("No se encontro el comprobante "));
+        c.setCreposicion(creposicion);
+        c.setCrepoEmp(empresa);
+        repository.save(c);
+        return true;
+    }
+}

@@ -1,0 +1,39 @@
+server:
+  port: ${EUREKA_SERVER_PORT}
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: eureka-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
+  endpoint:
+    health:
+      show-details: never
+  info:
+    git:
+      enabled: true
+    build:
+      enabled: true
+    env:
+      enabled: true
+
+info:
+  app:
+    name: eureka-service
+    description: Registro de clientes microservicios
+    version: 1.0

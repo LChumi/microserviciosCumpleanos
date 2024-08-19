@@ -1,0 +1,132 @@
+package com.cumpleanos.models.service.implementation;
+
+import com.cumpleanos.common.records.DfacturaDTO;
+import com.cumpleanos.common.records.ServiceResponse;
+import com.cumpleanos.core.models.entities.Dfactura;
+import com.cumpleanos.core.models.ids.DfacturaId;
+import com.cumpleanos.models.persistence.repository.DfacturaRepository;
+import com.cumpleanos.models.service.interfaces.IDfacturaService;
+import com.cumpleanos.models.utils.DtoUtils;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId> implements IDfacturaService {
+
+    private final DfacturaRepository repository;
+    private static final BigDecimal TOLERANCIA_PRECIO = new BigDecimal("1.00");
+
+    @Override
+    public CrudRepository<Dfactura, DfacturaId> getRepository() {
+        return repository;
+    }
+
+    @Override
+    public List<DfacturaDTO> getDfacturas(BigInteger cco, Long producto) {
+        List<Dfactura> detalles =
+                repository.findByFacComprobaAndDfacProducto(cco, producto);
+
+        if (detalles.isEmpty()) {
+            throw new EntityNotFoundException("Producto no encontrado en el detalle");
+        }
+
+        return detalles.stream()
+                .map(DtoUtils::getDfacturaDTO)
+                .toList();
+    }
+
+    @Override
+    public ServiceResponse addCantApr(BigInteger cco, Long producto, Integer cantidad, BigDecimal precio) {
+
+        if (cantidad == null || cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+
+        if (precio == null) {
+            throw new IllegalArgumentException("Precio requerido");
+        }
+
+        List<Dfactura> detalles = repository.findByFacComprobaAndDfacProducto(cco, producto);
+
+        if (detalles.isEmpty()) {
+            throw new EntityNotFoundException("Producto no encontrado en el detalle");
+        }
+
+        //Validar Lineas sin CANAPR
+        List<Dfactura> disponibles = detalles.stream()
+                .filter(d -> d.getCanapr() == null || d.getCanapr().compareTo(BigDecimal.ZERO) == 0
+                ).toList();
+
+        if (disponibles.isEmpty()) {
+            return new ServiceResponse("No existen lineas disponibles para aprobar", false);
+        }
+
+        //Coincidencia exacta de precio
+        Optional<Dfactura> exacto = disponibles.stream()
+                .filter(d -> d.getPrecio() != null)
+                .filter(d -> d.getPrecio().compareTo(precio) == 0)
+                .findFirst();
+        //Precio dentro del un rango
+        Optional<Dfactura> enRango = disponibles.stream()
+                .filter(d -> d.getPrecio() != null)
+                .filter(d ->
+                        d.getPrecio().subtract(precio).abs().compareTo(TOLERANCIA_PRECIO) <= 0
+                )
+                .findFirst();
+
+        // Seleccion final
+        Dfactura seleccionado = exacto
+                .or(() -> enRango)
+                .orElse(disponibles.getFirst()); //falback
+
+        //Notificacion si el precio no coincide
+        if (seleccionado.getPrecio() != null && seleccionado.getPrecio().compareTo(precio) != 0) {
+            log.warn("Precio diferente asignado. cco={}, producto={}, enviado={}, usado={}",
+                    cco, producto, precio, seleccionado.getPrecio());
+        }
+
+        BigDecimal dbCant = new BigDecimal(cantidad);
+        seleccionado.setCanapr(dbCant);
+        repository.save(seleccionado);
+
+        log.info("CANAPR asignado. cco={}, producto={}, secuencia={}, precio={}",
+                cco, producto, seleccionado.getSecuenciaPed(), seleccionado.getPrecio());
+
+        return new ServiceResponse("Cantidad aprobada asignada correctamente", true);
+    }
+
+    @Override
+    public ServiceResponse actualizarCantidadDespachada(BigInteger cco, Long producto, Integer cantidad) {
+        Dfactura d = repository.findByFacComprobaAndDfacProducto(cco, producto)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado en el detalle"));
+
+        if (cantidad == null || cantidad < 0) {
+            return new ServiceResponse("Cantidad inválida", false);
+        }
+
+        d.setCanapr(BigDecimal.valueOf(cantidad));
+        d.setFechaDespacho(LocalDateTime.now());
+
+        try {
+            repository.save(d);
+            return new ServiceResponse("Cantidad actualizada correctamente", true);
+        } catch (Exception e) {
+            return new ServiceResponse("Error al actualizar la cantidad: " + e.getMessage(), false);
+        }
+    }
+
+}

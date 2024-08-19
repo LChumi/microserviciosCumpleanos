@@ -1,0 +1,50 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: ws-service
+    version: 0.01
+
+  config:
+    import: classpath:/configurations/mongo-secure.yml
+
+  data:
+    redis:
+      host: 192.168.112.194
+      port: 6380
+      username: default
+      password: 1c3p.2026..
+
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
+  endpoint:
+    health:
+      show-details: never
+
+info:
+  app:
+    name: webflux-websockets-service
+    description: Sistema spring reactivo webflux
+    version: 1.0

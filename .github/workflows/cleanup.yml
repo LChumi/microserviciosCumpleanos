@@ -1,0 +1,43 @@
+name: Cleanup old container images
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - "microservicioscumpleanos/adminserver-service"
+          - "microservicioscumpleanos/assist-service"
+          - "microservicioscumpleanos/common-module"
+          - "microservicioscumpleanos/config-service"
+          - "microservicioscumpleanos/ecommerce-service"
+          - "microservicioscumpleanos/emails-service"
+          - "microservicioscumpleanos/eureka-service"
+          - "microservicioscumpleanos/gateway-service"
+          - "microservicioscumpleanos/meta-service"
+          - "microservicioscumpleanos/models-service"
+          - "microservicioscumpleanos/mongo-service"
+          - "microservicioscumpleanos/pos-service"
+          - "microservicioscumpleanos/recep-service"
+          - "microservicioscumpleanos/scheduler-service"
+          - "microservicioscumpleanos/utility-classes-module"
+          - "microservicioscumpleanos/ws-service"
+    steps:
+      - name: Delete old images - ${{ matrix.package }}
+        uses: actions/delete-package-versions@v4
+        with:
+          owner: 'LChumi'
+          package-name: ${{ matrix.package }}
+          package-type: 'container'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: false
+          token: ${{ secrets.GHCR_PAT }}

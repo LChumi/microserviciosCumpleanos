@@ -1,0 +1,37 @@
+package com.cumpleanos.assist.utils;
+
+import com.cumpleanos.assist.persistence.transformers.ImpProdTrancitoTransformer;
+import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
+import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public final class ProductImportDTOUtils {
+
+    private ProductImportDTOUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
+
+    /**
+     * Mapea un conjunto de entidades {@code ImpProdTrancitoVw} a sus correspondientes DTO
+     * mediante el metodo {@code mapToImpProdTrancitoVw}.
+     *
+     * @param items conjunto de entidades provenientes de la base de datos
+     * @return conjunto de objetos {@code ImpProdTrancitoTransformer} convertidos
+     */
+    public static Set<ImpProdTrancitoTransformer> chekImports(Set<ImpProdTrancitoVw> items) {
+        return items.stream()
+                .map(ImpProdTrancitoTransformer::mapToImpProdTrancitoVw)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Funcion que calcula los totales del item
+     */
+    public static void calcularTotales(ProductImportTransformer item) {
+        item.calcularCantidadTotal();
+        item.calcularCbmTotal();
+        item.calcularFobTotal();
+    }
+}
