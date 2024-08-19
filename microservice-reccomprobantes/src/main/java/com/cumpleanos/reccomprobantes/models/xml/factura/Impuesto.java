@@ -4,7 +4,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import lombok.Data;
 
-import java.math.BigDecimal;
 
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)

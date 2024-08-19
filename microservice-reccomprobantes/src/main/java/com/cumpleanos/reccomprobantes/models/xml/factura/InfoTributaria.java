@@ -1,12 +1,11 @@
 package com.cumpleanos.reccomprobantes.models.xml.factura;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import lombok.Data;
 
 @Data
-@JacksonXmlRootElement(localName = "infoTributaria")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class InfoTributaria {
     private String ambiente;
     private String tipoEmision;
