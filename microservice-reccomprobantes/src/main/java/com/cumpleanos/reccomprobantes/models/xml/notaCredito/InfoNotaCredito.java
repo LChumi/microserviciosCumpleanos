@@ -1,8 +1,12 @@
 package com.cumpleanos.reccomprobantes.models.xml.notaCredito;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import lombok.Data;
 
 @Data
+@XmlAccessorType(XmlAccessType.FIELD)
 public class InfoNotaCredito {
     private String fechaEmision;
     private String dirEstablecimiento;
@@ -17,8 +21,7 @@ public class InfoNotaCredito {
     private String totalSinImpuestos;
     private String valorModificacion;
     private String moneda;
-
+    @XmlElement(name = "totalConImpuestos")
     private TotalConImpuestos totalConImpuestos;
-
     private String motivo;
 }

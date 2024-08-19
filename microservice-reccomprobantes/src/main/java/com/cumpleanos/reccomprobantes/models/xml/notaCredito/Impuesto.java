@@ -1,8 +1,11 @@
 package com.cumpleanos.reccomprobantes.models.xml.notaCredito;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import lombok.Data;
 
 @Data
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Impuesto {
     private String codigo;
     private String codigoPorcentaje;
