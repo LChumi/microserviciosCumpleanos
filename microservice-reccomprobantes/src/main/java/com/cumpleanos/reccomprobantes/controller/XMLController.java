@@ -5,6 +5,7 @@ import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.service.XMLConversionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class XMLController {
             Factura factura= xmlService.convertirXMlAFactura(xml);
             return ResponseEntity.ok(factura);
         }catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -33,7 +34,7 @@ public class XMLController {
             NotaCredito nc= xmlService.convertirXMlANotaCredito(xml);
             return ResponseEntity.ok(nc);
         }catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -43,7 +44,7 @@ public class XMLController {
             ComprobanteRetencion retencion= xmlService.convertirXMlARetencion(xml);
             return ResponseEntity.ok(retencion);
         }catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

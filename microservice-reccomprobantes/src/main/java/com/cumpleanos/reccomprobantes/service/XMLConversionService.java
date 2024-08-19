@@ -12,7 +12,7 @@ public class XMLConversionService {
     XmlConverterUtils xmlConverterUtils = new XmlConverterUtils();
 
     public Factura convertirXMlAFactura(String xml){
-        return xmlConverterUtils.convertirXmlAFactura(xml);
+        return xmlConverterUtils.converToClass(xml);
     }
 
     public NotaCredito convertirXMlANotaCredito(String xml){
