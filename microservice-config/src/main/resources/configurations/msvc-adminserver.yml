@@ -1,0 +1,35 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: msvc-adminserver
+
+eureka:
+  client:
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+        exclude: "beans,env,threaddump,logfile"
+  endpoint:
+    health:
+      show-details: never
+  info:
+    env:
+      enabled: false
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0
+
+  security:
+    user:
+      name: admin
+      password: 1c3p.2024..

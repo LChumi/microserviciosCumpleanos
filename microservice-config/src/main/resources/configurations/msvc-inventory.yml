@@ -1,0 +1,55 @@
+server:
+  port: 9093
+
+spring:
+  application:
+    name: msvc-inventory
+
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@192.168.112.46:1521/db01
+    username: data_usr
+    password: dataicep1
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,logfile"
+        exclude: "beans,env,threaddump,logfile"
+  endpoint:
+    health:
+      show-details: never
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0
+
+logging:
+  level:
+    root: info;
+    com:
+      cumple:
+        pos: debug
+  file:
+    name: C:\\Proyectos\\Microserivicios\\logs\\inventory.log
