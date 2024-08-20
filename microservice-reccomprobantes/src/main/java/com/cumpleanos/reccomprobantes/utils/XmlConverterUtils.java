@@ -9,63 +9,33 @@ import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 
 public class XmlConverterUtils {
 
-    public Factura convertirXmlAFactura(String xml){
-        try {
-            JAXBContext context = JAXBContext.newInstance(Factura.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            return (Factura) unmarshaller.unmarshal(new StringReader(xml));
-        } catch (JAXBException e) {
-            throw new ConversionException("Error al convertir el xml a Factura",e);
-        }
-    }
-
-    public ComprobanteRetencion convertirXmlAComprobanteRetencion(String xml){
-        try {
-            JAXBContext context = JAXBContext.newInstance(ComprobanteRetencion.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            return (ComprobanteRetencion) unmarshaller.unmarshal(new StringReader(xml));
-        } catch (JAXBException e) {
-            throw new ConversionException("Error al convertir el xml a Factura",e);
-        }
-    }
-
-    public NotaCredito convertirXmlANotaCredito(String xml){
-        try {
-            JAXBContext context = JAXBContext.newInstance(NotaCredito.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            return (NotaCredito) unmarshaller.unmarshal(new StringReader(xml));
-        } catch (JAXBException e) {
-            throw new ConversionException("Error al convertir el xml a Factura",e);
-        }
-    }
-
     public Comprobante convertirXmlAAutorizacion(String xml) {
         try {
-            // Crear el contexto JAXB para la clase Autorizacion
-            JAXBContext context = JAXBContext.newInstance(Autorizacion.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-
-            // Deserializar el XML principal
-            Autorizacion autorizacion = (Autorizacion) unmarshaller.unmarshal(new StringReader(xml));
-
-            // Obtener el contenido de comprobante
-            String comprobanteXml = autorizacion.getComprobante();
-            if (comprobanteXml != null && !comprobanteXml.trim().isEmpty()) {
-                // Crear un contexto JAXB para las subclases de Comprobante
-                JAXBContext comprobanteContext = JAXBContext.newInstance(Factura.class, NotaCredito.class, ComprobanteRetencion.class);
-                Unmarshaller comprobanteUnmarshaller = comprobanteContext.createUnmarshaller();
-
-                // Usar StringReader para deserializar el XML de comprobante
-                StringReader reader = new StringReader(comprobanteXml);
-
-                // Deserializar el contenido de comprobante en una de las subclases de Comprobante
+            Unmarshaller unmarshaller = createUnmarsaller(Autorizacion.class);
+            if (esXmlDeAutorizacion(xml)) {
+                Autorizacion autorizacion = (Autorizacion) unmarshaller.unmarshal(new StringReader(xml));
+                String comprobanteXml = autorizacion.getComprobante();
+                if (comprobanteXml != null && !comprobanteXml.trim().isEmpty()) {
+                    Unmarshaller comprobanteUnmarshaller = createUnmarsaller(Factura.class, NotaCredito.class, ComprobanteRetencion.class);
+                    StringReader stringReader = new StringReader(comprobanteXml);
+                    Comprobante comprobante = (Comprobante) comprobanteUnmarshaller.unmarshal(stringReader);
+                    comprobante.setTipoComprobante(identificarTipoComprobante(comprobanteXml));
+                    return comprobante;
+                }
+            } else {
+                Unmarshaller comprobanteUnmarshaller = createUnmarsaller(Factura.class, NotaCredito.class, ComprobanteRetencion.class);
+                StringReader reader = new StringReader(xml);
                 Comprobante comprobante = (Comprobante) comprobanteUnmarshaller.unmarshal(reader);
-
+                comprobante.setTipoComprobante(identificarTipoComprobante(xml));
                 return comprobante;
             }
         } catch (JAXBException e) {
@@ -74,4 +44,32 @@ public class XmlConverterUtils {
         return null;
     }
 
+    private boolean esXmlDeAutorizacion(String xml) {
+        return xml.contains("<autorizacion>");
+    }
+
+    protected String identificarTipoComprobante(String comprobanteXml) {
+        try{
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            InputSource source = new InputSource(new StringReader(comprobanteXml));
+            Document document = builder.parse(source);
+
+            String rootElement = document.getDocumentElement().getNodeName();
+            return switch (rootElement) {
+                case "factura" -> "factura";
+                case "notaCredito" -> "notaCredito";
+                case "comprobanteRetencion" -> "comprobanteRetencion";
+                default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + rootElement);
+            };
+        }catch (Exception e){
+            throw new ConversionException("Error al obtener el tipo de comprobante", e);
+        }
+    }
+
+    private Unmarshaller createUnmarsaller(Class<?>... classesToBeBound) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(classesToBeBound);
+        return context.createUnmarshaller();
+    }
 }
