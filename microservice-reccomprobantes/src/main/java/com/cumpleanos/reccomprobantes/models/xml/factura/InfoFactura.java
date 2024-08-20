@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.models.xml.factura;
 
+import com.cumpleanos.reccomprobantes.models.xml.TotalConImpuestos;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -27,5 +28,5 @@ public class InfoFactura {
     private String moneda;
     @XmlElementWrapper(name = "pagos")
     @XmlElement(name = "pago")
-    private List<Pago> pagos;
+    private List<PagoFactura> pagos;
 }

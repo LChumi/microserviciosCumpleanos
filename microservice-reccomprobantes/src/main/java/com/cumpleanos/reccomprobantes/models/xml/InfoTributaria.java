@@ -1,4 +1,4 @@
-package com.cumpleanos.reccomprobantes.models.xml.factura;
+package com.cumpleanos.reccomprobantes.models.xml;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -17,10 +17,8 @@ public class InfoTributaria {
     private String ptoEmi;
     private String secuencial;
     private String dirMatriz;
-    private String agenteRetencion;
 
     public String noComprobante(){
         return estab+"-"+ptoEmi+"-"+secuencial;
     }
-
 }

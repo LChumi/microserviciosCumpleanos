@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Pago {
+public class PagoRetencion {
     private String formaPago;
     private String total;
 }

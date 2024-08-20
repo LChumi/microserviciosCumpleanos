@@ -13,5 +13,5 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Detalles {
     @XmlElement(name = "detalle")
-    private List<Detalle> detalle;
+    private List<DetalleNotaCredito> detalle;
 }

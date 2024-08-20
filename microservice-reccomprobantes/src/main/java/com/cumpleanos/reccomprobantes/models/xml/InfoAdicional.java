@@ -1,4 +1,4 @@
-package com.cumpleanos.reccomprobantes.models.xml.retencion;
+package com.cumpleanos.reccomprobantes.models.xml;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -21,9 +21,33 @@ public class InfoAdicional {
         }
         return null;
     }
+    public String obtenerVendedor(){
+        for (CampoAdicional campo: campoAdicional){
+            if ("Vendedor".equals(campo.getNombre())){
+                return campo.getValor();
+            }
+        }
+        return null;
+    }
+    public String obtenerFpago(){
+        for (CampoAdicional campo: campoAdicional){
+            if ("Fpago".equals(campo.getNombre())){
+                return campo.getValor();
+            }
+        }
+        return null;
+    }
     public String obtenerClavecliente(){
         for (CampoAdicional campo: campoAdicional){
             if ("Clavecliente".equals(campo.getNombre())){
+                return campo.getValor();
+            }
+        }
+        return null;
+    }
+    public String obtenerTransporte(){
+        for (CampoAdicional campo: campoAdicional){
+            if ("Transporte".equals(campo.getNombre())){
                 return campo.getValor();
             }
         }

@@ -1,5 +1,7 @@
 package com.cumpleanos.reccomprobantes.controller;
 
+import com.cumpleanos.reccomprobantes.models.xml.Comprobante;
+import com.cumpleanos.reccomprobantes.models.xml.autorizacion.Autorizacion;
 import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
@@ -24,7 +26,7 @@ public class XMLController {
             Factura factura= xmlService.convertirXMlAFactura(xml);
             return ResponseEntity.ok(factura);
         }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new RuntimeException();
         }
     }
 
@@ -34,7 +36,7 @@ public class XMLController {
             NotaCredito nc= xmlService.convertirXMlANotaCredito(xml);
             return ResponseEntity.ok(nc);
         }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new RuntimeException();
         }
     }
 
@@ -44,7 +46,17 @@ public class XMLController {
             ComprobanteRetencion retencion= xmlService.convertirXMlARetencion(xml);
             return ResponseEntity.ok(retencion);
         }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new RuntimeException();
+        }
+    }
+
+    @PostMapping("/autorizacion")
+    public ResponseEntity<Comprobante> getAutorizacionByXML(@RequestBody String xml) {
+        try {
+            Comprobante autorizacion = xmlService.convertirXMLAAutorizacion(xml);
+            return ResponseEntity.ok(autorizacion);
+        } catch (Exception e) {
+            throw new RuntimeException();
         }
     }
 }

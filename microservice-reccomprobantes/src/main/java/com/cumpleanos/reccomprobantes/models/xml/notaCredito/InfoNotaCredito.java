@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.models.xml.notaCredito;
 
+import com.cumpleanos.reccomprobantes.models.xml.TotalConImpuestos;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;

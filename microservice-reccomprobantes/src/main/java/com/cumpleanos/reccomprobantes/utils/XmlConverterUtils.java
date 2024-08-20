@@ -1,6 +1,8 @@
 package com.cumpleanos.reccomprobantes.utils;
 
 import com.cumpleanos.reccomprobantes.exceptions.ConversionException;
+import com.cumpleanos.reccomprobantes.models.xml.Comprobante;
+import com.cumpleanos.reccomprobantes.models.xml.autorizacion.Autorizacion;
 import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
@@ -40,6 +42,36 @@ public class XmlConverterUtils {
         } catch (JAXBException e) {
             throw new ConversionException("Error al convertir el xml a Factura",e);
         }
+    }
+
+    public Comprobante convertirXmlAAutorizacion(String xml) {
+        try {
+            // Crear el contexto JAXB para la clase Autorizacion
+            JAXBContext context = JAXBContext.newInstance(Autorizacion.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+
+            // Deserializar el XML principal
+            Autorizacion autorizacion = (Autorizacion) unmarshaller.unmarshal(new StringReader(xml));
+
+            // Obtener el contenido de comprobante
+            String comprobanteXml = autorizacion.getComprobante();
+            if (comprobanteXml != null && !comprobanteXml.trim().isEmpty()) {
+                // Crear un contexto JAXB para las subclases de Comprobante
+                JAXBContext comprobanteContext = JAXBContext.newInstance(Factura.class, NotaCredito.class, ComprobanteRetencion.class);
+                Unmarshaller comprobanteUnmarshaller = comprobanteContext.createUnmarshaller();
+
+                // Usar StringReader para deserializar el XML de comprobante
+                StringReader reader = new StringReader(comprobanteXml);
+
+                // Deserializar el contenido de comprobante en una de las subclases de Comprobante
+                Comprobante comprobante = (Comprobante) comprobanteUnmarshaller.unmarshal(reader);
+
+                return comprobante;
+            }
+        } catch (JAXBException e) {
+            throw new ConversionException("Error al convertir el XML a Autorizacion", e);
+        }
+        return null;
     }
 
 }

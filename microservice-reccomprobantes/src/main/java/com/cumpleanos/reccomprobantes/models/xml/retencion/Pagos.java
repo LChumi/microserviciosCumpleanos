@@ -11,5 +11,5 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Pagos {
     @XmlElement(name = "pago")
-    private List<Pago> pago;
+    private List<PagoRetencion> pago;
 }
