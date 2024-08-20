@@ -1,6 +1,5 @@
 package com.cumpleanos.reccomprobantes.models.xml.autorizacion;
 
-import com.cumpleanos.reccomprobantes.models.xml.Comprobante;
 import jakarta.xml.bind.annotation.*;
 import lombok.Data;
 

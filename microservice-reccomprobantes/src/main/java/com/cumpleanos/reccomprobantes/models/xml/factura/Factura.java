@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.models.xml.factura;
 
-import com.cumpleanos.reccomprobantes.models.xml.Comprobante;
+import com.cumpleanos.reccomprobantes.models.xml.ComprobanteXml;
 import jakarta.xml.bind.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @XmlRootElement(name = "factura")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Factura extends Comprobante {
+public class Factura extends ComprobanteXml {
     @XmlElement(name = "infoFactura")
     private InfoFactura infoFactura;
     @XmlElementWrapper(name = "detalles")

@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.service;
 
-import com.cumpleanos.reccomprobantes.models.csv.Comprobante;
+import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,8 +13,8 @@ import java.util.List;
 @Service
 public class CSVReaderService {
 
-    public List<Comprobante> readCsvFile(String fileName) throws IOException {
-        List<Comprobante> comprobantes = new ArrayList<>();
+    public List<ComprobanteCsv> readCsvFile(String fileName) throws IOException {
+        List<ComprobanteCsv> comprobantes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             // Leer la cabecera del CSV
@@ -23,7 +23,7 @@ public class CSVReaderService {
             while ((line = br.readLine()) != null) {
                 String[] values = line.split("\t"); //Tab es el delimitador
 
-                Comprobante comprobante = new Comprobante();
+                ComprobanteCsv comprobante = new ComprobanteCsv();
                 comprobante.setRucEmisor(values[0]);
                 comprobante.setRazonSocialEmisor(values[1]);
                 comprobante.setTipoComprobante(values[2]);
@@ -48,8 +48,8 @@ public class CSVReaderService {
         return comprobantes;
     }
 
-    public List<Comprobante> parseCsvString(String csvContent) throws IOException {
-        List<Comprobante> comprobantes = new ArrayList<>();
+    public List<ComprobanteCsv> parseCsvString(String csvContent) throws IOException {
+        List<ComprobanteCsv> comprobantes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new StringReader(csvContent))) {
             String line;
             // Leer la cabecera del CSV (opcional si no necesitas los nombres de columna)
@@ -58,7 +58,7 @@ public class CSVReaderService {
             while ((line = br.readLine()) != null) {
                 String[] values = line.split("\t"); // Tab es el delimitador en tu archivo
 
-                Comprobante comprobante = new Comprobante();
+                ComprobanteCsv comprobante = new ComprobanteCsv();
                 comprobante.setRucEmisor(values[0]);
                 comprobante.setRazonSocialEmisor(values[1]);
                 comprobante.setTipoComprobante(values[2]);

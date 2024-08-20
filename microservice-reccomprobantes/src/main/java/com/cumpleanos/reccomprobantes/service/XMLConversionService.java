@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.service;
 
-import com.cumpleanos.reccomprobantes.models.xml.Comprobante;
+import com.cumpleanos.reccomprobantes.models.xml.ComprobanteXml;
 import com.cumpleanos.reccomprobantes.utils.XmlConverterUtils;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ public class XMLConversionService {
 
     XmlConverterUtils xmlConverterUtils = new XmlConverterUtils();
 
-    public Comprobante convertirXmlAComprobante(String xml){
+    public ComprobanteXml convertirXmlAComprobante(String xml){
         return xmlConverterUtils.convertirXmlAAutorizacion(xml);
     }
 }
