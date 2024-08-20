@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso({Factura.class, NotaCredito.class, ComprobanteRetencion.class})
-public abstract class Comprobante {
+public abstract class ComprobanteXml {
     @XmlElement(name = "tipoComprobante")
     private String tipoComprobante;
     @XmlAttribute(name = "id")

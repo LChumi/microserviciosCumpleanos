@@ -1,7 +1,7 @@
 package com.cumpleanos.reccomprobantes.utils;
 
 import com.cumpleanos.reccomprobantes.exceptions.ConversionException;
-import com.cumpleanos.reccomprobantes.models.xml.Comprobante;
+import com.cumpleanos.reccomprobantes.models.xml.ComprobanteXml;
 import com.cumpleanos.reccomprobantes.models.xml.autorizacion.Autorizacion;
 import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
@@ -18,7 +18,7 @@ import java.io.StringReader;
 
 public class XmlConverterUtils {
 
-    public Comprobante convertirXmlAAutorizacion(String xml) {
+    public ComprobanteXml convertirXmlAAutorizacion(String xml) {
         try {
             Unmarshaller unmarshaller = createUnmarsaller(Autorizacion.class);
             if (esXmlDeAutorizacion(xml)) {
@@ -27,14 +27,14 @@ public class XmlConverterUtils {
                 if (comprobanteXml != null && !comprobanteXml.trim().isEmpty()) {
                     Unmarshaller comprobanteUnmarshaller = createUnmarsaller(Factura.class, NotaCredito.class, ComprobanteRetencion.class);
                     StringReader stringReader = new StringReader(comprobanteXml);
-                    Comprobante comprobante = (Comprobante) comprobanteUnmarshaller.unmarshal(stringReader);
+                    ComprobanteXml comprobante = (ComprobanteXml) comprobanteUnmarshaller.unmarshal(stringReader);
                     comprobante.setTipoComprobante(identificarTipoComprobante(comprobanteXml));
                     return comprobante;
                 }
             } else {
                 Unmarshaller comprobanteUnmarshaller = createUnmarsaller(Factura.class, NotaCredito.class, ComprobanteRetencion.class);
                 StringReader reader = new StringReader(xml);
-                Comprobante comprobante = (Comprobante) comprobanteUnmarshaller.unmarshal(reader);
+                ComprobanteXml comprobante = (ComprobanteXml) comprobanteUnmarshaller.unmarshal(reader);
                 comprobante.setTipoComprobante(identificarTipoComprobante(xml));
                 return comprobante;
             }

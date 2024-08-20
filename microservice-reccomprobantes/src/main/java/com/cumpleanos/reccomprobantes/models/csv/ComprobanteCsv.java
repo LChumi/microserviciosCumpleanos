@@ -3,7 +3,7 @@ package com.cumpleanos.reccomprobantes.models.csv;
 import lombok.Data;
 
 @Data
-public class Comprobante {
+public class ComprobanteCsv {
     private String rucEmisor;
     private String razonSocialEmisor;
     private String tipoComprobante;
