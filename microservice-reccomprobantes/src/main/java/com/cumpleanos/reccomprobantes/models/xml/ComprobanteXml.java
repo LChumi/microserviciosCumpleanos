@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.models.xml;
 
+import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
@@ -9,7 +10,7 @@ import lombok.Data;
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso({Factura.class, NotaCredito.class, ComprobanteRetencion.class})
-public abstract class ComprobanteXml {
+public abstract class ComprobanteXml implements Comprobante {
     @XmlElement(name = "tipoComprobante")
     private String tipoComprobante;
     @XmlAttribute(name = "id")

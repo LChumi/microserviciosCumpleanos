@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.controller;
 
-import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
+import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.models.xml.ComprobanteXml;
 import com.cumpleanos.reccomprobantes.service.JsonReaderService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +16,9 @@ public class JsonReaderController {
     private final JsonReaderService jsonReaderService;
 
     @PostMapping("/json")
-    private ResponseEntity<ComprobanteXml> convertirStringAComprobante(@RequestBody String json) {
+    private ResponseEntity<Comprobante> convertirStringAComprobante(@RequestBody String json) {
         try {
-            ComprobanteXml comprobante = jsonReaderService.convertirStringJsonToComprobante(json);
+            Comprobante comprobante = jsonReaderService.convertirStringJsonToComprobante(json);
             return ResponseEntity.ok(comprobante);
         } catch (Exception e){
             throw new RuntimeException(e);

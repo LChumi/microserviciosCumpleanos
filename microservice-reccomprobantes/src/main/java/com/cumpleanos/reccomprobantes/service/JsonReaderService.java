@@ -1,6 +1,7 @@
 package com.cumpleanos.reccomprobantes.service;
 
 import com.cumpleanos.reccomprobantes.exceptions.ConversionException;
+import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.models.xml.ComprobanteXml;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +27,7 @@ public class JsonReaderService {
     private final XMLConversionService xmlService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ComprobanteXml convertirStringJsonToComprobante(String json) {
+    public Comprobante convertirStringJsonToComprobante(String json) {
         try {
             ComprobanteJson comprobante = objectMapper.readValue(json, ComprobanteJson.class);
 
