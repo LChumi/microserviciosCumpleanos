@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.controller;
 
+import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.models.xml.ComprobanteXml;
 import com.cumpleanos.reccomprobantes.service.XMLConversionService;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,9 @@ public class XMLController {
     private final XMLConversionService xmlService;
 
     @PostMapping("/xml")
-    public ResponseEntity<ComprobanteXml> getAutorizacionByXML(@RequestBody String xml) {
+    public ResponseEntity<Comprobante> getAutorizacionByXML(@RequestBody String xml) {
         try {
-            ComprobanteXml autorizacion = xmlService.convertirXmlAComprobante(xml);
+            Comprobante autorizacion = xmlService.convertirXmlAComprobante(xml);
             return ResponseEntity.ok(autorizacion);
         } catch (Exception e) {
             throw new RuntimeException();

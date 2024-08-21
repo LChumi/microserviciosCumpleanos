@@ -1,9 +1,10 @@
 package com.cumpleanos.reccomprobantes.models.csv;
 
+import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import lombok.Data;
 
 @Data
-public class ComprobanteCsv {
+public class ComprobanteCsv implements Comprobante {
     private String rucEmisor;
     private String razonSocialEmisor;
     private String tipoComprobante;

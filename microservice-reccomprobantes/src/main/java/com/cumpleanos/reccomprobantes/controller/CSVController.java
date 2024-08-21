@@ -1,6 +1,7 @@
 package com.cumpleanos.reccomprobantes.controller;
 
 import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
+import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.service.CSVReaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +17,8 @@ public class CSVController {
 
     private final CSVReaderService csvReaderService;
 
-    @GetMapping("/read-csv")
-    public List<ComprobanteCsv> readCsv(@RequestParam String filePath) {
-        try {
-            return csvReaderService.readCsvFile(filePath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @PostMapping("/parse")
-    public List<ComprobanteCsv> parseCsv(@RequestBody String csvContent) {
+    public List<Comprobante> parseCsv(@RequestBody String csvContent) {
         try {
             return csvReaderService.parseCsvString(csvContent);
         } catch (IOException e) {
