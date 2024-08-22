@@ -1,5 +1,5 @@
 spring:
   application:
-    name: msvc-adminserver
+    name: adiminserver-service
   config:
     import: optional:configserver:http://localhost:8888

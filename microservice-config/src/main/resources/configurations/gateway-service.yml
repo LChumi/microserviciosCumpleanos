@@ -1,29 +1,31 @@
+server:
+  port: 8081
+  forward-headers-strategy: framework
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
   instance:
     prefer-ip-address: true
 
-server:
-  port: 8081
-
 spring:
   application:
-    name: msvc-gateway
-
+    name: gateway-service
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
       routes:
-        - id: pos
-          uri: lb://msvc-pos
+        - id: pos-service
+          uri: lb://pos-service
           predicates:
             - Path=/pos/**
-        - id: recep
-          uri: lb://msvc-recepcomprobantes
+        - id: recep-service
+          uri: lb://recep-service
           predicates:
             - Path=/recp/**
 

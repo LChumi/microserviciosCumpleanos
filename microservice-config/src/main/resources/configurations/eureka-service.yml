@@ -1,15 +1,19 @@
 server:
-  port: 9090
+  port: ${EUREKA_SERVER_PORT:8761}
+  forward-headers-strategy: framework
 
 spring:
   application:
-    name: msvc-adminserver
+    name: eureka-service
 
 eureka:
-  client:
-    register-with-eureka: true
   instance:
     prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    server-url:
+      defaultZone: http://localhost:${server.port}/eureka/
 
 management:
   endpoints:
@@ -20,16 +24,8 @@ management:
   endpoint:
     health:
       show-details: never
-  info:
-    env:
-      enabled: false
 
 info:
   app:
     name: ${spring.application.name}
     version: 1.0
-
-  security:
-    user:
-      name: admin
-      password: 1c3p.2024..

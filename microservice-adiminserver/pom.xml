@@ -7,10 +7,11 @@
 		<artifactId>microservices</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
+
 	<groupId>com.cumpleanos.adminserver</groupId>
-	<artifactId>microservice-adiminserver</artifactId>
+	<artifactId>adiminserver-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>microservice-adiminserver</name>
+	<name>adiminserver-service</name>
 	<description>Microservice Admin Server </description>
 	<url/>
 	<licenses>

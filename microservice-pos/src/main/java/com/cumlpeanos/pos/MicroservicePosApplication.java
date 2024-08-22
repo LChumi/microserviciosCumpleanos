@@ -1,14 +1,16 @@
 package com.cumlpeanos.pos;
 
-import com.cumlpeanos.pos.config.OpenAPIConfiguration;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@Import(OpenAPIConfiguration.class)
+@OpenAPIDefinition( info =
+@Info(title = "Caja POS", version ="${springframework.version}", description = "Documentacion Caja POS API v1.0")
+)
 public class MicroservicePosApplication {
 
 	public static void main(String[] args) {

@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>com.cumpleanos.gateway</groupId>
-	<artifactId>microservice-gateway</artifactId>
+	<artifactId>gateway-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>microservice-gateway</name>
+	<name>gateway-service</name>
 	<description>Microservice Gateway Cumpleanos</description>
 
 	<url/>

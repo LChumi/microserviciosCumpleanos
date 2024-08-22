@@ -1,9 +1,10 @@
 server:
   port: 9091
+  forward-headers-strategy: framework
 
 spring:
   application:
-    name: msvc-models
+    name: models-service
 
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
@@ -21,11 +22,13 @@ spring:
         dialect: org.hibernate.dialect.OracleDialect
 
 eureka:
-  instance:
-    prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
 
 management:
   endpoints:
