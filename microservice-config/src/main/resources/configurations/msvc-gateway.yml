@@ -23,12 +23,15 @@ spring:
           predicates:
             - Path=/pos/**
         - id: recep
+          uri: lb://msvc-recepcomprobantes
+          predicates:
+            - Path=/recp/**
 
 management:
   endpoints:
     web:
       exposure:
-        include: "health,info"
+        include: "health,info,gateway"
         exclude: "beans,env,threaddump"
   endpoint:
     health:

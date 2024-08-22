@@ -1,6 +1,5 @@
 package com.cumpleanos.reccomprobantes.controller;
 
-import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.service.CSVReaderService;
 import lombok.RequiredArgsConstructor;
