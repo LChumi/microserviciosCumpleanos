@@ -21,8 +21,6 @@
 		<module>microservice-eureka</module>
 		<module>microservice-config</module>
 		<module>microservice-models</module>
-		<module>microservice-ecommerce</module>
-		<module>microservice-inventario</module>
 		<module>microservice-adiminserver</module>
 		<module>microservice-pos</module>
 		<module>microservice-reccomprobantes</module>

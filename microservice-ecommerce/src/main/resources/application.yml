@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: msvc-ecommerce
-
-  config:
-    import: optional:configserver:http://localhost:8888

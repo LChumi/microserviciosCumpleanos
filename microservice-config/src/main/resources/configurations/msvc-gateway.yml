@@ -18,18 +18,11 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: ecommerce
-          uri: lb://msvc-ecommerce
-          predicates:
-            - Path=/ec/**
-        - id: inventory
-          uri: lb://msvc-inventory
-          predicates:
-            - Path=/inv/**
         - id: pos
           uri: lb://msvc-pos
           predicates:
             - Path=/pos/**
+        - id: recep
 
 management:
   endpoints:
