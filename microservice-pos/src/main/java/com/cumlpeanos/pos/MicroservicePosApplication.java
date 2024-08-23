@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 @OpenAPIDefinition( info =
-@Info(title = "Caja POS", version ="${springframework.version}", description = "Documentacion Caja POS API v1.0")
+@Info(title = "Caja POS", version ="1.0", description = "Documentacion Caja POS API v1.0")
 )
 public class MicroservicePosApplication {
 
