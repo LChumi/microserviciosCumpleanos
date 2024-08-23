@@ -7,10 +7,11 @@
 		<artifactId>microservices</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
+
 	<groupId>com.cumpleanos.models</groupId>
-	<artifactId>microservice-models</artifactId>
+	<artifactId>models-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>microservice-models</name>
+	<name>models-service</name>
 	<description>Microservices Main Models </description>
 	<url/>
 	<licenses>

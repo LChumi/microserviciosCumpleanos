@@ -1,9 +1,10 @@
 server:
-  port: 9092
+  port: 9093
+  forward-headers-strategy: framework
 
 spring:
   application:
-    name: msvc-pos
+    name: recep-service
 
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
@@ -20,10 +21,16 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.OracleDialect
 
+  cloud:
+    loadbalancer:
+      excluded-interfaces: org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
   instance:
     prefer-ip-address: true
 
@@ -44,12 +51,3 @@ info:
   app:
     name: ${spring.application.name}
     version: 1.0
-
-logging:
-  level:
-    root: info
-    com:
-      cumple:
-        pos: debug
-  file:
-    name: C:\\Proyectos\\Microserivicios\\logs\\pos.log
