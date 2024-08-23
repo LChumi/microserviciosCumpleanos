@@ -16,6 +16,9 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
       discovery:
         locator:
           enabled: true
@@ -48,7 +51,16 @@ info:
     version: 1.0
 
 springdoc:
+  cache:
+    disabled: true
+  version: '@springdoc.version@'
   swagger-ui:
-    path: /swagger-ui/
+    use-root-path: true
   api-docs:
-    path: /v3/api-docs
+    version: openapi_3_0
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springdoc: DEBUG
+    org.springframework.cloud.gateway: DEBUG
