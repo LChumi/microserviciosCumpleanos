@@ -2,25 +2,6 @@ server:
   port: 9092
   forward-headers-strategy: framework
 
-spring:
-  application:
-    name: pos-service
-
-  datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@192.168.112.46:1521/db01
-    username: data_usr
-    password: dataicep1
-
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
-    open-in-view: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.OracleDialect
-
 eureka:
   client:
     service-url:
@@ -30,29 +11,48 @@ eureka:
   instance:
     prefer-ip-address: true
 
+spring:
+  application:
+    name: pos-service
+
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@192.168.112.46:1521/db01
+    username: data_usr
+    password: dataicep1
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+
 management:
   endpoints:
     web:
       exposure:
-        include: "health,info,logfile"
-        exclude: "beans,env,threaddump"
+        include: "health,info"
+        exclude: "beans,env,threaddump,logfile"
   endpoint:
     health:
       show-details: never
   info:
     env:
-      enabled: true
+      enabled: false
 
 info:
   app:
     name: ${spring.application.name}
-    version: 1.0
 
 logging:
   level:
     root: info
-    com:
-      cumple:
-        pos: debug
+    com.cumple.pos: debug
   file:
     name: C:\\Proyectos\\Microserivicios\\logs\\pos.log
+    max-size: 10MB
+    max-history: 30
+  pattern:
+    file:
+      console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"

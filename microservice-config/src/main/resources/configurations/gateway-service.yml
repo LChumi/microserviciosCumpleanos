@@ -11,9 +11,15 @@ eureka:
   instance:
     prefer-ip-address: true
 
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
+    org.springframework.cloud.netflix.eureka: DEBUG
+
 spring:
-  application:
-    name: gateway-service
   cloud:
     gateway:
       httpclient:
@@ -36,8 +42,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,info,gateway"
-        exclude: "beans,env,threaddump"
+        include: "health,info,metrics,gateway"
+      exclude: "beans,env,threaddump,logfile"
   endpoint:
     health:
       show-details: never
@@ -48,19 +54,3 @@ management:
 info:
   app:
     name: ${spring.application.name}
-    version: 1.0
-
-springdoc:
-  cache:
-    disabled: true
-  version: '@springdoc.version@'
-  swagger-ui:
-    use-root-path: true
-  api-docs:
-    version: openapi_3_0
-
-logging:
-  level:
-    org.springframework.web: DEBUG
-    org.springdoc: DEBUG
-    org.springframework.cloud.gateway: DEBUG

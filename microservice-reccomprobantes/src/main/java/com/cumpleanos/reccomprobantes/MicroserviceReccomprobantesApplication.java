@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 @OpenAPIDefinition(info =
-@Info(title = "Recepcion Comprobantes SRI", version = "1.0", description = "Documentacion API Recepcion v1.0")
+@Info(title = "Recepcion Comprobantes SRI", description = "Documentacion API Recepcion v1.0")
 )
 public class MicroserviceReccomprobantesApplication {
 

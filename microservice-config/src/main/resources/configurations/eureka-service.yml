@@ -28,4 +28,3 @@ management:
 info:
   app:
     name: ${spring.application.name}
-    version: 1.0
