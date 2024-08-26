@@ -11,14 +11,6 @@ eureka:
   instance:
     prefer-ip-address: true
 
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.web.reactive.function.client: DEBUG
-    org.springframework.cloud.netflix.eureka: DEBUG
-
 spring:
   cloud:
     gateway:
