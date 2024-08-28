@@ -1,6 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
-import com.cumpleanos.models.models.ids.AccesoId;
+import com.cumpleanos.models.models.ids.TabalCoaId;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -8,26 +8,21 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "ACCESO")
+@Table(name = "TABLACOA")
 @Data
-public class Acceso {
+public class TablaCoa {
 
     @EmbeddedId
-    private AccesoId id;
+    private TabalCoaId id;
 
-    @NotNull
-    @Column(name = "ACC_TIPO", nullable = false)
-    private Boolean tipo = false;
-
-    @Column(name = "ACC_INACTIVO")
+    @ColumnDefault("0")
+    @Column(name = "TAB_INACTIVO")
     private Boolean inactivo;
-
-    @Column(name = "ACC_INGRESA")
-    private Boolean ingresa;
 
     @Size(max = 10)
     @Column(name = "CREA_USR", length = 10)
@@ -43,7 +38,13 @@ public class Acceso {
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
 
-    @Column(name = "ACC_EMPRESA_DEF")
-    private Boolean empresaDef;
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "TAB_NOMBRE", nullable = false, length = 100)
+    private String nombre;
 
+    @Size(max = 10)
+    @NotNull
+    @Column(name = "TAB_ID", nullable = false, length = 10)
+    private String tabId;
 }

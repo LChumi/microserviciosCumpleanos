@@ -1,33 +1,26 @@
 package com.cumpleanos.models.models.entities;
 
-import com.cumpleanos.models.models.ids.AccesoId;
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "ACCESO")
-@Data
-public class Acceso {
+@Table(name = "SEGURIDAD")
+public class Seguridad {
 
-    @EmbeddedId
-    private AccesoId id;
+    @Id
+    @Column(name = "SEG_CODIGO", nullable = false)
+    private Long id;
 
+    @Size(max = 100)
     @NotNull
-    @Column(name = "ACC_TIPO", nullable = false)
-    private Boolean tipo = false;
-
-    @Column(name = "ACC_INACTIVO")
-    private Boolean inactivo;
-
-    @Column(name = "ACC_INGRESA")
-    private Boolean ingresa;
+    @Column(name = "SEG_NOMBRE", nullable = false, length = 100)
+    private String segNombre;
 
     @Size(max = 10)
     @Column(name = "CREA_USR", length = 10)
@@ -42,8 +35,4 @@ public class Acceso {
 
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
-
-    @Column(name = "ACC_EMPRESA_DEF")
-    private Boolean empresaDef;
-
 }

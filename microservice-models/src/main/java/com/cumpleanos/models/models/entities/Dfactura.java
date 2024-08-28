@@ -1,0 +1,226 @@
+package com.cumpleanos.models.models.entities;
+
+import com.cumpleanos.models.models.ids.DfacturaId;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "DFACTURA")
+@Data
+public class Dfactura {
+
+    @EmbeddedId
+    private DfacturaId id;
+
+    @Column(name = "DFAC_CUENTA")
+    private Long cuenta;
+
+    @NotNull
+    @Column(name = "DFAC_CANTIDAD", nullable = false, precision = 17, scale = 4)
+    private BigDecimal cantidad;
+
+    @NotNull
+    @Column(name = "DFAC_CANAPR", nullable = false, precision = 17, scale = 4)
+    private BigDecimal canapr;
+
+    @NotNull
+    @Column(name = "DFAC_PRECIO", nullable = false, precision = 20, scale = 7)
+    private BigDecimal precio;
+
+    @Column(name = "DFAC_DESCUENTO", precision = 5, scale = 2)
+    private BigDecimal descuento;
+
+    @NotNull
+    @Column(name = "DFAC_TOTAL", nullable = false, precision = 17, scale = 4)
+    private BigDecimal total;
+
+    @NotNull
+    @Column(name = "DFAC_CANENT", nullable = false, precision = 17, scale = 4)
+    private BigDecimal canent;
+
+    @NotNull
+    @Column(name = "DFAC_CANDEV", nullable = false, precision = 17, scale = 4)
+    private BigDecimal candev;
+
+    @NotNull
+    @Column(name = "DFAC_CANRES", nullable = false, precision = 17, scale = 4)
+    private BigDecimal canres;
+
+    @NotNull
+    @Column(name = "DFAC_DSCITEM", nullable = false, precision = 17, scale = 4)
+    private BigDecimal dscitem;
+
+    @NotNull
+    @Column(name = "DFAC_TRAITEM", nullable = false, precision = 17, scale = 4)
+    private BigDecimal traitem;
+
+    @Column(name = "DFAC_COMBO")
+    private Boolean combo;
+
+    @Size(max = 10)
+    @Column(name = "CREA_USR", length = 10)
+    private String creaUsr;
+
+    @Column(name = "CREA_FECHA")
+    private LocalDate creaFecha;
+
+    @Size(max = 10)
+    @Column(name = "MOD_USR", length = 10)
+    private String modUsr;
+
+    @Column(name = "MOD_FECHA")
+    private LocalDate modFecha;
+
+    @NotNull
+    @Column(name = "DFAC_IVAITEM", nullable = false, precision = 20, scale = 7)
+    private BigDecimal ivaitem;
+
+    @Column(name = "DFAC_GRABAIVA")
+    private Boolean grabaiva;
+
+    @Column(name = "DFAC_TEMPERATURA", precision = 5, scale = 2)
+    private BigDecimal temperatura;
+
+    @Column(name = "DFAC_GRADO", precision = 5, scale = 2)
+    private BigDecimal grado;
+
+    @Column(name = "DFAC_CDIGITADA", precision = 17, scale = 4)
+    private BigDecimal cdigitada;
+
+    @Column(name = "DFAC_CAPRDIGITADA", precision = 17, scale = 4)
+    private BigDecimal caprdigitada;
+
+    @Column(name = "DFAC_PDIGITADO", precision = 20, scale = 7)
+    private BigDecimal pdigitado;
+
+    @Column(name = "DFAC_GASITEM", precision = 17, scale = 4)
+    private BigDecimal gasitem;
+
+    @Column(name = "DFAC_ICEITEM", precision = 17, scale = 4)
+    private BigDecimal iceitem;
+
+    @Size(max = 20)
+    @Column(name = "DFAC_IDAUX", length = 20)
+    private String idaux;
+
+    @Column(name = "DFAC_TIPOGASTO")
+    private Long tipogasto;
+
+    @Column(name = "DFAC_TRANSACC")
+    private Long transacc;
+
+    @Column(name = "DFAC_IMPITEM", precision = 20, scale = 7)
+    private BigDecimal impitem;
+
+    @Column(name = "DFAC_TOTAL1", precision = 17, scale = 4)
+    private BigDecimal total1;
+
+    @Column(name = "DFAC_PRO_COMBO")
+    private Long proCombo;
+
+    @Column(name = "DFAC_KILOMETRAJE", precision = 17, scale = 4)
+    private BigDecimal kilometraje;
+
+    @Column(name = "DFAC_LIQUIDA")
+    private Boolean liquida;
+
+    @Column(name = "DFAC_CONCE_IMP")
+    private Long conceImp;
+
+    @Column(name = "DFAC_TIPO_LIQ_IMP")
+    private Long tipoLiqImp;
+
+    @Column(name = "DFAC_GRUPO_IMP")
+    private Long grupoImp;
+
+    @Column(name = "DFAC_PROCEDENCIA")
+    private Long procedencia;
+
+    @Column(name = "DFAC_SECUENCIA_PED")
+    private Long secuenciaPed;
+
+    @Column(name = "DFAC_CANBAJA", precision = 17, scale = 4)
+    private BigDecimal canbaja;
+
+    @Column(name = "DFAC_ESPECIFICACION")
+    private Long especificacion;
+
+    @Size(max = 500)
+    @Column(name = "DFAC_OBSERVACION", length = 500)
+    private String observacion;
+
+    @Column(name = "DFAC_VERSION")
+    private Long version;
+
+    @ColumnDefault("0")
+    @Column(name = "DFAC_APROB_CRI")
+    private Boolean aprobCri;
+
+    @Column(name = "DFAC_BITACORA")
+    private Long bitacora;
+
+    @Size(max = 50)
+    @Column(name = "DFAC_LOTE", length = 50)
+    private String lote;
+
+    @Column(name = "DFAC_PRECIO_REAL")
+    private Long precioReal;
+
+    @Column(name = "DFAC_CANT_PCL")
+    private Long cantPcl;
+
+    @Column(name = "DFAC_CANT_ING")
+    private Long cantIng;
+
+    @Column(name = "DFAC_SECCION")
+    private Long seccion;
+
+    @Column(name = "DFAC_COMPONENTE")
+    private Long componente;
+
+    @Column(name = "DFAC_CCO_FECHA")
+    private LocalDate ccoFecha;
+
+    @Column(name = "DFAC_CCO_ESTADO")
+    private Boolean ccoEstado;
+
+    @Column(name = "DFAC_CCO_TIPODOC")
+    private Long ccoTipodoc;
+
+    @Column(name = "DFAC_OBSEQUIO")
+    private Boolean obsequio;
+
+    @Column(name = "DFAC_SEC_IMP")
+    private Long secImp;
+
+    @Column(name = "DFAC_DSCITEM_LIN", precision = 17, scale = 4)
+    private BigDecimal dscitemLin;
+
+    @Column(name = "DFAC_CANTINI", precision = 17, scale = 4)
+    private BigDecimal cantini;
+
+    @Column(name = "DFAC_DESPACHAR")
+    private Boolean despachar;
+
+    @Column(name = "DFAC_HOJA")
+    private Long hoja;
+
+    @Column(name = "DFAC_FECHA_DESPACHO")
+    private LocalDate fechaDespacho;
+
+    @Column(name = "DFAC_FECHA_EMPAQUE")
+    private LocalDate fechaEmpaque;
+
+    @Size(max = 100)
+    @Column(name = "DFAC_CAJAEMP", length = 100)
+    private String cajaemp;
+}
