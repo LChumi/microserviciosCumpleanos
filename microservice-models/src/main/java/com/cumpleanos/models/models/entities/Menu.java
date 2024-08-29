@@ -1,14 +1,13 @@
 package com.cumpleanos.models.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "MENU")
@@ -53,4 +52,7 @@ public class Menu {
     @NotNull
     @Column(name = "MNU_SEGURIDAD", nullable = false)
     private Boolean mnuSeguridad = false;
+
+    @OneToMany(mappedBy = "menu")
+    private Set<Acceso> accesos= new LinkedHashSet<>();
 }

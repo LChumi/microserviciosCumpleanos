@@ -1,16 +1,15 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.PuntoVentaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "PUNTOVENTA")
@@ -86,4 +85,8 @@ public class PuntoVenta {
     @ColumnDefault("1")
     @Column(name = "PVE_IMPRESORA")
     private Boolean impresora;
+
+    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Acceso> accesos = new LinkedHashSet<>();
 }
+

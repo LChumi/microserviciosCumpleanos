@@ -1,14 +1,13 @@
 package com.cumpleanos.models.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "USUARIO")
@@ -68,4 +67,8 @@ public class Usuario {
 
     @Column(name = "USR_EMPRESA_DEF")
     private Long empresaDef;
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<Acceso> accesos = new HashSet<>();
+
 }

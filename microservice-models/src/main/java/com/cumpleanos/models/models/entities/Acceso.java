@@ -1,13 +1,12 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.AccesoId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -46,4 +45,31 @@ public class Acceso {
     @Column(name = "ACC_EMPRESA_DEF")
     private Boolean empresaDef;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    private Sistema empresa;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_USUARIO", referencedColumnName = "USR_CODIGO", insertable = false, updatable = false)
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "PVE_EMPRESA", insertable = false, updatable = false),
+            @JoinColumn(name = "ACC_ALMACEN", referencedColumnName = "PVE_ALMACEN", insertable = false, updatable = false),
+            @JoinColumn(name = "ACC_PVENTA", referencedColumnName = "PVE_SECUENCIA", insertable = false, updatable = false)
+    })
+    private PuntoVenta puntoVenta;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_PROGRAMA")
+    private Programa programa;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_MENU")
+    private Menu menu;
 }
