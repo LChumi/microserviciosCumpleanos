@@ -1,10 +1,14 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.AccesoId;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "ACCESO")
@@ -14,5 +18,58 @@ public class Acceso {
     @EmbeddedId
     private AccesoId id;
 
+    @NotNull
+    @Column(name = "ACC_TIPO", nullable = false)
+    private Boolean tipo = false;
 
+    @Column(name = "ACC_INACTIVO")
+    private Boolean inactivo;
+
+    @Column(name = "ACC_INGRESA")
+    private Boolean ingresa;
+
+    @Size(max = 10)
+    @Column(name = "CREA_USR", length = 10)
+    private String creaUsr;
+
+    @Column(name = "CREA_FECHA")
+    private LocalDate creaFecha;
+
+    @Size(max = 10)
+    @Column(name = "MOD_USR", length = 10)
+    private String modUsr;
+
+    @Column(name = "MOD_FECHA")
+    private LocalDate modFecha;
+
+    @Column(name = "ACC_EMPRESA_DEF")
+    private Boolean empresaDef;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    private Sistema empresa;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_USUARIO", referencedColumnName = "USR_CODIGO", insertable = false, updatable = false)
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "PVE_EMPRESA", insertable = false, updatable = false),
+            @JoinColumn(name = "ACC_ALMACEN", referencedColumnName = "PVE_ALMACEN", insertable = false, updatable = false),
+            @JoinColumn(name = "ACC_PVENTA", referencedColumnName = "PVE_SECUENCIA", insertable = false, updatable = false)
+    })
+    private PuntoVenta puntoVenta;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_PROGRAMA")
+    private Programa programa;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACC_MENU")
+    private Menu menu;
 }

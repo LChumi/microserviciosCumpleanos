@@ -25,81 +25,81 @@ public class Sistema {
     @Size(max = 100)
     @NotNull
     @Column(name = "SIS_NOMBRE", nullable = false, length = 100)
-    private String sisNombre;
+    private String nombre;
 
     @Column(name = "SIS_IMPUESTO_COMPRA")
-    private Long sisImpuestoCompra;
+    private Long impuestoCompra;
 
     @NotNull
     @Column(name = "SIS_DECIMAL", nullable = false)
-    private Boolean sisDecimal = false;
+    private Boolean decimal = false;
 
     @Column(name = "SIS_EXCLUSIVO")
-    private Boolean sisExclusivo;
+    private Boolean exclusivo;
 
     @Size(max = 50)
     @Column(name = "SIS_CALLE", length = 50)
-    private String sisCalle;
+    private String calle;
 
     @Size(max = 50)
     @Column(name = "SIS_TRANSVER", length = 50)
-    private String sisTransver;
+    private String transver;
 
     @Size(max = 10)
     @Column(name = "SIS_NUMERO", length = 10)
-    private String sisNumero;
+    private String numero;
 
     @Size(max = 20)
     @Column(name = "SIS_TELEFONO1", length = 20)
-    private String sisTelefono1;
+    private String telefono1;
 
     @Size(max = 20)
     @Column(name = "SIS_TELEFONO2", length = 20)
-    private String sisTelefono2;
+    private String telefono2;
 
     @Size(max = 20)
     @Column(name = "SIS_TELEFONO3", length = 20)
-    private String sisTelefono3;
+    private String telefono3;
 
     @Column(name = "SIS_CIUDAD")
-    private Long sisCiudad;
+    private Long ciudad;
 
     @Size(max = 15)
     @Column(name = "SIS_CASILLA", length = 15)
-    private String sisCasilla;
+    private String casilla;
 
     @Size(max = 50)
     @Column(name = "SIS_EMAIL", length = 50)
-    private String sisEmail;
+    private String email;
 
     @Size(max = 15)
     @Column(name = "SIS_RUC", length = 15)
-    private String sisRuc;
+    private String ruc;
 
     @Size(max = 100)
     @Column(name = "SIS_REPLEGAL", length = 100)
-    private String sisReplegal;
+    private String replegal;
 
     @Size(max = 100)
     @Column(name = "SIS_DIRREPRE", length = 100)
-    private String sisDirrepre;
+    private String dirrepre;
 
     @Size(max = 20)
     @Column(name = "SIS_TELREPRE", length = 20)
-    private String sisTelrepre;
+    private String telrepre;
 
     @Column(name = "SIS_INACTIVO")
-    private Boolean sisInactivo;
+    private Boolean inactivo;
 
     @Column(name = "SIS_IMPUESTO_VENTA")
-    private Long sisImpuestoVenta;
+    private Long impuestoVenta;
 
     @Size(max = 15)
     @Column(name = "SIS_AUTORIZA", length = 15)
-    private String sisAutoriza;
+    private String autoriza;
 
     @Column(name = "SIS_FECHA_AUTO")
-    private LocalDate sisFechaAuto;
+    private LocalDate fechaAuto;
 
     @Size(max = 10)
     @Column(name = "CREA_USR", length = 10)
@@ -117,67 +117,67 @@ public class Sistema {
 
     @Size(max = 100)
     @Column(name = "SIS_CONTADOR", length = 100)
-    private String sisContador;
+    private String contador;
 
     @Size(max = 30)
     @Column(name = "SIS_NOMBRECORTO", length = 30)
-    private String sisNombrecorto;
+    private String nombrecorto;
 
     @Size(max = 30)
     @Column(name = "SIS_FORMATOIMP", length = 30)
-    private String sisFormatoimp;
+    private String formatoimp;
 
     @Column(name = "SIS_VALORACCION", precision = 17, scale = 4)
-    private BigDecimal sisValoraccion;
+    private BigDecimal valoraccion;
 
     @Column(name = "SIS_SUBIRACCIONES")
-    private Boolean sisSubiracciones;
+    private Boolean subiracciones;
 
     @Size(max = 15)
     @Column(name = "SIS_AUTORIZA2", length = 15)
-    private String sisAutoriza2;
+    private String autoriza2;
 
     @Column(name = "SIS_FECHA_AUTO2")
-    private LocalDate sisFechaAuto2;
+    private LocalDate fechaAuto2;
 
     @Column(name = "SIS_FECHA_INICIO")
-    private LocalDate sisFechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "SIS_FECHA_FIN")
-    private LocalDate sisFechaFin;
+    private LocalDate fechaFin;
 
     @Size(max = 13)
     @Column(name = "SIS_RUC_REPLEGAL", length = 13)
-    private String sisRucReplegal;
+    private String rucReplegal;
 
     @Size(max = 13)
     @Column(name = "SIS_RUC_CONTADOR", length = 13)
-    private String sisRucContador;
+    private String rucContador;
 
     @Size(max = 1)
     @Column(name = "SIS_TIPOID_REPLEGAL", length = 1)
-    private String sisTipoidReplegal;
+    private String tipoidReplegal;
 
     @Column(name = "SIS_IMP_VENTA_SIVA")
-    private Long sisImpVentaSiva;
+    private Long impVentaSiva;
 
     @Column(name = "SIS_IMP_COMPRA_SIVA")
-    private Long sisImpCompraSiva;
+    private Long impCompraSiva;
 
     @Column(name = "SIS_REPLICA_VENTA")
-    private Boolean sisReplicaVenta;
+    private Boolean replicaVenta;
 
     @Column(name = "SIS_IMPRESION")
-    private Boolean sisImpresion;
+    private Boolean impresion;
 
     @Column(name = "SIS_RESOLUCION")
-    private Short sisResolucion;
+    private Short resolucion;
 
     @Size(max = 2)
     @Column(name = "SIS_CONTABILIDAD", length = 2)
-    private String sisContabilidad;
+    private String contabilidad;
 
     @Column(name = "SIS_AMBIENTE")
-    private Long sisAmbiente;
+    private Long ambiente;
 
 }

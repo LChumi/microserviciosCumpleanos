@@ -1,0 +1,29 @@
+package com.cumpleanos.models.models.ids;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+@Getter
+@Setter
+@Embeddable
+@EqualsAndHashCode
+public class TotalId implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @NotNull
+    @Column(name = "TOT_CCO_COMPROBA", nullable = false)
+    private Long ccoComproba;
+
+    @NotNull
+    @Column(name = "TOT_EMPRESA", nullable = false)
+    private Long empresa;
+}

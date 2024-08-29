@@ -7,9 +7,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "ALMACEN")
+@Data
 public class Almacen {
 
     @EmbeddedId
@@ -51,4 +57,51 @@ public class Almacen {
     @Size(max = 12)
     @Column(name = "ALM_FAX", length = 12)
     private String fax;
+
+    @Column(name = "ALM_CENTRO")
+    private Long centro;
+
+    @Column(name = "ALM_INACTIVO")
+    private Boolean inactivo;
+
+    @Column(name = "ALM_CTACAJA")
+    private Long ctacaja;
+
+    @Size(max = 10)
+    @Column(name = "CREA_USR", length = 10)
+    private String creaUsr;
+
+    @Column(name = "CREA_FECHA")
+    private LocalDate creaFecha;
+
+    @Size(max = 10)
+    @Column(name = "MOD_USR", length = 10)
+    private String modUsr;
+
+    @Column(name = "MOD_FECHA")
+    private LocalDate modFecha;
+
+    @ColumnDefault("0")
+    @Column(name = "ALM_BLOQUEO")
+    private Boolean bloqueo;
+
+    @Size(max = 3)
+    @Column(name = "ALM_SUBFIJO", length = 3)
+    private String subfijo;
+
+    @Size(max = 10)
+    @Column(name = "ALM_ID_REPORTE", length = 10)
+    private String idReporte;
+
+    @Column(name = "ALM_MONTO", precision = 17, scale = 4)
+    private BigDecimal almMonto;
+
+    @Column(name = "ALM_NUMERO")
+    private Long numero;
+
+    @Column(name = "ALM_CTACAJA1")
+    private Long ctacaja1;
+
+    @Column(name = "ALM_MATRIZ")
+    private Boolean matriz;
 }

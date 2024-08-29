@@ -21,10 +21,10 @@ public class Autcliente {
 
     @NotNull
     @Column(name = "ACL_TCLIPRO", nullable = false)
-    private Boolean aclTclipro = false;
+    private Boolean tclipro = false;
 
     @Column(name = "ACL_VAL_FECHA")
-    private LocalDate aclValFecha;
+    private LocalDate valFecha;
 
     @Size(max = 10)
     @Column(name = "CREA_USR", length = 10)
@@ -41,25 +41,25 @@ public class Autcliente {
     private LocalDate modFecha;
 
     @Column(name = "ACL_INACTIVO")
-    private Boolean aclInactivo;
+    private Boolean inactivo;
 
     @Size(max = 9)
     @NotNull
     @Column(name = "ACL_FAC3", nullable = false, length = 9)
-    private String aclFac3;
+    private String fac3;
 
     @Size(max = 3)
     @NotNull
     @Column(name = "ACL_FACT1", nullable = false, length = 3)
-    private String aclFact1;
+    private String fact1;
 
     @Size(max = 3)
     @NotNull
     @Column(name = "ACL_FACT2", nullable = false, length = 3)
-    private String aclFact2;
+    private String fact2;
 
     @Size(max = 9)
     @NotNull
     @Column(name = "ACL_FACT3", nullable = false, length = 9)
-    private String aclFact3;
+    private String fact3;
 }

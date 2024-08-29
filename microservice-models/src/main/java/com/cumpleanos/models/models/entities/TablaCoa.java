@@ -1,0 +1,50 @@
+package com.cumpleanos.models.models.entities;
+
+import com.cumpleanos.models.models.ids.TabalCoaId;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "TABLACOA")
+@Data
+public class TablaCoa {
+
+    @EmbeddedId
+    private TabalCoaId id;
+
+    @ColumnDefault("0")
+    @Column(name = "TAB_INACTIVO")
+    private Boolean inactivo;
+
+    @Size(max = 10)
+    @Column(name = "CREA_USR", length = 10)
+    private String creaUsr;
+
+    @Column(name = "CREA_FECHA")
+    private LocalDate creaFecha;
+
+    @Size(max = 10)
+    @Column(name = "MOD_USR", length = 10)
+    private String modUsr;
+
+    @Column(name = "MOD_FECHA")
+    private LocalDate modFecha;
+
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "TAB_NOMBRE", nullable = false, length = 100)
+    private String nombre;
+
+    @Size(max = 10)
+    @NotNull
+    @Column(name = "TAB_ID", nullable = false, length = 10)
+    private String tabId;
+}

@@ -1,0 +1,70 @@
+package com.cumpleanos.models.models.entities;
+
+import com.cumpleanos.models.models.ids.ListaPreId;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "LISTAPRE")
+@Data
+public class ListaPre {
+
+    @EmbeddedId
+    private ListaPreId id;
+
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "LPR_NOMBRE", nullable = false, length = 100)
+    private String lprNombre;
+
+    @Size(max = 10)
+    @NotNull
+    @Column(name = "LPR_ID", nullable = false, length = 10)
+    private String lprId;
+
+    @Column(name = "LPR_INACTIVO")
+    private Boolean lprInactivo;
+
+    @Size(max = 10)
+    @Column(name = "CREA_USR", length = 10)
+    private String creaUsr;
+
+    @Column(name = "CREA_FECHA")
+    private LocalDate creaFecha;
+
+    @Size(max = 10)
+    @Column(name = "MOD_USR", length = 10)
+    private String modUsr;
+
+    @Column(name = "MOD_FECHA")
+    private LocalDate modFecha;
+
+    @Column(name = "LPR_NUMERO")
+    private Long lprNumero;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Column(name = "LPR_SUPERVISOR", nullable = false)
+    private Boolean lprSupervisor = false;
+
+    @ColumnDefault("0")
+    @Column(name = "LPR_DECLARAR")
+    private Boolean lprDeclarar;
+
+    @Column(name = "LPR_PRECIO1")
+    private Boolean lprPrecio1;
+
+    @Column(name = "LPR_PRECIO2")
+    private Boolean lprPrecio2;
+
+    @Column(name = "LPR_PRECIO3")
+    private Boolean lprPrecio3;
+}
