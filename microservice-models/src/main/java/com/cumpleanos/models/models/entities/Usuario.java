@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -69,6 +70,9 @@ public class Usuario {
     private Long empresaDef;
 
     @OneToMany(mappedBy = "usuario")
-    private Set<Acceso> accesos = new HashSet<>();
+    private Set<Acceso> accesos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<Agente> agentes = new LinkedHashSet<>();
 
 }

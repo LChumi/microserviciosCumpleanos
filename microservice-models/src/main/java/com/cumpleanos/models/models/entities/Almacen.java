@@ -1,17 +1,18 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.AlmacenId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ALMACEN")
@@ -104,4 +105,44 @@ public class Almacen {
 
     @Column(name = "ALM_MATRIZ")
     private Boolean matriz;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "ALM_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Agente agente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "ALM_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "BOD_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Bodega bodega;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "ALM_CLI_VARIOS", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "ALM_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private ListaPre listaPre;
+
+    @OneToMany(mappedBy = "almacen")
+    private Set<Agente> agentes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "almacen")
+    private Set<Bodega> bodegas = new LinkedHashSet<>();
+
+
 }

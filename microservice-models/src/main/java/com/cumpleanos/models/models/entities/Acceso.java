@@ -48,7 +48,7 @@ public class Acceso {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
-    private Sistema empresa;
+    private Sistema sistema;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
@@ -72,4 +72,12 @@ public class Acceso {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_MENU")
     private Menu menu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba ccomproba;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private PuntoVenta puntoVenta1;
 }

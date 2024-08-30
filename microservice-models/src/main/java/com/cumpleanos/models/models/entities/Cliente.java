@@ -1,16 +1,15 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.ClienteId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "CLIENTE")
@@ -227,5 +226,6 @@ public class Cliente {
     @Column(name = "CLI_CUENTA_DEF")
     private Long cuentaDef;
 
-
+    @OneToMany(mappedBy = "cliente")
+    private Set<Almacen> almacenes = new LinkedHashSet<>();
 }

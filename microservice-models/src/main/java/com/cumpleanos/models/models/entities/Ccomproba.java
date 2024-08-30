@@ -1,16 +1,15 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CcomprobaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "CCOMPROBA")
@@ -115,4 +114,10 @@ public class Ccomproba {
 
     @Column(name = "CCO_NODESPACHO")
     private Boolean ccoNodespacho;
+
+    @OneToMany(mappedBy = "ccomproba")
+    private Set<Acceso> accesos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "ccomproba")
+    private Set<SriDocEleEmi> sriDocEleEmi = new LinkedHashSet<>();
 }

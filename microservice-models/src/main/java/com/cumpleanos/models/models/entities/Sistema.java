@@ -7,6 +7,8 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "SISTEMA")
@@ -180,4 +182,9 @@ public class Sistema {
     @Column(name = "SIS_AMBIENTE")
     private Long ambiente;
 
+    @OneToMany(mappedBy = "sistema")
+    private Set<Acceso> accesos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema")
+    private Set<Autcliente> autclientes = new LinkedHashSet<>();
 }

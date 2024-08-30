@@ -1,16 +1,17 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.BodegaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "BODEGA")
@@ -35,14 +36,14 @@ public class Bodega {
 
     @Size(max = 100)
     @Column(name = "BOD_UBICACION", length = 100)
-    private String ubicacion;
+    private String bodUbicacion;
 
     @Column(name = "BOD_INACTIVO")
-    private Boolean bodInactivo;
+    private Boolean inactivo;
 
     @Size(max = 100)
     @Column(name = "BOD_IMPRESORA", length = 100)
-    private String bodImpresora;
+    private String impresora;
 
     @Size(max = 10)
     @Column(name = "CREA_USR", length = 10)
@@ -60,11 +61,11 @@ public class Bodega {
 
     @ColumnDefault("0")
     @Column(name = "BOD_LIQUIDACION")
-    private Boolean liquidacion;
+    private Boolean liquidacion = false;
 
     @ColumnDefault("0")
     @Column(name = "BOD_PROBLEMAS")
-    private Boolean problemas;
+    private Boolean problemas = false;
 
     @Size(max = 50)
     @Column(name = "BOD_CUSTODIO", length = 50)
@@ -102,4 +103,34 @@ public class Bodega {
 
     @Column(name = "BOD_BODEGA_WEB_DEF")
     private Boolean bodegaWebDef;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "BOD_CENTRO", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "BOD_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Centro centro;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "BOD_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "BOD_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ubicacion ubicacion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "BOD_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "BOD_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Almacen almacen;
+
+    @OneToMany(mappedBy = "bodega")
+    private Set<Agente> agentes= new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "bodega")
+    private Set<Almacen> almacenes= new LinkedHashSet<>();
 }

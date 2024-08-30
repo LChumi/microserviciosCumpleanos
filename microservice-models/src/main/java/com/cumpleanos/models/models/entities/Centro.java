@@ -9,6 +9,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "CENTRO")
@@ -64,4 +66,7 @@ public class Centro {
 
     @Column(name = "CEN_100", precision = 5, scale = 2)
     private BigDecimal cen100;
+
+    @OneToMany(mappedBy = "centro")
+    private Set<Bodega> bodegas = new LinkedHashSet<>();
 }

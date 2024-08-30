@@ -1,16 +1,15 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.ListaPreId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "LISTAPRE")
@@ -67,4 +66,7 @@ public class ListaPre {
 
     @Column(name = "LPR_PRECIO3")
     private Boolean lprPrecio3;
+
+    @OneToMany(mappedBy = "listaPre")
+    private Set<Almacen> almacenes = new LinkedHashSet<>();
 }
