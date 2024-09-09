@@ -6,9 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -54,4 +58,27 @@ public class CadAgente implements Serializable {
     @Size(max = 10)
     @Column(name = "CAD_ID", length = 10)
     private String cadId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CAD_REPORTA", referencedColumnName = "CAD_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CAD_EMPRESA", referencedColumnName = "CAD_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private CadAgente cadAgente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CAD_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false , updatable = false),
+            @JoinColumn(name = "CAD_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false , updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Agente agente;
+
+    @OneToMany(mappedBy = "cadAgente")
+    private Set<CadAgente> cadAgentes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "cadAgente")
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
+
 }

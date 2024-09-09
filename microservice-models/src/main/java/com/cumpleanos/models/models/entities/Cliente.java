@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -226,6 +228,95 @@ public class Cliente {
     @Column(name = "CLI_CUENTA_DEF")
     private Long cuentaDef;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_CATEGORIA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "CAT_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private CatCliente catCliente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_TIPOCLI", referencedColumnName = "TCL_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "TCL_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private TipCliente tipCliente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ubicacion ciudad;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_PARROQUIA", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ubicacion parroquia;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Agente agente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_REPORTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_POLITICAS", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Politica politica;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_POLITICAS_ADI", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Politica politicaAdi;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private ListaPre listaPre;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_AGENTE2", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Agente agente2;
+
     @OneToMany(mappedBy = "cliente")
     private Set<Almacen> almacenes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "clientePro")
+    private Set<Ccomproba> ccomprobas1 = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<Cliente> clientes = new LinkedHashSet<>();
 }

@@ -133,4 +133,7 @@ public class Bodega {
 
     @OneToMany(mappedBy = "bodega")
     private Set<Almacen> almacenes= new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "bodega")
+    private Set<Ccomproba> bodega = new LinkedHashSet<>();
 }

@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -55,6 +57,22 @@ public class Centro {
     @Column(name = "CEN_DISTRIBUIR")
     private Boolean cenDistribuir;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CEN_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Cuenta cuenta;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CEN_REPORTA", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Centro centro;
+
     @Column(name = "CEN_NORMAL", precision = 5, scale = 2)
     private BigDecimal cenNormal;
 
@@ -69,4 +87,10 @@ public class Centro {
 
     @OneToMany(mappedBy = "centro")
     private Set<Bodega> bodegas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "centro")
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "centro")
+    private Set<Centro> centros = new LinkedHashSet<>();
 }

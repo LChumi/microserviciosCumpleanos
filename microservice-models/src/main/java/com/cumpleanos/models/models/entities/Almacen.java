@@ -144,5 +144,10 @@ public class Almacen {
     @OneToMany(mappedBy = "almacen")
     private Set<Bodega> bodegas = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "destino")
+    private Set<Ccomproba> ccomproba = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "almacen")
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
 }

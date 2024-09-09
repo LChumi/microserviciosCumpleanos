@@ -1,16 +1,15 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.TipClienteId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TIPCLIENTE")
@@ -63,4 +62,7 @@ public class TipCliente {
 
     @Column(name = "TCL_DESCUENTO_MAX", precision = 17, scale = 4)
     private BigDecimal descuentoMax;
+
+    @OneToMany(mappedBy = "tipCliente")
+    private Set<Cliente> clientes = new LinkedHashSet<>();
 }

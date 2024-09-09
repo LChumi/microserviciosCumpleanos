@@ -69,4 +69,13 @@ public class ListaPre {
 
     @OneToMany(mappedBy = "listaPre")
     private Set<Almacen> almacenes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre")
+    private Set<CatCliente> catClientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre")
+    private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre")
+    private Set<Cliente> clientes = new LinkedHashSet<>();
 }

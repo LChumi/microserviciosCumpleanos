@@ -1,15 +1,14 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.UmedidaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "UMEDIDA")
@@ -57,4 +56,8 @@ public class Umedida {
     @Size(max = 20)
     @Column(name = "UMD_NSSI", length = 20)
     private String nssi;
+
+    @OneToMany(mappedBy = "umedida")
+    private Set<CatCliente> catClientes = new LinkedHashSet<>();
+
 }

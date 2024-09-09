@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "CATCLIENTE")
@@ -50,4 +52,35 @@ public class CatCliente {
     @NotNull
     @Column(name = "CAT_TIPO", nullable = false)
     private Boolean catTipo = false;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CAT_REPORTA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "CAT_EMPRESA", insertable = false, updatable = false)
+    })
+    private CatCliente catCliente;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CAT_UMEDIDA", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
+    })
+    private Umedida umedida;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CAT_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
+    })
+    private ListaPre listaPre;
+
+    @OneToMany(mappedBy = "catCliente")
+    private Set<CatCliente> catClientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "catCliente")
+    private Set<Ccomproba> ccomprobaa = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "catCliente")
+    private Set<Cliente> clientes = new LinkedHashSet<>();
+
 }

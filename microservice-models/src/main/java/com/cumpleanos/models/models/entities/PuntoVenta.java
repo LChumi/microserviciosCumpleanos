@@ -88,5 +88,8 @@ public class PuntoVenta {
 
     @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Acceso> accesos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "puntoVenta")
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 }
 

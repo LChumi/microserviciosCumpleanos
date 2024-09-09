@@ -74,10 +74,11 @@ public class Acceso {
     private Menu menu;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "ACC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO"),
+            @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+    })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
-    private PuntoVenta puntoVenta1;
 }

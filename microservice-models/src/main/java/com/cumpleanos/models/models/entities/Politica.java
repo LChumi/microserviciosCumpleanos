@@ -1,10 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.PoliticaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -12,6 +9,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "POLITICA")
@@ -115,4 +115,13 @@ public class Politica {
 
     @Column(name = "POL_TIPO_PRECIO")
     private Boolean tipoPrecio;
+
+    @OneToMany(mappedBy = "politica")
+    private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "politica")
+    private Set<Cliente> clientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "politicaAdi")
+    private Set<Cliente> clientesAdi = new LinkedHashSet<>();
 }

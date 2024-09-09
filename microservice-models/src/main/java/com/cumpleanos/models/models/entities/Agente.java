@@ -129,7 +129,20 @@ public class Agente {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "agente")
-    private Set<Almacen> agentes = new LinkedHashSet<>();
+    private Set<Almacen> almacenes = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "agente")
+    private Set<CadAgente> cadAgentes = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "agente")
+    private Set<Ccomproba> ccomproba = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "chofer")
+    private Set<Ccomproba> choferes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "agente")
+    private Set<Cliente> clientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "agente")
+    private Set<Cliente> clientes2 = new LinkedHashSet<>();
 }
