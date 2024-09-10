@@ -1,21 +1,27 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.PoliticaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "POLITICA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "ccomFacs", "clientes", "clientesAdi"
+})
 public class Politica {
 
     @EmbeddedId
@@ -115,4 +121,18 @@ public class Politica {
 
     @Column(name = "POL_TIPO_PRECIO")
     private Boolean tipoPrecio;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POL_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
+
+    @OneToMany(mappedBy = "politica", fetch = FetchType.LAZY)
+    private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "politica", fetch = FetchType.LAZY)
+    private Set<Cliente> clientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "politicaAdi", fetch = FetchType.LAZY)
+    private Set<Cliente> clientesAdi = new LinkedHashSet<>();
 }

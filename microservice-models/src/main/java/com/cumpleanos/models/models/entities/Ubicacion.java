@@ -1,19 +1,23 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.UbicacionId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "UBICACION")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "ccomFacs", "clientes", "clientesParroquia"
+})
 public class Ubicacion {
 
     @EmbeddedId
@@ -59,4 +63,13 @@ public class Ubicacion {
     @Size(max = 10)
     @Column(name = "UBI_COD_DNT", length = 10)
     private String codDnt;
+
+    @OneToMany(mappedBy = "ubicacion", fetch = FetchType.LAZY)
+    private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
+    private Set<Cliente> clientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "parroquia", fetch = FetchType.LAZY)
+    private Set<Cliente> clientesParroquia = new LinkedHashSet<>();
 }

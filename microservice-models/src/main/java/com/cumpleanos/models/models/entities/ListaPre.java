@@ -1,20 +1,26 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.ListaPreId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "LISTAPRE")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "almacenes", "catClientes", "ccomFacs", "clientes", "dfacturas"
+})
 public class ListaPre {
 
     @EmbeddedId
@@ -67,4 +73,24 @@ public class ListaPre {
 
     @Column(name = "LPR_PRECIO3")
     private Boolean lprPrecio3;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LPR_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
+
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
+    private Set<Almacen> almacenes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
+    private Set<CatCliente> catClientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
+    private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
+    private Set<Cliente> clientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

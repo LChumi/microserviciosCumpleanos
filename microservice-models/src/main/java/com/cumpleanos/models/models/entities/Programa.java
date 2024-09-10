@@ -3,7 +3,9 @@ package com.cumpleanos.models.models.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -11,7 +13,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PROGRAMA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "modulo", "seguridad", "accesos", "dopciones"
+})
 public class Programa {
 
     @Id
@@ -53,6 +60,19 @@ public class Programa {
     @Column(name = "PRG_ID_APEX", length = 200)
     private String idApex;
 
-    @OneToMany(mappedBy = "programa")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRG_MODULO", referencedColumnName = "MOD_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Modulo modulo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRG_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Seguridad seguridad;
+
+    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
     private Set<Acceso> accesos= new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
+    private Set<Dopcion> dopciones= new LinkedHashSet<>();
 }

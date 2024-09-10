@@ -1,20 +1,24 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.LineaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "LINEA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema"
+})
 public class Linea {
 
     @EmbeddedId
@@ -52,4 +56,9 @@ public class Linea {
     @ColumnDefault("0")
     @Column(name = "LIN_GARANTIA")
     private Boolean linGarantia;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LIN_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
 }

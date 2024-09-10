@@ -1,18 +1,22 @@
 package com.cumpleanos.models.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "COPCION")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "dopciones", "menus"
+})
 public class Copcion {
 
     @Id
@@ -45,4 +49,10 @@ public class Copcion {
 
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
+
+    @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
+    private Set<Dopcion> dopciones = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
+    private Set<Menu> menus = new LinkedHashSet<>();
 }

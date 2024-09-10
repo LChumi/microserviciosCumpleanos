@@ -1,19 +1,25 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.UmedidaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "UMEDIDA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "catClientes", "dfacturas", "factores", "productos"
+})
 public class Umedida {
 
     @EmbeddedId
@@ -57,4 +63,22 @@ public class Umedida {
     @Size(max = 20)
     @Column(name = "UMD_NSSI", length = 20)
     private String nssi;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UMD_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
+
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
+    private Set<CatCliente> catClientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
+    private Set<Factor> factores = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "unidad", fetch = FetchType.LAZY)
+    private Set<Producto> productos = new LinkedHashSet<>();
+
 }

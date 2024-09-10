@@ -3,7 +3,9 @@ package com.cumpleanos.models.models.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -11,7 +13,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "MENU")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "reporte", "copcion", "accesos"
+})
 public class Menu {
 
     @Id
@@ -53,6 +60,18 @@ public class Menu {
     @Column(name = "MNU_SEGURIDAD", nullable = false)
     private Boolean mnuSeguridad = false;
 
-    @OneToMany(mappedBy = "menu")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MNU_REPORTA", referencedColumnName = "MNU_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Menu reporte;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MNU_COPCION", referencedColumnName = "COP_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Copcion copcion;
+
+    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY)
     private Set<Acceso> accesos= new LinkedHashSet<>();
+
+
 }

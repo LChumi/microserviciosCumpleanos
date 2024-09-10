@@ -4,7 +4,10 @@ import com.cumpleanos.models.models.ids.AccesoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -12,7 +15,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "ACCESO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "usuario", "puntoVenta", "programa", "menu", "ccomproba"
+})
 public class Acceso {
 
     @EmbeddedId
@@ -48,7 +56,7 @@ public class Acceso {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
-    private Sistema empresa;
+    private Sistema sistema;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
@@ -65,11 +73,20 @@ public class Acceso {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_PROGRAMA")
+    @JoinColumn(name = "ACC_PROGRAMA" , insertable = false, updatable = false)
     private Programa programa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_MENU")
+    @JoinColumn(name = "ACC_MENU" , insertable = false, updatable = false)
     private Menu menu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "ACC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba ccomproba;
+
 }

@@ -3,14 +3,23 @@ package com.cumpleanos.models.models.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "SISTEMA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "empresaGrupo", "accesos", "autclientes", "gproductos", "lineas", "listaPre", "politicas", "tablaCoas", "tipClientes", "umedidas"
+})
 public class Sistema {
 
     @Id
@@ -180,4 +189,35 @@ public class Sistema {
     @Column(name = "SIS_AMBIENTE")
     private Long ambiente;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SIS_EMPRESA_GRUPO", referencedColumnName = "EMG_CODIGO")
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private EmpresaGrupo empresaGrupo;
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<Acceso> accesos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<Autcliente> autclientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<Gproducto> gproductos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<Linea> lineas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<ListaPre> listaPre = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<Politica> politicas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<TablaCoa> tablaCoas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<TipCliente> tipClientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    private Set<Umedida>  umedidas = new LinkedHashSet<>();
 }

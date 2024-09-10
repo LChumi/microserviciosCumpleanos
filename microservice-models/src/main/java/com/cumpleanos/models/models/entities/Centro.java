@@ -4,15 +4,27 @@ import com.cumpleanos.models.models.ids.CentroId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "CENTRO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "cuenta", "centro", "bodegas", "ccomprobas", "centros", "dfacturas"
+})
 public class Centro {
 
     @EmbeddedId
@@ -64,4 +76,32 @@ public class Centro {
 
     @Column(name = "CEN_100", precision = 5, scale = 2)
     private BigDecimal cen100;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CEN_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Cuenta cuenta;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CEN_REPORTA", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Centro centro;
+
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    private Set<Bodega> bodegas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    private Set<Centro> centros = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

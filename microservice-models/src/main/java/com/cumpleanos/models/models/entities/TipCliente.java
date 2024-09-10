@@ -1,20 +1,26 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.TipClienteId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TIPCLIENTE")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "clientes"
+})
 public class TipCliente {
 
     @EmbeddedId
@@ -63,4 +69,12 @@ public class TipCliente {
 
     @Column(name = "TCL_DESCUENTO_MAX", precision = 17, scale = 4)
     private BigDecimal descuentoMax;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TCL_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
+
+    @OneToMany(mappedBy = "tipCliente", fetch = FetchType.LAZY)
+    private Set<Cliente> clientes = new LinkedHashSet<>();
 }

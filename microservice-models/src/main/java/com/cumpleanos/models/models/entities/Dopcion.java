@@ -1,21 +1,27 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.DopcionId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "DOPCION")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "copcion", "programa"
+})
 public class Dopcion {
 
     @EmbeddedId
@@ -58,4 +64,14 @@ public class Dopcion {
 
     @Column(name = "DOP_PARAMETRO")
     private Short parametro;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DOP_COP_CODIGO", referencedColumnName = "COP_CODIGO" , insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Copcion copcion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DOP_PROGRAMA", referencedColumnName = "PRG_CODIGO" , insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Programa programa;
 }

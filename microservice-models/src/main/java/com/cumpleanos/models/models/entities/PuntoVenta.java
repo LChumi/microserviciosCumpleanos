@@ -4,8 +4,10 @@ import com.cumpleanos.models.models.ids.PuntoVentaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -13,7 +15,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PUNTOVENTA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "cadAgente", "agente", "almacen", "accesos", "ccomprobas"
+})
 public class PuntoVenta {
 
     @EmbeddedId
@@ -86,7 +93,34 @@ public class PuntoVenta {
     @Column(name = "PVE_IMPRESORA")
     private Boolean impresora;
 
-    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "PVE_CADAGENTE", referencedColumnName = "CAD_CODIGO" ,insertable = false,updatable = false),
+            @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "CAD_EMPRESA", insertable = false,updatable = false),
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private CadAgente cadAgente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "PVE_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false,updatable = false),
+            @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false,updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Agente agente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "PVE_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false,updatable = false),
+            @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false,updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Almacen almacen;
+
+    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 }
 

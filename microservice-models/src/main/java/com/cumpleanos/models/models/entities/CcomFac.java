@@ -1,20 +1,27 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CcomFacId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "CCOMFAC")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "politica", "listaPre", "ccomproba", "pedido", "recibo", "produccion", "ubicacion"
+})
 public class CcomFac {
 
     @EmbeddedId
@@ -185,4 +192,60 @@ public class CcomFac {
     @Size(max = 100)
     @Column(name = "CFAC_ACL_MENSAJE", length = 100)
     private String aclMensaje;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_POLITICA", referencedColumnName = "POL_CODIGO" ,insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Politica politica;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_LISTA_PRECIOS", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "LPR_EMPRESA",  insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private ListaPre listaPre;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba ccomproba;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_CCO_PEDIDO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA",  insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba pedido;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_CCO_RECIBO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba recibo;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_OPR_CCOMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba produccion;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ubicacion ubicacion;
 }

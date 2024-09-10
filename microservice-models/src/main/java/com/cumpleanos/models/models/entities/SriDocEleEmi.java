@@ -1,20 +1,24 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.SriDocEleEmiId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "SRI_DOC_ELE_EMI")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+       "ccomproba"
+})
 public class SriDocEleEmi {
 
     @EmbeddedId
@@ -87,4 +91,12 @@ public class SriDocEleEmi {
     @Size(max = 50)
     @Column(name = "SRI_FACTURA", length = 50)
     private String sriFactura;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "SRI_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "SRI_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false),
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba ccomproba;
 }

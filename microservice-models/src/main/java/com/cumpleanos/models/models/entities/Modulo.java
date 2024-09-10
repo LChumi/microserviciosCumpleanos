@@ -1,18 +1,24 @@
 package com.cumpleanos.models.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "MODULO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "seguridad", "comprobas", "cuentas", "programas"
+})
 public class Modulo {
 
     @Id
@@ -45,4 +51,18 @@ public class Modulo {
 
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MOD_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Seguridad seguridad;
+
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
+    private Set<Ccomproba> comprobas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
+    private Set<Cuenta> cuentas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
+    private Set<Programa> programas = new LinkedHashSet<>();
 }
