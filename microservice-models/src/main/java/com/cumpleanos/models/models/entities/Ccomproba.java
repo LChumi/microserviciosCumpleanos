@@ -4,7 +4,10 @@ import com.cumpleanos.models.models.ids.CcomprobaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -15,7 +18,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "CCOMPROBA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "modulo", "cadAgente", "catCliente", "anulado", "ccomproba", "cierre", "referencia", "agente", "chofer", "destino", "almacen", "centro", "clientePro", "puntoVenta", "bodega", "accesos", "sriDocEleEmi", "ccomFacs", "pedidos", "recibos", "producciones", "anulados", "ccomprobas", "cierres", "referencias", "dfacturas", "dfacturas1", "totales"
+})
 public class Ccomproba {
 
     @EmbeddedId
@@ -118,7 +126,7 @@ public class Ccomproba {
     private Boolean ccoNodespacho;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "CCO_MODULO")
+    @JoinColumn(name = "CCO_MODULO", insertable = false, updatable = false)
     private Modulo modulo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -242,42 +250,42 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @OneToMany(mappedBy = "ccomproba")
+    @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "ccomproba")
+    @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
     private Set<SriDocEleEmi> sriDocEleEmi = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "ccomproba")
+    @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY)
     private Set<CcomFac> pedidos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "recibo")
+    @OneToMany(mappedBy = "recibo", fetch = FetchType.LAZY)
     private Set<CcomFac> recibos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "produccion")
+    @OneToMany(mappedBy = "produccion", fetch = FetchType.LAZY)
     private Set<CcomFac> producciones = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "anulado")
+    @OneToMany(mappedBy = "anulado", fetch = FetchType.LAZY)
     private Set<Ccomproba> anulados = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "ccomproba")
+    @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cierre")
+    @OneToMany(mappedBy = "cierre", fetch = FetchType.LAZY)
     private Set<Ccomproba> cierres = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "referencia")
+    @OneToMany(mappedBy = "referencia", fetch = FetchType.LAZY)
     private Set<Ccomproba> referencias = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "ccomproba")
+    @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "ccomproba1")
+    @OneToMany(mappedBy = "ccomproba1", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas1 = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "ccomproba")
-    private Set<Total> totals = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
+    private Set<Total> totales = new LinkedHashSet<>();
 }

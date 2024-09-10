@@ -2,14 +2,19 @@ package com.cumpleanos.models.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "EMPRESA_GRUPO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistemas"
+})
 public class EmpresaGrupo {
 
     @Id
@@ -43,6 +48,6 @@ public class EmpresaGrupo {
     @Column(name = "EMG_TOKEN", length = 1000)
     private String emgToken;
 
-    @OneToMany(mappedBy = "empresaGrupo")
+    @OneToMany(mappedBy = "empresaGrupo", fetch = FetchType.LAZY)
     private Set<Sistema> sistemas = new LinkedHashSet<>();
 }

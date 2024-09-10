@@ -4,7 +4,7 @@ import com.cumpleanos.models.models.ids.CuentaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,7 +15,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "CUENTA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "modulo", "cuenta", "centros", "cuentas"
+})
 public class Cuenta {
 
     @EmbeddedId
@@ -81,9 +86,9 @@ public class Cuenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cuenta cuenta;
 
-    @OneToMany(mappedBy = "cuenta")
+    @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
     private Set<Centro> centros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cuenta")
+    @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
     private Set<Cuenta> cuentas = new LinkedHashSet<>();
 }

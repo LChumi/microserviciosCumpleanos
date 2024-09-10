@@ -3,7 +3,7 @@ package com.cumpleanos.models.models.entities;
 import com.cumpleanos.models.models.ids.TotalId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,7 +12,12 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "TOTAL")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "transportista", "ccomproba"
+})
 public class Total {
 
     @EmbeddedId

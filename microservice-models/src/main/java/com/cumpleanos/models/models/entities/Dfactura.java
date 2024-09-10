@@ -4,7 +4,7 @@ import com.cumpleanos.models.models.ids.DfacturaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,7 +14,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "DFACTURA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "cliente", "factor", "producto", "listaPre", "bodega", "ccomproba", "ccomproba1", "umedida", "agente", "almacen", "centro"
+})
 public class Dfactura {
 
     @EmbeddedId

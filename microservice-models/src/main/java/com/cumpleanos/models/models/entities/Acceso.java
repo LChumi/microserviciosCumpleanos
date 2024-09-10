@@ -4,7 +4,10 @@ import com.cumpleanos.models.models.ids.AccesoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -12,7 +15,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "ACCESO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "usuario", "puntoVenta", "programa", "menu", "ccomproba"
+})
 public class Acceso {
 
     @EmbeddedId

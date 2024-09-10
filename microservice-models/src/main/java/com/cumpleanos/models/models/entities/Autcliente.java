@@ -4,7 +4,10 @@ import com.cumpleanos.models.models.ids.AutclienteId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -12,7 +15,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "AUTCLIENTE")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "retDato", "sistema"
+})
 public class Autcliente {
 
     @EmbeddedId

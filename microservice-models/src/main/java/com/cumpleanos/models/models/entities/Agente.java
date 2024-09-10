@@ -4,7 +4,10 @@ import com.cumpleanos.models.models.ids.AgenteId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,7 +19,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "AGENTE")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "bodega", "almacen", "puntoVenta", "almacen1", "puntoVenta1", "usuario", "almacenes", "cadAgentes", "ccomproba", "choferes", "clientes", "clientes2", "dfacturas", "puntoventas"
+})
 public class Agente {
 
     @EmbeddedId
@@ -128,27 +136,27 @@ public class Agente {
     @JoinColumn(name = "AGE_USUARIO")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "agente")
+    @OneToMany(mappedBy = "agente", fetch = FetchType.LAZY)
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "agente")
+    @OneToMany(mappedBy = "agente", fetch = FetchType.LAZY)
     private Set<CadAgente> cadAgentes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "agente")
+    @OneToMany(mappedBy = "agente", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomproba = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "chofer")
+    @OneToMany(mappedBy = "chofer", fetch = FetchType.LAZY)
     private Set<Ccomproba> choferes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "agente")
+    @OneToMany(mappedBy = "agente", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "agente")
+    @OneToMany(mappedBy = "agente", fetch = FetchType.LAZY)
     private Set<Cliente> clientes2 = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "agente")
+    @OneToMany(mappedBy = "agente", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "agente")
+    @OneToMany(mappedBy = "agente", fetch = FetchType.LAZY)
     private Set<PuntoVenta> puntoventas = new LinkedHashSet<>();
 }

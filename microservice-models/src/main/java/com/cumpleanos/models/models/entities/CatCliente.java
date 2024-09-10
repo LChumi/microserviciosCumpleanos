@@ -4,7 +4,10 @@ import com.cumpleanos.models.models.ids.CatClienteId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -12,7 +15,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "CATCLIENTE")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "catCliente", "umedida", "listaPre", "catClientes", "clientes", "ccomprobas"
+})
 public class CatCliente {
 
     @EmbeddedId
@@ -74,13 +82,13 @@ public class CatCliente {
     })
     private ListaPre listaPre;
 
-    @OneToMany(mappedBy = "catCliente")
+    @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "catCliente")
-    private Set<Ccomproba> ccomprobaa = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
+    private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "catCliente")
+    @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
 }

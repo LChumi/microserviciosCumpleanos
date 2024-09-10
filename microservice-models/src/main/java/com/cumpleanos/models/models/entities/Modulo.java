@@ -3,7 +3,7 @@ package com.cumpleanos.models.models.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,7 +13,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "MODULO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "seguridad", "comprobas", "cuentas", "programas"
+})
 public class Modulo {
 
     @Id
@@ -52,12 +57,12 @@ public class Modulo {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
-    @OneToMany(mappedBy = "modulo")
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     private Set<Ccomproba> comprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "modulo")
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     private Set<Cuenta> cuentas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "modulo")
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     private Set<Programa> programas = new LinkedHashSet<>();
 }

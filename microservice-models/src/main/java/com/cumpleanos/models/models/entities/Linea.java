@@ -3,7 +3,7 @@ package com.cumpleanos.models.models.entities;
 import com.cumpleanos.models.models.ids.LineaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,7 +13,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "LINEA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema"
+})
 public class Linea {
 
     @EmbeddedId

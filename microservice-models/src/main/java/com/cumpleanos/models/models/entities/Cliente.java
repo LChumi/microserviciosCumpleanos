@@ -4,7 +4,7 @@ import com.cumpleanos.models.models.ids.ClienteId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -15,7 +15,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "CLIENTE")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "catCliente", "tipCliente", "ciudad", "parroquia", "agente", "cliente", "politica", "politicaAdi", "listaPre", "agente2", "almacenes", "ccomprobas", "ccomprobas1", "clientes", "dfacturas", "productos", "totales"
+})
 public class Cliente {
 
     @EmbeddedId
@@ -308,24 +313,24 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente2;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "clientePro")
+    @OneToMany(mappedBy = "clientePro", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas1 = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "proveedor")
+    @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)
     private Set<Producto> productos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "transportista")
+    @OneToMany(mappedBy = "transportista", fetch = FetchType.LAZY)
     private Set<Total> totales = new LinkedHashSet<>();
 }

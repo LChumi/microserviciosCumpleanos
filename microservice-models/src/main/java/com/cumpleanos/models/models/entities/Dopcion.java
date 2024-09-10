@@ -4,17 +4,24 @@ import com.cumpleanos.models.models.ids.DopcionId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "DOPCION")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "copcion", "programa"
+})
 public class Dopcion {
 
     @EmbeddedId

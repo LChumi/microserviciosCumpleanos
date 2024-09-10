@@ -4,7 +4,7 @@ import com.cumpleanos.models.models.ids.FactorId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -15,7 +15,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "FACTOR")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "umedida", "producto", "dfacturas"
+})
 public class Factor {
 
     @EmbeddedId
@@ -73,6 +78,6 @@ public class Factor {
     @OnDelete (action = OnDeleteAction.RESTRICT)
     private Producto producto;
 
-    @OneToMany(mappedBy = "factor")
+    @OneToMany(mappedBy = "factor", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

@@ -4,7 +4,10 @@ import com.cumpleanos.models.models.ids.CentroId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,7 +19,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "CENTRO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "cuenta", "centro", "bodegas", "ccomprobas", "centros", "dfacturas"
+})
 public class Centro {
 
     @EmbeddedId
@@ -57,6 +65,18 @@ public class Centro {
     @Column(name = "CEN_DISTRIBUIR")
     private Boolean cenDistribuir;
 
+    @Column(name = "CEN_NORMAL", precision = 5, scale = 2)
+    private BigDecimal cenNormal;
+
+    @Column(name = "CEN_25", precision = 5, scale = 2)
+    private BigDecimal cen25;
+
+    @Column(name = "CEN_50", precision = 5, scale = 2)
+    private BigDecimal cen50;
+
+    @Column(name = "CEN_100", precision = 5, scale = 2)
+    private BigDecimal cen100;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CEN_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
@@ -73,27 +93,15 @@ public class Centro {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Centro centro;
 
-    @Column(name = "CEN_NORMAL", precision = 5, scale = 2)
-    private BigDecimal cenNormal;
-
-    @Column(name = "CEN_25", precision = 5, scale = 2)
-    private BigDecimal cen25;
-
-    @Column(name = "CEN_50", precision = 5, scale = 2)
-    private BigDecimal cen50;
-
-    @Column(name = "CEN_100", precision = 5, scale = 2)
-    private BigDecimal cen100;
-
-    @OneToMany(mappedBy = "centro")
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Bodega> bodegas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "centro")
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "centro")
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Centro> centros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "centro")
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

@@ -4,7 +4,7 @@ import com.cumpleanos.models.models.ids.GproductoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,7 +15,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "GPRODUCTO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "productos"
+})
 public class Gproducto {
 
     @EmbeddedId
@@ -113,6 +118,6 @@ public class Gproducto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @OneToMany(mappedBy = "gproducto")
+    @OneToMany(mappedBy = "gproducto", fetch = FetchType.LAZY)
     private Set<Producto> productos = new LinkedHashSet<>();
 }

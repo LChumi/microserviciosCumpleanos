@@ -3,18 +3,22 @@ package com.cumpleanos.models.models.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "USUARIO")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "seguridad", "accesos", "agentes"
+})
 public class Usuario {
 
     @Id
@@ -76,10 +80,9 @@ public class Usuario {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Agente> agentes = new LinkedHashSet<>();
-
 }

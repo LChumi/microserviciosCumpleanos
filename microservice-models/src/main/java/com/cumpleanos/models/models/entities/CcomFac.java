@@ -3,7 +3,10 @@ package com.cumpleanos.models.models.entities;
 import com.cumpleanos.models.models.ids.CcomFacId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,7 +16,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "CCOMFAC")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "politica", "listaPre", "ccomproba", "pedido", "recibo", "produccion", "ubicacion"
+})
 public class CcomFac {
 
     @EmbeddedId

@@ -4,7 +4,7 @@ import com.cumpleanos.models.models.ids.UmedidaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,7 +14,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "UMEDIDA")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {
+        "sistema", "catClientes", "dfacturas", "factores", "productos"
+})
 public class Umedida {
 
     @EmbeddedId
@@ -64,16 +69,16 @@ public class Umedida {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @OneToMany(mappedBy = "umedida")
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "umedida")
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "umedida")
-    private Set<Factor> factors = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
+    private Set<Factor> factores = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "unidad")
+    @OneToMany(mappedBy = "unidad", fetch = FetchType.LAZY)
     private Set<Producto> productos = new LinkedHashSet<>();
 
 }
