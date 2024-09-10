@@ -1,13 +1,12 @@
 package com.cumpleanos.models.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "SEGURIDAD")
@@ -35,4 +34,13 @@ public class Seguridad {
 
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
+
+    @OneToMany(mappedBy = "seguridad")
+    private Set<Modulo> modulos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "seguridad")
+    private Set<Programa> programas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "seguridad")
+    private Set<Usuario> usuarios = new LinkedHashSet<>();
 }

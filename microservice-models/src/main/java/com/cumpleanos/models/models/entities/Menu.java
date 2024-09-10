@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -53,6 +55,18 @@ public class Menu {
     @Column(name = "MNU_SEGURIDAD", nullable = false)
     private Boolean mnuSeguridad = false;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MNU_REPORTA", referencedColumnName = "MNU_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Menu reporte;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MNU_COPCION", referencedColumnName = "COP_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Copcion copcion;
+
     @OneToMany(mappedBy = "menu")
     private Set<Acceso> accesos= new LinkedHashSet<>();
+
+
 }

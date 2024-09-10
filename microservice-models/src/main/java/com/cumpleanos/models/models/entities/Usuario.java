@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -68,6 +70,11 @@ public class Usuario {
 
     @Column(name = "USR_EMPRESA_DEF")
     private Long empresaDef;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USR_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Seguridad seguridad;
 
     @OneToMany(mappedBy = "usuario")
     private Set<Acceso> accesos = new LinkedHashSet<>();

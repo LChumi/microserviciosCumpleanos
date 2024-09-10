@@ -196,7 +196,7 @@ public class CcomFac {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CFAC_LISTA_PRECIOS", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "LPR_EMPRESA")
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "LPR_EMPRESA",  insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
@@ -212,7 +212,7 @@ public class CcomFac {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_PEDIDO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA",  insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba pedido;
@@ -220,7 +220,7 @@ public class CcomFac {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_RECIBO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba recibo;
@@ -228,7 +228,7 @@ public class CcomFac {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CFAC_OPR_CCOMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba produccion;

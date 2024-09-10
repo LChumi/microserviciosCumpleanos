@@ -81,4 +81,6 @@ public class CadAgente implements Serializable {
     @OneToMany(mappedBy = "cadAgente")
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "cadAgente")
+    private Set<PuntoVenta> puntoVentas = new LinkedHashSet<>();
 }

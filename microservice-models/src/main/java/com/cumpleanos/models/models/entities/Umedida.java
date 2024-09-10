@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -57,7 +59,21 @@ public class Umedida {
     @Column(name = "UMD_NSSI", length = 20)
     private String nssi;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UMD_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
+
     @OneToMany(mappedBy = "umedida")
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "umedida")
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "umedida")
+    private Set<Factor> factors = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "unidad")
+    private Set<Producto> productos = new LinkedHashSet<>();
 
 }

@@ -93,4 +93,7 @@ public class Centro {
 
     @OneToMany(mappedBy = "centro")
     private Set<Centro> centros = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "centro")
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

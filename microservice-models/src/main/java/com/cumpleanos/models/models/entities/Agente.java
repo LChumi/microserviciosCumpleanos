@@ -145,4 +145,10 @@ public class Agente {
 
     @OneToMany(mappedBy = "agente")
     private Set<Cliente> clientes2 = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "agente")
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "agente")
+    private Set<PuntoVenta> puntoventas = new LinkedHashSet<>();
 }

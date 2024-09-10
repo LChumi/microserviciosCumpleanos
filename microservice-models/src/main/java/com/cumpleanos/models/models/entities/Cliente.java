@@ -319,4 +319,13 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private Set<Cliente> clientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "cliente")
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "proveedor")
+    private Set<Producto> productos = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "transportista")
+    private Set<Total> totales = new LinkedHashSet<>();
 }

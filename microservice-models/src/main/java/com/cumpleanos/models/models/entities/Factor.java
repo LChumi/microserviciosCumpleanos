@@ -1,18 +1,21 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.FactorId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "FACTOR")
+@Data
 public class Factor {
 
     @EmbeddedId
@@ -53,4 +56,23 @@ public class Factor {
 
     @Column(name = "FAC_DEFAUL_CAJ")
     private Boolean defaulCaj;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "FAC_UNIDAD", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "FAC_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Umedida umedida;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "FAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "FAC_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete (action = OnDeleteAction.RESTRICT)
+    private Producto producto;
+
+    @OneToMany(mappedBy = "factor")
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

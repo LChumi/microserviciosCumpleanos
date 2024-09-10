@@ -1,18 +1,21 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.GproductoId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "GPRODUCTO")
+@Data
 public class Gproducto {
 
     @EmbeddedId
@@ -104,4 +107,12 @@ public class Gproducto {
     @Size(max = 50)
     @Column(name = "GPR_COLOR", length = 50)
     private String color;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GPR_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
+
+    @OneToMany(mappedBy = "gproducto")
+    private Set<Producto> productos = new LinkedHashSet<>();
 }

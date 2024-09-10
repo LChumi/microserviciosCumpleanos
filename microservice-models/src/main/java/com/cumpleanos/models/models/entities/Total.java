@@ -1,13 +1,12 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.TotalId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 
@@ -140,4 +139,20 @@ public class Total {
     @ColumnDefault("0")
     @Column(name = "TOT_FINANCIA_ADI", precision = 17, scale = 4)
     private BigDecimal financiaAdi;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "TOT_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "TOT_EMPRESA", referencedColumnName =  "CCO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Ccomproba ccomproba;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "TOT_TRANSPORTISTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "TOT_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Cliente transportista;
 }

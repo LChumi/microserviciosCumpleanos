@@ -4,6 +4,7 @@ import com.cumpleanos.models.models.ids.CuentaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "CUENTA")
+@Data
 public class Cuenta {
 
     @EmbeddedId
@@ -73,8 +75,8 @@ public class Cuenta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "CUE_REPORTA", referencedColumnName = "CUE_CODIGO"),
-            @JoinColumn(name = "CUE_EMPRESA", referencedColumnName = "CUE_EMPRESA")
+            @JoinColumn(name = "CUE_REPORTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CUE_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cuenta cuenta;

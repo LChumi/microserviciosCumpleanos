@@ -140,7 +140,7 @@ public class Ccomproba {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CCO_ANU_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CCO_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+            @JoinColumn(name = "CCO_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba anulado;
@@ -148,7 +148,7 @@ public class Ccomproba {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CCO_VAL_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CCO_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+            @JoinColumn(name = "CCO_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
@@ -156,7 +156,7 @@ public class Ccomproba {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CCO_CIE_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CCO_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+            @JoinColumn(name = "CCO_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba cierre;
@@ -272,4 +272,12 @@ public class Ccomproba {
     @OneToMany(mappedBy = "referencia")
     private Set<Ccomproba> referencias = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "ccomproba")
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "ccomproba1")
+    private Set<Dfactura> dfacturas1 = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "ccomproba")
+    private Set<Total> totals = new LinkedHashSet<>();
 }

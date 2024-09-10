@@ -65,18 +65,18 @@ public class Acceso {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_PROGRAMA")
+    @JoinColumn(name = "ACC_PROGRAMA" , insertable = false, updatable = false)
     private Programa programa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_MENU")
+    @JoinColumn(name = "ACC_MENU" , insertable = false, updatable = false)
     private Menu menu;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "ACC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO"),
-            @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "CCO_EMPRESA")
+            @JoinColumn(name = "ACC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;

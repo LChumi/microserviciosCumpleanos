@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -67,6 +69,11 @@ public class ListaPre {
     @Column(name = "LPR_PRECIO3")
     private Boolean lprPrecio3;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LPR_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
+
     @OneToMany(mappedBy = "listaPre")
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
@@ -78,4 +85,7 @@ public class ListaPre {
 
     @OneToMany(mappedBy = "listaPre")
     private Set<Cliente> clientes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "listaPre")
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

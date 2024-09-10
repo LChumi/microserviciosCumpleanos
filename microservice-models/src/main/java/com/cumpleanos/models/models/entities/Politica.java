@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -115,6 +117,11 @@ public class Politica {
 
     @Column(name = "POL_TIPO_PRECIO")
     private Boolean tipoPrecio;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POL_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
 
     @OneToMany(mappedBy = "politica")
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();

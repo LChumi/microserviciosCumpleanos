@@ -1,14 +1,13 @@
 package com.cumpleanos.models.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "COPCION")
@@ -45,4 +44,10 @@ public class Copcion {
 
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
+
+    @OneToMany(mappedBy = "copcion")
+    private Set<Dopcion> dopcions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "copcion")
+    private Set<Menu> menus = new LinkedHashSet<>();
 }

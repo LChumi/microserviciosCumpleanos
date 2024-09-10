@@ -1,11 +1,11 @@
 package com.cumpleanos.models.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "EMPRESA_GRUPO")
@@ -42,4 +42,7 @@ public class EmpresaGrupo {
     @Size(max = 1000)
     @Column(name = "EMG_TOKEN", length = 1000)
     private String emgToken;
+
+    @OneToMany(mappedBy = "empresaGrupo")
+    private Set<Sistema> sistemas = new LinkedHashSet<>();
 }

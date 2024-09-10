@@ -1,14 +1,13 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.TabalCoaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -47,4 +46,9 @@ public class TablaCoa {
     @NotNull
     @Column(name = "TAB_ID", nullable = false, length = 10)
     private String tabId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TAB_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Sistema sistema;
 }
