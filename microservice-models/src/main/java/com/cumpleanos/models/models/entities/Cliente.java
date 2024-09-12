@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.ClienteId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -233,7 +234,7 @@ public class Cliente {
     @Column(name = "CLI_CUENTA_DEF")
     private Long cuentaDef;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_CATEGORIA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "CAT_EMPRESA", insertable = false, updatable = false)
@@ -241,7 +242,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CatCliente catCliente;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_TIPOCLI", referencedColumnName = "TCL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "TCL_EMPRESA", insertable = false, updatable = false)
@@ -249,7 +250,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private TipCliente tipCliente;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
@@ -257,7 +258,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ciudad;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_PARROQUIA", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
@@ -265,7 +266,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion parroquia;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
@@ -273,15 +274,15 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_REPORTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    private Cliente cliente;
+    private Cliente reporta;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_POLITICAS", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
@@ -289,7 +290,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_POLITICAS_ADI", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
@@ -297,7 +298,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politicaAdi;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
@@ -305,7 +306,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_AGENTE2", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
@@ -314,23 +315,30 @@ public class Cliente {
     private Agente agente2;
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "clientePro", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Ccomproba> ccomprobas1 = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Producto> productos = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "transportista", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Total> totales = new LinkedHashSet<>();
 }

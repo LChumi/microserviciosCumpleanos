@@ -1,5 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -51,8 +52,10 @@ public class Copcion {
     private LocalDate modFecha;
 
     @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Dopcion> dopciones = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Menu> menus = new LinkedHashSet<>();
 }

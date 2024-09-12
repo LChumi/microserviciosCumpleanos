@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.UmedidaId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -64,21 +65,25 @@ public class Umedida {
     @Column(name = "UMD_NSSI", length = 20)
     private String nssi;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "UMD_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
     @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Factor> factores = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "unidad", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Producto> productos = new LinkedHashSet<>();
 
 }

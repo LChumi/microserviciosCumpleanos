@@ -1,5 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -189,35 +190,44 @@ public class Sistema {
     @Column(name = "SIS_AMBIENTE")
     private Long ambiente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SIS_EMPRESA_GRUPO", referencedColumnName = "EMG_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private EmpresaGrupo empresaGrupo;
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Autcliente> autclientes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Gproducto> gproductos = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Linea> lineas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<ListaPre> listaPre = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Politica> politicas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<TablaCoa> tablaCoas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<TipCliente> tipClientes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Umedida>  umedidas = new LinkedHashSet<>();
 }

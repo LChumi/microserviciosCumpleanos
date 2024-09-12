@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CatClienteId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -61,34 +64,40 @@ public class CatCliente {
     @Column(name = "CAT_TIPO", nullable = false)
     private Boolean catTipo = false;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAT_REPORTA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "CAT_EMPRESA", insertable = false, updatable = false)
     })
-    private CatCliente catCliente;
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private CatCliente reporta;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CAT_UMEDIDA", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
     })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida umedida;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CAT_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
     })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
     @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
 }

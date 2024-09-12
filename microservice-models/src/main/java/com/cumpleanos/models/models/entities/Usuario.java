@@ -1,5 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -75,14 +76,16 @@ public class Usuario {
     @Column(name = "USR_EMPRESA_DEF")
     private Long empresaDef;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USR_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Agente> agentes = new LinkedHashSet<>();
 }

@@ -193,7 +193,7 @@ public class CcomFac {
     @Column(name = "CFAC_ACL_MENSAJE", length = 100)
     private String aclMensaje;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CFAC_POLITICA", referencedColumnName = "POL_CODIGO" ,insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
@@ -201,7 +201,7 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CFAC_LISTA_PRECIOS", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "LPR_EMPRESA",  insertable = false, updatable = false)
@@ -209,7 +209,7 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -217,7 +217,7 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_PEDIDO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA",  insertable = false, updatable = false)
@@ -225,7 +225,7 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba pedido;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_RECIBO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -233,7 +233,7 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba recibo;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CFAC_OPR_CCOMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -241,7 +241,7 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba produccion;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)

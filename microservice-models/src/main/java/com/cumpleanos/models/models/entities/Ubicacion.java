@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.UbicacionId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -65,11 +66,14 @@ public class Ubicacion {
     private String codDnt;
 
     @OneToMany(mappedBy = "ubicacion", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "parroquia", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cliente> clientesParroquia = new LinkedHashSet<>();
 }

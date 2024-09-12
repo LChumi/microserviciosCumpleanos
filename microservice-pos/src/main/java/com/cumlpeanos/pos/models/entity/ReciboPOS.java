@@ -2,7 +2,6 @@ package com.cumlpeanos.pos.models.entity;
 
 import com.cumlpeanos.pos.models.ids.ReciboPOSId;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -119,10 +118,11 @@ public class ReciboPOS {
     @Column(name = "RPO_TOTAL", precision = 17, scale = 4)
     private BigDecimal rpoTotal;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumns({
             @JoinColumn(name = "RPO_TIPO_CREDITO_POS", referencedColumnName = "TCR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "RPO_EMPRESA", referencedColumnName = "TCR_EMPRESA", insertable = false, updatable = false)
     })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private TipoCreditoPOS tipoCreditoPOS;
 }

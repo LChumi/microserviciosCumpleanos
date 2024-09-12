@@ -1,5 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -60,19 +61,21 @@ public class Programa {
     @Column(name = "PRG_ID_APEX", length = 200)
     private String idApex;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PRG_MODULO", referencedColumnName = "MOD_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PRG_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
     @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Acceso> accesos= new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Dopcion> dopciones= new LinkedHashSet<>();
 }

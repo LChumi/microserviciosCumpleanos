@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CadAgenteId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -65,15 +66,15 @@ public class CadAgente implements Serializable {
     @Column(name = "CAD_ID", length = 10)
     private String cadId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAD_REPORTA", referencedColumnName = "CAD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CAD_EMPRESA", referencedColumnName = "CAD_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    private CadAgente cadAgente;
+    private CadAgente reporta;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CAD_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false , updatable = false),
             @JoinColumn(name = "CAD_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false , updatable = false)
@@ -82,11 +83,14 @@ public class CadAgente implements Serializable {
     private Agente agente;
 
     @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<CadAgente> cadAgentes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<PuntoVenta> puntoVentas = new LinkedHashSet<>();
 }

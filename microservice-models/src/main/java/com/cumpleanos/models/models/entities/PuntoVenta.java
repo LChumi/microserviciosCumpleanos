@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.PuntoVentaId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -93,7 +94,7 @@ public class PuntoVenta {
     @Column(name = "PVE_IMPRESORA")
     private Boolean impresora;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "PVE_CADAGENTE", referencedColumnName = "CAD_CODIGO" ,insertable = false,updatable = false),
             @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "CAD_EMPRESA", insertable = false,updatable = false),
@@ -101,7 +102,7 @@ public class PuntoVenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CadAgente cadAgente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "PVE_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false,updatable = false),
             @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false,updatable = false)
@@ -109,7 +110,7 @@ public class PuntoVenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "PVE_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false,updatable = false),
             @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false,updatable = false)
@@ -118,9 +119,11 @@ public class PuntoVenta {
     private Almacen almacen;
 
     @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 }
 

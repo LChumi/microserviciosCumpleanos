@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.FactorId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -62,7 +63,7 @@ public class Factor {
     @Column(name = "FAC_DEFAUL_CAJ")
     private Boolean defaulCaj;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "FAC_UNIDAD", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "FAC_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
@@ -70,7 +71,7 @@ public class Factor {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida umedida;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "FAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "FAC_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
@@ -79,5 +80,6 @@ public class Factor {
     private Producto producto;
 
     @OneToMany(mappedBy = "factor", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

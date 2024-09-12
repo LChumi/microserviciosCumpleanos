@@ -1,5 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -49,5 +50,6 @@ public class EmpresaGrupo {
     private String emgToken;
 
     @OneToMany(mappedBy = "empresaGrupo", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Sistema> sistemas = new LinkedHashSet<>();
 }

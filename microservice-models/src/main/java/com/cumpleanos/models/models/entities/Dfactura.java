@@ -228,7 +228,7 @@ public class Dfactura {
     @Column(name = "DFAC_CAJAEMP", length = 100)
     private String cajaemp;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CLIENTE", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
@@ -236,7 +236,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente cliente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_UDIGITADA", referencedColumnName = "FAC_UNIDAD", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "FAC_PRODUCTO", insertable = false, updatable = false),
@@ -245,7 +245,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Factor factor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
@@ -253,7 +253,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Producto producto;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
@@ -261,7 +261,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "BOD_EMPRESA", insertable = false, updatable = false)
@@ -269,7 +269,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CFAC_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -277,7 +277,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_FACTURA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -285,7 +285,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba1;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_UDIGITADA", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
@@ -293,7 +293,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida umedida;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
@@ -301,7 +301,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false, updatable = false)
@@ -309,7 +309,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CENTRO", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)
