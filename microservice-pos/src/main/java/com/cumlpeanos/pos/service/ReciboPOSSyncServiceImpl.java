@@ -73,7 +73,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
                         .orElseThrow(() -> new RuntimeException("No se encontró el recibo POS"));
 
                 actualizarReciboPOS(reciboPOS, response);
-                reciboPOS.setAnulado(1L);
+                reciboPOS.setAnulado(true);
                 reciboPOSRepository.save(reciboPOS);
                 return "1";
             }
@@ -112,12 +112,12 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService{
 
     private void actualizarReciboPOS(ReciboPOS reciboPOS, DatosRecepcionResponse response) {
         reciboPOS.setTarjetaHabiente(response.getTarjetaHabiente());
-        reciboPOS.setNum_aprob(response.getNumeroAprobacion());
-        reciboPOS.setNom_emisor(response.getNombreEmisor());
+        reciboPOS.setNumAprob(response.getNumeroAprobacion());
+        reciboPOS.setNomEmisor(response.getNombreEmisor());
         reciboPOS.setReferencia(response.getReferencia());
         reciboPOS.setLote(response.getLote());
         reciboPOS.setNomAdquiriente(response.getNombreAdquiriente());
-        reciboPOS.setNum_tarjeta(response.getNumeroTarjeta());
+        reciboPOS.setNumTarjeta(response.getNumeroTarjeta());
         reciboPOS.setResultado(response.getMensajeResultado());
         reciboPOS.setFecha(response.getFecha());
         reciboPOS.setHora(response.getHora());

@@ -31,10 +31,10 @@ public class ReciboPOSView {
     private String descripcion;
 
     @Column(name = "CAP_ALMACEN")
-    private int almacen;
+    private Long almacen;
 
     @Column(name = "CAP_PVENTA")
-    private int pventa;
+    private Long pventa;
 
     @Column(name = "CAP_IP")
     private String ip;

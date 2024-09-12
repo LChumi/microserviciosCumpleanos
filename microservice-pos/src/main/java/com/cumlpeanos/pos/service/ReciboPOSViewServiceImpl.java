@@ -14,7 +14,7 @@ public class ReciboPOSViewServiceImpl implements IReciboPOSViewService{
     private final ReciboPOSViewRepositorio repositorio;
 
     @Override
-    public ReciboPOSView findByAlmacenAndPventa(int almacen, int pventa) {
+    public ReciboPOSView findByAlmacenAndPventa(Long almacen, Long pventa) {
         return repositorio.findByAlmacenAndPventa(almacen, pventa)
                 .orElseThrow(() -> new RuntimeException("No se encontro datos en la vista Recibo POS "));
     }

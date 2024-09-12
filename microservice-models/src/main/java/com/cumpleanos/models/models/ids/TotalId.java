@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class TotalId implements Serializable {
 
     @NotNull
     @Column(name = "TOT_CCO_COMPROBA", nullable = false)
-    private Long ccoComproba;
+    private BigInteger ccoComproba;
 
     @NotNull
     @Column(name = "TOT_EMPRESA", nullable = false)

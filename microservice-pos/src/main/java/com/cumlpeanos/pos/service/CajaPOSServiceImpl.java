@@ -12,7 +12,7 @@ public class CajaPOSServiceImpl implements ICajaPOSService {
     private final CajaPOSRepository cajaPOSRepository;
 
     @Override
-    public CajaPOS findByAlmacenAndPventa(int almacen, int pventa) {
+    public CajaPOS findByAlmacenAndPventa(Long almacen, Long pventa) {
         return cajaPOSRepository.findByAlmacenAndPventa(almacen, pventa)
                 .orElseThrow(() -> new RuntimeException("CajaPOS no encontrada"));
     }

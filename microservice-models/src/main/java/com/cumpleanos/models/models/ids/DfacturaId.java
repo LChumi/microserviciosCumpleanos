@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class DfacturaId implements Serializable {
 
     @NotNull
     @Column(name = "DFAC_CFAC_COMPROBA", nullable = false)
-    private Long cfacComproba;
+    private BigInteger cfacComproba;
 
     @NotNull
     @Column(name = "DFAC_EMPRESA", nullable = false)

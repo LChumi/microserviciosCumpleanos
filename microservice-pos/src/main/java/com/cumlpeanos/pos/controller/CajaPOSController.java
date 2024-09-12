@@ -18,7 +18,7 @@ public class CajaPOSController {
     private final ICajaPOSService cajaPOSService;
 
     @GetMapping("cajapos/{almacen}/{pventa}")
-    public ResponseEntity<CajaPOS> porAlmacenYPventa(@PathVariable int almacen, @PathVariable int pventa) {
+    public ResponseEntity<CajaPOS> porAlmacenYPventa(@PathVariable Long almacen, @PathVariable Long pventa) {
         try {
             CajaPOS cajaPOS= cajaPOSService.findByAlmacenAndPventa(almacen, pventa);
             if (cajaPOS == null ){
