@@ -73,12 +73,17 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.6.0</version>
 		</dependency>
-
 		<!--Dependencia de Cache Coffaine-->
 		<dependency>
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
 			<version>3.1.8</version>
+		</dependency>
+		<!--Dependencia de modelos principales-->
+		<dependency>
+			<groupId>com.cumpleanos.models</groupId>
+			<artifactId>models-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
