@@ -23,7 +23,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "cadAgente", "agente", "cadAgentes", "ccomprobas", "puntoVentas"
+        "reporta", "agente", "cadAgentes", "ccomprobas", "puntoVentas"
 })
 public class CadAgente implements Serializable {
 
@@ -82,7 +82,7 @@ public class CadAgente implements Serializable {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<CadAgente> cadAgentes = new LinkedHashSet<>();
 

@@ -16,11 +16,11 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
 
     @Override
     public void visit(NotaCredito notaCredito) {
-
+        System.out.println("datos Nota Credito");
     }
 
     @Override
     public void visit(ComprobanteRetencion comprobanteRetencion) {
-
+        System.out.println("datos comprobante Retencion");
     }
 }

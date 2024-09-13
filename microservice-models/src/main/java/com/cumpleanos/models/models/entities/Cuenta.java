@@ -20,7 +20,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "modulo", "cuenta", "centros", "cuentas"
+        "modulo", "reporta", "centros", "cuentas"
 })
 public class Cuenta {
 
@@ -91,7 +91,7 @@ public class Cuenta {
     @JsonBackReference
     private Set<Centro> centros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Cuenta> cuentas = new LinkedHashSet<>();
 }
