@@ -1,5 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -52,17 +53,20 @@ public class Modulo {
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "MOD_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
     @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Ccomproba> comprobas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cuenta> cuentas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Programa> programas = new LinkedHashSet<>();
 }

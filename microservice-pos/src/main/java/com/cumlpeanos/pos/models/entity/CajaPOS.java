@@ -1,38 +1,54 @@
 package com.cumlpeanos.pos.models.entity;
 
+import com.cumlpeanos.pos.models.ids.CajaPOSId;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "CAJA_POS")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
 public class CajaPOS {
 
-    @Id
-    @Column(name = "CAP_CODIGO")
-    @Setter(AccessLevel.NONE)
-    private Long id;
-
-    @Column(name = "CAP_EMPRESA")
-    private Long empresa;
+    @EmbeddedId
+    private CajaPOSId id;
 
     @Column(name = "CAP_DESCRIPCION")
     private String descripcion;
 
     @Column(name = "CAP_ALMACEN")
-    private int almacen;
+    private Long almacen;
 
     @Column(name = "CAP_PVENTA")
-    private int pventa;
+    private Long pventa;
 
-    @Column(name = "CAP_IP")
+    @Size(max = 20)
+    @Column(name = "CAP_IP", length = 20)
     private String ip;
 
-    @Column(name = "CAP_NOMBRE_EQUIPO")
+    @Size(max = 50)
+    @Column(name = "CAP_NOMBRE_EQUIPO", length = 50)
     private String nombreEquipo;
 
-    @Column(name = "CAP_PUERTO")
+    @Size(max = 10)
+    @Column(name = "CAP_PUERTO", length = 10)
     private String puerto;
+
+    @Size(max = 10)
+    @Column(name = "CREA_USR", length = 10)
+    private String creaUsr;
+
+    @Column(name = "CREA_FECHA")
+    private LocalDate creaFecha;
+
+    @Size(max = 10)
+    @Column(name = "MOD_USR", length = 10)
+    private String modUsr;
+
+    @Column(name = "MOD_FECHA")
+    private LocalDate modFecha;
 }

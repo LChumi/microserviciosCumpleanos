@@ -1,5 +1,6 @@
 package com.cumpleanos.models.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -65,12 +66,13 @@ public class Menu {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Menu reporte;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "MNU_COPCION", referencedColumnName = "COP_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Copcion copcion;
 
     @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Acceso> accesos= new LinkedHashSet<>();
 
 

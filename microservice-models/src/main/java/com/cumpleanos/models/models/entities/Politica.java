@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.PoliticaId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -122,17 +123,20 @@ public class Politica {
     @Column(name = "POL_TIPO_PRECIO")
     private Boolean tipoPrecio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "POL_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
     @OneToMany(mappedBy = "politica", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "politica", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "politicaAdi", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cliente> clientesAdi = new LinkedHashSet<>();
 }

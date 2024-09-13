@@ -1,25 +1,24 @@
 package com.cumlpeanos.pos.models.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import com.cumlpeanos.pos.models.ids.TipoCreditoPOSId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TIPO_CREDITO_POS")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = { "reciboPos" })
 public class TipoCreditoPOS {
 
-    @Id
-    @Column(name = "TCR_CODIGO")
-    @Setter(AccessLevel.NONE)
-    private Long codigo;
-
-    @Column(name = "TCR_EMPRESA")
-    private Long empresa;
+    @EmbeddedId
+    private TipoCreditoPOSId id;
 
     @Column(name = "TCR_ID")
     private String tcrId;
@@ -30,4 +29,8 @@ public class TipoCreditoPOS {
     @Column(name = "TCR_INTERES")
     private Long interes;
 
+    @OneToMany(mappedBy = "tipoCreditoPOS", fetch = FetchType.LAZY)
+    @JsonBackReference // Evitar la recursion infinita
+    @JsonIgnore
+    private Set<ReciboPOS> reciboPos = new LinkedHashSet<>();
 }

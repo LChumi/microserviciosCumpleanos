@@ -53,17 +53,17 @@ public class Acceso {
     @Column(name = "ACC_EMPRESA_DEF")
     private Boolean empresaDef;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     private Sistema sistema;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_USUARIO", referencedColumnName = "USR_CODIGO", insertable = false, updatable = false)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumns({
             @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "PVE_EMPRESA", insertable = false, updatable = false),
             @JoinColumn(name = "ACC_ALMACEN", referencedColumnName = "PVE_ALMACEN", insertable = false, updatable = false),
@@ -71,17 +71,17 @@ public class Acceso {
     })
     private PuntoVenta puntoVenta;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_PROGRAMA" , insertable = false, updatable = false)
     private Programa programa;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_MENU" , insertable = false, updatable = false)
     private Menu menu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "ACC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)

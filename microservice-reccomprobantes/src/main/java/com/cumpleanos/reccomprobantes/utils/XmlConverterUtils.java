@@ -6,6 +6,8 @@ import com.cumpleanos.reccomprobantes.models.xml.autorizacion.Autorizacion;
 import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
+import com.cumpleanos.reccomprobantes.visitor.ComprobanteVisitor;
+import com.cumpleanos.reccomprobantes.visitor.ComprobantesProcessor;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -18,6 +20,8 @@ import java.io.StringReader;
 
 public class XmlConverterUtils {
 
+    ComprobanteVisitor visitor = new ComprobantesProcessor();
+
     public ComprobanteXml convertirXmlAAutorizacion(String xml) {
         try {
             Unmarshaller unmarshaller = createUnmarsaller(Autorizacion.class);
@@ -29,6 +33,9 @@ public class XmlConverterUtils {
                     StringReader stringReader = new StringReader(comprobanteXml);
                     ComprobanteXml comprobante = (ComprobanteXml) comprobanteUnmarshaller.unmarshal(stringReader);
                     comprobante.setTipoComprobante(identificarTipoComprobante(comprobanteXml));
+                    comprobante.setFechaAutorizacion(autorizacion.getFechaAutorizacion());
+                    comprobante.setNumeroAutorizacion(autorizacion.getNumeroAutorizacion());
+                    comprobante.accept(visitor);
                     return comprobante;
                 }
             } else {
@@ -36,6 +43,7 @@ public class XmlConverterUtils {
                 StringReader reader = new StringReader(xml);
                 ComprobanteXml comprobante = (ComprobanteXml) comprobanteUnmarshaller.unmarshal(reader);
                 comprobante.setTipoComprobante(identificarTipoComprobante(xml));
+                comprobante.accept(visitor);
                 return comprobante;
             }
         } catch (JAXBException e) {

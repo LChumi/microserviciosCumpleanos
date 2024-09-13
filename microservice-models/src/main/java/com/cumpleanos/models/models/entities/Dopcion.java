@@ -65,12 +65,12 @@ public class Dopcion {
     @Column(name = "DOP_PARAMETRO")
     private Short parametro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "DOP_COP_CODIGO", referencedColumnName = "COP_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Copcion copcion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "DOP_PROGRAMA", referencedColumnName = "PRG_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Programa programa;

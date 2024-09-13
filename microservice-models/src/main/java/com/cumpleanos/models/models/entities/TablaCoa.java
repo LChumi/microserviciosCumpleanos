@@ -52,7 +52,7 @@ public class TablaCoa {
     @Column(name = "TAB_ID", nullable = false, length = 10)
     private String tabId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TAB_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;

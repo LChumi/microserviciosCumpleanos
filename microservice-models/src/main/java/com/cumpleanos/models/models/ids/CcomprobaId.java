@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class CcomprobaId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "CCO_CODIGO", nullable = false)
-    private Long codigo;
+    private BigInteger codigo;
 
     @NotNull
     @Column(name = "CCO_EMPRESA", nullable = false)

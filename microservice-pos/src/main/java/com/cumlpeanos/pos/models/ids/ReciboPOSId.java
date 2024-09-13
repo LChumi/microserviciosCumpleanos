@@ -1,4 +1,4 @@
-package com.cumpleanos.models.models.ids;
+package com.cumlpeanos.pos.models.ids;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -9,22 +9,21 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigInteger;
 
 @Getter
 @Setter
-@Embeddable
 @EqualsAndHashCode
-public class CcomFacId implements Serializable {
+@Embeddable
+public class ReciboPOSId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "CFAC_CCO_COMPROBA", nullable = false)
-    private BigInteger ccoComproba;
+    @Column(name = "RPO_CODIGO", nullable = false)
+    private Long codigo;
 
     @NotNull
-    @Column(name = "CFAC_EMPRESA", nullable = false)
+    @Column(name = "RPO_EMPRESA", nullable = false)
     private Long empresa;
 }

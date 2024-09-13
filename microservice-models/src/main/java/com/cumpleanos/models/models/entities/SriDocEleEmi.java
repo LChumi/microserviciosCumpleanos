@@ -92,7 +92,7 @@ public class SriDocEleEmi {
     @Column(name = "SRI_FACTURA", length = 50)
     private String sriFactura;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumns({
             @JoinColumn(name = "SRI_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "SRI_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false),

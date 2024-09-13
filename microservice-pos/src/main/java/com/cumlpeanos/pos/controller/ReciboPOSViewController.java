@@ -18,7 +18,7 @@ public class ReciboPOSViewController {
     private final IReciboPOSViewService service;
 
     @GetMapping("reciboView/{almacen}/{pventa}")
-    public ResponseEntity<ReciboPOSView> getRecibo(@PathVariable int almacen,@PathVariable int pventa){
+    public ResponseEntity<ReciboPOSView> getRecibo(@PathVariable Long almacen,@PathVariable Long pventa){
         try {
             ReciboPOSView reciboPOSView = service.findByAlmacenAndPventa(almacen, pventa);
             if (reciboPOSView == null ){
@@ -31,7 +31,7 @@ public class ReciboPOSViewController {
         }
     }
 
-    @GetMapping("reciboView/{usr}/{empresa}")
+    @GetMapping("reciboViewUsr/{usr}/{empresa}")
     public ResponseEntity<ReciboPOSView> getReciboByUsr(@PathVariable Long usr, @PathVariable Long empresa){
         try {
             ReciboPOSView reciboPOSView = service.findByUsrLiquidaAndEmpresa(usr, empresa);

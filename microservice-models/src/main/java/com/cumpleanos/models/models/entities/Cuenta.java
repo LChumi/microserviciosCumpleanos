@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CuentaId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -73,7 +74,7 @@ public class Cuenta {
     @Column(name = "CUE_NEGRITA")
     private Boolean cueNegrita;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CUE_MODULO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
@@ -84,11 +85,13 @@ public class Cuenta {
             @JoinColumn(name = "CUE_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    private Cuenta cuenta;
+    private Cuenta reporta;
 
     @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Centro> centros = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Cuenta> cuentas = new LinkedHashSet<>();
 }

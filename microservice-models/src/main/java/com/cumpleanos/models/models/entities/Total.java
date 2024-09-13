@@ -145,7 +145,7 @@ public class Total {
     @Column(name = "TOT_FINANCIA_ADI", precision = 17, scale = 4)
     private BigDecimal financiaAdi;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "TOT_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "TOT_EMPRESA", referencedColumnName =  "CCO_EMPRESA", insertable = false, updatable = false)
@@ -153,7 +153,7 @@ public class Total {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "TOT_TRANSPORTISTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "TOT_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)

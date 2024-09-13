@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CentroId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -77,7 +78,7 @@ public class Centro {
     @Column(name = "CEN_100", precision = 5, scale = 2)
     private BigDecimal cen100;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CEN_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
@@ -85,7 +86,7 @@ public class Centro {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cuenta cuenta;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CEN_REPORTA", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)
@@ -94,14 +95,18 @@ public class Centro {
     private Centro centro;
 
     @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Bodega> bodegas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Centro> centros = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

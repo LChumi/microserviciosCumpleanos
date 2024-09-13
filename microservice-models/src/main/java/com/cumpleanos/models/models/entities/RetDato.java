@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.RetDatoId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -60,5 +61,6 @@ public class RetDato {
     private Boolean credito;
 
     @OneToMany(mappedBy = "retDato", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Autcliente> autclientes = new LinkedHashSet<>();
 }
