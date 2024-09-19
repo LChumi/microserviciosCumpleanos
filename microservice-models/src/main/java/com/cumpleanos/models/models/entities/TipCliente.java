@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.TipClienteId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,13 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "TIPCLIENTE")
+@Table(name = "TIPCLIENTE", indexes = {
+        @Index(name = "TIPCLIENTE_UDX2", columnList = "TCL_ID, TCL_EMPRESA", unique = true),
+        @Index(name = "TIPCLIENTE_UDX1", columnList = "TCL_NOMBRE, TCL_EMPRESA", unique = true),
+        @Index(name = "TIPCLIENTE_MO_EMPRESA", columnList = "TCL_EMPRESA"),
+        @Index(name = "TIPCLIENTE_IDX1", columnList = "TCL_CODIGO, TCL_REPORTA"),
+        @Index(name = "TIPCLIENTE_IDX2", columnList = "TCL_REPORTA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -71,12 +78,13 @@ public class TipCliente {
     @Column(name = "TCL_DESCUENTO_MAX", precision = 17, scale = 4)
     private BigDecimal descuentoMax;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TCL_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @OneToMany(mappedBy = "tipCliente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "tipCliente", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 }

@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PROGRAMA")
+@Table(name = "PROGRAMA", indexes = {
+        @Index(name = "PROGRAMA_UIDX1", columnList = "PRG_ID", unique = true),
+        @Index(name = "PROGRAMA_UIDX2", columnList = "PRG_NOMBRE"),
+        @Index(name = "PROGRAMA_NIDX1", columnList = "PRG_MODULO"),
+        @Index(name = "PROGRAMA_NIDX2", columnList = "PRG_SEGURIDAD")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -61,21 +67,23 @@ public class Programa {
     @Column(name = "PRG_ID_APEX", length = 200)
     private String idApex;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRG_MODULO", referencedColumnName = "MOD_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRG_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
-    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
     private Set<Acceso> accesos= new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
     private Set<Dopcion> dopciones= new LinkedHashSet<>();
 }

@@ -51,11 +51,11 @@ public class Copcion {
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
 
-    @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
     private Set<Dopcion> dopciones = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
     private Set<Menu> menus = new LinkedHashSet<>();
 }

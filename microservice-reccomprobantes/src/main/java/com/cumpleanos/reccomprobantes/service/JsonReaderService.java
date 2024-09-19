@@ -3,7 +3,6 @@ package com.cumpleanos.reccomprobantes.service;
 import com.cumpleanos.reccomprobantes.exceptions.ConversionException;
 import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
-import com.cumpleanos.reccomprobantes.models.xml.ComprobanteXml;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

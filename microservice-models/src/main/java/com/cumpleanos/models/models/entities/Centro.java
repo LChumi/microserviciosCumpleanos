@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CentroId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +20,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CENTRO")
+@Table(name = "CENTRO", indexes = {
+        @Index(name = "CENTRO_UIDX1", columnList = "CEN_NOMBRE, CEN_EMPRESA", unique = true),
+        @Index(name = "CENTRO_UIDX2", columnList = "CEN_ORDEN, CEN_REPORTA, CEN_EMPRESA", unique = true),
+        @Index(name = "CENTRO_NIDX1", columnList = "CEN_REPORTA, CEN_EMPRESA"),
+        @Index(name = "CENTRO_UIDX3", columnList = "CEN_CUENTA, CEN_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -78,7 +84,8 @@ public class Centro {
     @Column(name = "CEN_100", precision = 5, scale = 2)
     private BigDecimal cen100;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CEN_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
@@ -86,7 +93,8 @@ public class Centro {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cuenta cuenta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CEN_REPORTA", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CEN_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)
@@ -94,19 +102,19 @@ public class Centro {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Centro centro;
 
-    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Bodega> bodegas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Centro> centros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

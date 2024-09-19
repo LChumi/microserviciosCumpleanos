@@ -49,7 +49,7 @@ public class EmpresaGrupo {
     @Column(name = "EMG_TOKEN", length = 1000)
     private String emgToken;
 
-    @OneToMany(mappedBy = "empresaGrupo", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "empresaGrupo", fetch = FetchType.LAZY)
     private Set<Sistema> sistemas = new LinkedHashSet<>();
 }

@@ -13,7 +13,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "RETDATO")
+@Table(name = "RETDATO", indexes = {
+        @Index(name = "RETDATOS_UDX1", columnList = "RTD_ID, RTD_TABLACOA, RTD_EMPRESA", unique = true),
+        @Index(name = "RETDATO_NIDX1", columnList = "RTD_EMPRESA"),
+        @Index(name = "RETDATO_NIDX2", columnList = "RTD_TABLACOA, RTD_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -60,7 +64,7 @@ public class RetDato {
     @Column(name = "RTD_CREDITO")
     private Boolean credito;
 
-    @OneToMany(mappedBy = "retDato", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "retDato", fetch = FetchType.LAZY)
     private Set<Autcliente> autclientes = new LinkedHashSet<>();
 }

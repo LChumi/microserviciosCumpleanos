@@ -14,7 +14,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "SISTEMA")
+@Table(name = "SISTEMA", indexes = {
+        @Index(name = "SISTEMA_UIDX1", columnList = "SIS_ID", unique = true),
+        @Index(name = "SISTEMA_UIDX2", columnList = "SIS_NOMBRE", unique = true)
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -190,44 +193,44 @@ public class Sistema {
     @Column(name = "SIS_AMBIENTE")
     private Long ambiente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SIS_EMPRESA_GRUPO", referencedColumnName = "EMG_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private EmpresaGrupo empresaGrupo;
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<Autcliente> autclientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<Gproducto> gproductos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<Linea> lineas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<ListaPre> listaPre = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<Politica> politicas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<TablaCoa> tablaCoas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<TipCliente> tipClientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
     private Set<Umedida>  umedidas = new LinkedHashSet<>();
 }

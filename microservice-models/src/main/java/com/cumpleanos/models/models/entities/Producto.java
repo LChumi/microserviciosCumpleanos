@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.ProductoId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,7 +17,23 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PRODUCTO")
+@Table(name = "PRODUCTO", indexes = {
+        @Index(name = "PRODUCTO_UDX2", columnList = "PRO_ID, PRO_EMPRESA", unique = true),
+        @Index(name = "PRODUCTO_UDX1", columnList = "PRO_NOMBRE, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX5", columnList = "PRO_TPRODUCTO, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX6", columnList = "PRO_UNIDAD, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX3", columnList = "PRO_INFSERIE, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX4", columnList = "PRO_PROVEEDOR, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX2", columnList = "PRO_GPRODUCTO, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX10", columnList = "PRO_CRITICO, PRO_INACTIVO"),
+        @Index(name = "PRODUCTO_NIDX1", columnList = "PRO_ENVASE, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_UDX3", columnList = "PRO_MARCA, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX9", columnList = "PRO_MODELO_PRODUCTO, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX8", columnList = "PRO_TALLA, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX7", columnList = "PRO_COLOR, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX11", columnList = "PRO_ARO, PRO_EMPRESA"),
+        @Index(name = "PRODUCTO_NIDX12", columnList = "PRO_SUBMODELO, PRO_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -351,7 +368,8 @@ public class Producto {
     @Column(name = "PRO_CARGA_EXTERNO")
     private Boolean cargaExterno;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name ="PRO_PROVEEDOR", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "PRO_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
@@ -359,7 +377,8 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente proveedor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PRO_GPRODUCTO", referencedColumnName = "GPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "PRO_EMPRESA", referencedColumnName = "GPR_EMPRESA", insertable = false, updatable = false)
@@ -367,7 +386,8 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Gproducto gproducto;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PRO_ENVASE", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "PRO_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
@@ -375,7 +395,8 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Producto envase;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PRO_UNIDAD", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "PRO_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
@@ -383,11 +404,11 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida unidad;
 
-    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     private Set<Factor> factores = new LinkedHashSet<>();
 }

@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.TotalId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -11,7 +12,10 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "TOTAL")
+@Table(name = "TOTAL", indexes = {
+        @Index(name = "TOTAL_NIDX2", columnList = "TOT_IMPUESTO, TOT_EMPRESA"),
+        @Index(name = "TOTAL_NIDX1", columnList = "TOT_TRANSPORTISTA, TOT_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -145,7 +149,8 @@ public class Total {
     @Column(name = "TOT_FINANCIA_ADI", precision = 17, scale = 4)
     private BigDecimal financiaAdi;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "TOT_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "TOT_EMPRESA", referencedColumnName =  "CCO_EMPRESA", insertable = false, updatable = false)
@@ -153,11 +158,21 @@ public class Total {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "TOT_TRANSPORTISTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "TOT_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente transportista;
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "TOT_IMPUESTO", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "TOT_EMPRESA", referencedColumnName ="IMP_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Impuesto impuesto;
 }

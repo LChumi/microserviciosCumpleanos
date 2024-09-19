@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CadAgenteId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,7 +19,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CADAGENTE")
+@Table(name = "CADAGENTE", indexes = {
+        @Index(name = "CADAGENTE_NIDX1", columnList = "CAD_AGENTE, CAD_EMPRESA"),
+        @Index(name = "CADAGENTE_UDX1", columnList = "CAD_AGENTE, CAD_INACTIVO, CAD_EMPRESA"),
+        @Index(name = "CADAGENTE_NIDX2", columnList = "CAD_REPORTA, CAD_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -66,6 +71,7 @@ public class CadAgente implements Serializable {
     @Column(name = "CAD_ID", length = 10)
     private String cadId;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAD_REPORTA", referencedColumnName = "CAD_CODIGO", insertable = false, updatable = false),
@@ -74,7 +80,8 @@ public class CadAgente implements Serializable {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CadAgente reporta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAD_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false , updatable = false),
             @JoinColumn(name = "CAD_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false , updatable = false)
@@ -82,15 +89,15 @@ public class CadAgente implements Serializable {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     private Set<CadAgente> cadAgentes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
     private Set<PuntoVenta> puntoVentas = new LinkedHashSet<>();
 }

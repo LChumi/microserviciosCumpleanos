@@ -12,7 +12,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "UBICACION")
+@Table(name = "UBICACION", indexes = {
+        @Index(name = "USUARIO_UIDX1", columnList = "USR_ID", unique = true),
+        @Index(name = "USUARIO_UIDX2", columnList = "USR_NOMBRE", unique = true)
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -65,15 +68,15 @@ public class Ubicacion {
     @Column(name = "UBI_COD_DNT", length = 10)
     private String codDnt;
 
-    @OneToMany(mappedBy = "ubicacion", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "ubicacion", fetch = FetchType.LAZY)
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "parroquia", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "parroquia", fetch = FetchType.LAZY)
     private Set<Cliente> clientesParroquia = new LinkedHashSet<>();
 }

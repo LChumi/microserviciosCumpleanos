@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.LineaId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -12,7 +13,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "LINEA")
+@Table(name = "LINEA", uniqueConstraints = {
+        @UniqueConstraint(name = "LINEA_UK", columnNames = {"LIN_ID", "LIN_EMPRESA"})
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -57,7 +60,8 @@ public class Linea {
     @Column(name = "LIN_GARANTIA")
     private Boolean linGarantia;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LIN_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;

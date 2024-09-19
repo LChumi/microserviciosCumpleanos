@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.AgenteId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +20,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "AGENTE")
+@Table(name = "AGENTE",indexes = {
+        @Index(name = "AGENTE_UIDX1", columnList = "AGE_NOMBRE, AGE_EMPRESA", unique = true),
+        @Index(name = "AGENTE_UIDX2", columnList = "AGE_ID, AGE_EMPRESA", unique = true),
+        @Index(name = "AGENTE_NIDX3", columnList = "AGE_BODEGA, AGE_EMPRESA"),
+        @Index(name = "AGENTE_NIDX4", columnList = "AGE_CLIENTE, AGE_EMPRESA"),
+        @Index(name = "AGENTE_NIDX1", columnList = "AGE_ALMACEN, AGE_EMPRESA"),
+        @Index(name = "AGENTE_NIDX5", columnList = "AGE_PVENTA, AGE_ALMACEN, AGE_EMPRESA"),
+        @Index(name = "AGENTE_NIDX2", columnList = "AGE_ALMACEN1, AGE_EMPRESA"),
+        @Index(name = "AGENTE_NIDX6", columnList = "AGE_PVENTA1, AGE_ALMACEN1, AGE_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -91,7 +101,8 @@ public class Agente {
     @Column(name = "AGE_DIAS_COMISION", precision = 17, scale = 4)
     private BigDecimal diasComision;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "AGE_EMPRESA", referencedColumnName = "BOD_EMPRESA", insertable = false, updatable = false),
             @JoinColumn(name = "AGE_BODEGA" , referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false)
@@ -99,7 +110,8 @@ public class Agente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "AGE_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false, updatable = false),
             @JoinColumn(name = "AGE_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false)
@@ -107,7 +119,8 @@ public class Agente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "AGE_EMPRESA", referencedColumnName = "PVE_EMPRESA", insertable = false, updatable = false),
             @JoinColumn(name = "AGE_ALMACEN", referencedColumnName = "PVE_ALMACEN", insertable = false, updatable = false),
@@ -116,7 +129,8 @@ public class Agente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private PuntoVenta puntoVenta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "AGE_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false, updatable = false),
             @JoinColumn(name = "AGE_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false)
@@ -124,7 +138,8 @@ public class Agente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen1;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "AGE_EMPRESA", referencedColumnName = "PVE_EMPRESA" , insertable = false, updatable = false),
             @JoinColumn(name = "AGE_ALMACEN", referencedColumnName = "PVE_ALMACEN", insertable = false, updatable = false),
@@ -133,7 +148,8 @@ public class Agente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private PuntoVenta puntoVenta1;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AGE_USUARIO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Usuario usuario;

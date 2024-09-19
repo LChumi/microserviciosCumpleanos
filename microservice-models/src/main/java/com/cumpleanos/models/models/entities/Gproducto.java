@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.GproductoId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "GPRODUCTO")
+@Table(name = "GPRODUCTO", indexes = {
+        @Index(name = "GPRODUCTO_UDX1", columnList = "GPR_EMPRESA, GPR_ID", unique = true),
+        @Index(name = "GPRODUCTO_UDX2", columnList = "GPR_EMPRESA, GPR_NOMBRE", unique = true)
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -114,12 +118,13 @@ public class Gproducto {
     @Column(name = "GPR_COLOR", length = 50)
     private String color;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GPR_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @OneToMany(mappedBy = "gproducto", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "gproducto", fetch = FetchType.LAZY)
     private Set<Producto> productos = new LinkedHashSet<>();
 }

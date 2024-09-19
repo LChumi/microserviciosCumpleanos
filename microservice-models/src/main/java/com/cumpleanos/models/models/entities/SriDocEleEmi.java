@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.SriDocEleEmiId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -12,7 +13,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "SRI_DOC_ELE_EMI")
+@Table(name = "SRI_DOC_ELE_EMI", indexes = {
+        @Index(name = "SRI_UIDX1", columnList = "SRI_CCO_COMPROBA, SRI_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -92,7 +95,8 @@ public class SriDocEleEmi {
     @Column(name = "SRI_FACTURA", length = 50)
     private String sriFactura;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "SRI_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "SRI_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false),

@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.DfacturaId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,27 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "DFACTURA")
+@Table(name = "DFACTURA", indexes = {
+        @Index(name = "DFACTURA_UIDX1", columnList = "DFAC_CFAC_COMPROBA, DFAC_SECUENCIA, DFAC_PRODUCTO, DFAC_CATPRODUCTO, DFAC_BODEGA", unique = true),
+        @Index(name = "DFACTURA_UIDX2", columnList = "DFAC_CFAC_COMPROBA, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_UIDX3", columnList = "DFAC_PRODUCTO, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX23", columnList = "DFAC_PRODUCTO, DFAC_SECUENCIA, DFAC_CFAC_COMPROBA, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_UIDX4", columnList = "DFAC_CUENTA, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX4", columnList = "DFAC_ACTIVO, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX12", columnList = "DFAC_CATPRODUCTO, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_UIDX5", columnList = "DFAC_BODEGA, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX21", columnList = "DFAC_UDIGITADA, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX7", columnList = "DFAC_UDIGITADA, DFAC_PRODUCTO, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX1", columnList = "DFAC_CENTRO, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX20", columnList = "DFAC_TLIQEVENTO, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX2", columnList = "DFAC_CLIENTE, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX5", columnList = "DFAC_AGENTE, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX6", columnList = "DFAC_ALMACEN, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX3", columnList = "DFAC_DDO_PAGO, DFAC_DDO_DOCTRAN, DFAC_DDO_TRANSACC, DFAC_DDO_COMPROBA, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_NIDX10", columnList = "DFAC_GASTO_VEHICULO, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_UIDX9", columnList = "DFAC_PEDIDO_IMP, DFAC_EMPRESA"),
+        @Index(name = "DFACTURA_UIDX21", columnList = "DFAC_FACTURA, DFAC_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -228,7 +249,8 @@ public class Dfactura {
     @Column(name = "DFAC_CAJAEMP", length = 100)
     private String cajaemp;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CLIENTE", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
@@ -236,7 +258,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente cliente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_UDIGITADA", referencedColumnName = "FAC_UNIDAD", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "FAC_PRODUCTO", insertable = false, updatable = false),
@@ -245,7 +268,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Factor factor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
@@ -253,7 +277,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Producto producto;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
@@ -261,7 +286,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "BOD_EMPRESA", insertable = false, updatable = false)
@@ -269,7 +295,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CFAC_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -277,7 +304,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_FACTURA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -285,7 +313,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba1;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_UDIGITADA", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
@@ -293,7 +322,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida umedida;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
@@ -301,7 +331,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false, updatable = false)
@@ -309,7 +340,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CENTRO", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)

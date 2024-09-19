@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "MODULO")
+@Table(name = "MODULO", indexes = {
+        @Index(name = "MODULO_UIDX2", columnList = "MOD_NOMBRE, MOD_ID", unique = true),
+        @Index(name = "MODULO_UIDX1", columnList = "MOD_NOMBRE", unique = true),
+        @Index(name = "MODULO_NIDX1", columnList = "MOD_SEGURIDAD")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -53,20 +58,21 @@ public class Modulo {
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MOD_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
-    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     private Set<Ccomproba> comprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     private Set<Cuenta> cuentas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     private Set<Programa> programas = new LinkedHashSet<>();
 }

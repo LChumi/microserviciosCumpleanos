@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.AlmacenId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +20,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "ALMACEN")
+@Table(name = "ALMACEN", indexes = {
+        @Index(name = "ALMACEN_UIDX1", columnList = "ALM_NOMBRE, ALM_EMPRESA", unique = true),
+        @Index(name = "ALMACEN_UIDX2", columnList = "ALM_ID, ALM_EMPRESA", unique = true),
+        @Index(name = "ALMACEN_NIDX3", columnList = "ALM_CIUDAD, ALM_EMPRESA"),
+        @Index(name = "ALMACEN_NIDX6", columnList = "ALM_ZONA, ALM_EMPRESA"),
+        @Index(name = "ALMACEN_NIDX5", columnList = "ALM_LISTAPRE, ALM_EMPRESA"),
+        @Index(name = "ALMACEN_NIDX4", columnList = "ALM_CLI_VARIOS, ALM_EMPRESA"),
+        @Index(name = "ALMACEN_NIDX2", columnList = "ALM_BODEGA, ALM_EMPRESA"),
+        @Index(name = "ALMACEN_NIDX1", columnList = "ALM_AGENTE, ALM_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -115,7 +125,8 @@ public class Almacen {
     @Column(name = "ALM_MATRIZ")
     private Boolean matriz;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ALM_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
@@ -123,7 +134,8 @@ public class Almacen {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ALM_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "BOD_EMPRESA", insertable = false, updatable = false)
@@ -131,7 +143,8 @@ public class Almacen {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ALM_CLI_VARIOS", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "CLI_EMPRESA", insertable = false, updatable = false)
@@ -139,7 +152,8 @@ public class Almacen {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente cliente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ALM_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)

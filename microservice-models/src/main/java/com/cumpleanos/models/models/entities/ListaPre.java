@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.ListaPreId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "LISTAPRE")
+@Table(name = "LISTAPRE", indexes = {
+        @Index(name = "LISTAPRE_UIDX1", columnList = "LPR_NOMBRE, LPR_EMPRESA", unique = true),
+        @Index(name = "LISTAPRE_UIDX2", columnList = "LPR_ID, LPR_EMPRESA", unique = true),
+        @Index(name = "LISTAPRE_NIDX1", columnList = "LPR_EMPRESA"),
+        @Index(name = "LISTAPRE_NIDX2", columnList = "LPR_MONEDA, LPR_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -75,28 +81,29 @@ public class ListaPre {
     @Column(name = "LPR_PRECIO3")
     private Boolean lprPrecio3;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LPR_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

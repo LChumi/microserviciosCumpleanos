@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.ClienteId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,27 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CLIENTE")
+@Table(name = "CLIENTE", indexes = {
+        @Index(name = "CLIENTE_UDX1", columnList = "CLI_ID, CLI_EMPRESA, CLI_TIPO", unique = true),
+        @Index(name = "CLIENTE_NIDX14", columnList = "CLI_TIPO, CLI_CODIGO, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX4", columnList = "CLI_CIUDAD, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX12", columnList = "CLI_ZONA, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_IDX2", columnList = "CLI_CATEGORIA, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_IDX3", columnList = "CLI_AGENTE, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_IDX1", columnList = "CLI_INACTIVO, CLI_TIPO, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX7", columnList = "CLI_POLITICAS, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX5", columnList = "CLI_LISTAPRE, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX9", columnList = "CLI_RETIVA, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX8", columnList = "CLI_RETFUENTE, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX6", columnList = "CLI_PARROQUIA, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX2", columnList = "CLI_CANAL, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX11", columnList = "CLI_TIPOCLI, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX10", columnList = "CLI_RUTA, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX13", columnList = "CLI_REPORTA, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX15", columnList = "CLI_CALIFICACION, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX16", columnList = "CLI_POLITICAS_ADI, CLI_EMPRESA"),
+        @Index(name = "CLIENTE_NIDX18", columnList = "CLI_AGENTE2, CLI_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -234,7 +255,26 @@ public class Cliente {
     @Column(name = "CLI_CUENTA_DEF")
     private Long cuentaDef;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_RETFUENTE", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName ="IMP_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Impuesto retFuente;
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "CLI_RETIVA", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName ="IMP_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Impuesto retIva;
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_CATEGORIA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "CAT_EMPRESA", insertable = false, updatable = false)
@@ -242,7 +282,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CatCliente catCliente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_TIPOCLI", referencedColumnName = "TCL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "TCL_EMPRESA", insertable = false, updatable = false)
@@ -250,7 +291,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private TipCliente tipCliente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
@@ -258,7 +300,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ciudad;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_PARROQUIA", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
@@ -266,7 +309,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion parroquia;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
@@ -274,6 +318,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_REPORTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -282,7 +327,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente reporta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_POLITICAS", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
@@ -290,7 +336,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_POLITICAS_ADI", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
@@ -298,7 +345,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politicaAdi;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
@@ -306,7 +354,8 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_AGENTE2", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
@@ -314,31 +363,31 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente2;
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "clientePro", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "clientePro", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas1 = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)
     private Set<Producto> productos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "transportista", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "transportista", fetch = FetchType.LAZY)
     private Set<Total> totales = new LinkedHashSet<>();
 }

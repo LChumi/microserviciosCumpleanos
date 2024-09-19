@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.AutclienteId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,7 +15,11 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "AUTCLIENTE")
+@Table(name = "AUTCLIENTE", indexes = {
+        @Index(name = "AUTCLIENTE_NIDX2", columnList = "ACL_EMPRESA"),
+        @Index(name = "AUTCLIENTE_NIDX1", columnList = "ACL_CLIENTE, ACL_EMPRESA"),
+        @Index(name = "AUTCLIENTE_NIDX3", columnList = "ACL_RETDATO, ACL_TABLACOA, ACL_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -70,7 +75,8 @@ public class Autcliente {
     @Column(name = "ACL_FACT3", nullable = false, length = 9)
     private String fact3;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ACL_RETDATO", referencedColumnName = "RTD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ACL_TABLACOA", referencedColumnName = "RTD_TABLACOA", insertable = false, updatable = false),
@@ -79,7 +85,8 @@ public class Autcliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private RetDato retDato;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACL_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;

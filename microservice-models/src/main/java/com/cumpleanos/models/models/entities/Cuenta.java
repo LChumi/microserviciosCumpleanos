@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CuentaId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CUENTA")
+@Table(name = "CUENTA", indexes = {
+        @Index(name = "CUENTA_UIDX1", columnList = "CUE_ID, CUE_EMPRESA", unique = true),
+        @Index(name = "CUENTA_UIDX2", columnList = "CUE_ORDEN, CUE_REPORTA, CUE_EMPRESA", unique = true),
+        @Index(name = "CUENTA_IDX1", columnList = "CUE_CODIGO, CUE_REPORTA"),
+        @Index(name = "CUENTA_IDX2", columnList = "CUE_REPORTA, CUE_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -74,11 +80,12 @@ public class Cuenta {
     @Column(name = "CUE_NEGRITA")
     private Boolean cueNegrita;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUE_MODULO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CUE_REPORTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
@@ -87,11 +94,11 @@ public class Cuenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cuenta reporta;
 
-    @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
     private Set<Centro> centros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     private Set<Cuenta> cuentas = new LinkedHashSet<>();
 }

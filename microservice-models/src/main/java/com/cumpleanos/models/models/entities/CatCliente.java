@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CatClienteId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,14 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CATCLIENTE")
+@Table(name = "CATCLIENTE", indexes = {
+        @Index(name = "CATCLIENTE_UDX2", columnList = "CAT_ID, CAT_EMPRESA, CAT_TIPO", unique = true),
+        @Index(name = "CATCLIENTE_UDX1", columnList = "CAT_NOMBRE, CAT_EMPRESA", unique = true),
+        @Index(name = "CATCLIENTE_IDX1", columnList = "CAT_CODIGO, CAT_REPORTA"),
+        @Index(name = "CATCLIENTE_IDX2", columnList = "CAT_REPORTA, CAT_EMPRESA"),
+        @Index(name = "CATCLIENTE_NIDX3", columnList = "CAT_UMEDIDA, CAT_EMPRESA"),
+        @Index(name = "CATCLIENTE_NIDX2", columnList = "CAT_LISTAPRE, CAT_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -64,6 +72,7 @@ public class CatCliente {
     @Column(name = "CAT_TIPO", nullable = false)
     private Boolean catTipo = false;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAT_REPORTA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
@@ -72,7 +81,8 @@ public class CatCliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CatCliente reporta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAT_UMEDIDA", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
@@ -80,7 +90,8 @@ public class CatCliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida umedida;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAT_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CAT_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
@@ -88,16 +99,16 @@ public class CatCliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "catCliente", fetch = FetchType.LAZY)
     private Set<Cliente> clientes = new LinkedHashSet<>();
 
 }

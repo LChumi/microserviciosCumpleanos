@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.FactorId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "FACTOR")
+@Table(name = "FACTOR", indexes = {
+        @Index(name = "FACTOR_NIDX1", columnList = "FAC_PRODUCTO, FAC_EMPRESA"),
+        @Index(name = "FACTOR_NIDX2", columnList = "FAC_UNIDAD, FAC_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -63,7 +67,8 @@ public class Factor {
     @Column(name = "FAC_DEFAUL_CAJ")
     private Boolean defaulCaj;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "FAC_UNIDAD", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "FAC_EMPRESA", referencedColumnName = "UMD_EMPRESA", insertable = false, updatable = false)
@@ -71,7 +76,8 @@ public class Factor {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida umedida;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "FAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "FAC_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
@@ -79,7 +85,7 @@ public class Factor {
     @OnDelete (action = OnDeleteAction.RESTRICT)
     private Producto producto;
 
-    @OneToMany(mappedBy = "factor", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "factor", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 }

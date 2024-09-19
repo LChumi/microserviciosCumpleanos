@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.CcomFacId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
@@ -15,7 +16,29 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "CCOMFAC")
+@Table(name = "CCOMFAC", indexes = {
+        @Index(name = "CCOMFAC_NIDX1", columnList = "CFAC_CCO_PEDIDO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX11", columnList = "CFAC_OTR_COMPROBA, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX13", columnList = "CFAC_POLITICA, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX10", columnList = "CFAC_LISTA_PRECIOS, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX2", columnList = "CFAC_CCO_RECIBO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX6", columnList = "CFAC_CIUDAD, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX14", columnList = "CFAC_PRIORIDAD"),
+        @Index(name = "CCOMFAC_NIDX8", columnList = "CFAC_EMPLEADO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX4", columnList = "CFAC_AREA, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX7", columnList = "CFAC_DEPARTAMENTO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX9", columnList = "CFAC_IMPUESTO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_IDX1", columnList = "CFAC_FACTURA, CFAC_ACL_TABLACOA, CFAC_ACL_RETDATO, CFAC_CCO_COMPROBA, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_IDX2", columnList = "CFAC_FACTURATRANS"),
+        @Index(name = "CCOMFAC_NIDX17", columnList = "CFAC_TIPOEVENTO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX18", columnList = "CFAC_TIPOGASTO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX16", columnList = "CFAC_SISDISTRU, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_UIDX1", columnList = "CFAC_CONTROL_TEMP, CFAC_EST_ENTREGA, CFAC_CCO_COMPROBA, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX19", columnList = "CFAC_TIPO_BONO, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX", columnList = "CFAC_CCO_REFEREMP, CFAC_EMP_REFERENCIA"),
+        @Index(name = "CCOMFAC_NIDX20", columnList = "CFAC_CONCEPTO_RET, CFAC_EMPRESA"),
+        @Index(name = "CCOMFAC_NIDX21", columnList = "CFAC_OPR_CCOMPROBA, CFAC_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -193,7 +216,17 @@ public class CcomFac {
     @Column(name = "CFAC_ACL_MENSAJE", length = 100)
     private String aclMensaje;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "CFAC_IMPUESTO", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "IMP_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Impuesto impuesto;
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_POLITICA", referencedColumnName = "POL_CODIGO" ,insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
@@ -201,7 +234,8 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_LISTA_PRECIOS", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "LPR_EMPRESA",  insertable = false, updatable = false)
@@ -209,7 +243,8 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -217,7 +252,8 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_PEDIDO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA",  insertable = false, updatable = false)
@@ -225,7 +261,8 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba pedido;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_RECIBO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -233,7 +270,8 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba recibo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_OPR_CCOMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)
@@ -241,7 +279,8 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba produccion;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CFAC_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)

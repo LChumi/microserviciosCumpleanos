@@ -46,15 +46,15 @@ public class Seguridad {
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
 
-    @OneToMany(mappedBy = "seguridad", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "seguridad", fetch = FetchType.LAZY)
     private Set<Modulo> modulos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "seguridad", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "seguridad", fetch = FetchType.LAZY)
     private Set<Programa> programas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "seguridad", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "seguridad", fetch = FetchType.LAZY)
     private Set<Usuario> usuarios = new LinkedHashSet<>();
 }

@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.PuntoVentaId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +16,13 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PUNTOVENTA")
+@Table(name = "PUNTOVENTA", indexes = {
+        @Index(name = "PUNTOVENTA_UIDX1", columnList = "PVE_NOMBRE, PVE_ALMACEN, PVE_EMPRESA", unique = true),
+        @Index(name = "PUNTOVENTA_UIDX2", columnList = "PVE_ID, PVE_ALMACEN, PVE_EMPRESA", unique = true),
+        @Index(name = "PUNTOVENTA_NIDX2", columnList = "PVE_ALMACEN, PVE_EMPRESA"),
+        @Index(name = "PUNTOVENTA_NIDX3", columnList = "PVE_CADAGENTE, PVE_EMPRESA"),
+        @Index(name = "PUNTOVENTA_NIDX1", columnList = "PVE_AGENTE, PVE_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -94,7 +101,8 @@ public class PuntoVenta {
     @Column(name = "PVE_IMPRESORA")
     private Boolean impresora;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PVE_CADAGENTE", referencedColumnName = "CAD_CODIGO" ,insertable = false,updatable = false),
             @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "CAD_EMPRESA", insertable = false,updatable = false),
@@ -102,7 +110,8 @@ public class PuntoVenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CadAgente cadAgente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PVE_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false,updatable = false),
             @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false,updatable = false)
@@ -110,7 +119,8 @@ public class PuntoVenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PVE_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false,updatable = false),
             @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false,updatable = false)
@@ -118,12 +128,12 @@ public class PuntoVenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen;
 
-    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "puntoVenta", fetch = FetchType.LAZY)
     private Set<Ccomproba> ccomprobas = new LinkedHashSet<>();
 }
 

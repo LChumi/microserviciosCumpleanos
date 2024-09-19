@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.BodegaId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,12 +19,20 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "BODEGA")
+@Table(name = "BODEGA", indexes = {
+        @Index(name = "BODEGA_UDX2", columnList = "BOD_ID, BOD_EMPRESA", unique = true),
+        @Index(name = "BODEGA_UDX1", columnList = "BOD_NOMBRE, BOD_EMPRESA", unique = true),
+        @Index(name = "BODEGA_NIDX3", columnList = "BOD_CIUDAD, BOD_EMPRESA"),
+        @Index(name = "BODEGA_NIDX4", columnList = "BOD_ZONA, BOD_EMPRESA"),
+        @Index(name = "BODEGA_NIDX2", columnList = "BOD_EMPLEADO, BOD_EMPRESA"),
+        @Index(name = "BODEGA_NIDX1", columnList = "BOD_ALMACEN, BOD_EMPRESA"),
+        @Index(name = "BODEGA_UDX3", columnList = "BOD_ALMACEN, BOD_PROBLEMAS, BOD_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "centro", "ubicacion", "almacen", "agentes", "almacenes", "bodega", "dfactura"
+        "centro", "ubicacion", "almacen", "agentes", "almacenes", "bodegas", "dfactura"
 })
 public class Bodega {
 
@@ -113,7 +122,8 @@ public class Bodega {
     @Column(name = "BOD_BODEGA_WEB_DEF")
     private Boolean bodegaWebDef;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "BOD_CENTRO", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "BOD_EMPRESA", referencedColumnName = "CEN_EMPRESA", insertable = false, updatable = false)
@@ -121,7 +131,8 @@ public class Bodega {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Centro centro;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "BOD_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "BOD_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
@@ -129,7 +140,8 @@ public class Bodega {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ubicacion;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "BOD_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "BOD_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false, updatable = false)
@@ -147,7 +159,7 @@ public class Bodega {
 
     @JsonBackReference
     @OneToMany(mappedBy = "bodega", fetch = FetchType.LAZY)
-    private Set<Ccomproba> bodega = new LinkedHashSet<>();
+    private Set<Ccomproba> bodegas = new LinkedHashSet<>();
 
     @JsonBackReference
     @OneToMany(mappedBy = "bodega", fetch = FetchType.LAZY)

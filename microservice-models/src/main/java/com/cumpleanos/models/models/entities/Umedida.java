@@ -2,6 +2,7 @@ package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.UmedidaId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,7 +15,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "UMEDIDA")
+@Table(name = "UMEDIDA", indexes = {
+        @Index(name = "UMEDIDA_UDX1", columnList = "UMD_NOMBRE, UMD_EMPRESA", unique = true),
+        @Index(name = "UMEDIDA_UDX2", columnList = "UMD_ID, UMD_EMPRESA", unique = true),
+        @Index(name = "UMEDIDA_NIDX1", columnList = "UMD_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -65,25 +70,26 @@ public class Umedida {
     @Column(name = "UMD_NSSI", length = 20)
     private String nssi;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UMD_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     private Set<Factor> factores = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "unidad", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "unidad", fetch = FetchType.LAZY)
     private Set<Producto> productos = new LinkedHashSet<>();
 
 }

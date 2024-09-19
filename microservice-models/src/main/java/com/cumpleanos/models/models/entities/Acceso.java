@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.cumpleanos.models.models.ids.AccesoId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,7 +15,14 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "ACCESO")
+@Table(name = "ACCESO", indexes = {
+        @Index(name = "ACCESO_NIDX7", columnList = "ACC_USUARIO"),
+        @Index(name = "ACCESO_NIDX5", columnList = "ACC_PROGRAMA"),
+        @Index(name = "ACCESO_NIDX4", columnList = "ACC_MENU"),
+        @Index(name = "ACCESO_NIDX1", columnList = "ACC_CCO_COMPROBA, ACC_EMPRESA"),
+        @Index(name = "ACCESO_NIDX3", columnList = "ACC_ALMACEN, ACC_EMPRESA"),
+        @Index(name = "ACCESO_NIDX2", columnList = "ACC_PVENTA, ACC_ALMACEN, ACC_EMPRESA")
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -53,17 +61,20 @@ public class Acceso {
     @Column(name = "ACC_EMPRESA_DEF")
     private Boolean empresaDef;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     private Sistema sistema;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_USUARIO", referencedColumnName = "USR_CODIGO", insertable = false, updatable = false)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "PVE_EMPRESA", insertable = false, updatable = false),
             @JoinColumn(name = "ACC_ALMACEN", referencedColumnName = "PVE_ALMACEN", insertable = false, updatable = false),
@@ -71,17 +82,20 @@ public class Acceso {
     })
     private PuntoVenta puntoVenta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_PROGRAMA" , insertable = false, updatable = false)
+    @JoinColumn(name = "ACC_PROGRAMA",referencedColumnName = "PRG_CODIGO", insertable = false, updatable = false)
     private Programa programa;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_MENU" , insertable = false, updatable = false)
+    @JoinColumn(name = "ACC_MENU",referencedColumnName = "MNU_CODIGO", insertable = false, updatable = false)
     private Menu menu;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ACC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "CCO_EMPRESA", insertable = false, updatable = false)

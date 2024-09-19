@@ -1,6 +1,7 @@
 package com.cumpleanos.models.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "USUARIO", indexes = {
+        @Index(name = "USUARIO_UIDX1", columnList = "USR_ID", unique = true),
+        @Index(name = "USUARIO_UIDX2", columnList = "USR_NOMBRE", unique = true)
+})
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -76,16 +80,17 @@ public class Usuario {
     @Column(name = "USR_EMPRESA_DEF")
     private Long empresaDef;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USR_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Agente> agentes = new LinkedHashSet<>();
 }
