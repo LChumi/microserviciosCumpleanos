@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, ClienteId> {
-
     Cliente findByRucCedula(String rucCedula);
 }
