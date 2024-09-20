@@ -28,48 +28,48 @@ public class SriDocEleEmi {
     private SriDocEleEmiId id;
 
     @Column(name = "SRI_FECHA")
-    private LocalDate sriFecha;
+    private LocalDate fecha;
 
     @Size(max = 50)
     @Column(name = "SRI_COMPROBANTE", length = 50)
-    private String sriComprobante;
+    private String comprobante;
 
     @Size(max = 50)
     @Column(name = "SRI_SERIE_COMPROBANTE", length = 50)
-    private String sriSerieComprobante;
+    private String serieComprobante;
 
     @Size(max = 50)
     @Column(name = "SRI_RUC_EMISOR", length = 50)
-    private String sriRucEmisor;
+    private String rucEmisor;
 
     @Size(max = 200)
     @Column(name = "SRI_RAZON_SOCIAL_EMISOR", length = 200)
-    private String sriRazonSocialEmisor;
+    private String razonSocialEmisor;
 
     @Column(name = "SRI_FECHA_EMISION")
-    private LocalDate sriFechaEmision;
+    private LocalDate fechaEmision;
 
     @Column(name = "SRI_FECHA_AUTORIZACION")
-    private LocalDate sriFechaAutorizacion;
+    private LocalDate fechaAutorizacion;
 
     @Size(max = 50)
     @Column(name = "SRI_TIPO_EMISION", length = 50)
-    private String sriTipoEmision;
+    private String tipoEmision;
 
     @Size(max = 50)
     @Column(name = "SRI_IDENTIFICACION_RECEPTOR", length = 50)
-    private String sriIdentificacionReceptor;
+    private String identificacionReceptor;
 
     @Size(max = 50)
     @Column(name = "SRI_CLAVE_ACCESO", length = 50)
-    private String sriClaveAcceso;
+    private String claveAcceso;
 
     @Column(name = "SRI_IMPORTE_TOTAL", precision = 17, scale = 4)
-    private BigDecimal sriImporteTotal;
+    private BigDecimal importeTotal;
 
     @ColumnDefault("0")
     @Column(name = "SRI_REGISTRADO")
-    private Boolean sriRegistrado;
+    private Boolean registrado;
 
     @Size(max = 10)
     @Column(name = "CREA_USR", length = 10)
@@ -86,14 +86,14 @@ public class SriDocEleEmi {
     private LocalDate modFecha;
 
     @Column(name = "SRI_BAJA")
-    private Boolean sriBaja;
+    private Boolean baja;
 
     @Column(name = "SRI_FECHA_BAJA")
-    private LocalDate sriFechaBaja;
+    private LocalDate fechaBaja;
 
     @Size(max = 50)
     @Column(name = "SRI_FACTURA", length = 50)
-    private String sriFactura;
+    private String factura;
 
     @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

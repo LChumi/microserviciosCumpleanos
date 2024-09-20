@@ -2,6 +2,7 @@ package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.TabalCoaId;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import core.cumpleanos.models.ids.TablaCoaId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,7 +27,7 @@ import java.time.LocalDate;
 public class TablaCoa {
 
     @EmbeddedId
-    private TabalCoaId id;
+    private TablaCoaId id;
 
     @ColumnDefault("0")
     @Column(name = "TAB_INACTIVO")

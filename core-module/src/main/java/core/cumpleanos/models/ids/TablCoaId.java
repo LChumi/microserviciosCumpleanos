@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Setter
 @Embeddable
 @EqualsAndHashCode
-public class TabalCoaId implements Serializable {
+public class TablaCoaId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
