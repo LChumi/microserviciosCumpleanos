@@ -1,8 +1,7 @@
 package core.cumpleanos.models.entities;
 
-import core.cumpleanos.models.ids.TabalCoaId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import core.cumpleanos.models.ids.TablaCoaId;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
