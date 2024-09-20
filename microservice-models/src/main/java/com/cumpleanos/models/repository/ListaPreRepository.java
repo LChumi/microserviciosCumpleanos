@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import com.cumpleanos.models.models.entities.ListaPre;
-import com.cumpleanos.models.models.ids.ListaPreId;
+import core.cumpleanos.models.entities.ListaPre;
+import core.cumpleanos.models.ids.ListaPreId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ListaPreRepository extends JpaRepository<ListaPre, ListaPreId> {

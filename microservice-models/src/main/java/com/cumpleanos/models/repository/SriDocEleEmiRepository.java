@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import com.cumpleanos.models.models.entities.SriDocEleEmi;
-import com.cumpleanos.models.models.ids.SriDocEleEmiId;
+import core.cumpleanos.models.entities.SriDocEleEmi;
+import core.cumpleanos.models.ids.SriDocEleEmiId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SriDocEleEmiRepository extends JpaRepository<SriDocEleEmi, SriDocEleEmiId> {

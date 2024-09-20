@@ -10,7 +10,7 @@
 
 	<groupId>com.cumpleanos.models</groupId>
 	<artifactId>models-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>models-service</name>
 	<description>Microservices Main Models </description>
 	<url/>
@@ -84,10 +84,12 @@
 			<artifactId>caffeine</artifactId>
 			<version>3.1.8</version>
 		</dependency>
+
+		<!--Dependencia de Modulo Comun-->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>6.6.0.Final</version>
+			<groupId>core.cumpleanos</groupId>
+			<artifactId>core-module</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>

@@ -20,13 +20,6 @@ spring:
     url: jdbc:oracle:thin:@//192.168.112.46:1521/db01
     username: data_usr
     password: dataicep1
-    hikari:
-      maximum-pool-size: 20
-      minimum-idle: 10
-      connection-timeout: 30000 # 30 segundos
-      idle-timeout: 600000 # 10 minutos
-      max-lifetime: 1800000 # 30 minutos
-
 
   jpa:
     hibernate:
