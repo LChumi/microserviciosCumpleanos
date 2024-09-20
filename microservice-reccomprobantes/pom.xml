@@ -79,6 +79,19 @@
 			<artifactId>caffeine</artifactId>
 			<version>3.1.8</version>
 		</dependency>
+		<!--Dependencia de Modulo Comun-->
+		<dependency>
+			<groupId>core.cumpleanos</groupId>
+			<artifactId>core-module</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!--Dependencia de Feign Client-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
 
 	</dependencies>
 	<dependencyManagement>
