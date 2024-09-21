@@ -11,6 +11,7 @@ import com.cumpleanos.reccomprobantes.visitor.ComprobantesProcessor;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
+import lombok.RequiredArgsConstructor;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -18,9 +19,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 
+@RequiredArgsConstructor
 public class XmlConverterUtils {
 
-    ComprobanteVisitor visitor = new ComprobantesProcessor();
+    private final ComprobanteVisitor visitor;
 
     public ComprobanteXml convertirXmlAAutorizacion(String xml) {
         try {

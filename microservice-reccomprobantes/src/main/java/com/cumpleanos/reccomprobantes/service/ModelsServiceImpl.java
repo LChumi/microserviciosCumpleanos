@@ -1,7 +1,6 @@
 package com.cumpleanos.reccomprobantes.service;
 
-import com.cumpleanos.reccomprobantes.clients.SistemaClient;
-import com.cumpleanos.reccomprobantes.clients.SriDocEleEmiClient;
+import com.cumpleanos.reccomprobantes.clients.ModelsClient;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +10,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ModelsServiceImpl{
 
-    private final SistemaClient sistemaClient;
-    private final SriDocEleEmiClient sriDocClient;
+    private final ModelsClient modelsClient;
 
     public Sistema getEmpresaByRuc(String ruc){
-        return sistemaClient.findByRuc(ruc).getBody();
+        return modelsClient.findByRuc(ruc).getBody();
     }
 
     public SriDocEleEmi getSriDocByClaveAcceso(String claveAcceso){
-        return sriDocClient.findByClaveAcceso(claveAcceso).getBody();
+        return modelsClient.findByClaveAcceso(claveAcceso).getBody();
     }
 }
