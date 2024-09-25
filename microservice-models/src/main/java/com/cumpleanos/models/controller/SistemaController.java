@@ -22,6 +22,7 @@ public class SistemaController {
     public ResponseEntity<Sistema> getEmpresa(@PathVariable String ruc) {
         try {
             Sistema sistema = sistemaService.findByRuc(ruc);
+            log.info("RUC: " + sistema);
             return sistema != null ? ResponseEntity.ok(sistema) : ResponseEntity.notFound().build();
         } catch (Exception e) {
             log.error(e.getMessage());

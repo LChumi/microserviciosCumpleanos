@@ -5,10 +5,7 @@ import core.cumpleanos.models.entities.SriDocEleEmi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("models")
@@ -28,4 +25,29 @@ public class SriDocEleEmiServiceController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @PutMapping("/sri/actualizado/")
+    public ResponseEntity<SriDocEleEmi> updateDocumento(@RequestBody SriDocEleEmi sriDocEleEmi) {
+        try {
+            SriDocEleEmi existe = sriDocEleEmiService.findById(sriDocEleEmi.getId());
+            if (existe != null) {
+                existe.setComprobante(sriDocEleEmi.getComprobante());
+                existe.setRucEmisor(sriDocEleEmi.getRucEmisor());
+                existe.setRazonSocialEmisor(sriDocEleEmi.getRazonSocialEmisor());
+                existe.setSerieComprobante(sriDocEleEmi.getSerieComprobante());
+                existe.setClaveAcceso(sriDocEleEmi.getClaveAcceso());
+                existe.setFechaAutorizacion(sriDocEleEmi.getFechaAutorizacion());
+                existe.setFechaEmision(sriDocEleEmi.getFechaEmision());
+                existe.setIdentificacionReceptor(sriDocEleEmi.getIdentificacionReceptor());
+                SriDocEleEmi update =sriDocEleEmiService.save(existe);
+                return ResponseEntity.ok(update);
+            }else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 }
