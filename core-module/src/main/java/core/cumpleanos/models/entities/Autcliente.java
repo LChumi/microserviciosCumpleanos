@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.AutclienteId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -75,7 +74,6 @@ public class Autcliente {
     @Column(name = "ACL_FACT3", nullable = false, length = 9)
     private String fact3;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ACL_RETDATO", referencedColumnName = "RTD_CODIGO", insertable = false, updatable = false),
@@ -85,7 +83,6 @@ public class Autcliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private RetDato retDato;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACL_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)

@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.PoliticaId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,8 +11,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "POLITICA", indexes = {
@@ -26,7 +22,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "sistema", "ccomFacs", "clientes", "clientesAdi"
+        "sistema"
 })
 public class Politica {
 
@@ -128,13 +124,12 @@ public class Politica {
     @Column(name = "POL_TIPO_PRECIO")
     private Boolean tipoPrecio;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POL_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "politica", fetch = FetchType.LAZY)
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
@@ -144,5 +139,5 @@ public class Politica {
 
     @JsonBackReference
     @OneToMany(mappedBy = "politicaAdi", fetch = FetchType.LAZY)
-    private Set<Cliente> clientesAdi = new LinkedHashSet<>();
+    private Set<Cliente> clientesAdi = new LinkedHashSet<>();*/
 }

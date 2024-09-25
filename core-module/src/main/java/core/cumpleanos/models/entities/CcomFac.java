@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.CcomFacId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
@@ -216,7 +215,6 @@ public class CcomFac {
     @Column(name = "CFAC_ACL_MENSAJE", length = 100)
     private String aclMensaje;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_IMPUESTO", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
@@ -225,7 +223,6 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Impuesto impuesto;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_POLITICA", referencedColumnName = "POL_CODIGO" ,insertable = false, updatable = false),
@@ -234,7 +231,6 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_LISTA_PRECIOS", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
@@ -243,7 +239,6 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -252,7 +247,6 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_PEDIDO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -261,7 +255,6 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba pedido;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CCO_RECIBO", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -270,7 +263,6 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba recibo;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_OPR_CCOMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -279,7 +271,6 @@ public class CcomFac {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba produccion;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CFAC_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),

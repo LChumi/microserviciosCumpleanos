@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.ProductoId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,8 +11,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "PRODUCTO", indexes = {
@@ -38,7 +34,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "proveedor", "gproducto", "envase", "unidad", "dfacturas", "factores"
+        "proveedor", "gproducto", "envase", "unidad"
 })
 public class Producto {
 
@@ -368,7 +364,6 @@ public class Producto {
     @Column(name = "PRO_CARGA_EXTERNO")
     private Boolean cargaExterno;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name ="PRO_PROVEEDOR", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -377,7 +372,6 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente proveedor;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PRO_GPRODUCTO", referencedColumnName = "GPR_CODIGO", insertable = false, updatable = false),
@@ -386,7 +380,6 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Gproducto gproducto;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PRO_ENVASE", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
@@ -395,7 +388,6 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Producto envase;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "PRO_UNIDAD", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
@@ -404,11 +396,11 @@ public class Producto {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida unidad;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     private Set<Dfactura> dfacturas = new LinkedHashSet<>();
 
     @JsonBackReference
     @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
-    private Set<Factor> factores = new LinkedHashSet<>();
+    private Set<Factor> factores = new LinkedHashSet<>();*/
 }

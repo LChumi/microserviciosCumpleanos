@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.LineaId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -60,7 +59,6 @@ public class Linea {
     @Column(name = "LIN_GARANTIA")
     private Boolean linGarantia;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LIN_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)

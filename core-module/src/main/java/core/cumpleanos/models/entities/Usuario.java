@@ -1,7 +1,5 @@
 package core.cumpleanos.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,8 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "USUARIO", indexes = {
@@ -22,7 +18,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "seguridad", "accesos", "agentes"
+        "seguridad"
 })
 public class Usuario {
 
@@ -80,17 +76,16 @@ public class Usuario {
     @Column(name = "USR_EMPRESA_DEF")
     private Long empresaDef;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USR_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
-
+/*
     @JsonBackReference
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
     @JsonBackReference
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    private Set<Agente> agentes = new LinkedHashSet<>();
+    private Set<Agente> agentes = new LinkedHashSet<>();*/
 }

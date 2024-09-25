@@ -1,7 +1,5 @@
 package core.cumpleanos.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,8 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "MENU")
@@ -19,7 +15,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "reporta", "copcion", "accesos", "menus"
+        "reporta", "copcion"
 })
 public class Menu {
 
@@ -62,25 +58,21 @@ public class Menu {
     @Column(name = "MNU_SEGURIDAD", nullable = false)
     private Boolean mnuSeguridad = false;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MNU_REPORTA", referencedColumnName = "MNU_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Menu reporta;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MNU_COPCION", referencedColumnName = "COP_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Copcion copcion;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY)
     private Set<Acceso> accesos= new LinkedHashSet<>();
 
     @JsonBackReference
     @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
-    private Set<Menu> menus= new LinkedHashSet<>();
-
-
+    private Set<Menu> menus= new LinkedHashSet<>();*/
 }

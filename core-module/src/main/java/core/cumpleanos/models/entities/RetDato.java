@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.RetDatoId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -9,8 +8,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "RETDATO", indexes = {
@@ -21,9 +18,6 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = {
-        "autclientes"
-})
 public class RetDato {
 
     @EmbeddedId
@@ -64,7 +58,7 @@ public class RetDato {
     @Column(name = "RTD_CREDITO")
     private Boolean credito;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "retDato", fetch = FetchType.LAZY)
-    private Set<Autcliente> autclientes = new LinkedHashSet<>();
+    private Set<Autcliente> autclientes = new LinkedHashSet<>();*/
 }

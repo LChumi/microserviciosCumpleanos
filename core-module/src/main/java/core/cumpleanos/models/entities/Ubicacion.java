@@ -1,15 +1,12 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.UbicacionId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "UBICACION", indexes = {
@@ -19,9 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = {
-        "ccomFacs", "clientes", "clientesParroquia"
-})
 public class Ubicacion {
 
     @EmbeddedId
@@ -68,7 +62,7 @@ public class Ubicacion {
     @Column(name = "UBI_COD_DNT", length = 10)
     private String codDnt;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "ubicacion", fetch = FetchType.LAZY)
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
@@ -78,5 +72,5 @@ public class Ubicacion {
 
     @JsonBackReference
     @OneToMany(mappedBy = "parroquia", fetch = FetchType.LAZY)
-    private Set<Cliente> clientesParroquia = new LinkedHashSet<>();
+    private Set<Cliente> clientesParroquia = new LinkedHashSet<>();*/
 }

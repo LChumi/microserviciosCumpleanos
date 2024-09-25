@@ -95,7 +95,6 @@ public class SriDocEleEmi {
     @Column(name = "SRI_FACTURA", length = 50)
     private String factura;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "SRI_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),

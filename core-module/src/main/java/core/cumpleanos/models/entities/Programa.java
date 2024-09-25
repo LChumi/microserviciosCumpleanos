@@ -1,7 +1,5 @@
 package core.cumpleanos.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,8 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "PROGRAMA", indexes = {
@@ -24,7 +20,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "modulo", "seguridad", "accesos", "dopciones"
+        "modulo", "seguridad"
 })
 public class Programa {
 
@@ -67,23 +63,21 @@ public class Programa {
     @Column(name = "PRG_ID_APEX", length = 200)
     private String idApex;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRG_MODULO", referencedColumnName = "MOD_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRG_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
     private Set<Acceso> accesos= new LinkedHashSet<>();
 
     @JsonBackReference
     @OneToMany(mappedBy = "programa", fetch = FetchType.LAZY)
-    private Set<Dopcion> dopciones= new LinkedHashSet<>();
+    private Set<Dopcion> dopciones= new LinkedHashSet<>();*/
 }

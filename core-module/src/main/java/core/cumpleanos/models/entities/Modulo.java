@@ -1,7 +1,5 @@
 package core.cumpleanos.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,8 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "MODULO", indexes = {
@@ -23,7 +19,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "seguridad", "comprobas", "cuentas", "programas"
+        "seguridad"
 })
 public class Modulo {
 
@@ -58,13 +54,12 @@ public class Modulo {
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MOD_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
     private Set<Ccomproba> comprobas = new LinkedHashSet<>();
 
@@ -74,5 +69,5 @@ public class Modulo {
 
     @JsonBackReference
     @OneToMany(mappedBy = "modulo", fetch = FetchType.LAZY)
-    private Set<Programa> programas = new LinkedHashSet<>();
+    private Set<Programa> programas = new LinkedHashSet<>();*/
 }

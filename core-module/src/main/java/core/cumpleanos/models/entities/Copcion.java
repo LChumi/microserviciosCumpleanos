@@ -1,23 +1,17 @@
 package core.cumpleanos.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "COPCION")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = {
-        "dopciones", "menus"
-})
 public class Copcion {
 
     @Id
@@ -51,11 +45,11 @@ public class Copcion {
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
     private Set<Dopcion> dopciones = new LinkedHashSet<>();
 
     @JsonBackReference
     @OneToMany(mappedBy = "copcion", fetch = FetchType.LAZY)
-    private Set<Menu> menus = new LinkedHashSet<>();
+    private Set<Menu> menus = new LinkedHashSet<>();*/
 }

@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.DfacturaId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -249,7 +248,6 @@ public class Dfactura {
     @Column(name = "DFAC_CAJAEMP", length = 100)
     private String cajaemp;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CLIENTE", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -258,7 +256,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente cliente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_UDIGITADA", referencedColumnName = "FAC_UNIDAD", insertable = false, updatable = false),
@@ -268,7 +265,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Factor factor;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
@@ -277,7 +273,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Producto producto;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
@@ -286,7 +281,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
@@ -295,7 +289,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CFAC_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -304,7 +297,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_FACTURA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -313,7 +305,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba1;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_UDIGITADA", referencedColumnName = "UMD_CODIGO", insertable = false, updatable = false),
@@ -322,7 +313,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Umedida umedida;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
@@ -331,7 +321,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
@@ -340,7 +329,6 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CENTRO", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),

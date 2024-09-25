@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.AccesoId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -61,19 +60,16 @@ public class Acceso {
     @Column(name = "ACC_EMPRESA_DEF")
     private Boolean empresaDef;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     private Sistema sistema;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_USUARIO", referencedColumnName = "USR_CODIGO", insertable = false, updatable = false)
     private Usuario usuario;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "ACC_EMPRESA", referencedColumnName = "PVE_EMPRESA", insertable = false, updatable = false),
@@ -82,19 +78,16 @@ public class Acceso {
     })
     private PuntoVenta puntoVenta;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_PROGRAMA",referencedColumnName = "PRG_CODIGO", insertable = false, updatable = false)
     private Programa programa;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACC_MENU",referencedColumnName = "MNU_CODIGO", insertable = false, updatable = false)
     private Menu menu;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ACC_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -102,5 +95,4 @@ public class Acceso {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
-
 }

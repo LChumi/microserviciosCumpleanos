@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.ClienteId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,8 +10,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "CLIENTE", indexes = {
@@ -41,7 +37,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "catCliente", "tipCliente", "ciudad", "parroquia", "agente", "reporta", "politica", "politicaAdi", "listaPre", "agente2", "almacenes", "ccomprobas", "ccomprobas1", "clientes", "dfacturas", "productos", "totales"
+        "catCliente", "tipCliente", "ciudad", "parroquia", "agente", "reporta", "politica", "politicaAdi", "listaPre", "agente2"
 })
 public class Cliente {
 
@@ -255,7 +251,6 @@ public class Cliente {
     @Column(name = "CLI_CUENTA_DEF")
     private Long cuentaDef;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_RETFUENTE", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
@@ -264,7 +259,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Impuesto retFuente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_RETIVA", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
@@ -273,7 +267,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Impuesto retIva;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_CATEGORIA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
@@ -282,7 +275,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CatCliente catCliente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_TIPOCLI", referencedColumnName = "TCL_CODIGO", insertable = false, updatable = false),
@@ -291,7 +283,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private TipCliente tipCliente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
@@ -300,7 +291,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ciudad;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_PARROQUIA", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
@@ -309,7 +299,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion parroquia;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
@@ -318,7 +307,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_REPORTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -327,7 +315,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente reporta;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_POLITICAS", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
@@ -336,7 +323,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_POLITICAS_ADI", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
@@ -345,7 +331,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politicaAdi;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
@@ -354,7 +339,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_AGENTE2", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
@@ -363,7 +347,7 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente2;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
@@ -389,5 +373,5 @@ public class Cliente {
 
     @JsonBackReference
     @OneToMany(mappedBy = "transportista", fetch = FetchType.LAZY)
-    private Set<Total> totales = new LinkedHashSet<>();
+    private Set<Total> totales = new LinkedHashSet<>();*/
 }

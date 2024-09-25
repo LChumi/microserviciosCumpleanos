@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.TipClienteId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,8 +10,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "TIPCLIENTE", indexes = {
@@ -27,7 +23,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "sistema", "clientes"
+        "sistema"
 })
 public class TipCliente {
 
@@ -78,13 +74,12 @@ public class TipCliente {
     @Column(name = "TCL_DESCUENTO_MAX", precision = 17, scale = 4)
     private BigDecimal descuentoMax;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TCL_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "tipCliente", fetch = FetchType.LAZY)
-    private Set<Cliente> clientes = new LinkedHashSet<>();
+    private Set<Cliente> clientes = new LinkedHashSet<>();*/
 }

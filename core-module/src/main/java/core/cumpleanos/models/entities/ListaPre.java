@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.ListaPreId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,8 +10,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "LISTAPRE", indexes = {
@@ -26,7 +22,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "sistema", "almacenes", "catClientes", "ccomFacs", "clientes", "dfacturas"
+        "sistema"
 })
 public class ListaPre {
 
@@ -81,13 +77,12 @@ public class ListaPre {
     @Column(name = "LPR_PRECIO3")
     private Boolean lprPrecio3;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LPR_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
     private Set<Almacen> almacenes = new LinkedHashSet<>();
 
@@ -105,5 +100,5 @@ public class ListaPre {
 
     @JsonBackReference
     @OneToMany(mappedBy = "listaPre", fetch = FetchType.LAZY)
-    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();*/
 }

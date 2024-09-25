@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.CentroId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,8 +14,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "CENTRO", indexes = {
@@ -30,7 +26,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "cuenta", "centro", "bodegas", "ccomprobas", "centros", "dfacturas"
+        "cuenta", "centro"
 })
 public class Centro {
 
@@ -84,7 +80,6 @@ public class Centro {
     @Column(name = "CEN_100", precision = 5, scale = 2)
     private BigDecimal cen100;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CEN_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
@@ -93,7 +88,6 @@ public class Centro {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cuenta cuenta;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CEN_REPORTA", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
@@ -102,7 +96,7 @@ public class Centro {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Centro centro;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
     private Set<Bodega> bodegas = new LinkedHashSet<>();
 
@@ -116,5 +110,5 @@ public class Centro {
 
     @JsonBackReference
     @OneToMany(mappedBy = "centro", fetch = FetchType.LAZY)
-    private Set<Dfactura> dfacturas = new LinkedHashSet<>();
+    private Set<Dfactura> dfacturas = new LinkedHashSet<>();*/
 }

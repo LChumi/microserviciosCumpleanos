@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.TablaCoaId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -56,7 +55,6 @@ public class TablaCoa {
     @Column(name = "TAB_ID", nullable = false, length = 10)
     private String tabId;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TAB_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)

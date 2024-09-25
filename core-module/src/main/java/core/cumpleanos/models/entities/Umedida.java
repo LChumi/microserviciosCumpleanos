@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.UmedidaId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,8 +9,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "UMEDIDA", indexes = {
@@ -24,7 +20,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "sistema", "catClientes", "dfacturas", "factores", "productos"
+        "sistema"
 })
 public class Umedida {
 
@@ -70,13 +66,12 @@ public class Umedida {
     @Column(name = "UMD_NSSI", length = 20)
     private String nssi;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UMD_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "umedida", fetch = FetchType.LAZY)
     private Set<CatCliente> catClientes = new LinkedHashSet<>();
 
@@ -90,6 +85,5 @@ public class Umedida {
 
     @JsonBackReference
     @OneToMany(mappedBy = "unidad", fetch = FetchType.LAZY)
-    private Set<Producto> productos = new LinkedHashSet<>();
-
+    private Set<Producto> productos = new LinkedHashSet<>();*/
 }

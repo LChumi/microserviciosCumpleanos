@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.CadAgenteId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,8 +13,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "CADAGENTE", indexes = {
@@ -28,7 +24,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "reporta", "agente", "cadAgentes", "ccomprobas", "puntoVentas"
+        "reporta", "agente"
 })
 public class CadAgente implements Serializable {
 
@@ -71,7 +67,6 @@ public class CadAgente implements Serializable {
     @Column(name = "CAD_ID", length = 10)
     private String cadId;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAD_REPORTA", referencedColumnName = "CAD_CODIGO", insertable = false, updatable = false),
@@ -80,7 +75,6 @@ public class CadAgente implements Serializable {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CadAgente reporta;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CAD_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false , updatable = false),
@@ -89,7 +83,7 @@ public class CadAgente implements Serializable {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
     private Set<CadAgente> cadAgentes = new LinkedHashSet<>();
 
@@ -99,5 +93,5 @@ public class CadAgente implements Serializable {
 
     @JsonBackReference
     @OneToMany(mappedBy = "cadAgente", fetch = FetchType.LAZY)
-    private Set<PuntoVenta> puntoVentas = new LinkedHashSet<>();
+    private Set<PuntoVenta> puntoVentas = new LinkedHashSet<>();*/
 }

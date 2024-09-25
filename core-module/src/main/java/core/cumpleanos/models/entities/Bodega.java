@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.BodegaId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,8 +13,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "BODEGA", indexes = {
@@ -32,7 +28,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "centro", "ubicacion", "almacen", "agentes", "almacenes", "bodegas", "dfactura"
+        "centro", "ubicacion", "almacen"
 })
 public class Bodega {
 
@@ -122,7 +118,6 @@ public class Bodega {
     @Column(name = "BOD_BODEGA_WEB_DEF")
     private Boolean bodegaWebDef;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "BOD_CENTRO", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
@@ -131,7 +126,6 @@ public class Bodega {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Centro centro;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "BOD_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
@@ -140,7 +134,6 @@ public class Bodega {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ubicacion;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "BOD_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
@@ -149,6 +142,7 @@ public class Bodega {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen;
 
+    /*
     @JsonBackReference
     @OneToMany(mappedBy = "bodega", fetch = FetchType.LAZY)
     private Set<Agente> agentes= new LinkedHashSet<>();
@@ -163,6 +157,5 @@ public class Bodega {
 
     @JsonBackReference
     @OneToMany(mappedBy = "bodega", fetch = FetchType.LAZY)
-    private Set<Dfactura> dfactura = new LinkedHashSet<>();
-
+    private Set<Dfactura> dfactura = new LinkedHashSet<>();*/
 }

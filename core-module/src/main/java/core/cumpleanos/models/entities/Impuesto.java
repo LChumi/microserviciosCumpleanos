@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.ImpuestoId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,8 +9,6 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "IMPUESTO", indexes = {
@@ -71,7 +67,6 @@ public class Impuesto {
     @Column(name = "IMP_SIVA")
     private Boolean sIva;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "IMP_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
@@ -79,7 +74,7 @@ public class Impuesto {
     })
     private Cuenta cuenta;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "impuesto", fetch = FetchType.LAZY)
     private Set<CcomFac> ccomFacs = new LinkedHashSet<>();
 
@@ -93,5 +88,5 @@ public class Impuesto {
 
     @JsonBackReference
     @OneToMany(mappedBy = "impuesto", fetch = FetchType.LAZY)
-    private Set<Total> totales = new LinkedHashSet<>();
+    private Set<Total> totales = new LinkedHashSet<>();*/
 }

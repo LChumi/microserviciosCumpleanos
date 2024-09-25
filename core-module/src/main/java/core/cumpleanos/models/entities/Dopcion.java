@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.DopcionId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -66,13 +65,11 @@ public class Dopcion {
     @Column(name = "DOP_PARAMETRO")
     private Short parametro;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DOP_COP_CODIGO", referencedColumnName = "COP_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Copcion copcion;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DOP_PROGRAMA", referencedColumnName = "PRG_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)

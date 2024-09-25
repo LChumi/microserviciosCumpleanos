@@ -1,8 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.CcomprobaId;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,8 +13,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "CCOMPROBA", indexes = {
@@ -58,7 +54,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
-        "modulo", "cadAgente", "catCliente", "anulado", "ccomproba", "cierre", "referencia", "agente", "chofer", "destino", "almacen", "centro", "clientePro", "puntoVenta", "bodega", "accesos", "sriDocEleEmi", "ccomFacs", "pedidos", "recibos", "producciones", "anulados", "ccomprobas", "cierres", "referencias", "dfacturas", "dfacturas1", "totales"
+        "modulo", "cadAgente", "catCliente", "anulado", "ccomproba", "cierre", "referencia", "agente", "chofer", "destino", "almacen", "centro", "clientePro", "puntoVenta", "bodega"
 })
 public class Ccomproba {
 
@@ -161,13 +157,11 @@ public class Ccomproba {
     @Column(name = "CCO_NODESPACHO")
     private Boolean ccoNodespacho;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CCO_MODULO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_CADAGENTE", referencedColumnName = "CAD_CODIGO", insertable = false, updatable = false),
@@ -176,7 +170,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CadAgente cadAgente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_CATCLIENTE", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
@@ -185,7 +178,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CatCliente catCliente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_ANU_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -194,7 +186,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba anulado;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_VAL_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -203,7 +194,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_CIE_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -212,7 +202,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba cierre;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_REF_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -221,7 +210,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba referencia;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_AGENTE" , referencedColumnName = "AGE_CODIGO",insertable = false, updatable = false),
@@ -230,7 +218,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_CHOFER" , referencedColumnName = "AGE_CODIGO",insertable = false, updatable = false),
@@ -239,7 +226,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente chofer;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_ADESTINO", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
@@ -248,7 +234,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen destino;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
@@ -257,7 +242,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Almacen almacen;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_CENTRO", referencedColumnName = "CEN_CODIGO", insertable = false, updatable = false),
@@ -266,7 +250,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Centro centro;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_CODCLIPRO", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -275,7 +258,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente cliente;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_CODCLIPRO1", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -284,7 +266,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente clientePro;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_PVENTA", referencedColumnName = "PVE_SECUENCIA", insertable = false, updatable = false),
@@ -294,7 +275,6 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private PuntoVenta puntoVenta;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
@@ -303,7 +283,7 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
@@ -353,5 +333,5 @@ public class Ccomproba {
 
     @JsonBackReference
     @OneToMany(mappedBy = "ccomproba", fetch = FetchType.LAZY)
-    private Set<Total> totales = new LinkedHashSet<>();
+    private Set<Total> totales = new LinkedHashSet<>();*/
 }

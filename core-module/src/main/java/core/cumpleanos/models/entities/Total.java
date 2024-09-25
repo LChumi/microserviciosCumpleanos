@@ -1,7 +1,6 @@
 package core.cumpleanos.models.entities;
 
 import core.cumpleanos.models.ids.TotalId;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -149,7 +148,6 @@ public class Total {
     @Column(name = "TOT_FINANCIA_ADI", precision = 17, scale = 4)
     private BigDecimal financiaAdi;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "TOT_CCO_COMPROBA", referencedColumnName = "CCO_CODIGO", insertable = false, updatable = false),
@@ -158,7 +156,6 @@ public class Total {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba ccomproba;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "TOT_TRANSPORTISTA", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -167,7 +164,6 @@ public class Total {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente transportista;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "TOT_IMPUESTO", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),

@@ -1,21 +1,14 @@
 package core.cumpleanos.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "EMPRESA_GRUPO")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = {
-        "sistemas"
-})
 public class EmpresaGrupo {
 
     @Id
@@ -49,7 +42,7 @@ public class EmpresaGrupo {
     @Column(name = "EMG_TOKEN", length = 1000)
     private String emgToken;
 
-    @JsonBackReference
+    /*@JsonBackReference
     @OneToMany(mappedBy = "empresaGrupo", fetch = FetchType.LAZY)
-    private Set<Sistema> sistemas = new LinkedHashSet<>();
+    private Set<Sistema> sistemas = new LinkedHashSet<>();*/
 }
