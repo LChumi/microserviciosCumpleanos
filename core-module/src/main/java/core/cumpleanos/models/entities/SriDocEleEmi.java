@@ -11,6 +11,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "SRI_DOC_ELE_EMI", indexes = {
@@ -50,7 +52,7 @@ public class SriDocEleEmi {
     private LocalDate fechaEmision;
 
     @Column(name = "SRI_FECHA_AUTORIZACION")
-    private LocalDate fechaAutorizacion;
+    private ZonedDateTime fechaAutorizacion;
 
     @Size(max = 50)
     @Column(name = "SRI_TIPO_EMISION", length = 50)
