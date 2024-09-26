@@ -196,38 +196,38 @@ public class Sistema {
     private EmpresaGrupo empresaGrupo;
 /*
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<Acceso> accesos = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<Autcliente> autclientes = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<Gproducto> gproductos = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<Linea> lineas = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<ListaPre> listaPre = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<Politica> politicas = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<TablaCoa> tablaCoas = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<TipCliente> tipClientes = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "sistema", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sistema", fetch = FetchType.EAGER)
     private Set<Umedida>  umedidas = new LinkedHashSet<>();*/
 }

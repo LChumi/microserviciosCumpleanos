@@ -12,22 +12,30 @@ public class DateTimeUtils {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    /**
-     * Parsear una cadena de texto a LocalDate
-     *
-     * @param dateStr la cadena de texto que representa la fecha
-     * @return el objeto LocalDate correspondiente, o null si no se puede parsear
-     */
     public static LocalDate parseDate(String dateStr) {
-        try{
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            log.error("La cadena de fecha es nula o está vacía");
+            return null;
+        }
+        try {
             return LocalDate.parse(dateStr, FORMATTER);
-        }catch (DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             log.error("Error al parsear la fecha: {}", e.getMessage(), e);
             return null;
         }
     }
 
     public static ZonedDateTime parseDateTime(String dateStr) {
-        return ZonedDateTime.parse(dateStr);
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            log.error("La cadena de fecha y hora es nula o está vacía");
+            return null;
+        }
+        try {
+            return ZonedDateTime.parse(dateStr);
+        } catch (DateTimeParseException e) {
+            log.error("Error al parsear la fecha y hora: {}", e.getMessage(), e);
+            return null;
+        }
     }
+
 }

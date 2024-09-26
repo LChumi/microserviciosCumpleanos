@@ -124,7 +124,7 @@ public class Politica {
     @Column(name = "POL_TIPO_PRECIO")
     private Boolean tipoPrecio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "POL_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;

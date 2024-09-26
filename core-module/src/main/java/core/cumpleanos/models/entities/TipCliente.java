@@ -74,7 +74,7 @@ public class TipCliente {
     @Column(name = "TCL_DESCUENTO_MAX", precision = 17, scale = 4)
     private BigDecimal descuentoMax;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TCL_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;

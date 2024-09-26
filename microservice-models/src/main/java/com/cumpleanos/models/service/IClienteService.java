@@ -4,4 +4,5 @@ import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.ids.ClienteId;
 
 public interface IClienteService extends GenericService<Cliente, ClienteId>{
+    Cliente findByCedulaRucAndEmpresa(String cedula, Long empresa);
 }

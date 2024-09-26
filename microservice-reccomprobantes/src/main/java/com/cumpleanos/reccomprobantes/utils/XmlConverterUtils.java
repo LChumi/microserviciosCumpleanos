@@ -45,6 +45,8 @@ public class XmlConverterUtils {
                 StringReader reader = new StringReader(xml);
                 ComprobanteXml comprobante = (ComprobanteXml) comprobanteUnmarshaller.unmarshal(reader);
                 comprobante.setTipoComprobante(identificarTipoComprobante(xml));
+                comprobante.setFechaAutorizacion(" ");
+                comprobante.setNumeroAutorizacion(" ");
                 comprobante.accept(visitor);
                 return comprobante;
             }

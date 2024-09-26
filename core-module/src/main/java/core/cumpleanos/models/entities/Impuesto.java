@@ -67,7 +67,7 @@ public class Impuesto {
     @Column(name = "IMP_SIVA")
     private Boolean sIva;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "IMP_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "IMP_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false),
