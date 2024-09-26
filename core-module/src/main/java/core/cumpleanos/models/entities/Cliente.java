@@ -51,7 +51,7 @@ public class Cliente {
 
     @NotNull
     @Column(name = "CLI_TIPO", nullable = false)
-    private Boolean tipo = false;
+    private Short tipo;
 
     @Size(max = 10)
     @Column(name = "CLI_TITULO", length = 10)

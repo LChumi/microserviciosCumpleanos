@@ -76,12 +76,12 @@ public class Cuenta {
     @Column(name = "CUE_NEGRITA")
     private Boolean cueNegrita;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CUE_MODULO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CUE_REPORTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CUE_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
@@ -90,10 +90,10 @@ public class Cuenta {
     private Cuenta reporta;
 
     /*@JsonBackReference
-    @OneToMany(mappedBy = "cuenta", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cuenta", fetch = FetchType.EAGER)
     private Set<Centro> centros = new LinkedHashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "reporta", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reporta", fetch = FetchType.EAGER)
     private Set<Cuenta> cuentas = new LinkedHashSet<>();*/
 }
