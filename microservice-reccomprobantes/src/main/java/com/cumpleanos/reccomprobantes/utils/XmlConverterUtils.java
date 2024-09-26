@@ -7,7 +7,6 @@ import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.visitor.ComprobanteVisitor;
-import com.cumpleanos.reccomprobantes.visitor.ComprobantesProcessor;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -70,9 +69,9 @@ public class XmlConverterUtils {
 
             String rootElement = document.getDocumentElement().getNodeName();
             return switch (rootElement) {
-                case "factura" -> "factura";
-                case "notaCredito" -> "notaCredito";
-                case "comprobanteRetencion" -> "comprobanteRetencion";
+                case "factura" -> "Factura";
+                case "notaCredito" -> "Nota de Credito";
+                case "comprobanteRetencion" -> "Comprobante de Retencion";
                 default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + rootElement);
             };
         }catch (Exception e){
