@@ -32,6 +32,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "bodega", "almacen", "puntoVenta", "almacen1", "puntoVenta1", "usuario"
 })
+@SequenceGenerator(name = "AGENTE_S_CODIGO", sequenceName = "AGENTE_S_CODIGO", initialValue = 1, allocationSize = 1)
 public class Agente {
 
     @EmbeddedId

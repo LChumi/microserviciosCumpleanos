@@ -17,9 +17,11 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "reporta", "copcion"
 })
+@SequenceGenerator(name = "MENU_S_CODIGO", sequenceName = "MENU_S_CODIGO", allocationSize = 1)
 public class Menu {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MENU_S_CODIGO")
     @Column(name = "MNU_CODIGO", nullable = false)
     private Long id;
 

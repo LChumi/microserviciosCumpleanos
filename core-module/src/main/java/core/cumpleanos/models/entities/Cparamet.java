@@ -20,7 +20,9 @@ import java.time.LocalDate;
 @Setter
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {
+        "sistema"
 })
+@SequenceGenerator(name = "CPARAMET_S_CODIGO", sequenceName = "CPARAMET_S_CODIGO", allocationSize = 1)
 public class Cparamet {
 
     @EmbeddedId

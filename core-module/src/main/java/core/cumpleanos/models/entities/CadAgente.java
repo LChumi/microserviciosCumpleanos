@@ -26,6 +26,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "reporta", "agente"
 })
+@SequenceGenerator(name = "CADAGENTE_S_CODIGO", sequenceName = "CADAGENTE_S_CODIGO", allocationSize = 1)
 public class CadAgente implements Serializable {
 
     @EmbeddedId

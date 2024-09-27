@@ -25,6 +25,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "sistema"
 })
+@SequenceGenerator(name = "TIPCLIENTE_S_CODIGO", sequenceName = "TIPCLIENTE_S_CODIGO", allocationSize = 1)
 public class TipCliente {
 
     @EmbeddedId

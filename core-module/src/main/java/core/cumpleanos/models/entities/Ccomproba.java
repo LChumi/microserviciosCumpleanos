@@ -56,6 +56,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "modulo", "cadAgente", "catCliente", "anulado", "ccomproba", "cierre", "referencia", "agente", "chofer", "destino", "almacen", "centro", "clientePro", "puntoVenta", "bodega"
 })
+@SequenceGenerator(name = "CCOMPROBA_S_CODIGO", sequenceName = "CCOMPROBA_S_CODIGO", allocationSize = 1)
 public class Ccomproba {
 
     @EmbeddedId

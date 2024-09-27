@@ -24,6 +24,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "sistema"
 })
+@SequenceGenerator(name = "LISTAPRE_S_CODIGO", sequenceName = "LISTAPRE_S_CODIGO", allocationSize = 1)
 public class ListaPre {
 
     @EmbeddedId

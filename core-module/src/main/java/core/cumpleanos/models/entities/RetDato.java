@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@SequenceGenerator(name = "RETDATO_S_CODIGO", sequenceName = "RETDATO_S_CODIGO", allocationSize = 1)
 public class RetDato {
 
     @EmbeddedId

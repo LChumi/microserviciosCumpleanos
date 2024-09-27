@@ -28,6 +28,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "reporta", "umedida", "listaPre"
 })
+@SequenceGenerator(name = "CATCLIENTE_S_CODIGO", sequenceName = "CATCLIENTE_S_CODIGO", allocationSize = 1)
 public class CatCliente {
 
     @EmbeddedId

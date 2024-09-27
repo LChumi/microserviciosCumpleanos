@@ -21,6 +21,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "sistema"
 })
+@SequenceGenerator(name = "IMPUESTO_S_CODIGO", sequenceName = "IMPUESTO_S_CODIGO", allocationSize = 1)
 public class Linea {
 
     @EmbeddedId

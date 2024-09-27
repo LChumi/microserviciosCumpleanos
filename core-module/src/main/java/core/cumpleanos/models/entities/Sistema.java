@@ -21,9 +21,11 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "empresaGrupo"
 })
+@SequenceGenerator(name = "SISTEMA_S_CODIGO", sequenceName = "SISTEMA_S_CODIGO", allocationSize = 1)
 public class Sistema {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SISTEMA_S_CODIGO")
     @Column(name = "SIS_CODIGO")
     private Long id;
 

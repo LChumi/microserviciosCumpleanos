@@ -2,6 +2,8 @@ package core.cumpleanos.models.ids;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,6 +25,7 @@ public class GproductoId implements Serializable {
     @Column(name = "GPR_EMPRESA", nullable = false)
     private Long empresa;
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GPRODUCTO_S_CODIGO")
     @NotNull
     @Column(name = "GPR_CODIGO", nullable = false)
     private Long codigo;

@@ -2,6 +2,8 @@ package core.cumpleanos.models.ids;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,6 +21,7 @@ public class BodegaId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BODEGA_S_CODIGO")
     @NotNull
     @Column(name = "BOD_CODIGO", nullable = false)
     private Long codigo;

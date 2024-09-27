@@ -32,6 +32,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "agente", "bodega", "cliente", "listaPre"
 })
+@SequenceGenerator(name = "ALMACEN_S_CODIGO", sequenceName = "ALMACEN_S_CODIGO",initialValue = 1, allocationSize = 1)
 public class Almacen {
 
     @EmbeddedId

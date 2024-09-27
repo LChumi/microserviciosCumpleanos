@@ -22,9 +22,11 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "modulo", "seguridad"
 })
+@SequenceGenerator(name = "PROGRAMA_S_CODIGO", sequenceName = "PROGRAMA_S_CODIGO", allocationSize = 1)
 public class Programa {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROGRAMA_S_CODIGO")
     @Column(name = "PRG_CODIGO", nullable = false)
     private Long id;
 

@@ -12,9 +12,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@SequenceGenerator(name = "COPCION_S_CODIGO", sequenceName = "COPCION_S_CODIGO", allocationSize = 1)
 public class Copcion {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COPCION_S_CODIGO")
     @Column(name = "COP_CODIGO", nullable = false)
     private Long id;
 

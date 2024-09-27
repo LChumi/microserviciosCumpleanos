@@ -39,6 +39,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "catCliente", "tipCliente", "ciudad", "parroquia", "agente", "reporta", "politica", "politicaAdi", "listaPre", "agente2"
 })
+@SequenceGenerator(name = "CLIENTE_S_CODIGO", sequenceName = "CLIENTE_S_CODIGO", initialValue = 1, allocationSize = 1)
 public class Cliente {
 
     @EmbeddedId

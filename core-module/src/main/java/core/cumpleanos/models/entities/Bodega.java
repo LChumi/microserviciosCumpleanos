@@ -30,6 +30,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "centro", "ubicacion", "almacen"
 })
+@SequenceGenerator(name = "BODEGA_S_CODIGO", sequenceName = "BODEGA_S_CODIGO", allocationSize = 1)
 public class Bodega {
 
     @EmbeddedId

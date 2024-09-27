@@ -1,7 +1,6 @@
 package core.cumpleanos.models.ids;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,6 +18,7 @@ public class ClienteId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CLIENTE_S_CODIGO")
     @NotNull
     @Column(name = "CLI_CODIGO", nullable = false)
     private Long codigo;
@@ -26,5 +26,4 @@ public class ClienteId implements Serializable {
     @NotNull
     @Column(name = "CLI_EMPRESA", nullable = false)
     private Long empresa;
-
 }

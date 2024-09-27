@@ -2,6 +2,8 @@ package core.cumpleanos.models.ids;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,7 @@ public class ImpuestoId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IMPUESTO_S_CODIGO")
     @Column(name = "IMP_CODIGO", nullable = false)
     private Long impCodigo;
 

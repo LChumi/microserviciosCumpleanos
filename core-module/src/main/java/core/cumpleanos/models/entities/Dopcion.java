@@ -22,6 +22,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "copcion", "programa"
 })
+@SequenceGenerator(name = "DOPCION_S_CODIGO", sequenceName = "DOPCION_S_CODIGO", allocationSize = 1)
 public class Dopcion {
 
     @EmbeddedId

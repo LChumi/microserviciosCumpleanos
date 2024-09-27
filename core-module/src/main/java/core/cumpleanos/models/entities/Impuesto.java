@@ -19,6 +19,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@SequenceGenerator(name = "IMPUESTO_S_CODIGO", sequenceName = "IMPUESTO_S_CODIGO", allocationSize = 1)
 public class Impuesto {
 
     @EmbeddedId

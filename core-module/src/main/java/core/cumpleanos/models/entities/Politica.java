@@ -24,6 +24,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "sistema"
 })
+@SequenceGenerator(name = "POLITICA_S_CODIGO", sequenceName = "POLITICA_S_CODIGO", allocationSize = 1)
 public class Politica {
 
     @EmbeddedId

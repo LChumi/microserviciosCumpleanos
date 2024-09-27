@@ -24,6 +24,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "modulo", "reporta"
 })
+@SequenceGenerator(name = "CUENTA_S_CODIGO", sequenceName = "CUENTA_S_CODIGO", allocationSize = 1)
 public class Cuenta {
 
     @EmbeddedId

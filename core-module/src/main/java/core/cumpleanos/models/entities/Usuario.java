@@ -20,9 +20,11 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "seguridad"
 })
+@SequenceGenerator(name = "USUARIO_S_CODIGO", sequenceName = "USUARIO_S_CODIGO", allocationSize = 1)
 public class Usuario {
 
     @Id
+    @GeneratedValue(strategy =GenerationType.SEQUENCE, generator = "USUARIO_S_CODIGO")
     @Column(name = "USR_CODIGO", nullable = false)
     private Long id;
 

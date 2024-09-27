@@ -28,6 +28,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "cuenta", "centro"
 })
+@SequenceGenerator(name = "CENTRO_S_CODIGO", sequenceName = "CENTRO_S_CODIGO", allocationSize = 1)
 public class Centro {
 
     @EmbeddedId

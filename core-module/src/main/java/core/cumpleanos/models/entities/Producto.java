@@ -36,6 +36,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "proveedor", "gproducto", "envase", "unidad"
 })
+@SequenceGenerator(name = "PRODUCTO_S_CODIGO", sequenceName = "PRODUCTO_S_CODIGO", allocationSize = 1)
 public class Producto {
 
     @EmbeddedId

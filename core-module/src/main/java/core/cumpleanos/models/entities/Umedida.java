@@ -22,6 +22,7 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "sistema"
 })
+@SequenceGenerator(name = "UMEDIDA_S_CODIGO", sequenceName = "UMEDIDA_S_CODIGO", allocationSize = 1)
 public class Umedida {
 
     @EmbeddedId
