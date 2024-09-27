@@ -1,6 +1,9 @@
 package com.cumpleanos.reccomprobantes.service;
 
 import com.cumpleanos.reccomprobantes.clients.ModelsClient;
+import com.cumpleanos.reccomprobantes.clients.SriNodeClient;
+import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
+import com.cumpleanos.reccomprobantes.models.json.request.AutorizacionRequest;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
@@ -14,6 +17,7 @@ import org.springframework.web.client.HttpClientErrorException;
 public class ModelsServiceImpl{
 
     private final ModelsClient modelsClient;
+    private final SriNodeClient sriNodeClient;
 
     //TODO servicio que viene del controlador SistemaController
     public Sistema getEmpresaByRuc(String ruc){
@@ -66,6 +70,18 @@ public class ModelsServiceImpl{
         } catch (HttpClientErrorException e){
             return null;
         } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el documento");
+        }
+    }
+
+    //TODO servicio que viene del API Node del SRI
+    public ComprobanteJson getComprobantesSri(String claveAcceso){
+        try {
+            ResponseEntity<ComprobanteJson> response = sriNodeClient.autorizacion(new AutorizacionRequest(claveAcceso, "2"));
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        }catch (Exception e){
             throw new RuntimeException("Error al obtener el documento");
         }
     }
