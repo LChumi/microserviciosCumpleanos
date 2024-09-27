@@ -9,6 +9,7 @@ import com.cumpleanos.reccomprobantes.utils.DateTimeUtils;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
+import core.cumpleanos.models.ids.ClienteId;
 import core.cumpleanos.models.ids.SriDocEleEmiId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,8 +86,9 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                     Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), empresa.getId());
                     if (proveedor != null) {
                         System.out.println(proveedor);
+
                     }else {
-                        Cliente proveedorNuevo =crearProveedor(info);
+                        Cliente proveedorNuevo =crearProveedor(info,empresa.getId());
                         System.out.println(proveedorNuevo);
                     }
                 }
@@ -124,8 +126,11 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         return docSri;
     }
 
-    private Cliente crearProveedor(InfoTributaria info) {
+    private Cliente crearProveedor(InfoTributaria info,Long empresa) {
         Cliente proveedor = new Cliente();
+        ClienteId id= new ClienteId();
+        id.setEmpresa(empresa);
+        proveedor.setId(id);
         proveedor.setNombre(reverzarNombre(info.getRazonSocial()));
         proveedor.setRucCedula(info.getRuc());
         proveedor.setTipo((short)2);
