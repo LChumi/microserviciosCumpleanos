@@ -20,6 +20,6 @@ public class ClienteService extends GenericServiceImpl<Cliente, ClienteId> imple
 
     @Override
     public Cliente findByCedulaRucAndEmpresa(String cedula, Long empresa) {
-        return repository.findById_EmpresaAndRucCedula(empresa, cedula).orElse(null);
+        return repository.findById_EmpresaAndRucCedulaAndTipo(empresa, cedula, (short) 2).orElse(null);
     }
 }
