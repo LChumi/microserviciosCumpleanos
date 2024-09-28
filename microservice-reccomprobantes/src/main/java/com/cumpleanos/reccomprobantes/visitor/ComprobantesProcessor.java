@@ -5,12 +5,11 @@ import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.service.ModelsServiceImpl;
+import com.cumpleanos.reccomprobantes.utils.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.utils.DateTimeUtils;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
-import core.cumpleanos.models.ids.ClienteId;
-import core.cumpleanos.models.ids.SriDocEleEmiId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -73,7 +72,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             log.warn("No se encontró el comprobante con la clave de acceso: {}", info.getClaveAcceso());
             Sistema empresa = modelsService.getEmpresaByRuc(ruc);
             if (empresa != null) {
-                SriDocEleEmi docSri = crearSriDoc(empresa, info.getClaveAcceso(), tipoComprobante, info.noComprobante(),
+                SriDocEleEmi docSri = ComprobantesUtils.crearSriDoc(empresa, info.getClaveAcceso(), tipoComprobante, info.noComprobante(),
                         info.getRuc(),ruc, fechaEmision, fechaAutorizacion,
                         identificacionReceptor);
                 System.out.println(docSri);
@@ -88,7 +87,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         System.out.println(proveedor);
 
                     }else {
-                        Cliente proveedorNuevo =crearProveedor(info,empresa.getId());
+                        Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId());
                         System.out.println(proveedorNuevo);
                     }
                 }
@@ -99,57 +98,6 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         }
     }
 
-    private SriDocEleEmi crearSriDoc(
-            Sistema empresa,
-            String claveAcceso,
-            String tipoComprobante,
-            String serieComprobante,
-            String rucEmisor,
-            String razonSocialEmisor,
-            LocalDate fechaEmision,
-            ZonedDateTime fechaAutorizacion,
-            String identificacionReceptor)
-    {
-        SriDocEleEmi docSri = new SriDocEleEmi();
-        SriDocEleEmiId idSri = new SriDocEleEmiId();
-        idSri.setEmpresa(empresa.getId());
-        idSri.setNumeroAutorizacion(claveAcceso);
-        docSri.setId(idSri);
-        docSri.setComprobante(tipoComprobante);
-        docSri.setSerieComprobante(serieComprobante);
-        docSri.setRucEmisor(rucEmisor);
-        docSri.setRazonSocialEmisor(razonSocialEmisor);
-        docSri.setFechaEmision(fechaEmision);
-        docSri.setFechaAutorizacion(fechaAutorizacion);
-        docSri.setIdentificacionReceptor(identificacionReceptor);
-        docSri.setClaveAcceso(claveAcceso);
-        return docSri;
-    }
 
-    private Cliente crearProveedor(InfoTributaria info,Long empresa) {
-        Cliente proveedor = new Cliente();
-        ClienteId id= new ClienteId();
-        id.setEmpresa(empresa);
-        proveedor.setId(id);
-        proveedor.setNombre(reverzarNombre(info.getRazonSocial()));
-        proveedor.setRucCedula(info.getRuc());
-        proveedor.setTipo((short)2);
-        proveedor.setDireccion(info.getDirMatriz());
-        return proveedor;
-    }
-
-    protected String reverzarNombre(String nombre) {
-        String[] partes = nombre.split(" ");
-
-        StringBuilder nuevoNombre = new StringBuilder();
-
-        for (int i = partes.length - 2; i >= 0; i--) {
-            nuevoNombre.append(partes[i]).append(" ");
-        }
-
-        nuevoNombre.append(partes[partes.length - 1]);
-
-        return nuevoNombre.toString().trim();
-    }
 
 }

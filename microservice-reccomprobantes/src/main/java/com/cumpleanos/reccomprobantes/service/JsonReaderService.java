@@ -6,18 +6,10 @@ import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+
+import static com.cumpleanos.reccomprobantes.utils.ComprobantesUtils.cleanXml;
+import static com.cumpleanos.reccomprobantes.utils.ComprobantesUtils.transformXml;
 
 @Service
 @RequiredArgsConstructor
@@ -44,26 +36,4 @@ public class JsonReaderService {
         }
     }
 
-    private static String cleanXml(String xml) {
-        // Eliminar los caracteres de escape \" para obtener XML limpio
-        return xml.replace("\\\"", "\"");
-    }
-
-    private static String transformXml(String xml) throws Exception {
-        // Parsear el XML
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new InputSource(new StringReader(xml)));
-
-        // Convertir el documento de vuelta a XML
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-        StringWriter writer = new StringWriter();
-        transformer.transform(new DOMSource(document), new StreamResult(writer));
-
-        return writer.toString();
-    }
 }
