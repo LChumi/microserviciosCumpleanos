@@ -17,6 +17,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
@@ -96,5 +97,9 @@ public class ComprobantesUtils {
         transformer.transform(new DOMSource(document), new StreamResult(writer));
 
         return writer.toString();
+    }
+
+    public static String normalizeString(String str){
+        return Normalizer.normalize(str, Normalizer.Form.NFC);
     }
 }

@@ -9,6 +9,7 @@ import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
 import core.cumpleanos.models.ids.SriDocEleEmiId;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.util.List;
 import static com.cumpleanos.reccomprobantes.utils.ComprobantesUtils.cleanXml;
 import static com.cumpleanos.reccomprobantes.utils.ComprobantesUtils.transformXml;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CSVReaderService {
@@ -59,6 +61,11 @@ public class CSVReaderService {
                 comprobantes.add(comprobante);
             }
         }
+        try {
+            procesoDoc((ComprobanteCsv) comprobantes.get(1));
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
         return comprobantes;
     }
 
@@ -70,6 +77,7 @@ public class CSVReaderService {
                 SriDocEleEmi docSri = creaDoc(csv, empresa);
                 if (docSri.getComprobante().equalsIgnoreCase("Comprobante de Retencion")){
                     //SriDocEleEmi nuevo = modelsService.save(docSri);
+                    log.info("Comprobante de Retencion agregado: {}", docSri);
                 }else {
                     Cliente proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(), empresa.getId());
                     if (proveedor != null) {
@@ -77,11 +85,14 @@ public class CSVReaderService {
                     } else {
                         ComprobanteJson json = modelsService.getComprobantesSri(csv.getClaveAcceso());
                         if (json != null) {
-                            String cleanedXml = cleanXml(json.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().getComprobante());
-                            String transformedXml = transformXml(cleanedXml);
-                            json.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().setComprobante(transformedXml);
-
-                            xmlService.convertirXmlAComprobante(transformedXml);
+                            if (json.getRespuestaAutorizacionComprobante().getAutorizaciones() == null){
+                                String cleanedXml = cleanXml(json.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().getComprobante());
+                                String transformedXml = transformXml(cleanedXml);
+                                json.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().setComprobante(transformedXml);
+                                xmlService.convertirXmlAComprobante(transformedXml);
+                            } else {
+                                log.error("Ocurrio un problema la clave: {} no tiene un documento no se puede procesar ", csv.getClaveAcceso());
+                            }
                         }
                     }
                 }
