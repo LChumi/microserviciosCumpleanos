@@ -17,11 +17,15 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cumpleanos.reccomprobantes.utils.ComprobantesUtils.cleanXml;
+import static com.cumpleanos.reccomprobantes.utils.ComprobantesUtils.transformXml;
+
 @Service
 @RequiredArgsConstructor
 public class CSVReaderService {
 
     private final ModelsServiceImpl modelsService;
+    private final XMLConversionService xmlService;
 
     public List<Comprobante> parseCsvString(String csvContent) throws IOException {
         List<Comprobante> comprobantes = new ArrayList<>();
@@ -58,7 +62,7 @@ public class CSVReaderService {
         return comprobantes;
     }
 
-    private void procesoDoc(ComprobanteCsv csv) {
+    private void procesoDoc(ComprobanteCsv csv) throws Exception {
         SriDocEleEmi docuemnto = modelsService.getSriDocByClaveAcceso(csv.getClaveAcceso());
         if (docuemnto == null) {
             Sistema empresa = modelsService.getEmpresaByRuc(csv.getIdentificacionReceptor());
@@ -73,7 +77,11 @@ public class CSVReaderService {
                     } else {
                         ComprobanteJson json = modelsService.getComprobantesSri(csv.getClaveAcceso());
                         if (json != null) {
+                            String cleanedXml = cleanXml(json.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().getComprobante());
+                            String transformedXml = transformXml(cleanedXml);
+                            json.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().setComprobante(transformedXml);
 
+                            xmlService.convertirXmlAComprobante(transformedXml);
                         }
                     }
                 }
