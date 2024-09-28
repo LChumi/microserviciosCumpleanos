@@ -2,6 +2,13 @@ package com.cumpleanos.reccomprobantes.service;
 
 import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
+import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
+import com.cumpleanos.reccomprobantes.utils.DateTimeUtils;
+import core.cumpleanos.models.entities.Cliente;
+import core.cumpleanos.models.entities.Sistema;
+import core.cumpleanos.models.entities.SriDocEleEmi;
+import core.cumpleanos.models.ids.SriDocEleEmiId;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -11,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CSVReaderService {
+
+    private final ModelsServiceImpl modelsService;
 
     public List<Comprobante> parseCsvString(String csvContent) throws IOException {
         List<Comprobante> comprobantes = new ArrayList<>();
@@ -46,5 +56,45 @@ public class CSVReaderService {
             }
         }
         return comprobantes;
+    }
+
+    private void procesoDoc(ComprobanteCsv csv) {
+        SriDocEleEmi docuemnto = modelsService.getSriDocByClaveAcceso(csv.getClaveAcceso());
+        if (docuemnto == null) {
+            Sistema empresa = modelsService.getEmpresaByRuc(csv.getIdentificacionReceptor());
+            if(empresa != null) {
+                SriDocEleEmi docSri = creaDoc(csv, empresa);
+                if (docSri.getComprobante().equalsIgnoreCase("Comprobante de Retencion")){
+                    //SriDocEleEmi nuevo = modelsService.save(docSri);
+                }else {
+                    Cliente proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(), empresa.getId());
+                    if (proveedor != null) {
+                        //SriDocEleEmi nuevo = modelsService.save(docSri);
+                    } else {
+                        ComprobanteJson json = modelsService.getComprobantesSri(csv.getClaveAcceso());
+                        if (json != null) {
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private SriDocEleEmi creaDoc(ComprobanteCsv comp, Sistema empresa) {
+        SriDocEleEmi doc = new SriDocEleEmi();
+        SriDocEleEmiId id = new SriDocEleEmiId();
+        id.setEmpresa(empresa.getId());
+        id.setNumeroAutorizacion(comp.getClaveAcceso());
+        doc.setId(id);
+        doc.setRucEmisor(comp.getRucEmisor());
+        doc.setRazonSocialEmisor(comp.getRazonSocialEmisor());
+        doc.setComprobante(comp.getTipoComprobante());
+        doc.setSerieComprobante(comp.getSerieComprobante());
+        doc.setClaveAcceso(comp.getClaveAcceso());
+        doc.setFechaAutorizacion(DateTimeUtils.parseDateTime(comp.getFechaAutorizacion()));
+        doc.setFechaEmision(DateTimeUtils.parseDate(comp.getFechaEmision()));
+        doc.setIdentificacionReceptor(comp.getIdentificacionReceptor());
+        return doc;
     }
 }
