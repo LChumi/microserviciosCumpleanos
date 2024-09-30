@@ -10,9 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,9 @@ public class CSVReaderService {
     public List<Comprobante> parseCsvString(String csvContent) throws IOException {
         List<Comprobante> comprobantes = new ArrayList<>();
         List<ComprobanteCsv> comprobantesCsv = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new StringReader(csvContent))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                new ByteArrayInputStream(csvContent.getBytes(StandardCharsets.UTF_8)),
+                StandardCharsets.UTF_8))) {
             String line;
             // Leer la cabecera del CSV (opcional si no necesitas los nombres de columna)
             br.readLine();
@@ -43,14 +44,11 @@ public class CSVReaderService {
                 comprobantesCsv.add(comprobante);
             }
         }
-        int count=0;
         try {
             log.info("INicializacion proceso en for:{}", comprobantes.size());
             for (ComprobanteCsv comprobanteCsv:comprobantesCsv){
                 procesoDoc(comprobanteCsv);
-                count++;
             }
-            System.out.println(count);
         }catch (Exception e){
             log.error("Error la busqueda for:{}",e.getMessage());
         }

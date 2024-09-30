@@ -21,25 +21,26 @@ import java.io.StringWriter;
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.regex.Pattern;
 
 public class ComprobantesUtils {
 
     public static ComprobanteCsv getComprobanteCsv(String[] values) {
         ComprobanteCsv comprobante = new ComprobanteCsv();
-        comprobante.setRucEmisor(values[0]);
-        comprobante.setRazonSocialEmisor(values[1]);
-        comprobante.setTipoComprobante(values[2]);
-        comprobante.setSerieComprobante(values[3]);
-        comprobante.setClaveAcceso(values[4]);
-        comprobante.setFechaAutorizacion(values[5]);
-        comprobante.setFechaEmision(values[6]);
-        comprobante.setIdentificacionReceptor(values[7]);
-        comprobante.setValorSinImpuestos(values[8]);
-        comprobante.setIva(values[9]);
-        comprobante.setImporteTotal(values[10]);
-        // Solo establecer el valor para `numeroDocumentoModificado` si está presente
+        comprobante.setRucEmisor(normalizeString(values[0]));
+        comprobante.setRazonSocialEmisor(normalizeString(values[1]));
+        comprobante.setTipoComprobante(normalizeString(values[2]));
+        comprobante.setSerieComprobante(normalizeString(values[3]));
+        comprobante.setClaveAcceso(normalizeString(values[4]));
+        comprobante.setFechaAutorizacion(normalizeString(values[5]));
+        comprobante.setFechaEmision(normalizeString(values[6]));
+        comprobante.setIdentificacionReceptor(normalizeString(values[7]));
+        comprobante.setValorSinImpuestos(normalizeString(values[8]));
+        comprobante.setIva(normalizeString(values[9]));
+        comprobante.setImporteTotal(normalizeString(values[10]));
+
         if (values.length > 11) {
-            comprobante.setNumeroDocumentoModificado(values[11]);
+            comprobante.setNumeroDocumentoModificado(normalizeString(values[11]));
         } else {
             comprobante.setNumeroDocumentoModificado(""); // O cualquier valor predeterminado
         }
@@ -139,7 +140,15 @@ public class ComprobantesUtils {
         return writer.toString();
     }
 
-    public static String normalizeString(String str){
-        return Normalizer.normalize(str, Normalizer.Form.NFC);
+    public static String normalizeString(String str) {
+        if (str == null) {
+            return null;
+        }
+        // Normalizar a NFD
+        String normalized = Normalizer.normalize(str, Normalizer.Form.NFD);
+        // Expresión regular para eliminar diacríticos
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        // Reemplazar los caracteres acentuados
+        return pattern.matcher(normalized).replaceAll("");
     }
 }
