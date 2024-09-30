@@ -12,8 +12,8 @@ public class XMLConversionService {
 
     private final ComprobanteVisitor visitor;
 
-    public Comprobante convertirXmlAComprobante(String xml){
+    public Comprobante convertirXmlAComprobante(String xml,String fechaAutorizacion){
         XmlConverterUtils xmlConverterUtils = new XmlConverterUtils(visitor);
-        return xmlConverterUtils.convertirXmlAAutorizacion(xml);
+        return xmlConverterUtils.convertirXmlAAutorizacion(xml, fechaAutorizacion);
     }
 }

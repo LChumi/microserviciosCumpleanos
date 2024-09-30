@@ -28,7 +28,7 @@ public class DateTimeUtils {
 
     public static ZonedDateTime parseDateTime(String dateStr) {
         if (dateStr == null || dateStr.trim().isEmpty()) {
-            log.error("La cadena de fecha y hora es nula o está vacía");
+            log.error("La cadena de fecha y hora es nula o está vacía str:{}", dateStr);
             return null;
         }
 

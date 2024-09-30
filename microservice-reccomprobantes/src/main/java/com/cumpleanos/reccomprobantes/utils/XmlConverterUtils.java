@@ -23,10 +23,11 @@ public class XmlConverterUtils {
 
     private final ComprobanteVisitor visitor;
 
-    public ComprobanteXml convertirXmlAAutorizacion(String xml) {
+    public ComprobanteXml convertirXmlAAutorizacion(String xml,String fechaAutorizacion) {
         try {
             Unmarshaller unmarshaller = createUnmarsaller(Autorizacion.class);
             if (esXmlDeAutorizacion(xml)) {
+                System.out.println("Es Autorizacion ");
                 Autorizacion autorizacion = (Autorizacion) unmarshaller.unmarshal(new StringReader(xml));
                 String comprobanteXml = autorizacion.getComprobante();
                 if (comprobanteXml != null && !comprobanteXml.trim().isEmpty()) {
@@ -44,8 +45,8 @@ public class XmlConverterUtils {
                 StringReader reader = new StringReader(xml);
                 ComprobanteXml comprobante = (ComprobanteXml) comprobanteUnmarshaller.unmarshal(reader);
                 comprobante.setTipoComprobante(identificarTipoComprobante(xml));
-                comprobante.setFechaAutorizacion(" ");
-                comprobante.setNumeroAutorizacion(" ");
+                comprobante.setFechaAutorizacion(fechaAutorizacion);
+                comprobante.setNumeroAutorizacion(comprobante.getInfoTributaria().getClaveAcceso());
                 comprobante.accept(visitor);
                 return comprobante;
             }

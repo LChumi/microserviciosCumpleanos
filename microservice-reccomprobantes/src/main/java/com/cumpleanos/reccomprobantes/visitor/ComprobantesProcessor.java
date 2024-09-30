@@ -26,6 +26,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
 
     @Override
     public void visit(Factura factura) {
+        System.out.println(factura.getFechaAutorizacion());
         procesarDoc(
                 factura.getInfoTributaria(),
                 factura.getInfoFactura().getIdentificacionComprador(),
@@ -67,7 +68,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         SriDocEleEmi documento = modelsService.getSriDocByClaveAcceso(info.getClaveAcceso());
 
         if (documento != null) {
-            log.info("Comprobante ya se encuentra registrado en la base de datos");
+            log.info("Comprobante ya se encuentra registrado en la base de datos CA:{}", documento.getClaveAcceso());
         } else {
             log.warn("No se encontró el comprobante con la clave de acceso: {}", info.getClaveAcceso());
             Sistema empresa = modelsService.getEmpresaByRuc(ruc);
@@ -85,13 +86,12 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                     Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), empresa.getId());
                     if (proveedor != null) {
                         System.out.println(proveedor);
-
                     }else {
+                        log.info("Proveedor no existe agregando");
                         Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId());
                         System.out.println(proveedorNuevo);
                     }
                 }
-
             } else {
                 log.error("La empresa no existe o el RUC está incorrecto");
             }

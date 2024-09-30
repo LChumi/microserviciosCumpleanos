@@ -28,7 +28,7 @@ public class JsonReaderService {
             String transformedXml = transformXml(cleanedXml);
             comprobante.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().setComprobante(transformedXml);
 
-            return xmlService.convertirXmlAComprobante(transformedXml);
+            return xmlService.convertirXmlAComprobante(transformedXml, comprobante.getRespuestaAutorizacionComprobante().getAutorizaciones().getAutorizacion().getFechaAutorizacion());
         } catch (IOException e) {
             throw new ConversionException("Error al convertir el JSON del comprobante", e);
         } catch (Exception e) {

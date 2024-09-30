@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.utils;
 
+import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.models.xml.InfoTributaria;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
@@ -22,6 +23,28 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 public class ComprobantesUtils {
+
+    public static ComprobanteCsv getComprobanteCsv(String[] values) {
+        ComprobanteCsv comprobante = new ComprobanteCsv();
+        comprobante.setRucEmisor(values[0]);
+        comprobante.setRazonSocialEmisor(values[1]);
+        comprobante.setTipoComprobante(values[2]);
+        comprobante.setSerieComprobante(values[3]);
+        comprobante.setClaveAcceso(values[4]);
+        comprobante.setFechaAutorizacion(values[5]);
+        comprobante.setFechaEmision(values[6]);
+        comprobante.setIdentificacionReceptor(values[7]);
+        comprobante.setValorSinImpuestos(values[8]);
+        comprobante.setIva(values[9]);
+        comprobante.setImporteTotal(values[10]);
+        // Solo establecer el valor para `numeroDocumentoModificado` si está presente
+        if (values.length > 11) {
+            comprobante.setNumeroDocumentoModificado(values[11]);
+        } else {
+            comprobante.setNumeroDocumentoModificado(""); // O cualquier valor predeterminado
+        }
+        return comprobante;
+    }
 
     public static SriDocEleEmi crearSriDoc(
             Sistema empresa,
@@ -48,6 +71,23 @@ public class ComprobantesUtils {
         docSri.setIdentificacionReceptor(identificacionReceptor);
         docSri.setClaveAcceso(claveAcceso);
         return docSri;
+    }
+
+    public static SriDocEleEmi creaDoc(ComprobanteCsv comp, Sistema empresa) {
+        SriDocEleEmi doc = new SriDocEleEmi();
+        SriDocEleEmiId id = new SriDocEleEmiId();
+        id.setEmpresa(empresa.getId());
+        id.setNumeroAutorizacion(comp.getClaveAcceso());
+        doc.setId(id);
+        doc.setRucEmisor(comp.getRucEmisor());
+        doc.setRazonSocialEmisor(comp.getRazonSocialEmisor());
+        doc.setComprobante(comp.getTipoComprobante());
+        doc.setSerieComprobante(comp.getSerieComprobante());
+        doc.setClaveAcceso(comp.getClaveAcceso());
+        doc.setFechaAutorizacion(DateTimeUtils.parseDateTime(comp.getFechaAutorizacion()));
+        doc.setFechaEmision(DateTimeUtils.parseDate(comp.getFechaEmision()));
+        doc.setIdentificacionReceptor(comp.getIdentificacionReceptor());
+        return doc;
     }
 
     public static Cliente crearProveedor(InfoTributaria info, Long empresa) {

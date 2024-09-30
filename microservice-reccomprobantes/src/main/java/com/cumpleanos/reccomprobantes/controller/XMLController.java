@@ -17,7 +17,7 @@ public class XMLController {
     @PostMapping("/xml")
     public ResponseEntity<Comprobante> getAutorizacionByXML(@RequestBody String xml) {
         try {
-            Comprobante autorizacion = xmlService.convertirXmlAComprobante(xml);
+            Comprobante autorizacion = xmlService.convertirXmlAComprobante(xml, "");
             return ResponseEntity.ok(autorizacion);
         } catch (Exception e) {
             throw new RuntimeException();

@@ -52,7 +52,7 @@ public class CoordinatorService {
     }
 
     private Comprobante processXml(String xmlContent){
-        return xmlConversionService.convertirXmlAComprobante(xmlContent);
+        return xmlConversionService.convertirXmlAComprobante(xmlContent, "");
     }
 
     private Comprobante processJson(String jsonContent){
