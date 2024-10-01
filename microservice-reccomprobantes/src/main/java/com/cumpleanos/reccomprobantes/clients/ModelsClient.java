@@ -27,4 +27,14 @@ public interface ModelsClient {
     //TODO servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{empresa}")
     ResponseEntity<Cliente> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("empresa") Long empresa);
+
+    @PostMapping("/models/cliente/new")
+    ResponseEntity<Cliente> save(@RequestBody Cliente cliente);
+
+    //TODO servicio que viene del controlador FuctionOracleController
+    @GetMapping("/models/verificarJuridico/{ruc}")
+    ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
+
+    @GetMapping("/models/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
+    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") int empresa, @PathVariable("sigla") String sigla, @PathVariable("secuencia") String secuencia, @PathVariable("tipo") int tipo );
 }
