@@ -32,7 +32,7 @@ public class Autcliente {
 
     @NotNull
     @Column(name = "ACL_TCLIPRO", nullable = false)
-    private Boolean tclipro = false;
+    private Short tclipro;
 
     @Column(name = "ACL_VAL_FECHA")
     private LocalDate valFecha;

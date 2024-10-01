@@ -102,7 +102,7 @@ public class Cliente {
     private Long cuentaCre;
 
     @Column(name = "CLI_IMPUESTOS")
-    private Boolean impuestos;
+    private Short impuestos;
 
     @Size(max = 100)
     @Column(name = "CLI_CONTACTO", length = 100)
@@ -146,7 +146,7 @@ public class Cliente {
     private LocalDate modFecha;
 
     @Column(name = "CLI_TIPOCED")
-    private Boolean tipoced;
+    private Short tipoced;
 
     @Column(name = "CLI_ORDEN")
     private Integer orden;
@@ -167,7 +167,7 @@ public class Cliente {
     private Boolean icenoiva;
 
     @Column(name = "CLI_TIPOPER")
-    private Boolean tipoper;
+    private Short tipoper;
 
     @Size(max = 100)
     @Column(name = "CLI_NOMBRECOM", length = 100)
@@ -211,7 +211,7 @@ public class Cliente {
     private Boolean maquila;
 
     @Column(name = "CLI_GENERO")
-    private Boolean genero;
+    private Short genero;
 
     @Column(name = "CLI_ESTADO_CIVIL")
     private Boolean estadoCivil;
