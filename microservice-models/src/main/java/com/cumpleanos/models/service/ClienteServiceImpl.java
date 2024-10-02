@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
-public class ClienteService extends GenericServiceImpl<Cliente, ClienteId> implements IClienteService {
+public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> implements IClienteService {
 
     private final ClienteRepository repository;
 

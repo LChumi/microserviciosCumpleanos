@@ -1,6 +1,6 @@
 package com.cumpleanos.models.controller;
 
-import com.cumpleanos.models.service.ClienteService;
+import com.cumpleanos.models.service.ClienteServiceImpl;
 import core.cumpleanos.models.entities.Cliente;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import java.util.List;
 public class ClienteController {
 
     @Autowired
-    private ClienteService clienteService;
+    private ClienteServiceImpl clienteServiceImpl;
 
     @GetMapping("/cliente/ruc/{ruc}/{empresa}")
     public ResponseEntity<Cliente> getCliente(@PathVariable String ruc, @PathVariable Long empresa) {
         try {
-            Cliente cliente = clienteService.findByCedulaRucAndEmpresa(ruc, empresa);
+            Cliente cliente = clienteServiceImpl.findByCedulaRucAndEmpresa(ruc, empresa);
             if (cliente == null) {
                 return ResponseEntity.noContent().build();
             }
@@ -36,7 +36,7 @@ public class ClienteController {
     @PostMapping("cliente/new")
     public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
         try {
-            Cliente clienteNew = clienteService.save(cliente);
+            Cliente clienteNew = clienteServiceImpl.save(cliente);
             return ResponseEntity.status(HttpStatus.CREATED).body(clienteNew);
         } catch (Exception e) {
             log.error("Error al crear el cliente :{}", cliente, e);
@@ -48,7 +48,7 @@ public class ClienteController {
     public ResponseEntity<List<String>> getClientes(@PathVariable String cliId, @PathVariable Long empresa) {
         try {
             List<String> ids = new ArrayList<>();
-            List<Cliente> clientes = clienteService.findByCliId(cliId, empresa);
+            List<Cliente> clientes = clienteServiceImpl.findByCliId(cliId, empresa);
             for (Cliente cliente : clientes) {
                 ids.add(cliente.getCliId());
             }
