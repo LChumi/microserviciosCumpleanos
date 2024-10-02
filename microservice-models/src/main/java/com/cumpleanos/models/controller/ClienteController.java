@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("models")
 @Slf4j
@@ -38,6 +41,21 @@ public class ClienteController {
         } catch (Exception e) {
             log.error("Error al crear el cliente :{}", cliente, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("clientesid/{cliId}/{empresa}")
+    public ResponseEntity<List<String>> getClientes(@PathVariable String cliId, @PathVariable Long empresa) {
+        try {
+            List<String> ids = new ArrayList<>();
+            List<Cliente> clientes = clienteService.findByCliId(cliId, empresa);
+            for (Cliente cliente : clientes) {
+                ids.add(cliente.getCliId());
+            }
+            return ResponseEntity.ok(ids);
+        }catch (Exception e) {
+            log.error("Error al buscar el clientes :{}", cliId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

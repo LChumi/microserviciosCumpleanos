@@ -7,6 +7,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @FeignClient(name = "models-service")
 public interface ModelsClient {
 
@@ -31,10 +33,16 @@ public interface ModelsClient {
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> save(@RequestBody Cliente cliente);
 
+    @GetMapping("models/clientesid/{cliId}/{empresa}")
+    ResponseEntity<List<String>> getClientes(@PathVariable("cliId") String cliId, @PathVariable("empresa") Long empresa);
+
     //TODO servicio que viene del controlador FuctionOracleController
     @GetMapping("/models/verificarJuridico/{ruc}")
     ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
 
     @GetMapping("/models/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
-    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") int empresa, @PathVariable("sigla") String sigla, @PathVariable("secuencia") String secuencia, @PathVariable("tipo") int tipo );
+    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") int empresa,
+                                            @PathVariable("sigla") String sigla,
+                                            @PathVariable("secuencia") String secuencia,
+                                            @PathVariable("tipo") int tipo );
 }
