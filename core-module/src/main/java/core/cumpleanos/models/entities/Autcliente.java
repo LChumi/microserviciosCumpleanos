@@ -74,7 +74,7 @@ public class Autcliente {
     @Column(name = "ACL_FACT3", nullable = false, length = 9)
     private String fact3;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "ACL_RETDATO", referencedColumnName = "RTD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "ACL_TABLACOA", referencedColumnName = "RTD_TABLACOA", insertable = false, updatable = false),
@@ -83,7 +83,7 @@ public class Autcliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private RetDato retDato;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ACL_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
