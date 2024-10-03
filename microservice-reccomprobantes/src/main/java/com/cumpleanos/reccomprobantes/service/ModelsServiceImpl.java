@@ -4,16 +4,20 @@ import com.cumpleanos.reccomprobantes.clients.ModelsClient;
 import com.cumpleanos.reccomprobantes.clients.SriNodeClient;
 import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.models.json.request.AutorizacionRequest;
+import core.cumpleanos.models.entities.Autcliente;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ModelsServiceImpl{
 
     private final ModelsClient modelsClient;
@@ -70,7 +74,75 @@ public class ModelsServiceImpl{
         } catch (HttpClientErrorException e){
             return null;
         } catch (Exception e) {
-            throw new RuntimeException("Error al obtener el documento");
+            throw new RuntimeException("Error al obtener el Proveedor por ruc y empresa ");
+        }
+    }
+
+    public  Cliente save (Cliente cliente){
+        try{
+            ResponseEntity<Cliente> response = modelsClient.save(cliente);
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        } catch (Exception e){
+            throw new RuntimeException("Error al guardar el Proveedor");
+        }
+    }
+
+    public List<String> getIdsClientes(String cliId, Long empresa){
+        try {
+            ResponseEntity<List<String>> response = modelsClient.getClientes(cliId, empresa);
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los Ids de los Proveedores");
+        }
+    }
+
+    //TODO servicio que viene de FunctionOracleController
+    public Long verificarJuridico(String ruc){
+        try {
+            ResponseEntity<Long> response = modelsClient.verificarJuridico(ruc);
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al verificar el juridico");
+        }
+    }
+
+    public Long verificarParametro(int empresa, String sigla, String secuencia, int tipo){
+        try {
+            ResponseEntity<Long> response = modelsClient.verificarParametro(empresa, sigla, secuencia, tipo);
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al verificar el parametro");
+        }
+    }
+
+    //TODO servicio que viene del AutClienteController
+    public Autcliente getAutCliente(String nroAut, Long empresa){
+        try {
+            ResponseEntity<Autcliente> response = modelsClient.getAutCliente(nroAut, empresa);
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el Autcliente");
+        }
+    }
+
+    public Autcliente saveAutCliente(Autcliente autor){
+        try {
+            ResponseEntity<Autcliente> response = modelsClient.saveAutCliente(autor);
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al guardar el Autcliente");
         }
     }
 

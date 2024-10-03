@@ -49,7 +49,7 @@ public interface ModelsClient {
 
     //TODO servicio que viene del controlador AutClienteController
     @GetMapping("/models/get-autcliente/{nroAut}/{empresa}")
-    ResponseEntity<Autcliente> getAutCliente(@PathVariable("nroAut") int nroAut, @PathVariable("empresa") Long empresa);
+    ResponseEntity<Autcliente> getAutCliente(@PathVariable("nroAut") String nroAut, @PathVariable("empresa") Long empresa);
 
     @PostMapping("/models/save-autcliente")
     ResponseEntity<Autcliente> saveAutCliente(@RequestBody Autcliente autcliente);
