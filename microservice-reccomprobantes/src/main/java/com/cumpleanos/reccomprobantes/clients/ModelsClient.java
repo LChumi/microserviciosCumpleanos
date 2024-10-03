@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.clients;
 
+import core.cumpleanos.models.entities.Autcliente;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
@@ -33,7 +34,7 @@ public interface ModelsClient {
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> save(@RequestBody Cliente cliente);
 
-    @GetMapping("models/clientesid/{cliId}/{empresa}")
+    @GetMapping("/models/clientesid/{cliId}/{empresa}")
     ResponseEntity<List<String>> getClientes(@PathVariable("cliId") String cliId, @PathVariable("empresa") Long empresa);
 
     //TODO servicio que viene del controlador FuctionOracleController
@@ -45,4 +46,11 @@ public interface ModelsClient {
                                             @PathVariable("sigla") String sigla,
                                             @PathVariable("secuencia") String secuencia,
                                             @PathVariable("tipo") int tipo );
+
+    //TODO servicio que viene del controlador AutClienteController
+    @GetMapping("/models/get-autcliente/{nroAut}/{empresa}")
+    ResponseEntity<Autcliente> getAutCliente(@PathVariable("nroAut") int nroAut, @PathVariable("empresa") Long empresa);
+
+    @PostMapping("/models/save-autcliente")
+    ResponseEntity<Autcliente> saveAutCliente(@RequestBody Autcliente autcliente);
 }
