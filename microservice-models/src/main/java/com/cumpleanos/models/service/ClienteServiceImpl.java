@@ -4,6 +4,7 @@ import com.cumpleanos.models.repository.ClienteRepository;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.ids.ClienteId;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> implements IClienteService {
 
     private final ClienteRepository repository;
