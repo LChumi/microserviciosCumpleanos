@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EntityScan(basePackages = "core.cumpleanos.models")
+@EntityScan(basePackages = "core.cumpleanos")
 public class MicroserviceModelsApplication {
 
 	public static void main(String[] args) {

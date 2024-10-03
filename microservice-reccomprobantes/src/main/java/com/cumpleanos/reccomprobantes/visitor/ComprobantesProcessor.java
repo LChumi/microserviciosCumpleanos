@@ -87,10 +87,12 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                     Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), empresa.getId());
                     if (proveedor != null) {
                         System.out.println(proveedor);
+                        verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa);
                     }else {
                         log.info("Proveedor no existe agregando");
                         Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId());
                         System.out.println(proveedorNuevo);
+                        verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa);
                     }
                 }
             } else {
@@ -110,7 +112,6 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         if (encontrado == null) {
             Autcliente nuevo = ComprobantesUtils.crearAutCliente(docsr, cliente, sis);
         }
-
     }
 
 
