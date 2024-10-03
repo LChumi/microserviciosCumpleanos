@@ -7,6 +7,7 @@ import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.service.ModelsServiceImpl;
 import com.cumpleanos.reccomprobantes.utils.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.utils.DateTimeUtils;
+import core.cumpleanos.models.entities.Autcliente;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
@@ -98,6 +99,19 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         }
     }
 
+    private void verificarAutclient(SriDocEleEmi docsr, Long cliente, Sistema sis){
+        if (docsr.getId().getNumeroAutorizacion()==null){
+            log.warn("El archivo no tiene numero de autorizacion {} en la empresa {}", docsr.getComprobante(), docsr.getId().getEmpresa());
+        }
+        String numAut = docsr.getId().getNumeroAutorizacion();
+        Long empresa = docsr.getId().getEmpresa();
+
+        Autcliente encontrado = modelsService.getAutCliente(numAut, empresa);
+        if (encontrado == null) {
+            Autcliente nuevo = ComprobantesUtils.crearAutCliente(docsr, cliente, sis);
+        }
+
+    }
 
 
 }

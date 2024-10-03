@@ -2,9 +2,11 @@ package com.cumpleanos.reccomprobantes.utils;
 
 import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.models.xml.InfoTributaria;
+import core.cumpleanos.models.entities.Autcliente;
 import core.cumpleanos.models.entities.Cliente;
 import core.cumpleanos.models.entities.Sistema;
 import core.cumpleanos.models.entities.SriDocEleEmi;
+import core.cumpleanos.models.ids.AutclienteId;
 import core.cumpleanos.models.ids.ClienteId;
 import core.cumpleanos.models.ids.SriDocEleEmiId;
 import org.w3c.dom.Document;
@@ -101,6 +103,17 @@ public class ComprobantesUtils {
         proveedor.setTipo((short)2);
         proveedor.setDireccion(info.getDirMatriz());
         return proveedor;
+    }
+
+    public static Autcliente crearAutCliente(SriDocEleEmi doc, Long clienteId , Sistema empresa) {
+        Autcliente autcliente = new Autcliente();
+        AutclienteId id = new AutclienteId();
+        id.setCliente(clienteId);
+        id.setEmpresa(doc.getId().getEmpresa());
+        id.setNroAutoriza(doc.getId().getNumeroAutorizacion());
+        autcliente.setId(id);
+        autcliente.setSistema(empresa);
+        return autcliente;
     }
 
     public static String reverzarNombre(String nombre) {
