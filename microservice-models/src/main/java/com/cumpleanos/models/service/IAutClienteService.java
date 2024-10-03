@@ -5,5 +5,5 @@ import core.cumpleanos.models.ids.AutclienteId;
 
 public interface IAutClienteService extends GenericService<Autcliente, AutclienteId>{
 
-    Autcliente findByNroAutorizacion(String nroAutorizacion);
+    Autcliente findByNroAutorizacion(String nroAutorizacion, Long empresa);
 }

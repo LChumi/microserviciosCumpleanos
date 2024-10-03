@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface AutClienteRepository extends JpaRepository<Autcliente, AutclienteId> {
 
-    Optional<Autcliente> findById_NroAutoriza(String nroAutoriza);
+    Optional<Autcliente> findById_NroAutorizaAndId_Empresa(String nroAutoriza, Long empresa);
 }

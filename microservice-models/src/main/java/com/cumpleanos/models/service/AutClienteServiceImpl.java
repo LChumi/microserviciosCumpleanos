@@ -20,7 +20,7 @@ public class AutClienteServiceImpl extends GenericServiceImpl<Autcliente, Autcli
     }
 
     @Override
-    public Autcliente findByNroAutorizacion(String nroAutorizacion) {
-        return repository.findById_NroAutoriza(nroAutorizacion).orElse(null);
+    public Autcliente findByNroAutorizacion(String nroAutorizacion, Long empresa) {
+        return repository.findById_NroAutorizaAndId_Empresa(nroAutorizacion, empresa).orElse(null);
     }
 }
