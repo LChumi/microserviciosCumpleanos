@@ -29,25 +29,25 @@ public class Cparamet {
     private CparametId id;
 
     @Column(name = "CPA_SIGLA", length = 3)
-    private String cpaSigla;
+    private String sigla;
 
     @Column(name = "CPA_SECUENCIA", length = 3)
-    private String cpaSecuencia;
+    private String secuencia;
 
     @Column(name = "CPA_NOMBRE", nullable = false, length = 100)
-    private String cpaNombre;
+    private String nombre;
 
     @Column(name = "CPA_TEXTO", length = 20)
-    private String cpaTexto;
+    private String texto;
 
     @Column(name = "CPA_VALOR", precision = 17, scale = 4)
-    private BigDecimal cpaValor;
+    private Long valor;
 
     @Column(name = "CPA_CUENTA")
-    private Long cpaCuenta;
+    private Long cuenta;
 
     @Column(name = "CPA_INACTIVO")
-    private Boolean cpaInactivo;
+    private Boolean inactivo;
 
     @Column(name = "CREA_USR", length = 10)
     private String creaUsr;

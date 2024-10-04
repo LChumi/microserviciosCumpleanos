@@ -22,8 +22,8 @@ public class CparametId implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CPARAMET_S_CODIGO")
     @Column(name = "CPA_CODIGO", nullable = false)
-    private Long cpaCodigo;
+    private Long codigo;
 
     @Column(name = "CPA_EMPRESA", nullable = false)
-    private Long cpaEmpresa;
+    private Long empresa;
 }
