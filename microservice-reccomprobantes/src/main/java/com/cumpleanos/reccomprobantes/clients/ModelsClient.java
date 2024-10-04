@@ -1,9 +1,6 @@
 package com.cumpleanos.reccomprobantes.clients;
 
-import core.cumpleanos.models.entities.Autcliente;
-import core.cumpleanos.models.entities.Cliente;
-import core.cumpleanos.models.entities.Sistema;
-import core.cumpleanos.models.entities.SriDocEleEmi;
+import core.cumpleanos.models.entities.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,4 +50,8 @@ public interface ModelsClient {
 
     @PostMapping("/models/save-autcliente")
     ResponseEntity<Autcliente> saveAutCliente(@RequestBody Autcliente autcliente);
+
+    //TODO servicio que viene del controlador CparametController
+    @GetMapping("/models/get-paramet/{empresa}/{codigo}")
+    ResponseEntity<Cparamet> getParamet(@PathVariable("empresa") Long empresa, @PathVariable("codigo") Long codigo);
 }
