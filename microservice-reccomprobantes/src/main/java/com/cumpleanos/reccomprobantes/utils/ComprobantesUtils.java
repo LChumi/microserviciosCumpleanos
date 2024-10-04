@@ -93,7 +93,7 @@ public class ComprobantesUtils {
         return doc;
     }
 
-    public static Cliente crearProveedor(InfoTributaria info, Long empresa) {
+    public static Cliente crearProveedor(InfoTributaria info, Long empresa,Long tipoJuridico) {
         Cliente proveedor = new Cliente();
         ClienteId id= new ClienteId();
         id.setEmpresa(empresa);
@@ -102,6 +102,7 @@ public class ComprobantesUtils {
         proveedor.setRucCedula(info.getRuc());
         proveedor.setTipo((short)2);
         proveedor.setDireccion(info.getDirMatriz());
+        proveedor.setImpuestos(tipoJuridico.shortValue());
         return proveedor;
     }
 

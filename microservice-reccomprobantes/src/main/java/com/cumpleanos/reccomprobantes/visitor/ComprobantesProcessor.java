@@ -90,7 +90,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa);
                     }else {
                         log.info("Proveedor no existe agregando");
-                        Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId());
+                        Long tipClient= modelsService.verificarJuridico(info.getRuc());
+                        Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId(), tipClient);
                         System.out.println(proveedorNuevo);
                         verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa);
                     }
