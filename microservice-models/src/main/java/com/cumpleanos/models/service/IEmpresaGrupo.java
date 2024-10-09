@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.EmpresaGrupo;
+import com.cumpleanos.core.models.entities.EmpresaGrupo;
 
 public interface IEmpresaGrupo  extends GenericService<EmpresaGrupo,Long>{
 }

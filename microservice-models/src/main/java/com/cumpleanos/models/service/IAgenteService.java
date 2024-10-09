@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Agente;
-import core.cumpleanos.models.ids.AgenteId;
+import com.cumpleanos.core.models.entities.Agente;
+import com.cumpleanos.core.models.ids.AgenteId;
 
 public interface IAgenteService extends GenericService<Agente, AgenteId>{
 }

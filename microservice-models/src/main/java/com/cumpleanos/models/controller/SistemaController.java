@@ -1,7 +1,7 @@
 package com.cumpleanos.models.controller;
 
+import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.models.service.ISistemaService;
-import core.cumpleanos.models.entities.Sistema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

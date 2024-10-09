@@ -1,7 +1,8 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.Cparamet;
-import core.cumpleanos.models.ids.CparametId;
+
+import com.cumpleanos.core.models.entities.Cparamet;
+import com.cumpleanos.core.models.ids.CparametId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

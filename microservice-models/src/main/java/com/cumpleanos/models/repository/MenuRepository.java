@@ -1,6 +1,6 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.Menu;
+import com.cumpleanos.core.models.entities.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

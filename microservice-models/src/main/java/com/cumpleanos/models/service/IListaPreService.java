@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.ListaPre;
-import core.cumpleanos.models.ids.ListaPreId;
+import com.cumpleanos.core.models.entities.ListaPre;
+import com.cumpleanos.core.models.ids.ListaPreId;
 
 public interface IListaPreService  extends GenericService<ListaPre, ListaPreId>{
 }

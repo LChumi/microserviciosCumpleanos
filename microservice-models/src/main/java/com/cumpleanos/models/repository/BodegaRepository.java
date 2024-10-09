@@ -1,8 +1,7 @@
 package com.cumpleanos.models.repository;
 
-
-import core.cumpleanos.models.entities.Bodega;
-import core.cumpleanos.models.ids.BodegaId;
+import com.cumpleanos.core.models.entities.Bodega;
+import com.cumpleanos.core.models.ids.BodegaId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

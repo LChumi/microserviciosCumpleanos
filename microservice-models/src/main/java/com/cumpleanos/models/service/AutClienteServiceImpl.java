@@ -1,8 +1,8 @@
 package com.cumpleanos.models.service;
 
 import com.cumpleanos.models.repository.AutClienteRepository;
-import core.cumpleanos.models.entities.Autcliente;
-import core.cumpleanos.models.ids.AutclienteId;
+import com.cumpleanos.core.models.entities.Autcliente;
+import com.cumpleanos.core.models.ids.AutclienteId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;

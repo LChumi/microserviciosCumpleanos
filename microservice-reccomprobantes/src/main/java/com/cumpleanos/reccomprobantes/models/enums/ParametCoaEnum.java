@@ -16,9 +16,9 @@ public enum ParametCoaEnum {
     private final String nombre;
     private final int valor;
 
-    public static ParametCoaEnum getBySigla(String sigla) {
+    public static ParametCoaEnum getBySecuencia(String secuencia) {
         for (ParametCoaEnum parametro : ParametCoaEnum.values()) {
-            if (parametro.getSigla().equals(sigla)) {
+            if (parametro.getSecuencia().equals(secuencia)) {
                 return parametro;
             }
         }

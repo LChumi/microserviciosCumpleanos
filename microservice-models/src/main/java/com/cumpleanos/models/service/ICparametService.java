@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Cparamet;
-import core.cumpleanos.models.ids.CparametId;
+import com.cumpleanos.core.models.entities.Cparamet;
+import com.cumpleanos.core.models.ids.CparametId;
 
 public interface ICparametService extends GenericService<Cparamet, CparametId> {
 

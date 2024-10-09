@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.Gproducto;
-import core.cumpleanos.models.ids.GproductoId;
+import com.cumpleanos.core.models.entities.Gproducto;
+import com.cumpleanos.core.models.ids.GproductoId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

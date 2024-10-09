@@ -1,7 +1,7 @@
 package com.cumpleanos.models.controller;
 
+import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.models.service.ClienteServiceImpl;
-import core.cumpleanos.models.entities.Cliente;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

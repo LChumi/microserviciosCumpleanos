@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.TablaCoa;
-import core.cumpleanos.models.ids.TablaCoaId;
+import com.cumpleanos.core.models.entities.TablaCoa;
+import com.cumpleanos.core.models.ids.TablaCoaId;
 
 public interface ITablaCoaService extends GenericService<TablaCoa, TablaCoaId>{
 }

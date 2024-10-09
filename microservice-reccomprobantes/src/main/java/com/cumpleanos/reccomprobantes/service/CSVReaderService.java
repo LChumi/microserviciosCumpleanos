@@ -1,11 +1,11 @@
 package com.cumpleanos.reccomprobantes.service;
 
+import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Sistema;
+import com.cumpleanos.core.models.entities.SriDocEleEmi;
 import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
-import core.cumpleanos.models.entities.Cliente;
-import core.cumpleanos.models.entities.Sistema;
-import core.cumpleanos.models.entities.SriDocEleEmi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

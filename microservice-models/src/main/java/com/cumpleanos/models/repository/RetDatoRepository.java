@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.RetDato;
-import core.cumpleanos.models.ids.RetDatoId;
+import com.cumpleanos.core.models.entities.RetDato;
+import com.cumpleanos.core.models.ids.RetDatoId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

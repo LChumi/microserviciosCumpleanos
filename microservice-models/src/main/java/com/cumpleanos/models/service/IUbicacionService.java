@@ -1,7 +1,8 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Ubicacion;
-import core.cumpleanos.models.ids.UbicacionId;
+
+import com.cumpleanos.core.models.entities.Ubicacion;
+import com.cumpleanos.core.models.ids.UbicacionId;
 
 public interface IUbicacionService  extends GenericService<Ubicacion, UbicacionId>{
 }

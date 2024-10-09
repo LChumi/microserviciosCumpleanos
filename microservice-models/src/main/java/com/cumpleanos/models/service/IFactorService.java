@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Factor;
-import core.cumpleanos.models.ids.FactorId;
+import com.cumpleanos.core.models.entities.Factor;
+import com.cumpleanos.core.models.ids.FactorId;
 
 public interface IFactorService  extends GenericService<Factor, FactorId>{
 }

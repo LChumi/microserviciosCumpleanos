@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Linea;
-import core.cumpleanos.models.ids.LineaId;
+import com.cumpleanos.core.models.entities.Linea;
+import com.cumpleanos.core.models.ids.LineaId;
 
 public interface ILineaService  extends GenericService<Linea, LineaId>{
 }

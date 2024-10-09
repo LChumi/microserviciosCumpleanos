@@ -1,5 +1,9 @@
 package com.cumpleanos.reccomprobantes.visitor;
 
+import com.cumpleanos.core.models.entities.Autcliente;
+import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Sistema;
+import com.cumpleanos.core.models.entities.SriDocEleEmi;
 import com.cumpleanos.reccomprobantes.models.xml.InfoTributaria;
 import com.cumpleanos.reccomprobantes.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.models.xml.notaCredito.NotaCredito;
@@ -7,10 +11,6 @@ import com.cumpleanos.reccomprobantes.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.service.ModelsServiceImpl;
 import com.cumpleanos.reccomprobantes.utils.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.utils.DateTimeUtils;
-import core.cumpleanos.models.entities.Autcliente;
-import core.cumpleanos.models.entities.Cliente;
-import core.cumpleanos.models.entities.Sistema;
-import core.cumpleanos.models.entities.SriDocEleEmi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -89,9 +89,11 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         System.out.println(proveedor);
                         verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa);
                     }else {
-                        log.info("Proveedor no existe agregando");
+                        log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId(), tipClient);
+                        System.out.println("Agregando Proveedor Nuevo \n"+proveedorNuevo);
+                        //Cliente proveedorAgregado= modelsService.save(proveedorNuevo);
                         System.out.println(proveedorNuevo);
                         verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa);
                     }

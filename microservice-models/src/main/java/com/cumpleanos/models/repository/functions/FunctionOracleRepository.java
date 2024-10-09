@@ -1,6 +1,6 @@
 package com.cumpleanos.models.repository.functions;
 
-import core.cumpleanos.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Acceso;
-import core.cumpleanos.models.ids.AccesoId;
+import com.cumpleanos.core.models.entities.Acceso;
+import com.cumpleanos.core.models.ids.AccesoId;
 
 public interface IAccesoService extends GenericService<Acceso, AccesoId>{
 }

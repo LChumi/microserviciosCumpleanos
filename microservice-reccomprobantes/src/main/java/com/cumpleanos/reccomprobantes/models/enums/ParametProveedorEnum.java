@@ -16,9 +16,9 @@ public enum ParametProveedorEnum {
     private final String nombre;
     private final int valor;
 
-    public static ParametProveedorEnum getBySigla(String sigla) {
+    public static ParametProveedorEnum getBySecuencia(String secuencia) {
         for (ParametProveedorEnum parametro : ParametProveedorEnum.values()) {
-            if (parametro.getSigla().equals(sigla)) {
+            if (parametro.getSecuencia().equals(secuencia)) {
                 return parametro;
             }
         }

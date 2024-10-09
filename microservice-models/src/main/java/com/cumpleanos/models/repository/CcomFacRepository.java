@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.CcomFac;
-import core.cumpleanos.models.ids.CcomFacId;
+import com.cumpleanos.core.models.entities.CcomFac;
+import com.cumpleanos.core.models.ids.CcomFacId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

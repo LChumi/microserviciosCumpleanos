@@ -1,8 +1,14 @@
 package com.cumpleanos.models.service;
 
+import com.cumpleanos.models.repository.CatClienteRepository;
 import com.cumpleanos.models.repository.ClienteRepository;
-import core.cumpleanos.models.entities.Cliente;
-import core.cumpleanos.models.ids.ClienteId;
+import com.cumpleanos.models.repository.UbicacionRepository;
+import com.cumpleanos.core.models.entities.CatCliente;
+import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Ubicacion;
+import com.cumpleanos.core.models.ids.CatClienteId;
+import com.cumpleanos.core.models.ids.ClienteId;
+import com.cumpleanos.core.models.ids.UbicacionId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -17,6 +23,8 @@ import java.util.stream.StreamSupport;
 public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> implements IClienteService {
 
     private final ClienteRepository repository;
+    private final CatClienteRepository catRepository;
+    private final UbicacionRepository ubicacionRepository;
 
     @Override
     public CrudRepository<Cliente, ClienteId> getRepository() {
@@ -34,5 +42,31 @@ public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> i
                 .stream()
                 .spliterator(),false)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Cliente save(Cliente entity) {
+        Long nuevoCodigo = getNextSequenceValue("CLIENTE_S_CODIGO");
+        System.out.println(nuevoCodigo);
+
+        ClienteId id = new ClienteId();
+        id.setCodigo(nuevoCodigo);
+        id.setEmpresa(entity.getId().getEmpresa());
+
+        CatClienteId idCat = new CatClienteId();
+        idCat.setCodigo(10000251L);
+        idCat.setEmpresa(2L);
+        CatCliente categoria= catRepository.findById(idCat).orElse(null);
+
+        UbicacionId idUbi= new UbicacionId();
+        idUbi.setCodigo(3L);
+        idUbi.setEmpresa(2L);
+        Ubicacion ubi = ubicacionRepository.findById(idUbi).orElse(null);
+
+        entity.setCiudad(ubi);
+        entity.setCatCliente(categoria);
+
+        entity.setId(id);
+        return super.save(entity);
     }
 }

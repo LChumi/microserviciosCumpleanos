@@ -1,13 +1,13 @@
 package com.cumpleanos.reccomprobantes.service;
 
+import com.cumpleanos.core.models.entities.Autcliente;
+import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Sistema;
+import com.cumpleanos.core.models.entities.SriDocEleEmi;
 import com.cumpleanos.reccomprobantes.clients.ModelsClient;
 import com.cumpleanos.reccomprobantes.clients.SriNodeClient;
 import com.cumpleanos.reccomprobantes.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.models.json.request.AutorizacionRequest;
-import core.cumpleanos.models.entities.Autcliente;
-import core.cumpleanos.models.entities.Cliente;
-import core.cumpleanos.models.entities.Sistema;
-import core.cumpleanos.models.entities.SriDocEleEmi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

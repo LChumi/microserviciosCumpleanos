@@ -13,6 +13,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>models-service</name>
 	<description>Microservices Main Models </description>
+
 	<url/>
 	<licenses>
 		<license/>
@@ -87,8 +88,8 @@
 
 		<!--Dependencia de Modulo Comun-->
 		<dependency>
-			<groupId>core.cumpleanos</groupId>
-			<artifactId>core-module</artifactId>
+			<groupId>com.cumpleanos.core</groupId>
+			<artifactId>common-module</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 

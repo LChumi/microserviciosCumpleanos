@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Bodega;
-import core.cumpleanos.models.ids.BodegaId;
+import com.cumpleanos.core.models.entities.Bodega;
+import com.cumpleanos.core.models.ids.BodegaId;
 
 public interface IBodegaService extends GenericService<Bodega, BodegaId>{
 }

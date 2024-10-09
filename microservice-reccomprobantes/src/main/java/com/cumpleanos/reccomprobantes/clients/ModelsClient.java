@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.clients;
 
-import core.cumpleanos.models.entities.*;
+import com.cumpleanos.core.models.entities.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.Centro;
-import core.cumpleanos.models.ids.CentroId;
+import com.cumpleanos.core.models.entities.Centro;
+import com.cumpleanos.core.models.ids.CentroId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

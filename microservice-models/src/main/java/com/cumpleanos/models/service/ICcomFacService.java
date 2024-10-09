@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.CcomFac;
-import core.cumpleanos.models.ids.CcomFacId;
+import com.cumpleanos.core.models.entities.CcomFac;
+import com.cumpleanos.core.models.ids.CcomFacId;
 
 public interface ICcomFacService  extends GenericService<CcomFac, CcomFacId>{
 }

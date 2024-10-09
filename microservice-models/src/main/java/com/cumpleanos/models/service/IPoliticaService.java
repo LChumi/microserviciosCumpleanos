@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Politica;
-import core.cumpleanos.models.ids.PoliticaId;
+import com.cumpleanos.core.models.entities.Politica;
+import com.cumpleanos.core.models.ids.PoliticaId;
 
 public interface IPoliticaService  extends GenericService<Politica, PoliticaId>{
 }

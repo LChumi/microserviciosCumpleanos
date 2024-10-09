@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Dopcion;
-import core.cumpleanos.models.ids.DopcionId;
+import com.cumpleanos.core.models.entities.Dopcion;
+import com.cumpleanos.core.models.ids.DopcionId;
 
 public interface IDopcionService  extends GenericService<Dopcion, DopcionId>{
 }

@@ -1,17 +1,29 @@
 package com.cumpleanos.models.service;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public abstract class GenericServiceImpl <T, ID extends Serializable> implements GenericService<T, ID> {
 
+    @PersistenceContext
+    protected EntityManager em;
+
     public abstract CrudRepository<T, ID> getRepository();
+
+    protected Long getNextSequenceValue(String sequenceName) {
+        BigDecimal sequenceValue = (BigDecimal) em.createNativeQuery("SELECT " + sequenceName + ".NEXTVAL FROM DUAL").getSingleResult();
+        return (sequenceValue != null) ? sequenceValue.longValue() : null;
+    }
+
 
     @Transactional
     @Override

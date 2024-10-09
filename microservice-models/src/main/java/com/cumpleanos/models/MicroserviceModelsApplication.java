@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EntityScan(basePackages = "core.cumpleanos")
+@EntityScan(basePackages = "com.cumpleanos.core.models")
 @OpenAPIDefinition(info =
 @Info(title = "API Modelos ", description = "Documentacion API Modelos v1.0")
 )

@@ -1,8 +1,8 @@
 package com.cumpleanos.models.service;
 
 import com.cumpleanos.models.repository.SriDocEleEmiRepository;
-import core.cumpleanos.models.entities.SriDocEleEmi;
-import core.cumpleanos.models.ids.SriDocEleEmiId;
+import com.cumpleanos.core.models.entities.SriDocEleEmi;
+import com.cumpleanos.core.models.ids.SriDocEleEmiId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;

@@ -1,14 +1,14 @@
 package com.cumpleanos.reccomprobantes.utils;
 
+import com.cumpleanos.core.models.entities.Autcliente;
+import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Sistema;
+import com.cumpleanos.core.models.entities.SriDocEleEmi;
+import com.cumpleanos.core.models.ids.AutclienteId;
+import com.cumpleanos.core.models.ids.ClienteId;
+import com.cumpleanos.core.models.ids.SriDocEleEmiId;
 import com.cumpleanos.reccomprobantes.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.models.xml.InfoTributaria;
-import core.cumpleanos.models.entities.Autcliente;
-import core.cumpleanos.models.entities.Cliente;
-import core.cumpleanos.models.entities.Sistema;
-import core.cumpleanos.models.entities.SriDocEleEmi;
-import core.cumpleanos.models.ids.AutclienteId;
-import core.cumpleanos.models.ids.ClienteId;
-import core.cumpleanos.models.ids.SriDocEleEmiId;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -93,16 +93,17 @@ public class ComprobantesUtils {
         return doc;
     }
 
-    public static Cliente crearProveedor(InfoTributaria info, Long empresa,Long tipoJuridico) {
+    public static Cliente crearProveedor(InfoTributaria info, Long empresa, Long tipoJuridico) {
         Cliente proveedor = new Cliente();
         ClienteId id= new ClienteId();
         id.setEmpresa(empresa);
         proveedor.setId(id);
+        proveedor.setCliId("PR-001");
         proveedor.setNombre(reverzarNombre(info.getRazonSocial()));
         proveedor.setRucCedula(info.getRuc());
         proveedor.setTipo((short)2);
         proveedor.setDireccion(info.getDirMatriz());
-        proveedor.setImpuestos(tipoJuridico.shortValue());
+        proveedor.setTipoper(tipoJuridico.shortValue());
         return proveedor;
     }
 

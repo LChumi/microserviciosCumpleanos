@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.TipCliente;
-import core.cumpleanos.models.ids.TipClienteId;
+import com.cumpleanos.core.models.entities.TipCliente;
+import com.cumpleanos.core.models.ids.TipClienteId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

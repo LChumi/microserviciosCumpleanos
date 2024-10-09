@@ -1,6 +1,6 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.Usuario;
+import com.cumpleanos.core.models.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

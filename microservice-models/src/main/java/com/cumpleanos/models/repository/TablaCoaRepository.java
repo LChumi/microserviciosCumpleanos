@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.TablaCoa;
-import core.cumpleanos.models.ids.TablaCoaId;
+import com.cumpleanos.core.models.entities.TablaCoa;
+import com.cumpleanos.core.models.ids.TablaCoaId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

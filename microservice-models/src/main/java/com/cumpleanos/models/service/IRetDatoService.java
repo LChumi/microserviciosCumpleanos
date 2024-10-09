@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.RetDato;
-import core.cumpleanos.models.ids.RetDatoId;
+import com.cumpleanos.core.models.entities.RetDato;
+import com.cumpleanos.core.models.ids.RetDatoId;
 
 public interface IRetDatoService  extends GenericService<RetDato, RetDatoId>{
 }

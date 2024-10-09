@@ -1,6 +1,6 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.Seguridad;
+import com.cumpleanos.core.models.entities.Seguridad;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
 import com.cumpleanos.models.repository.SistemaRepository;
-import core.cumpleanos.models.entities.Sistema;
+import com.cumpleanos.core.models.entities.Sistema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;

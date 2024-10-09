@@ -1,7 +1,7 @@
 package com.cumpleanos.models.controller;
 
+import com.cumpleanos.core.models.entities.Cparamet;
 import com.cumpleanos.models.service.ICparametService;
-import core.cumpleanos.models.entities.Cparamet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

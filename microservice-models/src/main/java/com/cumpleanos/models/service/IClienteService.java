@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.Cliente;
-import core.cumpleanos.models.ids.ClienteId;
+import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.ids.ClienteId;
 
 import java.util.List;
 

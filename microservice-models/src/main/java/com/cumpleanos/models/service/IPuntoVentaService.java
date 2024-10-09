@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service;
 
-import core.cumpleanos.models.entities.PuntoVenta;
-import core.cumpleanos.models.ids.PuntoVentaId;
+import com.cumpleanos.core.models.entities.PuntoVenta;
+import com.cumpleanos.core.models.ids.PuntoVentaId;
 
 public interface IPuntoVentaService extends GenericService<PuntoVenta, PuntoVentaId>{
 }

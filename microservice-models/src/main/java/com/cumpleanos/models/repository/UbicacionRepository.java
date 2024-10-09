@@ -1,7 +1,7 @@
 package com.cumpleanos.models.repository;
 
-import core.cumpleanos.models.entities.Ubicacion;
-import core.cumpleanos.models.ids.UbicacionId;
+import com.cumpleanos.core.models.entities.Ubicacion;
+import com.cumpleanos.core.models.ids.UbicacionId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

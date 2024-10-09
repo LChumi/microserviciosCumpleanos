@@ -1,7 +1,7 @@
 package com.cumpleanos.models.controller;
 
+import com.cumpleanos.core.models.entities.SriDocEleEmi;
 import com.cumpleanos.models.service.ISriDocEleEmiService;
-import core.cumpleanos.models.entities.SriDocEleEmi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

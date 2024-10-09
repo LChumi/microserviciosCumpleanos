@@ -1,8 +1,8 @@
 package com.cumpleanos.models.service;
 
 import com.cumpleanos.models.repository.CparametRepository;
-import core.cumpleanos.models.entities.Cparamet;
-import core.cumpleanos.models.ids.CparametId;
+import com.cumpleanos.core.models.entities.Cparamet;
+import com.cumpleanos.core.models.ids.CparametId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
