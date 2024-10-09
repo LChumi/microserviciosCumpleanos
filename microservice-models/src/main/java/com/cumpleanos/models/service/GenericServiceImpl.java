@@ -31,6 +31,7 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
         return getRepository().save(entity);
     }
 
+    @Transactional
     @Override
     public T findById(ID id) {
         return getRepository().findById(id).orElseThrow(()-> new EntityNotFoundException("Entidad no encontrada"));
@@ -42,6 +43,7 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public void delete(ID id) {
         getRepository().deleteById(id);
