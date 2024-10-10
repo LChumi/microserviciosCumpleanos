@@ -1,4 +1,4 @@
-package com.cumlpeanos.pos.configuration;
+package com.cumpleanos.pos.configuration;
 
 
 import com.github.benmanes.caffeine.cache.Caffeine;

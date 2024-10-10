@@ -1,4 +1,4 @@
-package com.cumlpeanos.pos.persistence.api;
+package com.cumpleanos.pos.persistence.api;
 
 import lombok.Data;
 

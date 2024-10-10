@@ -1,7 +1,7 @@
-package com.cumlpeanos.pos.persistence.repository;
+package com.cumpleanos.pos.persistence.repository;
 
-import com.cumlpeanos.pos.persistence.entity.CajaPOS;
-import com.cumlpeanos.pos.persistence.ids.CajaPOSId;
+import com.cumpleanos.pos.persistence.entity.CajaPOS;
+import com.cumpleanos.pos.persistence.ids.CajaPOSId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

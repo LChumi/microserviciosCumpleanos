@@ -1,9 +1,9 @@
-package com.cumlpeanos.pos.service.implementation;
+package com.cumpleanos.pos.service.implementation;
 
-import com.cumlpeanos.pos.persistence.entity.ReciboPOS;
-import com.cumlpeanos.pos.persistence.ids.ReciboPOSId;
-import com.cumlpeanos.pos.persistence.repository.ReciboPOSRepository;
-import com.cumlpeanos.pos.service.interfaces.IReciboPOSService;
+import com.cumpleanos.pos.persistence.entity.ReciboPOS;
+import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
+import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
+import com.cumpleanos.pos.service.interfaces.IReciboPOSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.cumlpeanos.pos.persistence.entity;
+package com.cumpleanos.pos.persistence.entity;
 
-import com.cumlpeanos.pos.persistence.ids.CajaPOSId;
+import com.cumpleanos.pos.persistence.ids.CajaPOSId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;

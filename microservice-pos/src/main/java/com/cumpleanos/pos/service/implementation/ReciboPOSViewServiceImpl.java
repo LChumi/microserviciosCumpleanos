@@ -1,8 +1,8 @@
-package com.cumlpeanos.pos.service.implementation;
+package com.cumpleanos.pos.service.implementation;
 
-import com.cumlpeanos.pos.persistence.entity.ReciboPOSView;
-import com.cumlpeanos.pos.persistence.repository.ReciboPOSViewRepositorio;
-import com.cumlpeanos.pos.service.interfaces.IReciboPOSViewService;
+import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
+import com.cumpleanos.pos.service.interfaces.IReciboPOSViewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
-package com.cumlpeanos.pos.presentation.controller;
+package com.cumpleanos.pos.presentation.controller;
 
-import com.cumlpeanos.pos.persistence.entity.ReciboPOS;
-import com.cumlpeanos.pos.persistence.ids.ReciboPOSId;
-import com.cumlpeanos.pos.service.interfaces.IReciboPOSService;
+import com.cumpleanos.pos.persistence.entity.ReciboPOS;
+import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
+import com.cumpleanos.pos.service.interfaces.IReciboPOSService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,14 +1,14 @@
-package com.cumlpeanos.pos.service.implementation;
+package com.cumpleanos.pos.service.implementation;
 
-import com.cumlpeanos.pos.persistence.api.DatosEnvioRequest;
-import com.cumlpeanos.pos.persistence.api.DatosRecepcionResponse;
-import com.cumlpeanos.pos.persistence.entity.ReciboPOS;
-import com.cumlpeanos.pos.persistence.entity.ReciboPOSView;
-import com.cumlpeanos.pos.persistence.repository.ReciboPOSRepository;
-import com.cumlpeanos.pos.persistence.repository.ReciboPOSViewRepositorio;
-import com.cumlpeanos.pos.service.interfaces.IReciboPOSSyncService;
-import com.cumlpeanos.pos.service.http.ApiConsumoService;
-import com.cumlpeanos.pos.utils.FilesUtils;
+import com.cumpleanos.pos.persistence.api.DatosEnvioRequest;
+import com.cumpleanos.pos.persistence.api.DatosRecepcionResponse;
+import com.cumpleanos.pos.persistence.entity.ReciboPOS;
+import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
+import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
+import com.cumpleanos.pos.service.interfaces.IReciboPOSSyncService;
+import com.cumpleanos.pos.service.http.ApiConsumoService;
+import com.cumpleanos.pos.utils.FilesUtils;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

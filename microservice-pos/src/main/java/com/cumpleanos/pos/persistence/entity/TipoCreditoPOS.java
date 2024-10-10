@@ -1,6 +1,6 @@
-package com.cumlpeanos.pos.persistence.entity;
+package com.cumpleanos.pos.persistence.entity;
 
-import com.cumlpeanos.pos.persistence.ids.TipoCreditoPOSId;
+import com.cumpleanos.pos.persistence.ids.TipoCreditoPOSId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

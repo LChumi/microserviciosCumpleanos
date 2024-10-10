@@ -1,4 +1,4 @@
-package com.cumlpeanos.pos.presentation.advice;
+package com.cumpleanos.pos.presentation.advice;
 
 import com.cumpleanos.core.models.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
-package com.cumlpeanos.pos.persistence.repository;
+package com.cumpleanos.pos.persistence.repository;
 
-import com.cumlpeanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigInteger;

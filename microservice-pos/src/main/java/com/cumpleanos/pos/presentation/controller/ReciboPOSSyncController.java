@@ -1,6 +1,6 @@
-package com.cumlpeanos.pos.presentation.controller;
+package com.cumpleanos.pos.presentation.controller;
 
-import com.cumlpeanos.pos.service.interfaces.IReciboPOSSyncService;
+import com.cumpleanos.pos.service.interfaces.IReciboPOSSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

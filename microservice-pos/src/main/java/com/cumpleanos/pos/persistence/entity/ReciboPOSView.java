@@ -1,4 +1,4 @@
-package com.cumlpeanos.pos.persistence.entity;
+package com.cumpleanos.pos.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,6 +1,6 @@
-package com.cumlpeanos.pos.service.interfaces;
+package com.cumpleanos.pos.service.interfaces;
 
-import com.cumlpeanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 
 public interface IReciboPOSViewService {
     ReciboPOSView findByAlmacenAndPventa(Long almacen, Long pventa);

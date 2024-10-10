@@ -1,7 +1,7 @@
-package com.cumlpeanos.pos.service.interfaces;
+package com.cumpleanos.pos.service.interfaces;
 
-import com.cumlpeanos.pos.persistence.entity.ReciboPOS;
-import com.cumlpeanos.pos.persistence.ids.ReciboPOSId;
+import com.cumpleanos.pos.persistence.entity.ReciboPOS;
+import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
 
 import java.math.BigInteger;
 

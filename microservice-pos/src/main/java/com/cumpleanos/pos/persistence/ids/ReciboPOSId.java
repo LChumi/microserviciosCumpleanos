@@ -1,4 +1,4 @@
-package com.cumlpeanos.pos.persistence.ids;
+package com.cumpleanos.pos.persistence.ids;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

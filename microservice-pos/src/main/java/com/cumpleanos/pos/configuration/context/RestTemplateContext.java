@@ -1,4 +1,4 @@
-package com.cumlpeanos.pos.configuration.context;
+package com.cumpleanos.pos.configuration.context;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

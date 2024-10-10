@@ -1,7 +1,7 @@
-package com.cumlpeanos.pos.presentation.controller;
+package com.cumpleanos.pos.presentation.controller;
 
-import com.cumlpeanos.pos.persistence.entity.CajaPOS;
-import com.cumlpeanos.pos.service.interfaces.ICajaPOSService;
+import com.cumpleanos.pos.persistence.entity.CajaPOS;
+import com.cumpleanos.pos.service.interfaces.ICajaPOSService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
