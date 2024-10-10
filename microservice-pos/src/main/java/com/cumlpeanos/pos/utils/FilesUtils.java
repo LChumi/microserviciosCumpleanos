@@ -1,6 +1,6 @@
 package com.cumlpeanos.pos.utils;
 
-import com.cumlpeanos.pos.models.api.DatosRecepcionResponse;
+import com.cumlpeanos.pos.persistence.api.DatosRecepcionResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

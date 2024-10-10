@@ -17,7 +17,7 @@ spring:
 
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@192.168.112.46:1521/db01
+    url: jdbc:oracle:thin:@//192.168.112.46:1521/db01
     username: data_usr
     password: dataicep1
 
@@ -26,9 +26,6 @@ spring:
       ddl-auto: none
     show-sql: true
     open-in-view: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.OracleDialect
 
 management:
   endpoints:
@@ -49,9 +46,5 @@ info:
 
 logging:
   level:
-    root: info;
-    com:
-      cumple:
-        pos: debug
-  file:
-    name: C:\\Proyectos\\Microserivicios\\logs\\models.log
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
