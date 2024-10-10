@@ -17,24 +17,16 @@ public class AutClienteController {
 
     @GetMapping("/get-autcliente/{nroAut}/{empresa}")
     public ResponseEntity<Autcliente> getAutCliente(@PathVariable String nroAut, @PathVariable Long empresa) {
-        try {
-            Autcliente aut= service.findByNroAutorizacion(nroAut, empresa);
-            if (aut==null) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-            }
-            return ResponseEntity.ok(aut);
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        Autcliente aut= service.findByNroAutorizacion(nroAut, empresa);
+        if (aut==null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
+        return ResponseEntity.ok(aut);
     }
 
     @PostMapping("save-autcliente")
     public ResponseEntity<Autcliente> saveAutCliente(@RequestBody Autcliente aut) {
-        try {
-            Autcliente autSave = service.save(aut);
-            return ResponseEntity.status(HttpStatus.CREATED).body(autSave);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        Autcliente autSave = service.save(aut);
+        return ResponseEntity.status(HttpStatus.CREATED).body(autSave);
     }
 }

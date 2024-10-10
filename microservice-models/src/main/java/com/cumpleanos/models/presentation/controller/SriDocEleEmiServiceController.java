@@ -18,56 +18,41 @@ public class SriDocEleEmiServiceController {
 
     @GetMapping("/sri-emitido/{claveAcceso}")
     public ResponseEntity<SriDocEleEmi> getDocumento(@PathVariable String claveAcceso) {
-        try{
-            SriDocEleEmi existingDoc  = sriDocEleEmiService.findByClaveAcceso(claveAcceso);
-            if (existingDoc == null) {
-                log.warn("No se encontro el documento");
-                return  ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-            }
-            return ResponseEntity.ok(existingDoc);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+        SriDocEleEmi existingDoc  = sriDocEleEmiService.findByClaveAcceso(claveAcceso);
+        if (existingDoc == null) {
+            log.warn("No se encontro el documento");
+            return  ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
+        return ResponseEntity.ok(existingDoc);
     }
 
     @PostMapping("/sri/crear")
     public ResponseEntity<SriDocEleEmi> getDocumento(@RequestBody SriDocEleEmi sriDocEleEmi) {
-        try{
-            SriDocEleEmi existingDoc  = sriDocEleEmiService.findById(sriDocEleEmi.getId());
-            if (existingDoc  != null) {
-                return ResponseEntity.ok(existingDoc );
-            } else {
-                SriDocEleEmi nuevoDoc = sriDocEleEmiService.save(sriDocEleEmi);
-                return ResponseEntity.status(HttpStatus.CREATED).body(nuevoDoc);
-            }
-        }catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+        SriDocEleEmi existingDoc  = sriDocEleEmiService.findById(sriDocEleEmi.getId());
+        if (existingDoc  != null) {
+            return ResponseEntity.ok(existingDoc );
+        } else {
+            SriDocEleEmi nuevoDoc = sriDocEleEmiService.save(sriDocEleEmi);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoDoc);
         }
     }
 
     @PutMapping("/sri/actualizado/")
     public ResponseEntity<SriDocEleEmi> updateDocumento(@RequestBody SriDocEleEmi sriDocEleEmi) {
-        try {
-            SriDocEleEmi existe = sriDocEleEmiService.findById(sriDocEleEmi.getId());
-            if (existe != null) {
-                existe.setComprobante(sriDocEleEmi.getComprobante());
-                existe.setRucEmisor(sriDocEleEmi.getRucEmisor());
-                existe.setRazonSocialEmisor(sriDocEleEmi.getRazonSocialEmisor());
-                existe.setSerieComprobante(sriDocEleEmi.getSerieComprobante());
-                existe.setClaveAcceso(sriDocEleEmi.getClaveAcceso());
-                existe.setFechaAutorizacion(sriDocEleEmi.getFechaAutorizacion());
-                existe.setFechaEmision(sriDocEleEmi.getFechaEmision());
-                existe.setIdentificacionReceptor(sriDocEleEmi.getIdentificacionReceptor());
-                SriDocEleEmi update =sriDocEleEmiService.save(existe);
-                return ResponseEntity.ok(update);
-            }else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+        SriDocEleEmi existe = sriDocEleEmiService.findById(sriDocEleEmi.getId());
+        if (existe != null) {
+            existe.setComprobante(sriDocEleEmi.getComprobante());
+            existe.setRucEmisor(sriDocEleEmi.getRucEmisor());
+            existe.setRazonSocialEmisor(sriDocEleEmi.getRazonSocialEmisor());
+            existe.setSerieComprobante(sriDocEleEmi.getSerieComprobante());
+            existe.setClaveAcceso(sriDocEleEmi.getClaveAcceso());
+            existe.setFechaAutorizacion(sriDocEleEmi.getFechaAutorizacion());
+            existe.setFechaEmision(sriDocEleEmi.getFechaEmision());
+            existe.setIdentificacionReceptor(sriDocEleEmi.getIdentificacionReceptor());
+            SriDocEleEmi update =sriDocEleEmiService.save(existe);
+            return ResponseEntity.ok(update);
+        }else {
+            return ResponseEntity.notFound().build();
         }
     }
 

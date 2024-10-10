@@ -22,15 +22,10 @@ public class CparametController {
 
     @GetMapping("/get-paramet/{empresa}/{codigo}")
     public ResponseEntity<Cparamet> getParamet(@PathVariable Long empresa, @PathVariable Long codigo) {
-        try {
-            Cparamet cparamet = icparametService.findByValor(codigo, empresa);
-            if (cparamet == null) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-            }
-            return ResponseEntity.ok(cparamet);
-        } catch (Exception e) {
-            log.error("Error al buscar Cparamet por ID message:{}",e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        Cparamet cparamet = icparametService.findByValor(codigo, empresa);
+        if (cparamet == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
+        return ResponseEntity.ok(cparamet);
     }
 }

@@ -19,29 +19,19 @@ public class ReciboPOSViewController {
 
     @GetMapping("reciboView/{almacen}/{pventa}")
     public ResponseEntity<ReciboPOSView> getRecibo(@PathVariable Long almacen,@PathVariable Long pventa){
-        try {
-            ReciboPOSView reciboPOSView = service.findByAlmacenAndPventa(almacen, pventa);
-            if (reciboPOSView == null ){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-            return ResponseEntity.ok(reciboPOSView);
-        }catch (Exception e){
-            log.error("ERROR al buscar en el servicio  por almacen message{}",e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        ReciboPOSView reciboPOSView = service.findByAlmacenAndPventa(almacen, pventa);
+        if (reciboPOSView == null ){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+        return ResponseEntity.ok(reciboPOSView);
     }
 
     @GetMapping("reciboViewUsr/{usr}/{empresa}")
     public ResponseEntity<ReciboPOSView> getReciboByUsr(@PathVariable Long usr, @PathVariable Long empresa){
-        try {
-            ReciboPOSView reciboPOSView = service.findByUsrLiquidaAndEmpresa(usr, empresa);
-            if (reciboPOSView == null ){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-            return ResponseEntity.ok(reciboPOSView);
-        }catch (Exception e){
-            log.error("ERROR al buscar en el servicio por usr_liquida message{}",e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        ReciboPOSView reciboPOSView = service.findByUsrLiquidaAndEmpresa(usr, empresa);
+        if (reciboPOSView == null ){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+        return ResponseEntity.ok(reciboPOSView);
     }
 }

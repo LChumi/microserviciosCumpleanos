@@ -19,29 +19,19 @@ public class FunctionOracleController {
 
     @GetMapping("/verificarJuridico/{ruc}")
     public ResponseEntity<Long> verificarJuridico(@PathVariable String ruc) {
-        try {
-            Long response = functionService.verificarRucJuridico(ruc);
-            if (response == null) {
-                return ResponseEntity.ok(0L);
-            }
-            return ResponseEntity.ok(response);
-        }catch (Exception e) {
-            log.error("Error al verificar si el ruc es juridico message:{}",e.getMessage());
+        Long response = functionService.verificarRucJuridico(ruc);
+        if (response == null) {
             return ResponseEntity.ok(0L);
         }
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
     public ResponseEntity<Long> verificarParametro(@PathVariable int empresa, @PathVariable String sigla, @PathVariable String secuencia, @PathVariable int tipo) {
-        try {
-            Long parametro = functionService.agenteParametro(empresa, sigla, secuencia, null, tipo);
-            if (parametro == null) {
-                return ResponseEntity.ok(0L);
-            }
-            return ResponseEntity.ok(parametro);
-        }catch (Exception e) {
-            log.error("Error al verificar el parametro mesage:{}",e.getMessage());
+        Long parametro = functionService.agenteParametro(empresa, sigla, secuencia, null, tipo);
+        if (parametro == null) {
             return ResponseEntity.ok(0L);
         }
+        return ResponseEntity.ok(parametro);
     }
 }

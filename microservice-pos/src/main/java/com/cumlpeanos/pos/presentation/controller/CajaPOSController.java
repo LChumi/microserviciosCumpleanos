@@ -19,15 +19,10 @@ public class CajaPOSController {
 
     @GetMapping("cajapos/{almacen}/{pventa}")
     public ResponseEntity<CajaPOS> porAlmacenYPventa(@PathVariable Long almacen, @PathVariable Long pventa) {
-        try {
-            CajaPOS cajaPOS= cajaPOSService.findByAlmacenAndPventa(almacen, pventa);
-            if (cajaPOS == null ){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-            return ResponseEntity.ok(cajaPOS);
-        }catch (Exception e){
-            log.error("ERROR en el servicio buscar por almacen y pventa: {}",e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        CajaPOS cajaPOS= cajaPOSService.findByAlmacenAndPventa(almacen, pventa);
+        if (cajaPOS == null ){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+        return ResponseEntity.ok(cajaPOS);
     }
 }

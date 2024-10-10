@@ -1,5 +1,6 @@
 package com.cumlpeanos.pos.configuration;
 
+
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
