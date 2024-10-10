@@ -1,4 +1,4 @@
-package com.cumpleanos.reccomprobantes.persistence.models.enums;
+package com.cumpleanos.reccomprobantes.util.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
