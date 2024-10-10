@@ -10,6 +10,7 @@ import com.cumpleanos.core.models.ids.CatClienteId;
 import com.cumpleanos.core.models.ids.ClienteId;
 import com.cumpleanos.core.models.ids.UbicacionId;
 import com.cumpleanos.models.service.interfaces.IClienteService;
+import com.cumpleanos.models.utils.enums.Sequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -47,7 +48,7 @@ public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> i
 
     @Override
     public Cliente save(Cliente entity) {
-        Long nuevoCodigo = getNextSequenceValue("CLIENTE_S_CODIGO");
+        Long nuevoCodigo = getNextSequenceValue(Sequence.CLICODIGO);
         System.out.println(nuevoCodigo);
 
         ClienteId id = new ClienteId();
