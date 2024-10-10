@@ -20,10 +20,17 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
     public abstract CrudRepository<T, ID> getRepository();
 
     protected Long getNextSequenceValue(String sequenceName) {
-        BigDecimal sequenceValue = (BigDecimal) em.createNativeQuery("SELECT " + sequenceName + ".NEXTVAL FROM DUAL").getSingleResult();
-        return (sequenceValue != null) ? sequenceValue.longValue() : null;
+        if (isValidSequenceName(sequenceName)) {
+            String query = "SELECT " + sequenceName + ".NEXTVAL FROM DUAL";
+            BigDecimal sequenceValue = (BigDecimal) em.createNativeQuery(query).getSingleResult();
+            return (sequenceValue != null) ? sequenceValue.longValue() : null;
+        }
+        throw new IllegalArgumentException("Nombre de secuencia no válido");
     }
 
+    private boolean isValidSequenceName(String sequenceName) {
+        return sequenceName.matches("[a-zA-Z0-9_]+"); // Solo permite letras, números y guiones bajos
+    }
 
     @Transactional
     @Override

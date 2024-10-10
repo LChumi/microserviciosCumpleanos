@@ -23,4 +23,11 @@ public class CparametServiceImpl extends GenericServiceImpl<Cparamet, CparametId
     public Cparamet findByValor(Long valor, Long empresa) {
         return repository.findByValorAndId_Empresa(valor, empresa).orElse(null);
     }
+
+    @Override
+    public Cparamet save(Cparamet entity) {
+        Long codigo = getNextSequenceValue("CPARAMET_S_CODIGO");
+        entity.getId().setCodigo(codigo);
+        return super.save(entity);
+    }
 }
