@@ -1,0 +1,66 @@
+package com.cumlpeanos.pos.presentation.controller;
+
+import com.cumlpeanos.pos.persistence.entity.ReciboPOS;
+import com.cumlpeanos.pos.persistence.ids.ReciboPOSId;
+import com.cumlpeanos.pos.service.interfaces.IReciboPOSService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
+
+@RestController
+@RequestMapping("/pos/")
+@CrossOrigin("*")
+@Slf4j
+@RequiredArgsConstructor
+public class ReciboPOSController {
+
+    private final IReciboPOSService reciboPOSService;
+
+    @GetMapping("recibo/id/{id}/empresa/{empresa}")
+    public ResponseEntity<ReciboPOS> porIdYEmpresa(@PathVariable Long id, @PathVariable Long empresa) {
+        try {
+            ReciboPOS reciboPOS= reciboPOSService.findByIdAndEmpresa(id, empresa);
+            if (reciboPOS == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.ok(reciboPOS);
+        }catch (Exception e){
+            log.error("ERROR en el servicio al buscar por ID y Empresa message:{}",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("recibo/cco/{cco}")
+    public ResponseEntity<ReciboPOS> porCco(@PathVariable BigInteger cco) {
+        try {
+            ReciboPOS reciboPOS= reciboPOSService.findByCcoComproba(cco);
+            if (reciboPOS == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.ok(reciboPOS);
+        }catch (Exception e){
+            log.error("Error al buscar por CCO message:{}",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("recibo/id")
+    public ResponseEntity<ReciboPOS> porReciboId(@RequestBody ReciboPOSId id) {
+        try {
+            ReciboPOS reciboPOS = reciboPOSService.getReciboPOS(id);
+            return ResponseEntity.ok(reciboPOS);
+        } catch (RuntimeException e) {
+            log.error("Error al buscar por Id Compuesto, message: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        } catch (Exception e) {
+            log.error("Error interno del servidor, message: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+}
