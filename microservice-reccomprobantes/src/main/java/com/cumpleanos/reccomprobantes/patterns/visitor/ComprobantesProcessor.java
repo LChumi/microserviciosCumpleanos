@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -92,7 +93,9 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId(), tipClient);
-                        System.out.println("Agregando Proveedor Nuevo \n"+proveedorNuevo);
+                        System.out.println("Agregando Proveedor Nuevo ....");
+                        proveedorNuevo.setCliId(generarIdCliente(proveedorNuevo.getNombre(),empresa.getId()));
+                        System.out.println("Proveedor Creado "+ proveedorNuevo);
                         //Cliente proveedorAgregado= modelsService.save(proveedorNuevo);
                         System.out.println(proveedorNuevo);
                         verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa);
@@ -114,6 +117,29 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         Autcliente encontrado = modelsService.getAutCliente(numAut, empresa);
         if (encontrado == null) {
             Autcliente nuevo = ComprobantesUtils.crearAutCliente(docsr, cliente, sis);
+        }
+    }
+
+    private String generarIdCliente(String nombre, Long empresa){
+
+        String nombreAbreviado = nombre.substring(0, 3).toUpperCase();
+        String nuevoIdBase = "PN-" + nombreAbreviado;
+
+        //Lista de Ids existentes
+        List<String> ids = modelsService.getIdsClientes(nuevoIdBase, empresa);
+
+        if (ids.isEmpty()) {
+            return nuevoIdBase+"001";
+        } else {
+            int maxNum =0;
+            for (String id : ids) {
+                String numStr = id.substring(nuevoIdBase.length());
+                int num = Integer.parseInt(numStr);
+                if (num > maxNum) {
+                    maxNum = num;
+                }
+            }
+            return nuevoIdBase+String.format("%03d", maxNum + 1);
         }
     }
 

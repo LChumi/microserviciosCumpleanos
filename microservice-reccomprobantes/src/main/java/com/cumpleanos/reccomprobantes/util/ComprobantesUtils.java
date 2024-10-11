@@ -99,7 +99,7 @@ public class ComprobantesUtils {
         id.setEmpresa(empresa);
         proveedor.setId(id);
         proveedor.setCliId("PR-001");
-        proveedor.setNombre(reverzarNombre(info.getRazonSocial()));
+        proveedor.setNombre(info.getRazonSocial());
         proveedor.setRucCedula(info.getRuc());
         proveedor.setTipo((short)2);
         proveedor.setDireccion(info.getDirMatriz());

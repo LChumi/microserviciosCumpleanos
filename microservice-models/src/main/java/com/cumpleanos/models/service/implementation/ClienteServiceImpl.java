@@ -71,4 +71,5 @@ public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> i
         entity.setId(id);
         return super.save(entity);
     }
+
 }
