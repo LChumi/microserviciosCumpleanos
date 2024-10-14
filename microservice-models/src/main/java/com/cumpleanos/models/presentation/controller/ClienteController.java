@@ -1,6 +1,9 @@
 package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Ubicacion;
+import com.cumpleanos.core.models.ids.UbicacionId;
+import com.cumpleanos.models.persistence.repository.UbicacionRepository;
 import com.cumpleanos.models.service.implementation.ClienteServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

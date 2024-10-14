@@ -9,6 +9,7 @@ import com.cumpleanos.reccomprobantes.service.http.SriNodeClient;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.persistence.models.json.request.AutorizacionRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ModelsServiceImpl{
@@ -74,6 +76,7 @@ public class ModelsServiceImpl{
         } catch (HttpClientErrorException e){
             return null;
         } catch (Exception e) {
+            log.error("Error al obtener el documento mesage {}",e.getMessage(), e.getCause());
             throw new RuntimeException("Error al obtener el Proveedor por ruc y empresa ");
         }
     }

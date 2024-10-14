@@ -45,7 +45,7 @@ public class CSVReaderService {
             }
         }
         try {
-            log.info("INicializacion proceso en for:{}", comprobantes.size());
+            log.info("Inicializacion proceso en for:{}", comprobantes.size());
             for (ComprobanteCsv comprobanteCsv:comprobantesCsv){
                 procesoDoc(comprobanteCsv);
             }
@@ -56,7 +56,7 @@ public class CSVReaderService {
     }
 
     private void procesoDoc(ComprobanteCsv csv) throws Exception {
-        log.info("INICIANDO PROCESO ..............................");
+        log.info("INICIANDO PROCESO CSV..............................");
         SriDocEleEmi docuemnto = modelsService.getSriDocByClaveAcceso(csv.getClaveAcceso());
         if (docuemnto == null) {
             Sistema empresa = modelsService.getEmpresaByRuc(csv.getIdentificacionReceptor());
@@ -68,6 +68,7 @@ public class CSVReaderService {
                 } else {
                     Cliente proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(), empresa.getId());
                     if (proveedor != null) {
+                        System.out.println("---------------------------------------------------------------------------------------");
                         log.info("Proveedor existe {}", proveedor.getNombre());
                         //SriDocEleEmi nuevo = modelsService.save(docSri);
                     } else {

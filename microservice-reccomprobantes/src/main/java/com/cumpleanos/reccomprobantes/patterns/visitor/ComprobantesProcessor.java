@@ -96,7 +96,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         System.out.println("Agregando Proveedor Nuevo ....");
                         proveedorNuevo.setCliId(generarIdCliente(proveedorNuevo.getNombre(),empresa.getId()));
                         System.out.println("Proveedor Creado "+ proveedorNuevo);
-                        //Cliente proveedorAgregado= modelsService.save(proveedorNuevo);
+                        Cliente proveedorAgregado= modelsService.save(proveedorNuevo);
                         System.out.println(proveedorNuevo);
                         verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa);
                     }

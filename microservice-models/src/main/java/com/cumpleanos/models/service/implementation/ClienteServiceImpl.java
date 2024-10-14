@@ -57,18 +57,26 @@ public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> i
 
         CatClienteId idCat = new CatClienteId();
         idCat.setCodigo(10000251L);
-        idCat.setEmpresa(2L);
+        idCat.setEmpresa(entity.getId().getEmpresa());
         CatCliente categoria= catRepository.findById(idCat).orElse(null);
 
         UbicacionId idUbi= new UbicacionId();
         idUbi.setCodigo(3L);
-        idUbi.setEmpresa(2L);
+        idUbi.setEmpresa(entity.getId().getEmpresa());
         Ubicacion ubi = ubicacionRepository.findById(idUbi).orElse(null);
-
-        entity.setCiudad(ubi);
-        entity.setCatCliente(categoria);
-
+        System.out.println("-------------------------------------------------------------------");
+        System.out.println("Ubicacion \n "+ubi);
+        if (ubi == null ){
+            System.out.println("La ubicacion esta nula ");
+        }else{
+            System.out.println("Ubicacion existe ");
+            System.out.println(ubi);
+        }
         entity.setId(id);
+        entity.setCiudad(ubi);
+        System.out.println("Ubicacion asignada a la entity : \n "+ entity.getCiudad());
+        entity.setCatCliente(categoria);
+        System.out.println("----------------------------------------------------------------------\n Entidad creada \n "+ entity);
         return super.save(entity);
     }
 
