@@ -21,7 +21,6 @@ public class RetDatoId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RETDATO_S_CODIGO")
     @NotNull
     @Column(name = "RTD_CODIGO", nullable = false)
     private Long codigo;

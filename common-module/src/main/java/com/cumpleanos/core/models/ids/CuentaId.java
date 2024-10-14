@@ -21,7 +21,6 @@ public class CuentaId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUENTA_S_CODIGO")
     @NotNull
     @Column(name = "CUE_CODIGO", nullable = false)
     private Long codigo;

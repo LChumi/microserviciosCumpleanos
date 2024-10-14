@@ -20,7 +20,6 @@ public class CparametId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CPARAMET_S_CODIGO")
     @Column(name = "CPA_CODIGO", nullable = false)
     private Long codigo;
 

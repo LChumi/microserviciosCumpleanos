@@ -21,7 +21,6 @@ public class DopcionId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DOPCION_S_CODIGO")
     @NotNull
     @Column(name = "DOP_COP_CODIGO", nullable = false)
     private Long copCodigo;

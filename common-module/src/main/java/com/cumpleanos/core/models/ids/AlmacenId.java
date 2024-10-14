@@ -21,7 +21,6 @@ public class AlmacenId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ALMACEN_S_CODIGO")
     @NotNull
     @Column(name = "ALM_CODIGO", nullable = false)
     private Long codigo;

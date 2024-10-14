@@ -21,7 +21,6 @@ public class UmedidaId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UMEDIDA_S_CODIGO")
     @NotNull
     @Column(name = "UMD_CODIGO", nullable = false)
     private Long codigo;

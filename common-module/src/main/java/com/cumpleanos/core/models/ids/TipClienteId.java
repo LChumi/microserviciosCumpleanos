@@ -21,7 +21,6 @@ public class TipClienteId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TIPCLIENTE_S_CODIGO")
     @NotNull
     @Column(name = "TCL_CODIGO", nullable = false)
     private Long codigo;

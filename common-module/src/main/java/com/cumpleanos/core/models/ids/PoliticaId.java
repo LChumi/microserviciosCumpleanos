@@ -21,7 +21,6 @@ public class PoliticaId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POLITICA_S_CODIGO")
     @NotNull
     @Column(name = "POL_CODIGO", nullable = false)
     private Long codigo;

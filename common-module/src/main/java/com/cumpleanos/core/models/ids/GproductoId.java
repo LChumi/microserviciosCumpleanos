@@ -25,7 +25,6 @@ public class GproductoId implements Serializable {
     @Column(name = "GPR_EMPRESA", nullable = false)
     private Long empresa;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GPRODUCTO_S_CODIGO")
     @NotNull
     @Column(name = "GPR_CODIGO", nullable = false)
     private Long codigo;
