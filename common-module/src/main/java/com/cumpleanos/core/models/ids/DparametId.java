@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,17 +14,18 @@ import java.io.Serializable;
 @Setter
 @Embeddable
 @EqualsAndHashCode
+@ToString
 public class DparametId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @Column(name = "DPA_EMPRESA", nullable = false)
+    private Long dpaEmpresa;
 
     @Column(name = "DPA_ALMACEN", nullable = false)
     private Long dpaAlmacen;
 
     @Column(name = "DPA_CPA_CODIGO", nullable = false)
     private Long dpaCpaCodigo;
-
-    @Column(name = "DPA_EMPRESA", nullable = false)
-    private Long dpaEmpresa;
 }

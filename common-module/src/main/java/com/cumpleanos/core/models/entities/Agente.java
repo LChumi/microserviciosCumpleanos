@@ -135,13 +135,13 @@ public class Agente {
     @JoinColumns({
             @JoinColumn(name = "AGE_EMPRESA", referencedColumnName = "PVE_EMPRESA" , insertable = false, updatable = false),
             @JoinColumn(name = "AGE_ALMACEN", referencedColumnName = "PVE_ALMACEN", insertable = false, updatable = false),
-            @JoinColumn(name = "AGE_PVENTA", referencedColumnName = "PVE_SECUENCIA", insertable = false, updatable = false)
+            @JoinColumn(name = "AGE_PVENTA1", referencedColumnName = "PVE_SECUENCIA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private PuntoVenta puntoVenta1;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "AGE_USUARIO")
+    @JoinColumn(name = "AGE_USUARIO", referencedColumnName = "USR_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Usuario usuario;
 

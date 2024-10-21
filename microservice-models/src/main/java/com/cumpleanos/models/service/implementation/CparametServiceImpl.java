@@ -4,6 +4,7 @@ import com.cumpleanos.models.persistence.repository.CparametRepository;
 import com.cumpleanos.core.models.entities.Cparamet;
 import com.cumpleanos.core.models.ids.CparametId;
 import com.cumpleanos.models.service.interfaces.ICparametService;
+import com.cumpleanos.models.utils.enums.Sequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -27,7 +28,7 @@ public class CparametServiceImpl extends GenericServiceImpl<Cparamet, CparametId
 
     @Override
     public Cparamet save(Cparamet entity) {
-        Long codigo = getNextSequenceValue("CPARAMET_S_CODIGO");
+        Long codigo = getNextSequenceValue(Sequence.CPARAMETCODIGO);
         entity.getId().setCodigo(codigo);
         return super.save(entity);
     }

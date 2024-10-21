@@ -26,6 +26,9 @@ spring:
       ddl-auto: none
     show-sql: true
     open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
 
 management:
   endpoints:
@@ -44,7 +47,4 @@ info:
   app:
     name: ${spring.application.name}
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+

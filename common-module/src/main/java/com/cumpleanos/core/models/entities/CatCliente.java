@@ -11,8 +11,6 @@ import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "CATCLIENTE", indexes = {
         @Index(name = "CATCLIENTE_UDX2", columnList = "CAT_ID, CAT_EMPRESA, CAT_TIPO", unique = true),
@@ -50,20 +48,6 @@ public class CatCliente {
 
     @Column(name = "CAT_INACTIVO")
     private Boolean catInactivo;
-
-    @Size(max = 10)
-    @Column(name = "CREA_USR", length = 10)
-    private String creaUsr;
-
-    @Column(name = "CREA_FECHA")
-    private LocalDate creaFecha;
-
-    @Size(max = 10)
-    @Column(name = "MOD_USR", length = 10)
-    private String modUsr;
-
-    @Column(name = "MOD_FECHA")
-    private LocalDate modFecha;
 
     @NotNull
     @Column(name = "CAT_TIPO", nullable = false)

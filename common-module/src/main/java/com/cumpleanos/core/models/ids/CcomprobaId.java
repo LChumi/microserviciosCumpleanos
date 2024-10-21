@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,16 +18,16 @@ import java.math.BigInteger;
 @Setter
 @Embeddable
 @EqualsAndHashCode
+@ToString
 public class CcomprobaId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CCOMPROBA_S_CODIGO")
-    @Column(name = "CCO_CODIGO", nullable = false)
-    private BigInteger codigo;
-
     @NotNull
     @Column(name = "CCO_EMPRESA", nullable = false)
     private Long empresa;
+
+    @Column(name = "CCO_CODIGO", nullable = false)
+    private BigInteger codigo;
 }

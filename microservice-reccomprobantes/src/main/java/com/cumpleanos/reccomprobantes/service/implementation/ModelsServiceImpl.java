@@ -1,14 +1,12 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
-import com.cumpleanos.core.models.entities.Autcliente;
-import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Sistema;
-import com.cumpleanos.core.models.entities.SriDocEleEmi;
+import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.reccomprobantes.service.http.ModelsClient;
 import com.cumpleanos.reccomprobantes.service.http.SriNodeClient;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.persistence.models.json.request.AutorizacionRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,12 +14,25 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ModelsServiceImpl{
 
     private final ModelsClient modelsClient;
     private final SriNodeClient sriNodeClient;
+
+    //TODO servicio que viene del API Node del SRI
+    public ComprobanteJson getComprobantesSri(String claveAcceso){
+        try {
+            ResponseEntity<ComprobanteJson> response = sriNodeClient.autorizacion(new AutorizacionRequest(claveAcceso, "2"));
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        }catch (Exception e){
+            throw new RuntimeException("Error al obtener el documento");
+        }
+    }
 
     //TODO servicio que viene del controlador SistemaController
     public Sistema getEmpresaByRuc(String ruc){
@@ -67,13 +78,14 @@ public class ModelsServiceImpl{
     }
 
     //TODO servicio que viene del controlador ClienteController
-    public Cliente getByRucAndEmpresa(String ruc, Long empresa){
+    public Cliente getByRucAndEmpresa(String ruc, Short tipo, Long empresa){
         try{
-            ResponseEntity<Cliente> response = modelsClient.findByRucAndEmpresa(ruc, empresa);
+            ResponseEntity<Cliente> response = modelsClient.findByRucAndEmpresa(ruc, tipo, empresa);
             return response.getBody();
         } catch (HttpClientErrorException e){
             return null;
         } catch (Exception e) {
+            log.error("Error al obtener el documento mesage {}",e.getMessage(), e.getCause());
             throw new RuntimeException("Error al obtener el Proveedor por ruc y empresa ");
         }
     }
@@ -112,7 +124,7 @@ public class ModelsServiceImpl{
         }
     }
 
-    public Long verificarParametro(int empresa, String sigla, String secuencia, int tipo){
+    public Long verificarParametro(Long empresa, String sigla, String secuencia, int tipo){
         try {
             ResponseEntity<Long> response = modelsClient.verificarParametro(empresa, sigla, secuencia, tipo);
             return response.getBody();
@@ -146,15 +158,16 @@ public class ModelsServiceImpl{
         }
     }
 
-    //TODO servicio que viene del API Node del SRI
-    public ComprobanteJson getComprobantesSri(String claveAcceso){
-        try {
-            ResponseEntity<ComprobanteJson> response = sriNodeClient.autorizacion(new AutorizacionRequest(claveAcceso, "2"));
+    //TODO servicio que viene de RetDatoController
+    public RetDato getRetDato(Long empresa , Long tablacoa, String id){
+        try{
+            ResponseEntity<RetDato> response = modelsClient.getRetDato(empresa, tablacoa, id);
             return response.getBody();
         } catch (HttpClientErrorException e){
             return null;
-        }catch (Exception e){
-            throw new RuntimeException("Error al obtener el documento");
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el RetDato");
         }
     }
+
 }

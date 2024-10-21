@@ -74,6 +74,9 @@ public class Autcliente {
     @Column(name = "ACL_FACT3", nullable = false, length = 9)
     private String fact3;
 
+    @Column(name = "ACL_TABLACOA")
+    private Long aclTablacoa;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "ACL_RETDATO", referencedColumnName = "RTD_CODIGO", insertable = false, updatable = false),

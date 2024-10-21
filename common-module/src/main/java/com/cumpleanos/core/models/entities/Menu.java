@@ -61,12 +61,12 @@ public class Menu {
     private Boolean mnuSeguridad = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MNU_REPORTA", referencedColumnName = "MNU_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "MNU_REPORTA", referencedColumnName = "MNU_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Menu reporta;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MNU_COPCION", referencedColumnName = "COP_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "MNU_COPCION", referencedColumnName = "COP_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Copcion copcion;
 

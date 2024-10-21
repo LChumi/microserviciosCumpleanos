@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,16 +16,17 @@ import java.math.BigInteger;
 @Setter
 @Embeddable
 @EqualsAndHashCode
+@ToString
 public class TotalId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "TOT_CCO_COMPROBA", nullable = false)
-    private BigInteger ccoComproba;
-
-    @NotNull
     @Column(name = "TOT_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "TOT_CCO_COMPROBA", nullable = false)
+    private BigInteger ccoComproba;
 }

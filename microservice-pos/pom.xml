@@ -8,7 +8,7 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.cumlpeanos.pos</groupId>
+	<groupId>com.cumpleanos.pos</groupId>
 	<artifactId>pos-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pos-service</name>

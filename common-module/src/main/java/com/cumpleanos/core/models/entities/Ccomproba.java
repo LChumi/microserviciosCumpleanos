@@ -159,7 +159,7 @@ public class Ccomproba {
     private Boolean ccoNodespacho;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CCO_MODULO", insertable = false, updatable = false)
+    @JoinColumn(name = "CCO_MODULO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 

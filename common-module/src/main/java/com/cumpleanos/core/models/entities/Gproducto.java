@@ -22,7 +22,6 @@ import java.time.LocalDate;
 @ToString(exclude = {
         "sistema"
 })
-@SequenceGenerator(name = "GPRODUCTO_S_CODIGO", sequenceName = "GPRODUCTO_S_CODIGO", allocationSize = 1)
 public class Gproducto {
 
     @EmbeddedId

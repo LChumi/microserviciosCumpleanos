@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@SequenceGenerator(name = "UBICACION_S_CODIGO", sequenceName = "UBICACION_S_CODIGO", allocationSize = 1)
+@ToString(exclude = {})
 public class Ubicacion {
 
     @EmbeddedId

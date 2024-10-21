@@ -27,7 +27,7 @@ public class FunctionOracleController {
     }
 
     @GetMapping("/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
-    public ResponseEntity<Long> verificarParametro(@PathVariable int empresa, @PathVariable String sigla, @PathVariable String secuencia, @PathVariable int tipo) {
+    public ResponseEntity<Long> verificarParametro(@PathVariable Long empresa, @PathVariable String sigla, @PathVariable String secuencia, @PathVariable int tipo) {
         Long parametro = functionService.agenteParametro(empresa, sigla, secuencia, null, tipo);
         if (parametro == null) {
             return ResponseEntity.ok(0L);

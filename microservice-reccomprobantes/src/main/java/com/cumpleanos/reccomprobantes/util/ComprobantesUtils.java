@@ -20,6 +20,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -65,11 +66,14 @@ public class ComprobantesUtils {
         idSri.setEmpresa(empresa.getId());
         idSri.setNumeroAutorizacion(claveAcceso);
         docSri.setId(idSri);
+        docSri.setFecha(LocalDate.now());
+        docSri.setTipoEmision("NORMAL");
         docSri.setComprobante(tipoComprobante);
         docSri.setSerieComprobante(serieComprobante);
         docSri.setRucEmisor(rucEmisor);
         docSri.setRazonSocialEmisor(razonSocialEmisor);
         docSri.setFechaEmision(fechaEmision);
+        docSri.setRegistrado(false);
         docSri.setFechaAutorizacion(fechaAutorizacion);
         docSri.setIdentificacionReceptor(identificacionReceptor);
         docSri.setClaveAcceso(claveAcceso);
@@ -84,6 +88,9 @@ public class ComprobantesUtils {
         doc.setId(id);
         doc.setRucEmisor(comp.getRucEmisor());
         doc.setRazonSocialEmisor(comp.getRazonSocialEmisor());
+        doc.setFecha(LocalDate.now());
+        doc.setTipoEmision("NORMAL");
+        doc.setRegistrado(false);
         doc.setComprobante(comp.getTipoComprobante());
         doc.setSerieComprobante(comp.getSerieComprobante());
         doc.setClaveAcceso(comp.getClaveAcceso());
@@ -98,27 +105,40 @@ public class ComprobantesUtils {
         ClienteId id= new ClienteId();
         id.setEmpresa(empresa);
         proveedor.setId(id);
-        proveedor.setCliId("PR-001");
-        proveedor.setNombre(reverzarNombre(info.getRazonSocial()));
+        proveedor.setNombre(info.getRazonSocial());
         proveedor.setRucCedula(info.getRuc());
+        proveedor.setTipoced(tipoCedula(info.getRuc()));
         proveedor.setTipo((short)2);
         proveedor.setDireccion(info.getDirMatriz());
         proveedor.setTipoper(tipoJuridico.shortValue());
+        proveedor.setGenero((short)1);
+        proveedor.setInactivo(false);
+        proveedor.setCupo(BigDecimal.ZERO);
+        proveedor.setImpuestos((short)1);
+        proveedor.setFechaing(LocalDate.now());
         return proveedor;
     }
 
-    public static Autcliente crearAutCliente(SriDocEleEmi doc, Long clienteId , Sistema empresa) {
+    public static Autcliente crearAutCliente(SriDocEleEmi doc, Long clienteId , Sistema empresa, InfoTributaria info) {
         Autcliente autcliente = new Autcliente();
         AutclienteId id = new AutclienteId();
         id.setCliente(clienteId);
         id.setEmpresa(doc.getId().getEmpresa());
         id.setNroAutoriza(doc.getId().getNumeroAutorizacion());
+        id.setFac1(info.getEstab());
+        id.setFac2(info.getPtoEmi());
         autcliente.setId(id);
         autcliente.setSistema(empresa);
+        autcliente.setFac3(info.getSecuencial());
+        autcliente.setFact1(info.getEstab());
+        autcliente.setFact2(info.getPtoEmi());
+        autcliente.setFact3(info.getSecuencial());
+        autcliente.setInactivo(false);
+        autcliente.setTclipro((short)2);
         return autcliente;
     }
 
-    public static String reverzarNombre(String nombre) {
+    private static String reverzarNombre(String nombre) {
         String[] partes = nombre.split(" ");
 
         StringBuilder nuevoNombre = new StringBuilder();
@@ -155,7 +175,7 @@ public class ComprobantesUtils {
         return writer.toString();
     }
 
-    public static String normalizeString(String str) {
+    private static String normalizeString(String str) {
         if (str == null) {
             return null;
         }
@@ -165,5 +185,19 @@ public class ComprobantesUtils {
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         // Reemplazar los caracteres acentuados
         return pattern.matcher(normalized).replaceAll("");
+    }
+
+    private static Short tipoCedula(String cedula) {
+        //Verificar si el string solo tiene numeros
+        if (cedula.matches("\\d+")) {
+            if (cedula.length() == 10) {
+                return 1;
+            }else if (cedula.length() == 13) {
+                return 2;
+            }
+        }else {
+            return 3;
+        }
+        return 3;
     }
 }

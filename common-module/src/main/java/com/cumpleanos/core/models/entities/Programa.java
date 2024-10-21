@@ -66,12 +66,12 @@ public class Programa {
     private String idApex;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRG_MODULO", referencedColumnName = "MOD_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "PRG_MODULO", referencedColumnName = "MOD_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRG_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "PRG_SEGURIDAD", referencedColumnName = "SEG_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 

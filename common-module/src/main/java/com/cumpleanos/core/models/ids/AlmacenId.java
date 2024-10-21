@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,17 +17,17 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @Embeddable
+@ToString
 public class AlmacenId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ALMACEN_S_CODIGO")
-    @NotNull
-    @Column(name = "ALM_CODIGO", nullable = false)
-    private Long codigo;
-
     @NotNull
     @Column(name = "ALM_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "ALM_CODIGO", nullable = false)
+    private Long codigo;
 }
