@@ -359,11 +359,6 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente2;
 
-    public void setCiudad(Ubicacion ciudad) {
-        this.ciudad = ciudad;
-        this.cliCiudad = (ciudad != null) ? ciudad.getId().getCodigo() : null; // Asegúrate de que "getCodigo" devuelve el valor correcto.
-    }
-
     /*@JsonBackReference
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Almacen> almacenes = new LinkedHashSet<>();

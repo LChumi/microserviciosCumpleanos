@@ -27,38 +27,46 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
 
     @Override
     public void visit(Factura factura) {
-        System.out.println(factura.getFechaAutorizacion());
         procesarDoc(
                 factura.getInfoTributaria(),
-                factura.getInfoFactura().getIdentificacionComprador(),
+                factura.getInfoFactura().getRazonSocialComprador(),
                 factura.getTipoComprobante(),
                 DateTimeUtils.parseDate(factura.getInfoFactura().getFechaEmision()),
                 DateTimeUtils.parseDateTime(factura.getFechaAutorizacion()),
-                factura.getInfoFactura().getRazonSocialComprador());
+                factura.getInfoFactura().getIdentificacionComprador());
     }
 
     @Override
     public void visit(NotaCredito notaCredito) {
         procesarDoc(
                 notaCredito.getInfoTributaria(),
-                notaCredito.getInfoNotaCredito().getIdentificacionComprador(),
+                notaCredito.getInfoNotaCredito().getRazonSocialComprador(),
                 notaCredito.getTipoComprobante(),
                 DateTimeUtils.parseDate(notaCredito.getInfoNotaCredito().getFechaEmision()),
                 DateTimeUtils.parseDateTime(notaCredito.getFechaAutorizacion()),
-                notaCredito.getInfoNotaCredito().getRazonSocialComprador());
+                notaCredito.getInfoNotaCredito().getIdentificacionComprador());
     }
 
     @Override
     public void visit(ComprobanteRetencion comprobanteRetencion) {
         procesarDoc(
                 comprobanteRetencion.getInfoTributaria(),
-                comprobanteRetencion.getInfoCompRetencion().getIdentificacionSujetoRetenido(),
+                comprobanteRetencion.getInfoCompRetencion().getRazonSocialSujetoRetenido(),
                 comprobanteRetencion.getTipoComprobante(),
                 DateTimeUtils.parseDate(comprobanteRetencion.getInfoCompRetencion().getFechaEmision()),
                 DateTimeUtils.parseDateTime(comprobanteRetencion.getFechaAutorizacion()),
                 comprobanteRetencion.getInfoCompRetencion().getIdentificacionSujetoRetenido());
     }
 
+    /**
+     * Ciclo de vida del codigo en el se verifica todas las entidades si no existen sigue el ciclo de vida del codigo
+     * @param info -> la informacion del comprobnate se usa para llenar la informacion de la mayoria de tablas
+     * @param ruc -> el ruc de la empresa donde se va a transdaccionar toda la informacion
+     * @param tipoComprobante -> verificacion de tipo de comrpbante (FACTURA - COMPROBANTES DE RETENCION - NOTA DE CREDITO )
+     * @param fechaEmision -> La fecha de emision del comprobante
+     * @param fechaAutorizacion -> fecha de autorizacion proporcionada por el sri
+     * @param identificacionReceptor -> la identificacion del emisor del comprobante
+     */
     private void procesarDoc(
             InfoTributaria info,
             String ruc,
@@ -74,29 +82,35 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             log.warn("No se encontró el comprobante con la clave de acceso: {}", info.getClaveAcceso());
             Sistema empresa = modelsService.getEmpresaByRuc(ruc);
             if (empresa != null) {
-                SriDocEleEmi docSri = ComprobantesUtils.crearSriDoc(empresa, info.getClaveAcceso(), tipoComprobante, info.noComprobante(),
-                        info.getRuc(),ruc, fechaEmision, fechaAutorizacion,
+                SriDocEleEmi docSri = ComprobantesUtils.crearSriDoc(
+                        empresa,
+                        info.getClaveAcceso(),
+                        tipoComprobante,
+                        info.noComprobante(),
+                        info.getRuc(),
+                        ruc,
+                        fechaEmision,
+                        fechaAutorizacion,
                         identificacionReceptor);
-                System.out.println("Documento sri generado nuevon :"+docSri);
+                System.out.println("Documento sri generado nuevo :"+docSri);
+                Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
                 if (tipoComprobante.equalsIgnoreCase("Comprobante de Retencion")){
                     log.info("Registro de Comprobante de Retencion agregando al sitema en empresa: {}", empresa.getNombre());
-                    //SriDocEleEmi nuevo = modelsService.save(docSri);
-                    log.info("Comprobante creado en BD documento -> {}", docSri);
+                    SriDocEleEmi nuevo = modelsService.save(docSri);
+                    verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa, info);
+                    log.info("Comprobante creado en BD documento -> {}", nuevo);
                 }else {
                     log.info("Registro de Comprobantes Facturas / Nota de credito ");
-                    Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
                     if (proveedor != null) {
                         System.out.println(proveedor);
+                        SriDocEleEmi nuevo = modelsService.save(docSri);
                         verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa, info);
-                        //SriDocEleEmi nuevo = modelsService.save(docSri);
                     }else {
                         log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = generarProveedorNuevo(info, empresa.getId(), tipClient);
-                        //Cliente proveedorAgregado= modelsService.save(proveedorNuevo);
-                        System.out.println("CLIENTE A AGREGAR ");
-                        System.out.println(proveedorNuevo);
-                        //SriDocEleEmi nuevo = modelsService.save(docSri);
+                        System.out.println("CLIENTE A AGREGAR \n"+ proveedorNuevo);
+                        SriDocEleEmi nuevo = modelsService.save(docSri);
                         verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa, info);
                     }
                 }
@@ -106,6 +120,12 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         }
     }
 
+    /**+
+     * Metodo para generar el CliId de la tabla genera por secuencia dependiendo si existen valores en la base de datos
+     * @param nombre -> nombre del cliente/proveedor le asigna PN- seguido de las tres primeras letras
+     * @param empresa -> la empresa donde se asigna
+     * @return -> se retorna la secuencia generada o si no existe la secuencia con 001
+     */
     private String generarIdCliente(String nombre, Long empresa){
 
         String nuevoIdBase = ProveedorIdGeneratorUtils.generarPrefix(nombre);
@@ -128,6 +148,14 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         }
     }
 
+    /**
+     *  Metodo para generar al Provvedor que se va a almacenar en la base de datos
+     *  agregando la categoria politica y ciudad
+     * @param info -> segun la informacion tributaria de el xml
+     * @param empresa -> empresa donde se va a generar el proveedor
+     * @param tipCliente -> tipo de cliente verificacion si es juridico o no
+     * @return -> cliente guardado
+     */
     private Cliente generarProveedorNuevo(InfoTributaria info, Long empresa, Long tipCliente) {
 
         Cliente cli = ComprobantesUtils.crearProveedor(info,empresa, tipCliente);
@@ -138,9 +166,16 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         cli.setCliPolitica(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_POLITICA_PROVEEDOR));
         cli.setCliCiudad(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_CIUDAD_PROVEEDORES));
 
-        return cli;
+        return modelsService.save(cli);
     }
 
+    /**
+     * Verifica si existe en la tabla AutCliente y si no existe le agrega un nuevo
+     * @param docsr -> el documento que se agrego en la tabla doc_sri_emision
+     * @param cliente -> el id de cliente que se esta registrando
+     * @param sis -> la empresa donde esta registrada toda la informacion
+     * @param info -> la informacion tributaria contiene informacion de factura
+     */
     private void verificarAutclient(SriDocEleEmi docsr, Long cliente, Sistema sis, InfoTributaria info){
         if (docsr.getId().getNumeroAutorizacion()==null){
             log.warn("El archivo no tiene numero de autorizacion {} en la empresa {}", docsr.getComprobante(), docsr.getId().getEmpresa());
@@ -155,11 +190,18 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             RetDato retDato =modelsService.getRetDato(empresa,autcliente.getAclTablacoa(),info.getCodDoc());
             autcliente.setRetDato(retDato);
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
-            //modelsService.saveAutCliente(autcliente);
+            autcliente.setValFecha(docsr.getFechaEmision());
+            modelsService.saveAutCliente(autcliente);
             System.out.println("autcliente nuevo creado: "+ autcliente);
         }
     }
 
+    /**
+     * Metodo para obetener los parametros para la insercion de relaciones en las tablas
+     * @param empresa -> La empresa donde se solicita
+     * @param parametro -> Enum de los parametros a buscar
+     * @return -> devuelve el valor o codigo del Parametro solicitado.
+     */
     private Long obtenerParametro(Long empresa, ParametroEnum parametro) {
         return modelsService.verificarParametro(
                 empresa,

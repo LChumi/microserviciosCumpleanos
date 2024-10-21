@@ -3,7 +3,6 @@ package com.cumpleanos.models.service.implementation;
 import com.cumpleanos.models.service.interfaces.GenericService;
 import com.cumpleanos.models.utils.enums.Sequence;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
@@ -36,7 +35,7 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
     @Transactional
     @Override
     public T findById(ID id) {
-        return getRepository().findById(id).orElseThrow(()-> new EntityNotFoundException("Entidad no encontrada"));
+        return getRepository().findById(id).orElse(null);
     }
 
     @Override
