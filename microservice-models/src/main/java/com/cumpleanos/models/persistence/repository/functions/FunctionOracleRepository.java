@@ -12,7 +12,7 @@ public interface FunctionOracleRepository extends JpaRepository<Cliente,Long> {
     Long verificarRucJuridico(@Param("ruc") String ruc);
 
     @Query(value = "SELECT ast_gen.parametro(:empresa, :sigla, :secuencia, :almacen, :tipo) FROM DUAL", nativeQuery = true)
-    Long ejecutarAstGen(@Param("empresa") int empresa,
+    Long ejecutarAstGen(@Param("empresa") Long empresa,
                         @Param("sigla") String sigla,
                         @Param("secuencia") String secuencia,
                         @Param("almacen") String almacen,

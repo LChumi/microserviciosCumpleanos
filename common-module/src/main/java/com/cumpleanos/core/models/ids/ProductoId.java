@@ -22,10 +22,10 @@ public class ProductoId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "PRO_CODIGO", nullable = false)
-    private Long codigo;
-
-    @NotNull
     @Column(name = "PRO_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "PRO_CODIGO", nullable = false)
+    private Long codigo;
 }

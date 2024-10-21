@@ -56,7 +56,7 @@ public class TablaCoa {
     private String tabId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TAB_EMPRESA", referencedColumnName = "SIS_CODIGO" , insertable = false, updatable = false)
+    @JoinColumn(name = "TAB_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Sistema sistema;
 }

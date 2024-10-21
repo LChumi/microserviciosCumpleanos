@@ -21,10 +21,10 @@ public class TotalId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "TOT_CCO_COMPROBA", nullable = false)
-    private BigInteger ccoComproba;
-
-    @NotNull
     @Column(name = "TOT_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "TOT_CCO_COMPROBA", nullable = false)
+    private BigInteger ccoComproba;
 }

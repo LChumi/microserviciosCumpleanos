@@ -25,8 +25,8 @@ public interface ModelsClient {
     ResponseEntity<SriDocEleEmi> updateDocument(@RequestBody SriDocEleEmi sriDocEleEmi);
 
     //TODO servicio que viene del controlador ClienteController
-    @GetMapping("/models/cliente/ruc/{ruc}/{empresa}")
-    ResponseEntity<Cliente> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("empresa") Long empresa);
+    @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
+    ResponseEntity<Cliente> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("tipo") Short tipo, @PathVariable("empresa") Long empresa);
 
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> save(@RequestBody Cliente cliente);
@@ -39,7 +39,7 @@ public interface ModelsClient {
     ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
 
     @GetMapping("/models/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
-    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") int empresa,
+    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") Long empresa,
                                             @PathVariable("sigla") String sigla,
                                             @PathVariable("secuencia") String secuencia,
                                             @PathVariable("tipo") int tipo );

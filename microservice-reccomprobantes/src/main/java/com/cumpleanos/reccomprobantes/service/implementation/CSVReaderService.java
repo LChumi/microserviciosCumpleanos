@@ -66,7 +66,7 @@ public class CSVReaderService {
                     //SriDocEleEmi nuevo = modelsService.save(docSri);
                     log.info("Comprobante de Retencion agregado: {}", docSri);
                 } else {
-                    Cliente proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(), empresa.getId());
+                    Cliente proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(),(short)2, empresa.getId());
                     if (proveedor != null) {
                         System.out.println("---------------------------------------------------------------------------------------");
                         log.info("Proveedor existe {}", proveedor.getNombre());

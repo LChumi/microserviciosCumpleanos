@@ -22,10 +22,10 @@ public class TipClienteId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "TCL_CODIGO", nullable = false)
-    private Long codigo;
-
-    @NotNull
     @Column(name = "TCL_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "TCL_CODIGO", nullable = false)
+    private Long codigo;
 }

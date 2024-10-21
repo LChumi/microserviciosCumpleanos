@@ -20,9 +20,9 @@ public class CparametId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "CPA_CODIGO", nullable = false)
-    private Long codigo;
-
     @Column(name = "CPA_EMPRESA", nullable = false)
     private Long empresa;
+
+    @Column(name = "CPA_CODIGO", nullable = false)
+    private Long codigo;
 }

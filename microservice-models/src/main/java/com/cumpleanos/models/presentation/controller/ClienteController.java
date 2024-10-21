@@ -5,6 +5,7 @@ import com.cumpleanos.core.models.entities.Ubicacion;
 import com.cumpleanos.core.models.ids.UbicacionId;
 import com.cumpleanos.models.persistence.repository.UbicacionRepository;
 import com.cumpleanos.models.service.implementation.ClienteServiceImpl;
+import com.cumpleanos.models.service.interfaces.IClienteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +21,11 @@ import java.util.List;
 public class ClienteController {
 
     @Autowired
-    private ClienteServiceImpl clienteServiceImpl;
+    private IClienteService clienteServiceImpl;
 
-    @GetMapping("/cliente/ruc/{ruc}/{empresa}")
-    public ResponseEntity<Cliente> getCliente(@PathVariable String ruc, @PathVariable Long empresa) {
-        Cliente cliente = clienteServiceImpl.findByCedulaRucAndEmpresa(ruc, empresa);
+    @GetMapping("/cliente/ruc/{ruc}/{tipo}/{empresa}")
+    public ResponseEntity<Cliente> getCliente(@PathVariable String ruc, @PathVariable Short tipo, @PathVariable Long empresa) {
+        Cliente cliente = clienteServiceImpl.findByCedulaRucAndEmpresa(ruc,tipo ,empresa);
         if (cliente == null) {
             return ResponseEntity.noContent().build();
         }

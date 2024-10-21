@@ -20,6 +20,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -98,12 +99,17 @@ public class ComprobantesUtils {
         ClienteId id= new ClienteId();
         id.setEmpresa(empresa);
         proveedor.setId(id);
-        proveedor.setCliId("PR-001");
         proveedor.setNombre(info.getRazonSocial());
         proveedor.setRucCedula(info.getRuc());
+        proveedor.setTipoced(tipoCedula(info.getRuc()));
         proveedor.setTipo((short)2);
         proveedor.setDireccion(info.getDirMatriz());
         proveedor.setTipoper(tipoJuridico.shortValue());
+        proveedor.setGenero((short)1);
+        proveedor.setInactivo(false);
+        proveedor.setCupo(BigDecimal.ZERO);
+        proveedor.setImpuestos((short)1);
+        proveedor.setFechaing(LocalDate.now());
         return proveedor;
     }
 
@@ -155,7 +161,7 @@ public class ComprobantesUtils {
         return writer.toString();
     }
 
-    public static String normalizeString(String str) {
+    private static String normalizeString(String str) {
         if (str == null) {
             return null;
         }
@@ -165,5 +171,19 @@ public class ComprobantesUtils {
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         // Reemplazar los caracteres acentuados
         return pattern.matcher(normalized).replaceAll("");
+    }
+
+    private static Short tipoCedula(String cedula) {
+        //Verificar si el string solo tiene numeros
+        if (cedula.matches("\\d+")) {
+            if (cedula.length() == 10) {
+                return 1;
+            }else if (cedula.length() == 13) {
+                return 2;
+            }
+        }else {
+            return 3;
+        }
+        return 3;
     }
 }

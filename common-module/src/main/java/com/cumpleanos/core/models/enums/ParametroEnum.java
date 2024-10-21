@@ -1,4 +1,4 @@
-package com.cumpleanos.models.utils.enums;
+package com.cumpleanos.core.models.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ParametroEnum {
-    CXP_CIUDAD("CXP", "UBI"),
-    CXP_CATEGORIA("CXP", "CPN"),
-    CXP_POLITICA("CXP", "POL"),
+    CXP_CIUDAD_PROVEEDORES("CXP", "UBI"),
+    CXP_CATEGORIA_PROVEEDOR("CXP", "CPN"),
+    CXP_POLITICA_PROVEEDOR("CXP", "POL"),
     COM_COA_TIPOCOM("COM", "COA");
 
     private final String sigla;

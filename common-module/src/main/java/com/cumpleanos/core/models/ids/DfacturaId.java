@@ -21,15 +21,14 @@ public class DfacturaId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "DFAC_SECUENCIA", nullable = false)
-    private Long secuencia;
+    @Column(name = "DFAC_EMPRESA", nullable = false)
+    private Long empresa;
 
     @NotNull
     @Column(name = "DFAC_CFAC_COMPROBA", nullable = false)
     private BigInteger cfacComproba;
 
     @NotNull
-    @Column(name = "DFAC_EMPRESA", nullable = false)
-    private Long empresa;
-
+    @Column(name = "DFAC_SECUENCIA", nullable = false)
+    private Long secuencia;
 }

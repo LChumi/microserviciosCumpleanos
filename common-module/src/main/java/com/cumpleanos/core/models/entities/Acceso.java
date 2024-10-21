@@ -80,12 +80,12 @@ public class Acceso {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_PROGRAMA",referencedColumnName = "PRG_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "ACC_PROGRAMA",referencedColumnName = "PRG_CODIGO")
     private Programa programa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "ACC_MENU",referencedColumnName = "MNU_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "ACC_MENU",referencedColumnName = "MNU_CODIGO")
     private Menu menu;
 
     @ManyToOne(fetch = FetchType.LAZY)

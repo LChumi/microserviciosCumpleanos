@@ -11,7 +11,7 @@ public class FunctionOracleServiceImpl {
 
     private final FunctionOracleRepository function;
 
-    public Long agenteParametro(int empresa, String sigla, String secuencia , String almacen, int tipo){
+    public Long agenteParametro(Long empresa, String sigla, String secuencia , String almacen, int tipo){
         return function.ejecutarAstGen(empresa, sigla, secuencia, almacen, tipo);
     }
 

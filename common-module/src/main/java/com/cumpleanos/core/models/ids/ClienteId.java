@@ -10,9 +10,9 @@ import lombok.ToString;
 import java.io.Serial;
 import java.io.Serializable;
 
+@Embeddable
 @Getter
 @Setter
-@Embeddable
 @EqualsAndHashCode
 @ToString
 public class ClienteId implements Serializable {
@@ -21,10 +21,10 @@ public class ClienteId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "CLI_CODIGO", nullable = false)
-    private Long codigo;
-
-    @NotNull
     @Column(name = "CLI_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "CLI_CODIGO", nullable = false)
+    private Long codigo;
 }

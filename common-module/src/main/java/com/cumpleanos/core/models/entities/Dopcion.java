@@ -72,7 +72,7 @@ public class Dopcion {
     private Copcion copcion;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DOP_PROGRAMA", referencedColumnName = "PRG_CODIGO" , insertable = false, updatable = false)
+    @JoinColumn(name = "DOP_PROGRAMA", referencedColumnName = "PRG_CODIGO" )
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Programa programa;
 }

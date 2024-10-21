@@ -22,10 +22,10 @@ public class CentroId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "CEN_CODIGO", nullable = false)
-    private Long codigo;
-
-    @NotNull
     @Column(name = "CEN_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "CEN_CODIGO", nullable = false)
+    private Long codigo;
 }

@@ -22,10 +22,10 @@ public class CadAgenteId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "CAD_CODIGO", nullable = false)
-    private Long cadCodigo;
-
-    @NotNull
     @Column(name = "CAD_EMPRESA", nullable = false)
     private Long cadEmpresa;
+
+    @NotNull
+    @Column(name = "CAD_CODIGO", nullable = false)
+    private Long cadCodigo;
 }

@@ -22,10 +22,10 @@ public class UmedidaId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "UMD_CODIGO", nullable = false)
-    private Long codigo;
-
-    @NotNull
     @Column(name = "UMD_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "UMD_CODIGO", nullable = false)
+    private Long codigo;
 }

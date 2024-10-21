@@ -4,6 +4,7 @@ import com.cumpleanos.core.models.entities.Autcliente;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.core.models.entities.SriDocEleEmi;
+import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.InfoTributaria;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.notaCredito.NotaCredito;
@@ -11,6 +12,7 @@ import com.cumpleanos.reccomprobantes.persistence.models.xml.retencion.Comproban
 import com.cumpleanos.reccomprobantes.service.implementation.ModelsServiceImpl;
 import com.cumpleanos.reccomprobantes.util.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.util.DateTimeUtils;
+import com.cumpleanos.reccomprobantes.util.ProveedorIdGeneratorUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -85,19 +87,18 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                     log.info("Comprobante creado en BD documento -> {}", docSri);
                 }else {
                     log.info("Registro de Comprobantes Facturas / Nota de credito ");
-                    Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), empresa.getId());
+                    Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
                     if (proveedor != null) {
                         System.out.println(proveedor);
                         verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa);
                     }else {
                         log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
-                        Cliente proveedorNuevo = ComprobantesUtils.crearProveedor(info,empresa.getId(), tipClient);
-                        System.out.println("Agregando Proveedor Nuevo ....");
-                        proveedorNuevo.setCliId(generarIdCliente(proveedorNuevo.getNombre(),empresa.getId()));
-                        System.out.println("Proveedor Creado "+ proveedorNuevo);
-                        Cliente proveedorAgregado= modelsService.save(proveedorNuevo);
+                        Cliente proveedorNuevo = generarProveedorNuevo(info, empresa.getId(), tipClient);
+                        //Cliente proveedorAgregado= modelsService.save(proveedorNuevo);
+                        System.out.println("CLIENTE A AGREGAR ");
                         System.out.println(proveedorNuevo);
+                        //SriDocEleEmi nuevo = modelsService.save(docSri);
                         verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa);
                     }
                 }
@@ -122,8 +123,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
 
     private String generarIdCliente(String nombre, Long empresa){
 
-        String nombreAbreviado = nombre.substring(0, 3).toUpperCase();
-        String nuevoIdBase = "PN-" + nombreAbreviado;
+        String nuevoIdBase = ProveedorIdGeneratorUtils.generarPrefix(nombre);
 
         //Lista de Ids existentes
         List<String> ids = modelsService.getIdsClientes(nuevoIdBase, empresa);
@@ -143,5 +143,26 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         }
     }
 
+    private Cliente generarProveedorNuevo(InfoTributaria info, Long empresa, Long tipCliente) {
+
+        Cliente cli = ComprobantesUtils.crearProveedor(info,empresa, tipCliente);
+
+        cli.setCliId(generarIdCliente(cli.getNombre(), cli.getId().getEmpresa()));
+
+        cli.setCliCategoria(obtenerParametro(cli, ParametroEnum.CXP_CATEGORIA_PROVEEDOR));
+        cli.setCliPolitica(obtenerParametro(cli, ParametroEnum.CXP_POLITICA_PROVEEDOR));
+        cli.setCliCiudad(obtenerParametro(cli, ParametroEnum.CXP_CIUDAD_PROVEEDORES));
+
+        return cli;
+    }
+
+    private Long obtenerParametro(Cliente cli, ParametroEnum parametro) {
+        return modelsService.verificarParametro(
+                cli.getId().getEmpresa(),
+                parametro.getSigla(),
+                parametro.getSecuencia(),
+                2
+        );
+    }
 
 }

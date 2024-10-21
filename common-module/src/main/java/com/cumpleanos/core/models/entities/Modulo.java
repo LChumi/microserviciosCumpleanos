@@ -55,7 +55,7 @@ public class Modulo {
     private LocalDate modFecha;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "MOD_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "MOD_SEGURIDAD", referencedColumnName = "SEG_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 

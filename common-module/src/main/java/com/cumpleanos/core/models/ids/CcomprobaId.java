@@ -22,10 +22,10 @@ public class CcomprobaId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "CCO_CODIGO", nullable = false)
-    private BigInteger codigo;
-
     @NotNull
     @Column(name = "CCO_EMPRESA", nullable = false)
     private Long empresa;
+
+    @Column(name = "CCO_CODIGO", nullable = false)
+    private BigInteger codigo;
 }

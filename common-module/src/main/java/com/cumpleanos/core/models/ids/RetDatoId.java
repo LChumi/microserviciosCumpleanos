@@ -22,14 +22,14 @@ public class RetDatoId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "RTD_CODIGO", nullable = false)
-    private Long codigo;
+    @Column(name = "RTD_EMPRESA", nullable = false)
+    private Long empresa;
 
     @NotNull
     @Column(name = "RTD_TABLACOA", nullable = false)
     private Long tablacoa;
 
     @NotNull
-    @Column(name = "RTD_EMPRESA", nullable = false)
-    private Long empresa;
+    @Column(name = "RTD_CODIGO", nullable = false)
+    private Long codigo;
 }

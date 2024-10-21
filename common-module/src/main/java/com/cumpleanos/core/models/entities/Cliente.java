@@ -238,6 +238,9 @@ public class Cliente {
     @Column(name = "CLI_CUENTA_DEF")
     private Long cuentaDef;
 
+    @Column(name = "CLI_RETFUENTE")
+    private Long cliRetfuente;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_RETFUENTE", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
@@ -245,6 +248,9 @@ public class Cliente {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Impuesto retFuente;
+
+    @Column(name = "CLI_RETIVA")
+    private Long cliRetIva;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
@@ -254,6 +260,9 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Impuesto retIva;
 
+    @Column(name = "CLI_CATEGORIA")
+    private Long cliCategoria;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_CATEGORIA", referencedColumnName = "CAT_CODIGO", insertable = false, updatable = false),
@@ -261,6 +270,9 @@ public class Cliente {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private CatCliente catCliente;
+
+    @Column(name = "CLI_TIPOCLI")
+    private Long tipoCli;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
@@ -270,13 +282,19 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private TipCliente tipCliente;
 
+    @Column(name = "CLI_CIUDAD")
+    private Long cliCiudad;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
-            @JoinColumn(name = "CLI_CIUDAD", referencedColumnName = "UBI_CODIGO",nullable = false),
-            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA",nullable = false)
+            @JoinColumn(name = "CLI_CIUDAD", referencedColumnName = "UBI_CODIGO",nullable = false, insertable = false, updatable = false),
+            @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA",nullable = false, insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ciudad;
+
+    @Column(name = "CLI_PARROQUIA")
+    private Long cliParroquia;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
@@ -286,6 +304,9 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion parroquia;
 
+    @Column(name = "CLI_AGENTE")
+    private Long cliAgente;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
@@ -293,6 +314,9 @@ public class Cliente {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
+
+    @Column(name = "CLI_POLITICAS")
+    private Long cliPolitica;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
@@ -302,6 +326,9 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
+    @Column(name = "CLI_POLITICAS_ADI")
+    private Long cliPoliticaAdi;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_POLITICAS_ADI", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
@@ -310,6 +337,9 @@ public class Cliente {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politicaAdi;
 
+    @Column(name = "CLI_LISTAPRE")
+    private Long cliListapre;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CLI_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
@@ -317,6 +347,9 @@ public class Cliente {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
+
+    @Column(name = "CLI_AGENTE2")
+    private Long cliAgente2;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({

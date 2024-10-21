@@ -21,10 +21,10 @@ public class CcomFacId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "CFAC_CCO_COMPROBA", nullable = false)
-    private BigInteger ccoComproba;
-
-    @NotNull
     @Column(name = "CFAC_EMPRESA", nullable = false)
     private Long empresa;
+
+    @NotNull
+    @Column(name = "CFAC_CCO_COMPROBA", nullable = false)
+    private BigInteger ccoComproba;
 }

@@ -69,9 +69,9 @@ public class ModelsServiceImpl{
     }
 
     //TODO servicio que viene del controlador ClienteController
-    public Cliente getByRucAndEmpresa(String ruc, Long empresa){
+    public Cliente getByRucAndEmpresa(String ruc, Short tipo, Long empresa){
         try{
-            ResponseEntity<Cliente> response = modelsClient.findByRucAndEmpresa(ruc, empresa);
+            ResponseEntity<Cliente> response = modelsClient.findByRucAndEmpresa(ruc, tipo, empresa);
             return response.getBody();
         } catch (HttpClientErrorException e){
             return null;
@@ -115,7 +115,7 @@ public class ModelsServiceImpl{
         }
     }
 
-    public Long verificarParametro(int empresa, String sigla, String secuencia, int tipo){
+    public Long verificarParametro(Long empresa, String sigla, String secuencia, int tipo){
         try {
             ResponseEntity<Long> response = modelsClient.verificarParametro(empresa, sigla, secuencia, tipo);
             return response.getBody();

@@ -20,12 +20,12 @@ public class AccesoId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column(name = "ACC_EMPRESA", nullable = false)
-    private Long empresa;
-
-    @NotNull
     @Column(name = "ACC_USUARIO", nullable = false)
     private Long usuario;
+
+    @NotNull
+    @Column(name = "ACC_EMPRESA", nullable = false)
+    private Long empresa;
 
     @NotNull
     @Column(name = "ACC_ALMACEN", nullable = false)

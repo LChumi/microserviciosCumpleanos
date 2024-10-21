@@ -18,12 +18,11 @@ public class TablaCoaId implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+    @NotNull
+    @Column(name = "TAB_EMPRESA", nullable = false)
+    private Long empresa;
 
     @NotNull
     @Column(name = "TAB_CODIGO", nullable = false)
     private Long codigo;
-
-    @NotNull
-    @Column(name = "TAB_EMPRESA", nullable = false)
-    private Long empresa;
 }

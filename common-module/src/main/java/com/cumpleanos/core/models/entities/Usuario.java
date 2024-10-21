@@ -79,7 +79,7 @@ public class Usuario {
     private Long empresaDef;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USR_SEGURIDAD", referencedColumnName = "SEG_CODIGO", insertable = false, updatable = false)
+    @JoinColumn(name = "USR_SEGURIDAD", referencedColumnName = "SEG_CODIGO")
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Seguridad seguridad;
 /*
