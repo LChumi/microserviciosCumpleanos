@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import java.math.BigInteger;
 @Setter
 @Embeddable
 @EqualsAndHashCode
+@ToString
 public class CcomprobaId implements Serializable {
 
     @Serial

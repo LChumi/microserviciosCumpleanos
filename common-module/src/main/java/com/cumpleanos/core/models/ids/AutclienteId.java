@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @Embeddable
+@ToString
 public class AutclienteId implements Serializable {
 
     @Serial

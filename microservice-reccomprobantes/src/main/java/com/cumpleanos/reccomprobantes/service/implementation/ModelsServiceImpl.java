@@ -1,9 +1,6 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
-import com.cumpleanos.core.models.entities.Autcliente;
-import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Sistema;
-import com.cumpleanos.core.models.entities.SriDocEleEmi;
+import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.reccomprobantes.service.http.ModelsClient;
 import com.cumpleanos.reccomprobantes.service.http.SriNodeClient;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
@@ -24,6 +21,18 @@ public class ModelsServiceImpl{
 
     private final ModelsClient modelsClient;
     private final SriNodeClient sriNodeClient;
+
+    //TODO servicio que viene del API Node del SRI
+    public ComprobanteJson getComprobantesSri(String claveAcceso){
+        try {
+            ResponseEntity<ComprobanteJson> response = sriNodeClient.autorizacion(new AutorizacionRequest(claveAcceso, "2"));
+            return response.getBody();
+        } catch (HttpClientErrorException e){
+            return null;
+        }catch (Exception e){
+            throw new RuntimeException("Error al obtener el documento");
+        }
+    }
 
     //TODO servicio que viene del controlador SistemaController
     public Sistema getEmpresaByRuc(String ruc){
@@ -149,15 +158,16 @@ public class ModelsServiceImpl{
         }
     }
 
-    //TODO servicio que viene del API Node del SRI
-    public ComprobanteJson getComprobantesSri(String claveAcceso){
-        try {
-            ResponseEntity<ComprobanteJson> response = sriNodeClient.autorizacion(new AutorizacionRequest(claveAcceso, "2"));
+    //TODO servicio que viene de RetDatoController
+    public RetDato getRetDato(Long empresa , Long tablacoa, String id){
+        try{
+            ResponseEntity<RetDato> response = modelsClient.getRetDato(empresa, tablacoa, id);
             return response.getBody();
         } catch (HttpClientErrorException e){
             return null;
-        }catch (Exception e){
-            throw new RuntimeException("Error al obtener el documento");
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el RetDato");
         }
     }
+
 }

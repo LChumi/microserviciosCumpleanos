@@ -66,11 +66,14 @@ public class ComprobantesUtils {
         idSri.setEmpresa(empresa.getId());
         idSri.setNumeroAutorizacion(claveAcceso);
         docSri.setId(idSri);
+        docSri.setFecha(LocalDate.now());
+        docSri.setTipoEmision("NORMAL");
         docSri.setComprobante(tipoComprobante);
         docSri.setSerieComprobante(serieComprobante);
         docSri.setRucEmisor(rucEmisor);
         docSri.setRazonSocialEmisor(razonSocialEmisor);
         docSri.setFechaEmision(fechaEmision);
+        docSri.setRegistrado(false);
         docSri.setFechaAutorizacion(fechaAutorizacion);
         docSri.setIdentificacionReceptor(identificacionReceptor);
         docSri.setClaveAcceso(claveAcceso);
@@ -85,6 +88,9 @@ public class ComprobantesUtils {
         doc.setId(id);
         doc.setRucEmisor(comp.getRucEmisor());
         doc.setRazonSocialEmisor(comp.getRazonSocialEmisor());
+        doc.setFecha(LocalDate.now());
+        doc.setTipoEmision("NORMAL");
+        doc.setRegistrado(false);
         doc.setComprobante(comp.getTipoComprobante());
         doc.setSerieComprobante(comp.getSerieComprobante());
         doc.setClaveAcceso(comp.getClaveAcceso());
@@ -113,18 +119,26 @@ public class ComprobantesUtils {
         return proveedor;
     }
 
-    public static Autcliente crearAutCliente(SriDocEleEmi doc, Long clienteId , Sistema empresa) {
+    public static Autcliente crearAutCliente(SriDocEleEmi doc, Long clienteId , Sistema empresa, InfoTributaria info) {
         Autcliente autcliente = new Autcliente();
         AutclienteId id = new AutclienteId();
         id.setCliente(clienteId);
         id.setEmpresa(doc.getId().getEmpresa());
         id.setNroAutoriza(doc.getId().getNumeroAutorizacion());
+        id.setFac1(info.getEstab());
+        id.setFac2(info.getPtoEmi());
         autcliente.setId(id);
         autcliente.setSistema(empresa);
+        autcliente.setFac3(info.getSecuencial());
+        autcliente.setFact1(info.getEstab());
+        autcliente.setFact2(info.getPtoEmi());
+        autcliente.setFact3(info.getSecuencial());
+        autcliente.setInactivo(false);
+        autcliente.setTclipro((short)2);
         return autcliente;
     }
 
-    public static String reverzarNombre(String nombre) {
+    private static String reverzarNombre(String nombre) {
         String[] partes = nombre.split(" ");
 
         StringBuilder nuevoNombre = new StringBuilder();

@@ -54,4 +54,9 @@ public interface ModelsClient {
     //TODO servicio que viene del controlador CparametController
     @GetMapping("/models/get-paramet/{empresa}/{codigo}")
     ResponseEntity<Cparamet> getParamet(@PathVariable("empresa") Long empresa, @PathVariable("codigo") Long codigo);
+
+
+    //TODO servicio que viene del controlador RetDato
+    @GetMapping("/models/retdato/{empresa}/{tablacoa}/{id}")
+    ResponseEntity<RetDato> getRetDato(@PathVariable("empresa") Long empresa, @PathVariable("tablacoa") Long tablacoa, @PathVariable("id") String id);
 }

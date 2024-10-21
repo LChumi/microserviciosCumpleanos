@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Setter
 @Embeddable
 @EqualsAndHashCode
+@ToString
 public class RetDatoId implements Serializable {
 
     @Serial

@@ -1,9 +1,6 @@
 package com.cumpleanos.reccomprobantes.patterns.visitor;
 
-import com.cumpleanos.core.models.entities.Autcliente;
-import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Sistema;
-import com.cumpleanos.core.models.entities.SriDocEleEmi;
+import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.InfoTributaria;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.factura.Factura;
@@ -80,7 +77,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                 SriDocEleEmi docSri = ComprobantesUtils.crearSriDoc(empresa, info.getClaveAcceso(), tipoComprobante, info.noComprobante(),
                         info.getRuc(),ruc, fechaEmision, fechaAutorizacion,
                         identificacionReceptor);
-                System.out.println(docSri);
+                System.out.println("Documento sri generado nuevon :"+docSri);
                 if (tipoComprobante.equalsIgnoreCase("Comprobante de Retencion")){
                     log.info("Registro de Comprobante de Retencion agregando al sitema en empresa: {}", empresa.getNombre());
                     //SriDocEleEmi nuevo = modelsService.save(docSri);
@@ -90,7 +87,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                     Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
                     if (proveedor != null) {
                         System.out.println(proveedor);
-                        verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa);
+                        verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa, info);
+                        //SriDocEleEmi nuevo = modelsService.save(docSri);
                     }else {
                         log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
@@ -99,25 +97,12 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         System.out.println("CLIENTE A AGREGAR ");
                         System.out.println(proveedorNuevo);
                         //SriDocEleEmi nuevo = modelsService.save(docSri);
-                        verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa);
+                        verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa, info);
                     }
                 }
             } else {
                 log.error("La empresa no existe o el RUC está incorrecto");
             }
-        }
-    }
-
-    private void verificarAutclient(SriDocEleEmi docsr, Long cliente, Sistema sis){
-        if (docsr.getId().getNumeroAutorizacion()==null){
-            log.warn("El archivo no tiene numero de autorizacion {} en la empresa {}", docsr.getComprobante(), docsr.getId().getEmpresa());
-        }
-        String numAut = docsr.getId().getNumeroAutorizacion();
-        Long empresa = docsr.getId().getEmpresa();
-
-        Autcliente encontrado = modelsService.getAutCliente(numAut, empresa);
-        if (encontrado == null) {
-            Autcliente nuevo = ComprobantesUtils.crearAutCliente(docsr, cliente, sis);
         }
     }
 
@@ -149,16 +134,35 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
 
         cli.setCliId(generarIdCliente(cli.getNombre(), cli.getId().getEmpresa()));
 
-        cli.setCliCategoria(obtenerParametro(cli, ParametroEnum.CXP_CATEGORIA_PROVEEDOR));
-        cli.setCliPolitica(obtenerParametro(cli, ParametroEnum.CXP_POLITICA_PROVEEDOR));
-        cli.setCliCiudad(obtenerParametro(cli, ParametroEnum.CXP_CIUDAD_PROVEEDORES));
+        cli.setCliCategoria(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_CATEGORIA_PROVEEDOR));
+        cli.setCliPolitica(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_POLITICA_PROVEEDOR));
+        cli.setCliCiudad(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_CIUDAD_PROVEEDORES));
 
         return cli;
     }
 
-    private Long obtenerParametro(Cliente cli, ParametroEnum parametro) {
+    private void verificarAutclient(SriDocEleEmi docsr, Long cliente, Sistema sis, InfoTributaria info){
+        if (docsr.getId().getNumeroAutorizacion()==null){
+            log.warn("El archivo no tiene numero de autorizacion {} en la empresa {}", docsr.getComprobante(), docsr.getId().getEmpresa());
+        }
+        String numAut = docsr.getId().getNumeroAutorizacion();
+        Long empresa = docsr.getId().getEmpresa();
+
+        Autcliente encontrado = modelsService.getAutCliente(numAut, empresa);
+        if (encontrado == null) {
+            Autcliente autcliente = ComprobantesUtils.crearAutCliente(docsr, cliente, sis, info);
+            autcliente.setAclTablacoa(obtenerParametro(empresa,ParametroEnum.COM_COA_TIPOCOM));
+            RetDato retDato =modelsService.getRetDato(empresa,autcliente.getAclTablacoa(),info.getCodDoc());
+            autcliente.setRetDato(retDato);
+            autcliente.getId().setRetdato(retDato.getId().getCodigo());
+            //modelsService.saveAutCliente(autcliente);
+            System.out.println("autcliente nuevo creado: "+ autcliente);
+        }
+    }
+
+    private Long obtenerParametro(Long empresa, ParametroEnum parametro) {
         return modelsService.verificarParametro(
-                cli.getId().getEmpresa(),
+                empresa,
                 parametro.getSigla(),
                 parametro.getSecuencia(),
                 2
