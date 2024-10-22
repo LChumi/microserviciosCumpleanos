@@ -25,6 +25,7 @@
 		<module>microservice-models</module>
 		<module>microservice-reccomprobantes</module>
 		<module>microservice-pos</module>
+		<module>microservice-notification</module>
 	</modules>
 
 	<properties>
