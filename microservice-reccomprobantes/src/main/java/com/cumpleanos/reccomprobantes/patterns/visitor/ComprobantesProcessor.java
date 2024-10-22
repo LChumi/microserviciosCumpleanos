@@ -81,6 +81,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         } else {
             log.warn("No se encontró el comprobante con la clave de acceso: {}", info.getClaveAcceso());
             Sistema empresa = modelsService.getEmpresaByRuc(ruc);
+
             if (empresa != null) {
                 SriDocEleEmi docSri = ComprobantesUtils.crearSriDoc(
                         empresa,
@@ -92,26 +93,21 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         fechaEmision,
                         fechaAutorizacion,
                         identificacionReceptor);
-                System.out.println("Documento sri generado nuevo :"+docSri);
+                log.info("Documento sri nuevo generado :{} ",docSri);
+
                 Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
                 if (tipoComprobante.equalsIgnoreCase("Comprobante de Retencion")){
                     log.info("Registro de Comprobante de Retencion agregando al sitema en empresa: {}", empresa.getNombre());
-                    SriDocEleEmi nuevo = modelsService.save(docSri);
-                    verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa, info);
-                    log.info("Comprobante creado en BD documento -> {}", nuevo);
+                    saveAndVerifyAutClient(docSri,proveedor, empresa, info);
                 }else {
                     log.info("Registro de Comprobantes Facturas / Nota de credito ");
                     if (proveedor != null) {
-                        System.out.println(proveedor);
-                        SriDocEleEmi nuevo = modelsService.save(docSri);
-                        verificarAutclient(docSri,proveedor.getId().getCodigo(),empresa, info);
+                        saveAndVerifyAutClient(docSri,proveedor, empresa, info);
                     }else {
                         log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = generarProveedorNuevo(info, empresa.getId(), tipClient);
-                        System.out.println("CLIENTE A AGREGAR \n"+ proveedorNuevo);
-                        SriDocEleEmi nuevo = modelsService.save(docSri);
-                        verificarAutclient(docSri,proveedorNuevo.getId().getCodigo(),empresa, info);
+                        saveAndVerifyAutClient(docSri,proveedorNuevo, empresa, info);
                     }
                 }
             } else {
@@ -120,7 +116,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         }
     }
 
-    /**+
+    /**
      * Metodo para generar el CliId de la tabla genera por secuencia dependiendo si existen valores en la base de datos
      * @param nombre -> nombre del cliente/proveedor le asigna PN- seguido de las tres primeras letras
      * @param empresa -> la empresa donde se asigna
@@ -192,7 +188,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
             autcliente.setValFecha(docsr.getFechaEmision());
             modelsService.saveAutCliente(autcliente);
-            System.out.println("autcliente nuevo creado: "+ autcliente);
+            log.info("autcliente nuevo creado: {}", autcliente);
         }
     }
 
@@ -209,6 +205,19 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                 parametro.getSecuencia(),
                 2
         );
+    }
+
+    /**
+     * Metodo para guardar en la tabla sri_doc_ele_emi y verificar autcliente
+     * @param docSri -> el docuemnto que se va a guardar en la base de datos
+     * @param proveedor -> el proveedor(Cliente existente o creado)
+     * @param empresa -> la empresa donde se va a transaccionar
+     * @param info -> Informacion tributaria donde se obtiene la mayo parte de la informacion para registros
+     */
+    private void saveAndVerifyAutClient(SriDocEleEmi docSri, Cliente proveedor, Sistema empresa, InfoTributaria info) {
+        SriDocEleEmi nuevo = modelsService.save(docSri);
+        verificarAutclient(docSri, proveedor.getId().getCodigo(), empresa, info);
+        log.info("Comprobante creado en BD documento -> {}", nuevo);
     }
 
 }
