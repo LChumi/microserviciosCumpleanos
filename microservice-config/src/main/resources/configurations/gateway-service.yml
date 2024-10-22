@@ -29,6 +29,10 @@ spring:
           uri: lb://recep-service
           predicates:
             - Path=/recp/**
+        - id: models-service
+          uri: lb://models-service
+          predicates:
+            - Path=/models/**
 
 management:
   endpoints:
