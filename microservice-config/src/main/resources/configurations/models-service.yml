@@ -16,7 +16,7 @@ spring:
     name: models-service
 
   config:
-    import: classpath:/configurations/application-secure.yaml
+    import: classpath:/configurations/application-secure.yml
 
   jpa:
     hibernate:

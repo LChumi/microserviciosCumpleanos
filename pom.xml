@@ -16,6 +16,20 @@
 	<description>Microservicios Importadora Cumpleaños</description>
 	<packaging>pom</packaging>
 
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Luis Chumi</name>
+			<email>luischumi.9@gmail.com</email>
+		</developer>
+	</developers>
+
 	<modules>
 		<module>common-module</module>
 		<module>microservice-config</module>

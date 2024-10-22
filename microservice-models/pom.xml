@@ -14,19 +14,6 @@
 	<name>models-service</name>
 	<description>Microservices Main Models </description>
 
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 	<properties>
 		<java.version>17</java.version>
 		<spring-boot-admin.version>3.2.3</spring-boot-admin.version>
