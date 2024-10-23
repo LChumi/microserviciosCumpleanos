@@ -187,8 +187,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             autcliente.setRetDato(retDato);
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
             autcliente.setValFecha(docsr.getFechaEmision());
-            modelsService.saveAutCliente(autcliente);
-            log.info("autcliente nuevo creado: {}", autcliente);
+            Autcliente nuevo =modelsService.saveAutCliente(autcliente);
+            log.info("autcliente nuevo creado: {}", nuevo);
         }
     }
 

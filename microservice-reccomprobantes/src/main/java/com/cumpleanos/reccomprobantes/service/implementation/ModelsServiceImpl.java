@@ -1,10 +1,13 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
+import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.*;
+import com.cumpleanos.reccomprobantes.service.http.EmailClient;
 import com.cumpleanos.reccomprobantes.service.http.ModelsClient;
 import com.cumpleanos.reccomprobantes.service.http.SriNodeClient;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.persistence.models.json.request.AutorizacionRequest;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ public class ModelsServiceImpl{
 
     private final ModelsClient modelsClient;
     private final SriNodeClient sriNodeClient;
+    private final EmailClient emailClient;
 
     //TODO servicio que viene del API Node del SRI
     public ComprobanteJson getComprobantesSri(String claveAcceso){
@@ -167,6 +171,19 @@ public class ModelsServiceImpl{
             return null;
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener el RetDato");
+        }
+    }
+
+    //TODO servicio que viene de EmailController
+    public void enviarEmail(EmailRecord email){
+        try {
+            ResponseEntity<Void> response = emailClient.enviar(email);
+            if (!response.getStatusCode().is2xxSuccessful()){
+                throw new RuntimeException("Error al enviar el email "+ response.getStatusCode());
+            }
+        }catch (FeignException e){
+            log.error("Error de comunicacion con el servicio de notificaciones: {}", e.getMessage());
+            throw new RuntimeException("Error al enviar el email");
         }
     }
 
