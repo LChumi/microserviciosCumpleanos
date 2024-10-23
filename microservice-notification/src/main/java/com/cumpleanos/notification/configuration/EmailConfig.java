@@ -10,13 +10,13 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:email.yml")
+@PropertySource("classpath:email.properties")
 public class EmailConfig {
 
     @Value("${email.sender}")
     private String emailUser;
 
-    @Value(("${email.password}"))
+    @Value("${email.password}")
     private String emailPassword;
 
     @Bean
