@@ -150,6 +150,7 @@ public class ComprobantesUtils {
         id.setFac1(serie1[0]);
         id.setFac2(serie1[1]);
         autcliente.setId(id);
+        autcliente.setFac3(serie1[2]);
         autcliente.setInactivo(false);
         autcliente.setTclipro((short)2);
         autcliente.setFact1(serie1[0]);
