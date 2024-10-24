@@ -10,21 +10,23 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/recp")
+@RequestMapping("recp")
 @RequiredArgsConstructor
 public class FilesProcessingController {
 
     private final CoordinatorService service;
 
     @PostMapping("/file")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
+                                        @RequestParam("email") String email) throws IOException {
         Object result = service.processFile(file);
         return ResponseEntity.ok(result);
 
     }
 
     @PostMapping("/string")
-    public ResponseEntity<?> processString(@RequestBody String string) {
+    public ResponseEntity<?> processString(@RequestBody String string,
+                                           @RequestParam("email") String email) {
         Object result = service.processString(string);
         return ResponseEntity.ok(result);
     }

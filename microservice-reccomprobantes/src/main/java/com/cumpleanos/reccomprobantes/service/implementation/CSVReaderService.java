@@ -1,11 +1,12 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
-import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Sistema;
-import com.cumpleanos.core.models.entities.SriDocEleEmi;
+import com.cumpleanos.core.models.entities.*;
+import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.reccomprobantes.persistence.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
+import com.cumpleanos.reccomprobantes.util.ComprobantesUtils;
+import com.cumpleanos.reccomprobantes.util.DateTimeUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,7 @@ public class CSVReaderService {
                         System.out.println("---------------------------------------------------------------------------------------");
                         log.info("Proveedor existe {}", proveedor.getNombre());
                         //SriDocEleEmi nuevo = modelsService.save(docSri);
+                        saveAndVerifyAutClient(csv,proveedor,empresa);
                     } else {
                         log.warn("Proveedor no existe ingresando a sri ");
                         ComprobanteJson json = modelsService.getComprobantesSri(csv.getClaveAcceso());
@@ -88,8 +90,44 @@ public class CSVReaderService {
                 }
             }
         }else {
-            log.info("Docuemnto ya existe CA{}", docuemnto.getClaveAcceso());
+            log.info("Docuemnto ya existe CA{}", docuemnto.getId());
         }
+    }
+
+
+    private void saveAndVerifyAutClient(ComprobanteCsv csv, Cliente proveedor, Sistema empresa) {
+        //SriDocEleEmi nuevo = modelsService.save(docSri);
+        verificarAutclient(csv, proveedor.getId().getCodigo(), empresa);
+        log.info("Comprobante creado en BD documento -> {}", csv);
+    }
+
+    private void verificarAutclient(ComprobanteCsv csv, Long cliente, Sistema sis){
+        if (csv.getClaveAcceso()==null){
+            log.warn("El archivo no tiene numero de autorizacion {} en la empresa {}", csv.getSerieComprobante(), sis.getNombre());
+        }
+        String numAut = csv.getClaveAcceso();
+        Long empresa = sis.getId();
+
+        Autcliente encontrado = modelsService.getAutCliente(numAut, empresa);
+        if (encontrado == null) {
+            Autcliente autcliente = ComprobantesUtils.crearAutClienteCsv(csv, cliente, sis);
+            autcliente.setAclTablacoa(obtenerParametro(empresa));
+            RetDato retDato =modelsService.getRetDato(empresa,autcliente.getAclTablacoa(),ComprobantesUtils.identificarTipoDoc(csv.getTipoComprobante()));
+            autcliente.setRetDato(retDato);
+            autcliente.getId().setRetdato(retDato.getId().getCodigo());
+            autcliente.setValFecha(DateTimeUtils.parseDate(csv.getFechaEmision()));
+            //Autcliente nuevo =modelsService.saveAutCliente(autcliente);
+            log.info("autcliente nuevo creado: {}", autcliente);
+        }
+    }
+
+    private Long obtenerParametro(Long empresa) {
+        return modelsService.verificarParametro(
+                empresa,
+                ParametroEnum.COM_COA_TIPOCOM.getSigla(),
+                ParametroEnum.COM_COA_TIPOCOM.getSecuencia(),
+                2
+        );
     }
 
 

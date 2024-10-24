@@ -23,7 +23,7 @@ public class EmailController {
     private final IEmailService emailService;
 
     @PostMapping("/enviar")
-    public ResponseEntity<Void> enviarMail(@Valid  @RequestBody EmailRecord email){
+    public ResponseEntity<?> enviarMail(@Valid  @RequestBody EmailRecord email){
         emailService.sendMail(email);
         return ResponseEntity.ok().build();
     }

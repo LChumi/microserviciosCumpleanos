@@ -24,6 +24,8 @@ import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ComprobantesUtils {
@@ -56,10 +58,10 @@ public class ComprobantesUtils {
             String tipoComprobante,
             String serieComprobante,
             String rucEmisor,
-            String razonSocialEmisor,
+            String identificacionReceptor,
             LocalDate fechaEmision,
             ZonedDateTime fechaAutorizacion,
-            String identificacionReceptor)
+            String razonSocialEmisor)
     {
         SriDocEleEmi docSri = new SriDocEleEmi();
         SriDocEleEmiId idSri = new SriDocEleEmiId();
@@ -138,6 +140,33 @@ public class ComprobantesUtils {
         return autcliente;
     }
 
+    public static Autcliente crearAutClienteCsv(ComprobanteCsv csv, Long clienteId,Sistema empresa){
+        String[] serie1 = csv.getSerieComprobante().split("-");
+        Autcliente autcliente = new Autcliente();
+        AutclienteId id = new AutclienteId();
+        id.setCliente(clienteId);
+        id.setEmpresa(empresa.getId());
+        id.setNroAutoriza(csv.getClaveAcceso());
+        id.setFac1(serie1[0]);
+        id.setFac2(serie1[1]);
+        autcliente.setId(id);
+        autcliente.setInactivo(false);
+        autcliente.setTclipro((short)2);
+        autcliente.setFact1(serie1[0]);
+        autcliente.setFact2(serie1[1]);
+        autcliente.setFact3(serie1[2]);
+        return autcliente;
+    }
+
+    public static String identificarTipoDoc(String tipo){
+        return switch (tipo){
+            case "Factura" -> "01";
+            case "Comprobante de Retención" -> "07";
+            case "Nota de Crédito" -> "04";
+            default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + tipo);
+        };
+    }
+
     private static String reverzarNombre(String nombre) {
         String[] partes = nombre.split(" ");
 
@@ -151,6 +180,7 @@ public class ComprobantesUtils {
 
         return nuevoNombre.toString().trim();
     }
+
 
     public static String cleanXml(String xml) {
         // Eliminar los caracteres de escape \" para obtener XML limpio

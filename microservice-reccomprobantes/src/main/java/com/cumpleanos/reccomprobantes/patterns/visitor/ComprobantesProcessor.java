@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.patterns.visitor;
 
+import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.InfoTributaria;
@@ -9,6 +10,7 @@ import com.cumpleanos.reccomprobantes.persistence.models.xml.retencion.Comproban
 import com.cumpleanos.reccomprobantes.service.implementation.ModelsServiceImpl;
 import com.cumpleanos.reccomprobantes.util.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.util.DateTimeUtils;
+import com.cumpleanos.reccomprobantes.util.MessagesUtils;
 import com.cumpleanos.reccomprobantes.util.ProveedorIdGeneratorUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,33 +31,33 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
     public void visit(Factura factura) {
         procesarDoc(
                 factura.getInfoTributaria(),
-                factura.getInfoFactura().getRazonSocialComprador(),
+                factura.getInfoFactura().getIdentificacionComprador(),
                 factura.getTipoComprobante(),
                 DateTimeUtils.parseDate(factura.getInfoFactura().getFechaEmision()),
                 DateTimeUtils.parseDateTime(factura.getFechaAutorizacion()),
-                factura.getInfoFactura().getIdentificacionComprador());
+                factura.getInfoFactura().getRazonSocialComprador());
     }
 
     @Override
     public void visit(NotaCredito notaCredito) {
         procesarDoc(
                 notaCredito.getInfoTributaria(),
-                notaCredito.getInfoNotaCredito().getRazonSocialComprador(),
+                notaCredito.getInfoNotaCredito().getIdentificacionComprador(),
                 notaCredito.getTipoComprobante(),
                 DateTimeUtils.parseDate(notaCredito.getInfoNotaCredito().getFechaEmision()),
                 DateTimeUtils.parseDateTime(notaCredito.getFechaAutorizacion()),
-                notaCredito.getInfoNotaCredito().getIdentificacionComprador());
+                notaCredito.getInfoNotaCredito().getRazonSocialComprador());
     }
 
     @Override
     public void visit(ComprobanteRetencion comprobanteRetencion) {
         procesarDoc(
                 comprobanteRetencion.getInfoTributaria(),
-                comprobanteRetencion.getInfoCompRetencion().getRazonSocialSujetoRetenido(),
+                comprobanteRetencion.getInfoCompRetencion().getIdentificacionSujetoRetenido(),
                 comprobanteRetencion.getTipoComprobante(),
                 DateTimeUtils.parseDate(comprobanteRetencion.getInfoCompRetencion().getFechaEmision()),
                 DateTimeUtils.parseDateTime(comprobanteRetencion.getFechaAutorizacion()),
-                comprobanteRetencion.getInfoCompRetencion().getIdentificacionSujetoRetenido());
+                comprobanteRetencion.getInfoCompRetencion().getRazonSocialSujetoRetenido());
     }
 
     /**
@@ -107,6 +109,16 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = generarProveedorNuevo(info, empresa.getId(), tipClient);
+
+                        String asunto = "Campos no registrados en cliente";
+                        String mensaje = MessagesUtils.mensajeCamposNulosCliente(proveedorNuevo,empresa);
+
+                        EmailRecord email = new EmailRecord(
+                                new String[]{"luischumi.9@gmail.com"},
+                                asunto,
+                                mensaje
+                        );
+                        //modelsService.enviarEmail(email);
                         saveAndVerifyAutClient(docSri,proveedorNuevo, empresa, info);
                     }
                 }
@@ -162,7 +174,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         cli.setCliPolitica(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_POLITICA_PROVEEDOR));
         cli.setCliCiudad(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_CIUDAD_PROVEEDORES));
 
-        return modelsService.save(cli);
+        return cli;
+        //return modelsService.save(cli);
     }
 
     /**
@@ -187,8 +200,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             autcliente.setRetDato(retDato);
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
             autcliente.setValFecha(docsr.getFechaEmision());
-            Autcliente nuevo =modelsService.saveAutCliente(autcliente);
-            log.info("autcliente nuevo creado: {}", nuevo);
+            //Autcliente nuevo =modelsService.saveAutCliente(autcliente);
+            log.info("autcliente nuevo creado: {}", autcliente);
         }
     }
 
@@ -215,9 +228,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
      * @param info -> Informacion tributaria donde se obtiene la mayo parte de la informacion para registros
      */
     private void saveAndVerifyAutClient(SriDocEleEmi docSri, Cliente proveedor, Sistema empresa, InfoTributaria info) {
-        SriDocEleEmi nuevo = modelsService.save(docSri);
+        //SriDocEleEmi nuevo = modelsService.save(docSri);
         verificarAutclient(docSri, proveedor.getId().getCodigo(), empresa, info);
-        log.info("Comprobante creado en BD documento -> {}", nuevo);
+        log.info("Comprobante creado en BD documento -> {}", docSri);
     }
-
 }
