@@ -1,21 +1,27 @@
 package com.cumpleanos.reccomprobantes.util;
 
-import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Sistema;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MessagesUtils {
 
-    public static String mensajeCamposNulosCliente(Cliente cliente, Sistema sis) {
-        List<String> camposNulos = new ArrayList<>();
-        camposNulos.add("Telefono");
-        camposNulos.add("Correo");
-        String camposNulosString = String.join(", ", camposNulos);
+    public static String mensajeHtmlCamposNulosClientes(List<Map<String, String>> clientes) {
+        StringBuilder htmlBuilder = new StringBuilder();
 
-        return String.format(
-                "Estimado usuario, \n\nEl proveedor %s (RUC/Cedula: %s) \nregistrado en la empresa %s tiene los siguientes campos nulos: %s.\nPor favor, complete la informacion necesaria.\nOpcional se agrego ciudad por defecto Cuenca",
-                cliente.getNombre(),cliente.getRucCedula(),sis.getNombre(),camposNulosString);
+        // Comenzar la tabla HTML
+        htmlBuilder.append("<table border='1' style='border-collapse:collapse; font-family: Arial'><tr><th>Proveedor</th><th>RUC/Cédula</th></tr>");
+
+        for (Map<String, String> cliente : clientes) {
+            htmlBuilder.append(String.format(
+                    "<tr><td>%s</td><td>%s</td></tr>",
+                    cliente.get("Nombre"),
+                    cliente.get("RUC/Cedula")));
+        }
+
+        // Cerrar la tabla HTML
+        htmlBuilder.append("</table>");
+
+        return htmlBuilder.toString();
     }
+
 }

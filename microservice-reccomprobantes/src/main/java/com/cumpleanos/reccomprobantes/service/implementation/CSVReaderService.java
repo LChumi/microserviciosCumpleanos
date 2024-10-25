@@ -1,12 +1,16 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
+import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
+import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.util.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.util.DateTimeUtils;
+import com.cumpleanos.reccomprobantes.util.FilesUtils;
+import com.cumpleanos.reccomprobantes.util.MessagesUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.cumpleanos.reccomprobantes.util.ComprobantesUtils.*;
 
@@ -25,6 +30,7 @@ public class CSVReaderService {
 
     private final ModelsServiceImpl modelsService;
     private final XMLConversionService xmlService;
+    private final RutasConfig rutas;
 
     public List<Comprobante> parseCsvString(String csvContent) throws IOException {
         List<Comprobante> comprobantes = new ArrayList<>();
@@ -50,6 +56,7 @@ public class CSVReaderService {
             for (ComprobanteCsv comprobanteCsv:comprobantesCsv){
                 procesoDoc(comprobanteCsv);
             }
+            verificarArchivos(comprobantesCsv.get(0).getIdentificacionReceptor());
         }catch (Exception e){
             log.error("Error la busqueda for:{}",e.getMessage());
         }
@@ -130,5 +137,21 @@ public class CSVReaderService {
         );
     }
 
+    private void verificarArchivos(String ruc) throws IOException {
+        Sistema empresa = modelsService.getEmpresaByRuc(ruc);
+        FilesUtils files = new FilesUtils(rutas.getRutaCliente());
+        List<Map<String, String>> clientesCamposNull = files.leerClientes();
+        if (clientesCamposNull != null && !clientesCamposNull.isEmpty()) {
+            String mensaje= MessagesUtils.mensajeHtmlCamposNulosClientes(clientesCamposNull);
+            String asunto = "Campos no registrados de Proveedores en "+ empresa.getNombre();
 
+            EmailRecord email = new EmailRecord(
+                    new String[]{"luischumi.9@gmail.com"},
+                    asunto,
+                    mensaje
+            );
+            modelsService.enviarEmail(email);
+            files.eliminarTodosLosArchivos();
+        }
+    }
 }

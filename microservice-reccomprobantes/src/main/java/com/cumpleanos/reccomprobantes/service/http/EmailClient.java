@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface EmailClient {
 
     //TODO servicio que viene del controlador EmailController
-    @PostMapping("/email/enviar")
+    @PostMapping("/email/enviar/html")
     ResponseEntity<?> enviar(@RequestBody EmailRecord email);
 }

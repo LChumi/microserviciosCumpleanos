@@ -22,9 +22,9 @@ public class EmailController {
 
     private final IEmailService emailService;
 
-    @PostMapping("/enviar")
+    @PostMapping("/enviar/html")
     public ResponseEntity<?> enviarMail(@Valid  @RequestBody EmailRecord email){
-        emailService.sendMail(email);
+        emailService.sendMailHtml(email);
         return ResponseEntity.ok().build();
     }
 }

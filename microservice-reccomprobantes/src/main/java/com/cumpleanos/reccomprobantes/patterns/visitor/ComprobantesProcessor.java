@@ -1,21 +1,19 @@
 package com.cumpleanos.reccomprobantes.patterns.visitor;
 
-import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
+import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.InfoTributaria;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.notaCredito.NotaCredito;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.service.implementation.ModelsServiceImpl;
-import com.cumpleanos.reccomprobantes.util.ComprobantesUtils;
-import com.cumpleanos.reccomprobantes.util.DateTimeUtils;
-import com.cumpleanos.reccomprobantes.util.MessagesUtils;
-import com.cumpleanos.reccomprobantes.util.ProveedorIdGeneratorUtils;
+import com.cumpleanos.reccomprobantes.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -26,6 +24,7 @@ import java.util.List;
 public class ComprobantesProcessor implements ComprobanteVisitor {
 
     private final ModelsServiceImpl modelsService;
+    private final RutasConfig rutasConfig;
 
     @Override
     public void visit(Factura factura) {
@@ -110,15 +109,12 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = generarProveedorNuevo(info, empresa.getId(), tipClient);
 
-                        String asunto = "Campos no registrados en cliente";
-                        String mensaje = MessagesUtils.mensajeCamposNulosCliente(proveedorNuevo,empresa);
-
-                        EmailRecord email = new EmailRecord(
-                                new String[]{"luischumi.9@gmail.com"},
-                                asunto,
-                                mensaje
-                        );
-                        //modelsService.enviarEmail(email);
+                        FilesUtils utils = new FilesUtils(rutasConfig.getRutaCliente());
+                        try {
+                            utils.guardarCliente(proveedorNuevo);
+                        }catch (IOException e){
+                            log.error("Ocurrio un error al guardar el archivo");
+                        }
                         saveAndVerifyAutClient(docSri,proveedorNuevo, empresa, info);
                     }
                 }
