@@ -1,14 +1,8 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.models.persistence.repository.CatClienteRepository;
 import com.cumpleanos.models.persistence.repository.ClienteRepository;
-import com.cumpleanos.models.persistence.repository.UbicacionRepository;
-import com.cumpleanos.core.models.entities.CatCliente;
 import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Ubicacion;
-import com.cumpleanos.core.models.ids.CatClienteId;
 import com.cumpleanos.core.models.ids.ClienteId;
-import com.cumpleanos.core.models.ids.UbicacionId;
 import com.cumpleanos.models.service.interfaces.IClienteService;
 import com.cumpleanos.models.utils.enums.Sequence;
 import jakarta.transaction.Transactional;
@@ -27,8 +21,6 @@ import java.util.stream.StreamSupport;
 public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> implements IClienteService {
 
     private final ClienteRepository repository;
-    private final CatClienteRepository catRepository;
-    private final UbicacionRepository ubicacionRepository;
 
     @Override
     public CrudRepository<Cliente, ClienteId> getRepository() {
