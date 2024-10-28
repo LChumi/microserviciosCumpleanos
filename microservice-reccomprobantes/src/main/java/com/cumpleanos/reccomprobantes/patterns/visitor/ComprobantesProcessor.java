@@ -100,7 +100,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                 if (tipoComprobante.equalsIgnoreCase("Comprobante de Retencion")){
                     log.info("Registro de Comprobante de Retencion agregando al sitema en empresa: {}", empresa.getNombre());
                     SriDocEleEmi nuevo = modelsService.save(docSri);
-                    log.info("Documento guardado "+nuevo);
+                    log.info("Documento guardado {}",nuevo);
                 }else {
                     log.info("Registro de Comprobantes Facturas / Nota de credito ");
                     if (proveedor != null) {
@@ -197,7 +197,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
             autcliente.setValFecha(docsr.getFechaEmision());
             Autcliente nuevo =modelsService.saveAutCliente(autcliente);
-            log.info("autcliente nuevo creado: {}", autcliente);
+            log.info("autcliente nuevo creado: {}", nuevo);
         }
     }
 

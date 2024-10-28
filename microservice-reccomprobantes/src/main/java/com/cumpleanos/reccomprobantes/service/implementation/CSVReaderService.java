@@ -93,7 +93,7 @@ public class CSVReaderService {
                 log.info("Empresa no existe");
             }
         }else {
-            log.info("Docuemnto ya existe CA{}", docuemnto.getId());
+            log.info("Docuemnto ya existe clave acceso: {}", docuemnto.getId());
         }
     }
 
