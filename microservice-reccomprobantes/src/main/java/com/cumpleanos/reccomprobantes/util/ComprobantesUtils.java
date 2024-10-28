@@ -56,10 +56,10 @@ public class ComprobantesUtils {
             String tipoComprobante,
             String serieComprobante,
             String rucEmisor,
-            String razonSocialEmisor,
+            String identificacionReceptor,
             LocalDate fechaEmision,
             ZonedDateTime fechaAutorizacion,
-            String identificacionReceptor)
+            String razonSocialEmisor)
     {
         SriDocEleEmi docSri = new SriDocEleEmi();
         SriDocEleEmiId idSri = new SriDocEleEmiId();
@@ -83,6 +83,9 @@ public class ComprobantesUtils {
     public static SriDocEleEmi creaDoc(ComprobanteCsv comp, Sistema empresa) {
         SriDocEleEmi doc = new SriDocEleEmi();
         SriDocEleEmiId id = new SriDocEleEmiId();
+        String numDoc=obtenerCodDoc(comp.getClaveAcceso());
+        String tipoDoc= obtenerTipoDoc(numDoc);
+
         id.setEmpresa(empresa.getId());
         id.setNumeroAutorizacion(comp.getClaveAcceso());
         doc.setId(id);
@@ -91,7 +94,7 @@ public class ComprobantesUtils {
         doc.setFecha(LocalDate.now());
         doc.setTipoEmision("NORMAL");
         doc.setRegistrado(false);
-        doc.setComprobante(comp.getTipoComprobante());
+        doc.setComprobante(tipoDoc);
         doc.setSerieComprobante(comp.getSerieComprobante());
         doc.setClaveAcceso(comp.getClaveAcceso());
         doc.setFechaAutorizacion(DateTimeUtils.parseDateTime(comp.getFechaAutorizacion()));
@@ -105,11 +108,11 @@ public class ComprobantesUtils {
         ClienteId id= new ClienteId();
         id.setEmpresa(empresa);
         proveedor.setId(id);
-        proveedor.setNombre(info.getRazonSocial());
+        proveedor.setNombre(info.getRazonSocial().toUpperCase());
         proveedor.setRucCedula(info.getRuc());
         proveedor.setTipoced(tipoCedula(info.getRuc()));
         proveedor.setTipo((short)2);
-        proveedor.setDireccion(info.getDirMatriz());
+        proveedor.setDireccion(info.getDirMatriz().toUpperCase());
         proveedor.setTipoper(tipoJuridico.shortValue());
         proveedor.setGenero((short)1);
         proveedor.setInactivo(false);
@@ -138,6 +141,48 @@ public class ComprobantesUtils {
         return autcliente;
     }
 
+    public static Autcliente crearAutClienteCsv(ComprobanteCsv csv, Long clienteId,Sistema empresa){
+        String[] serie1 = csv.getSerieComprobante().split("-");
+        Autcliente autcliente = new Autcliente();
+        AutclienteId id = new AutclienteId();
+        id.setCliente(clienteId);
+        id.setEmpresa(empresa.getId());
+        id.setNroAutoriza(csv.getClaveAcceso());
+        id.setFac1(serie1[0]);
+        id.setFac2(serie1[1]);
+        autcliente.setId(id);
+        autcliente.setFac3(serie1[2]);
+        autcliente.setInactivo(false);
+        autcliente.setTclipro((short)2);
+        autcliente.setFact1(serie1[0]);
+        autcliente.setFact2(serie1[1]);
+        autcliente.setFact3(serie1[2]);
+        return autcliente;
+    }
+
+    public static String identificarTipoDoc(String tipo){
+        return switch (tipo){
+            case "Factura" -> "01";
+            case "Comprobante de Retencion" -> "07";
+            case "Nota de Credito" -> "04";
+            default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + tipo);
+        };
+    }
+
+    public static String obtenerTipoDoc(String tipo){
+        return switch (tipo){
+            case "01" -> "Factura";
+            case "07" -> "Comprobante de Retencion";
+            case "04" -> "Nota de Credito";
+            default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + tipo);
+        };
+    }
+
+    public static String obtenerCodDoc(String claveAcceso){
+        return claveAcceso.substring(8,10);
+    }
+
+
     private static String reverzarNombre(String nombre) {
         String[] partes = nombre.split(" ");
 
@@ -146,11 +191,11 @@ public class ComprobantesUtils {
         for (int i = partes.length - 2; i >= 0; i--) {
             nuevoNombre.append(partes[i]).append(" ");
         }
-
         nuevoNombre.append(partes[partes.length - 1]);
 
         return nuevoNombre.toString().trim();
     }
+
 
     public static String cleanXml(String xml) {
         // Eliminar los caracteres de escape \" para obtener XML limpio

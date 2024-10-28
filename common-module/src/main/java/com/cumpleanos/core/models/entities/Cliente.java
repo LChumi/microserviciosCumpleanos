@@ -252,7 +252,7 @@ public class Cliente {
     @Column(name = "CLI_RETIVA")
     private Long cliRetIva;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_RETIVA", referencedColumnName = "IMP_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName ="IMP_EMPRESA", insertable = false, updatable = false)
@@ -274,7 +274,7 @@ public class Cliente {
     @Column(name = "CLI_TIPOCLI")
     private Long tipoCli;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_TIPOCLI", referencedColumnName = "TCL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "TCL_EMPRESA", insertable = false, updatable = false)
@@ -296,7 +296,7 @@ public class Cliente {
     @Column(name = "CLI_PARROQUIA")
     private Long cliParroquia;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_PARROQUIA", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
@@ -340,7 +340,7 @@ public class Cliente {
     @Column(name = "CLI_LISTAPRE")
     private Long cliListapre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "CLI_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)

@@ -7,11 +7,7 @@ spring:
     name: recep-service
 
   config:
-    import: classpath:/configurations/application-secure.yaml
-
-  datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@192.168.112.46:1521/db01
+    import: classpath:/configurations/application-secure.yml
 
   jpa:
     hibernate:

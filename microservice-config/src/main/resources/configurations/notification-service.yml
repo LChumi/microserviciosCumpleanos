@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: notification-service
+
+server:
+  port: 8083
+  forward-header-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+        exclude: "benas,env,threaddump,logfile"
+    endpoint:
+      health:
+        show-details: never
+    info:
+      env:
+        enabled:false
+
+info:
+  app:
+    name: ${spring.application.name}
+

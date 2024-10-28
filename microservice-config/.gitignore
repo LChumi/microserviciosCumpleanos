@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ###configuracion sensible
-application-secure.yaml
+application-secure.yml
