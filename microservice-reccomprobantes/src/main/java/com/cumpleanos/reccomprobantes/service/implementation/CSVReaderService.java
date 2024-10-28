@@ -1,8 +1,8 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
+import com.cumpleanos.core.models.dto.ClienteRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
-import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
@@ -26,7 +26,6 @@ public class CSVReaderService {
 
     private final ModelsServiceImpl modelsService;
     private final XMLConversionService xmlService;
-    private final RutasConfig rutas;
 
     public List<Comprobante> parseCsvString(String csvContent, String email) throws IOException {
         List<Comprobante> comprobantes = new ArrayList<>();
@@ -69,11 +68,11 @@ public class CSVReaderService {
                     SriDocEleEmi nuevo = modelsService.save(docSri);
                     log.info("Comprobante de Retencion agregado: {}", nuevo);
                 } else {
-                    Cliente proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(),(short)2, empresa.getId());
+                    ClienteRecord proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(),(short)2, empresa.getId());
                     if (proveedor != null) {
                         System.out.println("---------------------------------------------------------------------------------------");
-                        log.info("Proveedor existe {}", proveedor.getNombre());
-                        saveAndVerifyAutClient(docSri,csv,proveedor,empresa);
+                        log.info("Proveedor existe {}", proveedor.nombre());
+                        saveAndVerifyAutClient(docSri,csv,proveedor.codigo(),empresa);
                     } else {
                         log.warn("Proveedor no existe ingresando a sri ");
                         ComprobanteJson json = modelsService.getComprobantesSri(csv.getClaveAcceso());
@@ -98,10 +97,10 @@ public class CSVReaderService {
     }
 
 
-    private void saveAndVerifyAutClient(SriDocEleEmi docSri,ComprobanteCsv csv, Cliente proveedor, Sistema empresa) {
+    private void saveAndVerifyAutClient(SriDocEleEmi docSri,ComprobanteCsv csv, Long cliCodigo, Sistema empresa) {
         SriDocEleEmi nuevo = modelsService.save(docSri);
-        verificarAutclient(csv, proveedor.getId().getCodigo(), empresa);
-        log.info("Comprobante creado en BD documento -> {}", csv);
+        verificarAutclient(csv, cliCodigo, empresa);
+        log.info("Comprobante creado en BD documento -> {}", nuevo);
     }
 
     private void verificarAutclient(ComprobanteCsv csv, Long cliente, Sistema sis){
@@ -120,7 +119,7 @@ public class CSVReaderService {
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
             autcliente.setValFecha(DateTimeUtils.parseDate(csv.getFechaEmision()));
             Autcliente nuevo =modelsService.saveAutCliente(autcliente);
-            log.info("autcliente nuevo creado: {}", autcliente);
+            log.info("autcliente nuevo creado: {}", nuevo);
         }
     }
 

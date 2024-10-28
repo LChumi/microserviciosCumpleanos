@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.service.http;
 
+import com.cumpleanos.core.models.dto.ClienteRecord;
 import com.cumpleanos.core.models.entities.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public interface ModelsClient {
 
     //TODO servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
-    ResponseEntity<Cliente> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("tipo") Short tipo, @PathVariable("empresa") Long empresa);
+    ResponseEntity<ClienteRecord> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("tipo") Short tipo, @PathVariable("empresa") Long empresa);
 
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> save(@RequestBody Cliente cliente);

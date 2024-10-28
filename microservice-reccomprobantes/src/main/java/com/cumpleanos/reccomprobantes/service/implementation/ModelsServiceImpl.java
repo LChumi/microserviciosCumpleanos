@@ -1,5 +1,6 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
+import com.cumpleanos.core.models.dto.ClienteRecord;
 import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.reccomprobantes.service.http.EmailClient;
@@ -54,7 +55,7 @@ public class ModelsServiceImpl{
     }
 
     //TODO servicio que viene del controlador ClienteController
-    public Cliente getByRucAndEmpresa(String ruc, Short tipo, Long empresa){
+    public ClienteRecord getByRucAndEmpresa(String ruc, Short tipo, Long empresa){
         return HttpResponseHandler.handle(() -> modelsClient.findByRucAndEmpresa(ruc, tipo, empresa),
                 "Error al obtener el cliente por Ruc: "+ruc+" Tipo: "+tipo +"Empresa: "+empresa);
     }

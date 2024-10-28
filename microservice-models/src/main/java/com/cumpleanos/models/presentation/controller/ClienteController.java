@@ -1,10 +1,7 @@
 package com.cumpleanos.models.presentation.controller;
 
+import com.cumpleanos.core.models.dto.ClienteRecord;
 import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Ubicacion;
-import com.cumpleanos.core.models.ids.UbicacionId;
-import com.cumpleanos.models.persistence.repository.UbicacionRepository;
-import com.cumpleanos.models.service.implementation.ClienteServiceImpl;
 import com.cumpleanos.models.service.interfaces.IClienteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +21,12 @@ public class ClienteController {
     private IClienteService clienteServiceImpl;
 
     @GetMapping("/cliente/ruc/{ruc}/{tipo}/{empresa}")
-    public ResponseEntity<Cliente> getCliente(@PathVariable String ruc, @PathVariable Short tipo, @PathVariable Long empresa) {
+    public ResponseEntity<ClienteRecord> getCliente(@PathVariable String ruc, @PathVariable Short tipo, @PathVariable Long empresa) {
         Cliente cliente = clienteServiceImpl.findByCedulaRucAndEmpresa(ruc,tipo ,empresa);
         if (cliente == null) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(cliente);
+        return ResponseEntity.ok(new ClienteRecord(cliente.getId().getEmpresa(), cliente.getId().getCodigo(), cliente.getTipo(), cliente.getNombre(), cliente.getRucCedula(), cliente.getDireccion()));
     }
 
     @PostMapping("cliente/new")
