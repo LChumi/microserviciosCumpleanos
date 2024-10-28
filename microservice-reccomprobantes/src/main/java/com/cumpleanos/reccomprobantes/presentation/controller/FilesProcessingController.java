@@ -2,7 +2,6 @@ package com.cumpleanos.reccomprobantes.presentation.controller;
 
 import com.cumpleanos.reccomprobantes.service.implementation.CoordinatorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,15 +18,15 @@ public class FilesProcessingController {
     @PostMapping("/file")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
                                         @RequestParam("email") String email) throws IOException {
-        Object result = service.processFile(file);
+        Object result = service.processFile(file, email);
         return ResponseEntity.ok(result);
 
     }
 
     @PostMapping("/string")
     public ResponseEntity<?> processString(@RequestBody String string,
-                                           @RequestParam("email") String email) {
-        Object result = service.processString(string);
+                                           @RequestParam("email") String email) throws IOException {
+        Object result = service.processString(string, email);
         return ResponseEntity.ok(result);
     }
 }

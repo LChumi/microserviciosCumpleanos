@@ -1,6 +1,7 @@
 package com.cumpleanos.reccomprobantes.util;
 
 import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Sistema;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class FilesUtils {
 
     private final String ruta;
 
-    public void guardarCliente(Cliente c) throws IOException {
+    public void guardarCliente(Cliente c, Sistema sis) throws IOException {
         String nombreArchivo = String.format("%s.txt", c.getRucCedula());
         Path rutaArchivo = Paths.get(ruta, nombreArchivo);
 
@@ -27,6 +28,7 @@ public class FilesUtils {
         Map<String, String> clienteDatos = new HashMap<>();
         clienteDatos.put("RUC/Cedula", c.getRucCedula());
         clienteDatos.put("Nombre", c.getNombre());
+        clienteDatos.put("Empresa", sis.getNombre());
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonCliente = mapper.writeValueAsString(clienteDatos);

@@ -1,6 +1,5 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
-import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
@@ -9,8 +8,6 @@ import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
 import com.cumpleanos.reccomprobantes.util.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.util.DateTimeUtils;
-import com.cumpleanos.reccomprobantes.util.FilesUtils;
-import com.cumpleanos.reccomprobantes.util.MessagesUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +16,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.cumpleanos.reccomprobantes.util.ComprobantesUtils.*;
 
@@ -32,7 +28,7 @@ public class CSVReaderService {
     private final XMLConversionService xmlService;
     private final RutasConfig rutas;
 
-    public List<Comprobante> parseCsvString(String csvContent) throws IOException {
+    public List<Comprobante> parseCsvString(String csvContent, String email) throws IOException {
         List<Comprobante> comprobantes = new ArrayList<>();
         List<ComprobanteCsv> comprobantesCsv = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -56,7 +52,6 @@ public class CSVReaderService {
             for (ComprobanteCsv comprobanteCsv:comprobantesCsv){
                 procesoDoc(comprobanteCsv);
             }
-            verificarArchivos(comprobantesCsv.get(0).getIdentificacionReceptor());
         }catch (Exception e){
             log.error("Error la busqueda for:{}",e.getMessage());
         }
@@ -71,15 +66,14 @@ public class CSVReaderService {
             if (empresa != null) {
                 SriDocEleEmi docSri = creaDoc(csv, empresa);
                 if (docSri.getComprobante().equalsIgnoreCase("Comprobante de Retencion")) {
-                    //SriDocEleEmi nuevo = modelsService.save(docSri);
-                    log.info("Comprobante de Retencion agregado: {}", docSri);
+                    SriDocEleEmi nuevo = modelsService.save(docSri);
+                    log.info("Comprobante de Retencion agregado: {}", nuevo);
                 } else {
                     Cliente proveedor = modelsService.getByRucAndEmpresa(csv.getRucEmisor(),(short)2, empresa.getId());
                     if (proveedor != null) {
                         System.out.println("---------------------------------------------------------------------------------------");
                         log.info("Proveedor existe {}", proveedor.getNombre());
-                        //SriDocEleEmi nuevo = modelsService.save(docSri);
-                        saveAndVerifyAutClient(csv,proveedor,empresa);
+                        saveAndVerifyAutClient(docSri,csv,proveedor,empresa);
                     } else {
                         log.warn("Proveedor no existe ingresando a sri ");
                         ComprobanteJson json = modelsService.getComprobantesSri(csv.getClaveAcceso());
@@ -95,6 +89,8 @@ public class CSVReaderService {
                         }
                     }
                 }
+            } else {
+                log.info("Empresa no existe");
             }
         }else {
             log.info("Docuemnto ya existe CA{}", docuemnto.getId());
@@ -102,8 +98,8 @@ public class CSVReaderService {
     }
 
 
-    private void saveAndVerifyAutClient(ComprobanteCsv csv, Cliente proveedor, Sistema empresa) {
-        //SriDocEleEmi nuevo = modelsService.save(docSri);
+    private void saveAndVerifyAutClient(SriDocEleEmi docSri,ComprobanteCsv csv, Cliente proveedor, Sistema empresa) {
+        SriDocEleEmi nuevo = modelsService.save(docSri);
         verificarAutclient(csv, proveedor.getId().getCodigo(), empresa);
         log.info("Comprobante creado en BD documento -> {}", csv);
     }
@@ -123,7 +119,7 @@ public class CSVReaderService {
             autcliente.setRetDato(retDato);
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
             autcliente.setValFecha(DateTimeUtils.parseDate(csv.getFechaEmision()));
-            //Autcliente nuevo =modelsService.saveAutCliente(autcliente);
+            Autcliente nuevo =modelsService.saveAutCliente(autcliente);
             log.info("autcliente nuevo creado: {}", autcliente);
         }
     }
@@ -137,21 +133,4 @@ public class CSVReaderService {
         );
     }
 
-    private void verificarArchivos(String ruc) throws IOException {
-        Sistema empresa = modelsService.getEmpresaByRuc(ruc);
-        FilesUtils files = new FilesUtils(rutas.getRutaCliente());
-        List<Map<String, String>> clientesCamposNull = files.leerClientes();
-        if (clientesCamposNull != null && !clientesCamposNull.isEmpty()) {
-            String mensaje= MessagesUtils.mensajeHtmlCamposNulosClientes(clientesCamposNull);
-            String asunto = "Campos no registrados de Proveedores en "+ empresa.getNombre();
-
-            EmailRecord email = new EmailRecord(
-                    new String[]{"luischumi.9@gmail.com"},
-                    asunto,
-                    mensaje
-            );
-            modelsService.enviarEmail(email);
-            files.eliminarTodosLosArchivos();
-        }
-    }
 }

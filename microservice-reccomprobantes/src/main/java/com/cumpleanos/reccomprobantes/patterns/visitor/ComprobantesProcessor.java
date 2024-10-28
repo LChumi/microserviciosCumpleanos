@@ -99,7 +99,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                 Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
                 if (tipoComprobante.equalsIgnoreCase("Comprobante de Retencion")){
                     log.info("Registro de Comprobante de Retencion agregando al sitema en empresa: {}", empresa.getNombre());
-                    saveAndVerifyAutClient(docSri,proveedor, empresa, info);
+                    SriDocEleEmi nuevo = modelsService.save(docSri);
+                    log.info("Documento guardado "+nuevo);
                 }else {
                     log.info("Registro de Comprobantes Facturas / Nota de credito ");
                     if (proveedor != null) {
@@ -111,7 +112,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
 
                         FilesUtils utils = new FilesUtils(rutasConfig.getRutaCliente());
                         try {
-                            utils.guardarCliente(proveedorNuevo);
+                            utils.guardarCliente(proveedorNuevo,empresa);
                         }catch (IOException e){
                             log.error("Ocurrio un error al guardar el archivo");
                         }
@@ -170,8 +171,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
         cli.setCliPolitica(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_POLITICA_PROVEEDOR));
         cli.setCliCiudad(obtenerParametro(cli.getId().getEmpresa(), ParametroEnum.CXP_CIUDAD_PROVEEDORES));
 
-        return cli;
-        //return modelsService.save(cli);
+        return modelsService.save(cli);
     }
 
     /**
@@ -196,7 +196,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             autcliente.setRetDato(retDato);
             autcliente.getId().setRetdato(retDato.getId().getCodigo());
             autcliente.setValFecha(docsr.getFechaEmision());
-            //Autcliente nuevo =modelsService.saveAutCliente(autcliente);
+            Autcliente nuevo =modelsService.saveAutCliente(autcliente);
             log.info("autcliente nuevo creado: {}", autcliente);
         }
     }
@@ -224,7 +224,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
      * @param info -> Informacion tributaria donde se obtiene la mayo parte de la informacion para registros
      */
     private void saveAndVerifyAutClient(SriDocEleEmi docSri, Cliente proveedor, Sistema empresa, InfoTributaria info) {
-        //SriDocEleEmi nuevo = modelsService.save(docSri);
+        SriDocEleEmi nuevo = modelsService.save(docSri);
         verificarAutclient(docSri, proveedor.getId().getCodigo(), empresa, info);
         log.info("Comprobante creado en BD documento -> {}", docSri);
     }

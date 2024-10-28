@@ -1,6 +1,5 @@
 package com.cumpleanos.reccomprobantes.service.http;
 
-import com.cumpleanos.reccomprobantes.service.exception.HttpResponseException;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +14,10 @@ public class HttpResponseHandler {
             return supplier.get().getBody();
         }catch(FeignException e){
             log.error("Error de Feign: {} - {} ",e.status(), e.getMessage());
-            throw new HttpResponseException("Error al realizar la llamada externa: "+e.getMessage(), e);
+            return null;
         }catch(Exception e){
             log.error(errorMessage, e);
-            throw new HttpResponseException(errorMessage, e);
+            return null;
         }
     }
 }
