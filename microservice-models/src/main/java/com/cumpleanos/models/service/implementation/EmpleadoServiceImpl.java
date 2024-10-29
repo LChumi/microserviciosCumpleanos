@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class EmpleadoServiceImpl extends GenericServiceImpl<Empleado, EmpleadoId> implements IEmpleadoService {
@@ -22,6 +24,12 @@ public class EmpleadoServiceImpl extends GenericServiceImpl<Empleado, EmpleadoId
 
     @Override
     public Empleado findByUsuario(Long usuarioId) {
-        return repository.findByUsuario(usuarioId).orElse(null);
+        List<Empleado> empleados = repository.findByUsuario(usuarioId);
+        for (Empleado empleado : empleados) {
+            if (empleado.getMailEmpresa() != null) {
+                return empleado;
+            }
+        }
+        return null;
     }
 }
