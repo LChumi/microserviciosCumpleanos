@@ -165,6 +165,7 @@ public class ComprobantesUtils {
             case "Factura" -> "01";
             case "Comprobante de Retencion" -> "07";
             case "Nota de Credito" -> "04";
+            case "Nota de Debito" -> "05";
             default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + tipo);
         };
     }
@@ -174,6 +175,7 @@ public class ComprobantesUtils {
             case "01" -> "Factura";
             case "07" -> "Comprobante de Retencion";
             case "04" -> "Nota de Credito";
+            case "05" -> "Nota de Debito";
             default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + tipo);
         };
     }

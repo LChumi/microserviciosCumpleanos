@@ -73,6 +73,7 @@ public class XmlConverterUtils {
                 case "factura" -> "Factura";
                 case "notaCredito" -> "Nota de Credito";
                 case "comprobanteRetencion" -> "Comprobante de Retencion";
+                case "notaDebito" -> "Nota de Debito";
                 default -> throw new IllegalArgumentException("Tipo de comprobante no reconocido: " + rootElement);
             };
         }catch (Exception e){

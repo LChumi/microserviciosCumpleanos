@@ -7,6 +7,7 @@ import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.InfoTributaria;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.notaCredito.NotaCredito;
+import com.cumpleanos.reccomprobantes.persistence.models.xml.notaDebito.NotaDebito;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.service.implementation.ModelsServiceImpl;
 import com.cumpleanos.reccomprobantes.util.*;
@@ -58,6 +59,18 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                 DateTimeUtils.parseDate(comprobanteRetencion.getInfoCompRetencion().getFechaEmision()),
                 DateTimeUtils.parseDateTime(comprobanteRetencion.getFechaAutorizacion()),
                 comprobanteRetencion.getInfoCompRetencion().getRazonSocialSujetoRetenido());
+    }
+
+    @Override
+    public void visit(NotaDebito notaDebito) {
+        procesarDoc(
+                notaDebito.getInfoTributaria(),
+                notaDebito.getInfoNotaDebito().getIdentificacionComprador(),
+                notaDebito.getTipoComprobante(),
+                DateTimeUtils.parseDate(notaDebito.getInfoNotaDebito().getFechaEmision()),
+                DateTimeUtils.parseDateTime(notaDebito.getFechaAutorizacion()),
+                notaDebito.getInfoNotaDebito().getRazonSocialComprador()
+        );
     }
 
     /**
@@ -199,6 +212,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             autcliente.setValFecha(docsr.getFechaEmision());
             Autcliente nuevo =modelsService.saveAutCliente(autcliente);
             log.info("autcliente nuevo creado: {}", nuevo);
+        }else {
+            log.info("ya tiene registro en la base de datos documento:{}", docsr.getComprobante());
         }
     }
 
