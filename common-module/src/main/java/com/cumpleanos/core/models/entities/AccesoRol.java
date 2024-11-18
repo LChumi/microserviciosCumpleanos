@@ -13,12 +13,13 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "ACCESO_ROL")
 @ToString(exclude = {})
+@SequenceGenerator(name = "ACCESO_ROL_S_CODIGO", sequenceName = "ACCESO_ROL_S_CODIGO", allocationSize = 1)
 public class AccesoRol {
 
     @Id
     @Setter(AccessLevel.NONE)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACR_CODIGO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCESO_ROL_S_CODIGO")
     private Long id;
 
     @Column(name = "ACR_EMPRESA", nullable = false)

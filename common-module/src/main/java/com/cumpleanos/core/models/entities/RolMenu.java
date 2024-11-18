@@ -12,11 +12,13 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 @Entity
 @Table(name = "ROL_MENU")
+@SequenceGenerator(name = "ROL_MENU_S_CODIGO", sequenceName = "ROL_MENU_S_CODIGO", allocationSize = 1)
 public class RolMenu {
 
     @Id
     @Column(name = "RLM_CODIGO")
     @Setter(AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROL_MENU_S_CODIGO")
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -27,5 +29,5 @@ public class RolMenu {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "RLM_MENU_W")
-    private RolMenu rolMenu;
+    private MenuW menuW;
 }

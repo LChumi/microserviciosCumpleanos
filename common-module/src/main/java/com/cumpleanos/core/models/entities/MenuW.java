@@ -1,10 +1,13 @@
 package com.cumpleanos.core.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -14,11 +17,13 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "MENU_W")
 @ToString(exclude = {"menuW"})
+@SequenceGenerator(name = "MENU_W_S_CODIGO", sequenceName = "MENU_W_S_CODIGO", allocationSize = 1)
 public class MenuW {
 
     @Id
     @Column(name = "MNW_CODIGO")
     @Setter(AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MENU_W_S_CODIGO")
     private Long id;
 
     @Column(name = "MNW_ID", nullable = false, length = 50)
@@ -51,4 +56,12 @@ public class MenuW {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "MNW_REPORTA", referencedColumnName = "MNW_CODIGO", insertable = false, updatable = false)
     private MenuW menuW;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "menuW")
+    private List<MenuW> menuWs;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "menuW")
+    private List<RolMenu> rolMenus;
 }

@@ -1,4 +1,4 @@
-package com.cumpleanos.core.models.dto;
+package com.cumpleanos.assist.persistence.dto;
 
 import java.util.List;
 
