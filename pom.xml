@@ -40,6 +40,7 @@
 		<module>microservice-reccomprobantes</module>
 		<module>microservice-pos</module>
 		<module>microservice-notification</module>
+		<module>microservice-assist</module>
 	</modules>
 
 	<properties>
