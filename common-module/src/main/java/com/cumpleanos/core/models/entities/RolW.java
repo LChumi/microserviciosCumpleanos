@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "ROL_W")
 @SequenceGenerator(name = "ROL_W_S_CODIGO", sequenceName = "ROL_W_S_CODIGO", allocationSize = 1)
+@ToString(exclude = {"accesosRol",  "rolMenus"})
 public class RolW {
 
     @Id

@@ -16,13 +16,13 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "MENU_W")
-@ToString(exclude = {"menuW"})
+@ToString(exclude = {"menuWs", "rolMenus"})
 @SequenceGenerator(name = "MENU_W_S_CODIGO", sequenceName = "MENU_W_S_CODIGO", allocationSize = 1)
 public class MenuW {
 
     @Id
     @Column(name = "MNW_CODIGO")
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MENU_W_S_CODIGO")
     private Long id;
 

@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "ROL_MENU")
 @SequenceGenerator(name = "ROL_MENU_S_CODIGO", sequenceName = "ROL_MENU_S_CODIGO", allocationSize = 1)
+@ToString
 public class RolMenu {
 
     @Id
@@ -26,7 +27,7 @@ public class RolMenu {
     @JoinColumn(name = "RLM_ROL_W", referencedColumnName = "RLW_CODIGO")
     private RolW rolW;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "RLM_MENU_W")
     private MenuW menuW;

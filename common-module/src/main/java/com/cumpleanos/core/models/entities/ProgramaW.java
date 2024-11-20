@@ -1,5 +1,6 @@
 package com.cumpleanos.core.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,12 +15,13 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "PROGRAMA_W")
-@SequenceGenerator(name = "PROGRMA_W_S_CODIGO", sequenceName = "PROGRMA_W_S_CODIGO", allocationSize = 1)
+@SequenceGenerator(name = "PROGRAMA_W_S_CODIGO", sequenceName = "PROGRAMA_W_S_CODIGO", allocationSize = 1)
+@ToString(exclude = { "menuWs", })
 public class ProgramaW {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROGRAMA_W_S_CODIGO")
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     @Column(name = "PRW_CODIGO")
     private Long id;
 
@@ -36,6 +38,7 @@ public class ProgramaW {
     @Column(name = "PRW_INACTIVO")
     private Boolean inactivo;
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "programa")
     private List<MenuW> menuWs;
