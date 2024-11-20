@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,10 +32,10 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
     }
 
     /**
-     * Metodo para obtener los menús y submenús de un usuario en una empresa específica.
+     * Metodo para obtener los menús y submenus de un usuario en una empresa específica.
      * @param usuario El ID del usuario
      * @param empresa El ID de la empresa
-     * @return Un conjunto de menús y submenús que el usuario puede acceder.
+     * @return Un conjunto de menús y submenus que el usuario puede acceder.
      */
     @Override
     public Set<MenuDTO> obtenerMenusYSubmenus(Long usuario, Long empresa) {
@@ -59,10 +56,10 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
                 .map(RolMenu::getMenuW)
                 .collect(Collectors.toSet());
 
-        // Crear una lista de menús de DTOs, añadiendo los submenús correctamente
+        // Crear una lista de menús de DTOs, añadiendo los submenus correctamente
         Set<MenuDTO> menuDTOs = new HashSet<>();
         for (MenuW menu : menus) {
-            MenuDTO menuDTO = buildMenuDTO(menu);  // Llamar al método recursivo para construir el DTO
+            MenuDTO menuDTO = buildMenuDTO(menu);  // Llamar al metodo recursivo para construir el DTO
             menuDTOs.add(menuDTO);
         }
 
@@ -75,8 +72,8 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
     private MenuDTO buildMenuDTO(MenuW menuW) {
         List<MenuItemDTO> children = new ArrayList<>();
 
-        // Buscar los submenús (menús que reporta el actual)
-        Set<MenuW> subMenus = findSubMenus(menuW.getId());  // Busca los submenús que reporta este menú
+        // Buscar los submenus (menús que reporta el actual)
+        Set<MenuW> subMenus = findSubMenus(menuW.getId());  // Busca los submenus que reporta este menú
 
         for (MenuW subMenu : subMenus) {
             // Llamar recursivamente para construir el DTO de cada submenú
@@ -97,7 +94,7 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
     private MenuItemDTO buildMenuItemDTO(MenuW menuW) {
         List<MenuItemDTO> children = new ArrayList<>();
 
-        // Si el menú tiene submenús, buscar recursivamente los children
+        // Si el menú tiene submenus, buscar recursivamente los children
         Set<MenuW> subMenus = findSubMenus(menuW.getId());
         for (MenuW childMenu : subMenus) {
             children.add(buildMenuItemDTO(childMenu));  // Llamar recursivamente
@@ -107,18 +104,20 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
         String routerLink = null;
         if (menuW.getPrograma() != null) {
             routerLink = menuW.getPrograma().getPath();
+        }else{
+            routerLink= "";
         }
 
         return MenuItemDTO.builder()
                 .label(menuW.getNombre())
                 .icon(menuW.getIcono())
-                .routerLink(routerLink)
+                .routerLink(routerLink.isEmpty() ? Collections.emptyList() : Collections.singletonList(routerLink))
                 .items(children)
                 .build();
     }
 
     /**
-     * Metodo para obtener los submenús que reporta un menú (busca los menús por "mnw_reporta").
+     * Metodo para obtener los submenus que reporta un menú (busca los menús por "mnw_reporta").
      */
     private Set<MenuW> findSubMenus(Long menuId) {
         return menuWRepository.findByReporta(menuId);  // Buscar los menús reportados por el menú con el ID `menuId`
