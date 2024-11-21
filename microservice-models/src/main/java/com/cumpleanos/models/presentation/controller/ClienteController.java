@@ -3,7 +3,7 @@ package com.cumpleanos.models.presentation.controller;
 import com.cumpleanos.core.models.dto.ClienteRecord;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.models.service.interfaces.IClienteService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("models")
-@Slf4j
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ClienteController {
 
-    @Autowired
-    private IClienteService clienteServiceImpl;
+    private final IClienteService clienteServiceImpl;
 
     @GetMapping("/cliente/ruc/{ruc}/{tipo}/{empresa}")
     public ResponseEntity<ClienteRecord> getCliente(@PathVariable String ruc, @PathVariable Short tipo, @PathVariable Long empresa) {

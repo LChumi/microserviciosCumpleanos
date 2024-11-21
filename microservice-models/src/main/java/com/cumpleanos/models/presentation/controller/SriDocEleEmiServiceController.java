@@ -2,6 +2,7 @@ package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.core.models.entities.SriDocEleEmi;
 import com.cumpleanos.models.service.interfaces.ISriDocEleEmiService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("models")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Slf4j
 public class SriDocEleEmiServiceController {
 
-    @Autowired
-    private ISriDocEleEmiService sriDocEleEmiService;
+    private final ISriDocEleEmiService sriDocEleEmiService;
 
     @GetMapping("/sri-emitido/{claveAcceso}")
     public ResponseEntity<SriDocEleEmi> getDocumento(@PathVariable String claveAcceso) {

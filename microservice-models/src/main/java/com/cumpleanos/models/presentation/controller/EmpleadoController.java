@@ -3,7 +3,6 @@ package com.cumpleanos.models.presentation.controller;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.models.service.interfaces.IEmpleadoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("models")
-@Slf4j
 @CrossOrigin("*")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class EmpleadoController {

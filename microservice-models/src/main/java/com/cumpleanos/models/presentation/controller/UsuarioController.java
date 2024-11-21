@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("models")
-@Slf4j
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Slf4j
 public class UsuarioController {
 
     private final IUsuarioService usuarioService;
@@ -23,6 +23,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> getUsuario(@PathVariable("userId") String userId){
         Usuario usuario = usuarioService.findByUsername(userId);
         if(usuario == null){
+            log.error("Usuario no encontrado {}", userId);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(usuario);
