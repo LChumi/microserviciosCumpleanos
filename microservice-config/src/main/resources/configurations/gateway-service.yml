@@ -33,6 +33,10 @@ spring:
           uri: lb://models-service
           predicates:
             - Path=/models/**
+        - id: assist-service
+          uri: lb://assist-service
+          predicates:
+            - Path=/assist/**
 
 management:
   endpoints:
