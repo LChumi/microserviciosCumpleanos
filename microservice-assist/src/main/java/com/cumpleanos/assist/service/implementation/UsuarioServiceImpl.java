@@ -1,6 +1,8 @@
 package com.cumpleanos.assist.service.implementation;
 
+import com.cumpleanos.assist.persistence.auth.AuthenticationRequest;
 import com.cumpleanos.assist.persistence.dto.ServiceResponse;
+import com.cumpleanos.assist.persistence.dto.UserResponse;
 import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
@@ -13,6 +15,14 @@ import org.springframework.stereotype.Service;
 public class UsuarioServiceImpl {
 
     private final ClientServiceImpl clienteService;
+
+    public UserResponse login(AuthenticationRequest request){
+        Usuario usuario = clienteService.login(request.nombreUsuario(), request.clave());
+        if (usuario == null) {
+            return null;
+        }
+        return new UserResponse(usuario.getId(), usuario.getUsrId(), usuario.getNombre());
+    }
 
     public ServiceResponse recoveryPassword(String usr_id){
         Usuario usuario = clienteService.getUsuario(usr_id);

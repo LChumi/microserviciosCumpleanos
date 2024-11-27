@@ -26,6 +26,11 @@ public class ClientServiceImpl {
                 "Error al obtener el usuario con id: " + usrId);
     }
 
+    public Usuario login(String usrId, String passwd) {
+        return HttpResponseHandler.handle(() -> modelsClient.findByUsrClave(usrId, passwd),
+                "Usuario invalido");
+    }
+
     public Empleado getEmpledo(Long usuarioId){
         return HttpResponseHandler.handle(() -> modelsClient.getEmpleadoByUsuarioId(usuarioId),
                 "Error al obtener el empleado del usuario: " + usuarioId);
