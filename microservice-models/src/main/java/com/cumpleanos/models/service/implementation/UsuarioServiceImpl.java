@@ -23,4 +23,9 @@ public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implem
     public Usuario findByUsername(String username) {
         return repository.findByUsrId(username.toUpperCase()).orElse(null);
     }
+
+    @Override
+    public Usuario findByUsrIdAnClave(String usrId, String clave) {
+        return repository.findByUsrIdAndClave(usrId.toUpperCase(), clave).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 }
