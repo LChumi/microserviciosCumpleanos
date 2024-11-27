@@ -27,11 +27,11 @@ public class UsuarioServiceImpl {
     public ServiceResponse recoveryPassword(String usr_id){
         Usuario usuario = clienteService.getUsuario(usr_id);
         if (usuario == null) {
-            return new ServiceResponse("Usuario no encontrado.");
+            return new ServiceResponse("Usuario no encontrado.", false);
         }
         Empleado empleado = clienteService.getEmpledo(usuario.getId());
         if (empleado == null) {
-            return new ServiceResponse("Empleado no tiene correo registrado.");
+            return new ServiceResponse("Empleado no tiene correo registrado.", false);
         }
         String asunto = "Recuperación de contraseña de acceso a la plataforma";
         String mensaje = "Estimado/a " + usuario.getNombre() + ",\n\n" +
@@ -47,9 +47,9 @@ public class UsuarioServiceImpl {
               mensaje
             );
             clienteService.enviarEmail(email);
-            return new ServiceResponse("Correo con la contraseña enviado correctamente.");
+            return new ServiceResponse("Correo con la contraseña enviado correctamente.", true);
         }catch (Exception e) {
-            return new ServiceResponse("Error al enviar el correo, por favor intenta más tarde.");
+            return new ServiceResponse("Error al enviar el correo.", false);
         }
     }
 

@@ -1,4 +1,4 @@
 package com.cumpleanos.assist.persistence.dto;
 
-public record ServiceResponse(String message) {
+public record ServiceResponse(String message, Boolean success) {
 }
