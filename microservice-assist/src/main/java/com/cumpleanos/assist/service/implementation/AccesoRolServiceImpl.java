@@ -6,10 +6,7 @@ import com.cumpleanos.assist.persistence.repository.AccesoRolRepository;
 import com.cumpleanos.assist.persistence.repository.MenuWRepository;
 import com.cumpleanos.assist.persistence.repository.RolMenuRepository;
 import com.cumpleanos.assist.service.interfaces.IAccesoRolService;
-import com.cumpleanos.core.models.entities.AccesoRol;
-import com.cumpleanos.core.models.entities.MenuW;
-import com.cumpleanos.core.models.entities.RolMenu;
-import com.cumpleanos.core.models.entities.RolW;
+import com.cumpleanos.core.models.entities.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -64,6 +61,19 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
         }
 
         return menuDTOs;
+    }
+
+    @Override
+    public Set<Sistema> getEmpresas(Long usuario) {
+        Set<AccesoRol> accesos = accesoRolRepository.findByUsuario(usuario);
+        if (accesos == null || accesos.isEmpty()) {
+            return new HashSet<>();
+        }
+        Set<Sistema> sistemas = new HashSet<>();
+        for (AccesoRol rol : accesos) {
+            sistemas.add(rol.getSistema());
+        }
+        return sistemas;
     }
 
     /**

@@ -36,4 +36,9 @@ public class AccesoRol {
     @JoinColumn(name = "ACR_ROL_W", referencedColumnName = "RLW_CODIGO")
     private RolW rolW;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ACR_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
+    private Sistema sistema;
+
 }

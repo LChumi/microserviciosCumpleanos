@@ -47,7 +47,7 @@ public class UsuarioServiceImpl {
               mensaje
             );
             clienteService.enviarEmail(email);
-            return new ServiceResponse("Correo con la contraseña enviado correctamente.", true);
+            return new ServiceResponse("Su contraseña ha sido enviada al correo: "+ empleado.getMailEmpresa(), true);
         }catch (Exception e) {
             return new ServiceResponse("Error al enviar el correo.", false);
         }
