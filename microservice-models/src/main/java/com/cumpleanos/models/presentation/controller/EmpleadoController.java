@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("models")
-@CrossOrigin("*")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class EmpleadoController {
 

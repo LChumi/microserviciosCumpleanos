@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("assist")
-@CrossOrigin("*")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UsuarioController {
 

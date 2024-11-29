@@ -12,7 +12,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("assist")
-@CrossOrigin("*")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccesoRolController {
 

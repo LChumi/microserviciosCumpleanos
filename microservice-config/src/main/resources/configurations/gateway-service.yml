@@ -1,6 +1,7 @@
 server:
   port: 8081
   forward-headers-strategy: framework
+  shutdown: graceful
 
 eureka:
   client:
@@ -12,11 +13,28 @@ eureka:
     prefer-ip-address: true
 
 spring:
+  application:
+    name: gateway-service
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - "*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowed-headers:
+              - Authorization
+              - Content-Type
+            #allowCredentials: true
       httpclient:
         ssl:
-          useInsecureTrustManager: true
+          use-insecure-trust-manager: true
       discovery:
         locator:
           enabled: true
@@ -47,10 +65,8 @@ management:
   endpoint:
     health:
       show-details: never
+    gateway:
+      enabled: true
   info:
     env:
       enabled: false
-
-info:
-  app:
-    name: ${spring.application.name}

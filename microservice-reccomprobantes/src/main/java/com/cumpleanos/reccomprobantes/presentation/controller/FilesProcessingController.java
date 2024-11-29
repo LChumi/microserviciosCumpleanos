@@ -13,7 +13,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping("recp")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-@CrossOrigin("*")
 public class FilesProcessingController {
 
     private final CoordinatorService service;

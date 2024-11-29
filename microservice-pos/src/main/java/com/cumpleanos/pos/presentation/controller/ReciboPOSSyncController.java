@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/pos/")
-@CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
 public class ReciboPOSSyncController {
