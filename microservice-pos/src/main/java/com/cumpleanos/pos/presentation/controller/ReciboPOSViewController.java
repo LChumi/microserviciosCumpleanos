@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pos/")
-@CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
 public class ReciboPOSViewController {

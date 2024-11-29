@@ -13,7 +13,6 @@ import java.math.BigInteger;
 
 @RestController
 @RequestMapping("/pos/")
-@CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
 public class ReciboPOSController {

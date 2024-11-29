@@ -2,6 +2,7 @@ package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.models.service.interfaces.ISistemaService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("models")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Slf4j
 public class SistemaController {
 
-    @Autowired
-    private ISistemaService sistemaService;
+    private final ISistemaService sistemaService;
 
     @GetMapping("/empresa/{ruc}")
     public ResponseEntity<Sistema> getEmpresa(@PathVariable String ruc) {

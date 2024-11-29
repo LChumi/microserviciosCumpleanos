@@ -81,7 +81,7 @@ public class CoordinatorService {
             String asunto = "Campos no registrados de Proveedores";
 
             EmailRecord email = new EmailRecord(
-                    new String[]{"luischumi.9@gmail.com", correo},
+                    new String[]{correo},
                     asunto,
                     mensaje
             );

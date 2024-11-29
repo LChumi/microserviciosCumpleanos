@@ -1,11 +1,13 @@
 package com.cumpleanos.reccomprobantes.patterns.visitor;
 
+import com.cumpleanos.core.models.dto.ClienteRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.InfoTributaria;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.factura.Factura;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.notaCredito.NotaCredito;
+import com.cumpleanos.reccomprobantes.persistence.models.xml.notaDebito.NotaDebito;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.retencion.ComprobanteRetencion;
 import com.cumpleanos.reccomprobantes.service.implementation.ModelsServiceImpl;
 import com.cumpleanos.reccomprobantes.util.*;
@@ -59,6 +61,18 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                 comprobanteRetencion.getInfoCompRetencion().getRazonSocialSujetoRetenido());
     }
 
+    @Override
+    public void visit(NotaDebito notaDebito) {
+        procesarDoc(
+                notaDebito.getInfoTributaria(),
+                notaDebito.getInfoNotaDebito().getIdentificacionComprador(),
+                notaDebito.getTipoComprobante(),
+                DateTimeUtils.parseDate(notaDebito.getInfoNotaDebito().getFechaEmision()),
+                DateTimeUtils.parseDateTime(notaDebito.getFechaAutorizacion()),
+                notaDebito.getInfoNotaDebito().getRazonSocialComprador()
+        );
+    }
+
     /**
      * Ciclo de vida del codigo en el se verifica todas las entidades si no existen sigue el ciclo de vida del codigo
      * @param info -> la informacion del comprobnate se usa para llenar la informacion de la mayoria de tablas
@@ -96,7 +110,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         identificacionReceptor);
                 log.info("Documento sri nuevo generado :{} ",docSri);
 
-                Cliente proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
+                ClienteRecord proveedor = modelsService.getByRucAndEmpresa(info.getRuc(), (short)2, empresa.getId());
                 if (tipoComprobante.equalsIgnoreCase("Comprobante de Retencion")){
                     log.info("Registro de Comprobante de Retencion agregando al sitema en empresa: {}", empresa.getNombre());
                     SriDocEleEmi nuevo = modelsService.save(docSri);
@@ -104,7 +118,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                 }else {
                     log.info("Registro de Comprobantes Facturas / Nota de credito ");
                     if (proveedor != null) {
-                        saveAndVerifyAutClient(docSri,proveedor, empresa, info);
+                        saveAndVerifyAutClient(docSri,proveedor.codigo(), empresa, info);
                     }else {
                         log.info("Proveedor no existe agregando.....");
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
@@ -116,7 +130,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         }catch (IOException e){
                             log.error("Ocurrio un error al guardar el archivo");
                         }
-                        saveAndVerifyAutClient(docSri,proveedorNuevo, empresa, info);
+                        saveAndVerifyAutClient(docSri,proveedorNuevo.getId().getCodigo(), empresa, info);
                     }
                 }
             } else {
@@ -198,6 +212,8 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
             autcliente.setValFecha(docsr.getFechaEmision());
             Autcliente nuevo =modelsService.saveAutCliente(autcliente);
             log.info("autcliente nuevo creado: {}", nuevo);
+        }else {
+            log.info("ya tiene registro en la base de datos documento:{}", docsr.getComprobante());
         }
     }
 
@@ -219,13 +235,13 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
     /**
      * Metodo para guardar en la tabla sri_doc_ele_emi y verificar autcliente
      * @param docSri -> el docuemnto que se va a guardar en la base de datos
-     * @param proveedor -> el proveedor(Cliente existente o creado)
+     * @param cliCodigo -> el proveedor(Cliente existente o creado)
      * @param empresa -> la empresa donde se va a transaccionar
-     * @param info -> Informacion tributaria donde se obtiene la mayo parte de la informacion para registros
+     * @param info -> Información tributaria donde se obtiene la mayo parte de la información para registros
      */
-    private void saveAndVerifyAutClient(SriDocEleEmi docSri, Cliente proveedor, Sistema empresa, InfoTributaria info) {
+    private void saveAndVerifyAutClient(SriDocEleEmi docSri, Long cliCodigo, Sistema empresa, InfoTributaria info) {
         SriDocEleEmi nuevo = modelsService.save(docSri);
-        verificarAutclient(docSri, proveedor.getId().getCodigo(), empresa, info);
-        log.info("Comprobante creado en BD documento -> {}", docSri);
+        verificarAutclient(docSri, cliCodigo, empresa, info);
+        log.info("Comprobante creado en BD documento -> {}", nuevo);
     }
 }

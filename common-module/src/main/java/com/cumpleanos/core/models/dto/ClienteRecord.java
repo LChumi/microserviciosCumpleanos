@@ -1,4 +1,10 @@
 package com.cumpleanos.core.models.dto;
 
-public class ClienteDto {
-}
+public record ClienteRecord(
+        Long empresa,
+        Long codigo,
+        Short tipo,
+        String nombre,
+        String rucCedula,
+        String direccion
+) {}
