@@ -2,9 +2,13 @@ package com.cumpleanos.models.persistence.repository;
 
 import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.ProductoId;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, ProductoId> {
+    Optional<Producto> findByProId_EmpresaAndProId1(Long empresa, @Size(max = 50) String proId1);
 }
