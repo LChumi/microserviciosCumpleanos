@@ -1,8 +1,8 @@
 package com.cumpleanos.assist.service.implementation;
 
 import com.cumpleanos.assist.persistence.auth.AuthenticationRequest;
-import com.cumpleanos.assist.persistence.dto.ServiceResponse;
-import com.cumpleanos.assist.persistence.dto.UserResponse;
+import com.cumpleanos.assist.persistence.records.ServiceResponse;
+import com.cumpleanos.assist.persistence.records.UserResponse;
 import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
