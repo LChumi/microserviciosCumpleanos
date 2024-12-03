@@ -1,7 +1,7 @@
 package com.cumpleanos.assist.service.interfaces;
 
 import com.cumpleanos.assist.persistence.entity.ProductoTemp;
-import com.cumpleanos.assist.persistence.records.ProductoDTO;
+import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.ProductoId;
 

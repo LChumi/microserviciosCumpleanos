@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.presentation.controller;
 
-import com.cumpleanos.assist.persistence.dto.MenuDTO;
+import com.cumpleanos.assist.persistence.transformers.MenuTransformer;
 import com.cumpleanos.assist.service.interfaces.IAccesoRolService;
 import com.cumpleanos.core.models.entities.Sistema;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class AccesoRolController {
     private final IAccesoRolService service;
 
     @GetMapping("/menus/{usuario}/{empresa}")
-    public ResponseEntity<Set<MenuDTO>> getMenus(@PathVariable Long usuario, @PathVariable Long empresa) {
-        Set<MenuDTO> menus =service.obtenerMenusYSubmenus(usuario, empresa);
+    public ResponseEntity<Set<MenuTransformer>> getMenus(@PathVariable Long usuario, @PathVariable Long empresa) {
+        Set<MenuTransformer> menus =service.obtenerMenusYSubmenus(usuario, empresa);
         return ResponseEntity.ok(menus);
     }
 

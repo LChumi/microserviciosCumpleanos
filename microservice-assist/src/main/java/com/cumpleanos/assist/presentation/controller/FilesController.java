@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.presentation.controller;
 
-import com.cumpleanos.assist.persistence.dto.ProductImportResponse;
+import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.implementation.files.FilesServicesImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +23,10 @@ public class FilesController {
     private final FilesServicesImpl filesServices;
 
     @PostMapping("/excel/import")
-    public ResponseEntity<List<ProductImportResponse>> importExcel(@RequestParam("file") MultipartFile file,
-                                                                   @RequestParam("empresa") Long empresa) {
+    public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
+                                                                      @RequestParam("empresa") Long empresa) {
         try {
-            List<ProductImportResponse> items = filesServices.readExcelFile(file, empresa);
+            List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
             return ResponseEntity.ok(items);
         } catch (Exception e) {
             log.error(e.getMessage());

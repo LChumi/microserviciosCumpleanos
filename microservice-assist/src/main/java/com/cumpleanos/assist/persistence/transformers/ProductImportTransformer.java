@@ -1,11 +1,11 @@
-package com.cumpleanos.assist.persistence.dto;
+package com.cumpleanos.assist.persistence.transformers;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class ProductImportResponse {
+public class ProductImportTransformer {
     private String id;
     private String item;
     private String nombre;

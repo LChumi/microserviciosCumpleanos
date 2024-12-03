@@ -1,8 +1,8 @@
 package com.cumpleanos.assist.presentation.controller;
 
 import com.cumpleanos.assist.persistence.auth.AuthenticationRequest;
-import com.cumpleanos.assist.persistence.records.ServiceResponse;
-import com.cumpleanos.assist.persistence.records.UserResponse;
+import com.cumpleanos.assist.persistence.inmutables.ServiceResponse;
+import com.cumpleanos.assist.persistence.inmutables.UserResponse;
 import com.cumpleanos.assist.service.implementation.UsuarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

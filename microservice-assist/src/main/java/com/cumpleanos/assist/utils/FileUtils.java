@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.utils;
 
-import com.cumpleanos.assist.persistence.dto.ProductImportResponse;
+import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -29,11 +29,11 @@ public class FileUtils {
         return true;
     }
 
-    public static ProductImportResponse mapRowToProductImport(Row row) throws ParseException {
+    public static ProductImportTransformer mapRowToProductImport(Row row) throws ParseException {
         DataFormatter formatter = new DataFormatter();
         NumberFormat numberFormat = NumberFormat.getInstance();
 
-        return  ProductImportResponse.builder()
+        return  ProductImportTransformer.builder()
                 .id(formatter.formatCellValue(row.getCell(0)))
                 .item(formatter.formatCellValue(row.getCell(1)))
                 .nombre(formatter.formatCellValue(row.getCell(2)))

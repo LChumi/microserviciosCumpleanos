@@ -1,8 +1,8 @@
 package com.cumpleanos.assist.service.implementation.files;
 
 import com.cumpleanos.assist.persistence.entity.ProductoTemp;
-import com.cumpleanos.assist.persistence.dto.ProductImportResponse;
-import com.cumpleanos.assist.persistence.records.ProductoDTO;
+import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
+import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +29,9 @@ public class FilesServicesImpl {
 
     private final IProductoService productoService;
 
-    public List<ProductImportResponse> readExcelFile(MultipartFile file, Long empresa) throws IOException {
+    public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) throws IOException {
 
-        List<ProductImportResponse> productosList = new ArrayList<>();
+        List<ProductImportTransformer> productosList = new ArrayList<>();
 
         try(InputStream inputStream = file.getInputStream()){
             Workbook workbook = WorkbookFactory.create(inputStream);
@@ -59,8 +59,8 @@ public class FilesServicesImpl {
     }
 
 
-    private void chekProduct(List<ProductImportResponse> items,Long empresa){
-        for (ProductImportResponse item : items) {
+    private void chekProduct(List<ProductImportTransformer> items, Long empresa){
+        for (ProductImportTransformer item : items) {
             ProductoDTO producto= productoService.getProductoByBarraAndEmpresa(item.getId(),empresa);
             if (producto == null) {
                 log.info("Producto no encontrado buscando en ProductoTemp");

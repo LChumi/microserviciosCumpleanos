@@ -1,7 +1,7 @@
 package com.cumpleanos.assist.service.implementation;
 
-import com.cumpleanos.assist.persistence.dto.MenuDTO;
-import com.cumpleanos.assist.persistence.dto.MenuItemDTO;
+import com.cumpleanos.assist.persistence.transformers.MenuItemTransformer;
+import com.cumpleanos.assist.persistence.transformers.MenuTransformer;
 import com.cumpleanos.assist.persistence.repository.AccesoRolRepository;
 import com.cumpleanos.assist.persistence.repository.MenuWRepository;
 import com.cumpleanos.assist.persistence.repository.RolMenuRepository;
@@ -35,7 +35,7 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
      * @return Un conjunto de menús y submenus que el usuario puede acceder.
      */
     @Override
-    public Set<MenuDTO> obtenerMenusYSubmenus(Long usuario, Long empresa) {
+    public Set<MenuTransformer> obtenerMenusYSubmenus(Long usuario, Long empresa) {
         // Obtener los accesos del usuario en la empresa
         List<AccesoRol> accesoRols = accesoRolRepository.findByUsuarioAndEmpresa(usuario, empresa);
         if (accesoRols == null || accesoRols.isEmpty()) {
@@ -54,13 +54,13 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
                 .collect(Collectors.toSet());
 
         // Crear una lista de menús de DTOs, añadiendo los submenus correctamente
-        Set<MenuDTO> menuDTOs = new HashSet<>();
+        Set<MenuTransformer> menuTransformers = new HashSet<>();
         for (MenuW menu : menus) {
-            MenuDTO menuDTO = buildMenuDTO(menu);  // Llamar al metodo recursivo para construir el DTO
-            menuDTOs.add(menuDTO);
+            MenuTransformer menuTransformer = buildMenuDTO(menu);  // Llamar al metodo recursivo para construir el DTO
+            menuTransformers.add(menuTransformer);
         }
 
-        return menuDTOs;
+        return menuTransformers;
     }
 
     @Override
@@ -77,21 +77,21 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
     }
 
     /**
-     * Metodo recursivo para construir el MenuDTO a partir de MenuW.
+     * Metodo recursivo para construir el MenuTransformer a partir de MenuW.
      */
-    private MenuDTO buildMenuDTO(MenuW menuW) {
-        List<MenuItemDTO> children = new ArrayList<>();
+    private MenuTransformer buildMenuDTO(MenuW menuW) {
+        List<MenuItemTransformer> children = new ArrayList<>();
 
         // Buscar los submenus (menús que reporta el actual)
         Set<MenuW> subMenus = findSubMenus(menuW.getId());  // Busca los submenus que reporta este menú
 
         for (MenuW subMenu : subMenus) {
             // Llamar recursivamente para construir el DTO de cada submenú
-            MenuItemDTO subMenuItem = buildMenuItemDTO(subMenu);
+            MenuItemTransformer subMenuItem = buildMenuItemDTO(subMenu);
             children.add(subMenuItem);
         }
 
-        return MenuDTO.builder()
+        return MenuTransformer.builder()
                 .label(menuW.getNombre())
                 .icon(menuW.getIcono())
                 .items(children)
@@ -99,10 +99,10 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
     }
 
     /**
-     * Metodo recursivo para construir el MenuItemDTO de cada menú.
+     * Metodo recursivo para construir el MenuItemTransformer de cada menú.
      */
-    private MenuItemDTO buildMenuItemDTO(MenuW menuW) {
-        List<MenuItemDTO> children = new ArrayList<>();
+    private MenuItemTransformer buildMenuItemDTO(MenuW menuW) {
+        List<MenuItemTransformer> children = new ArrayList<>();
 
         // Si el menú tiene submenus, buscar recursivamente los children
         Set<MenuW> subMenus = findSubMenus(menuW.getId());
@@ -118,7 +118,7 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
             routerLink= "";
         }
 
-        return MenuItemDTO.builder()
+        return MenuItemTransformer.builder()
                 .label(menuW.getNombre())
                 .icon(menuW.getIcono())
                 .routerLink(routerLink.isEmpty() ? Collections.emptyList() : Collections.singletonList(routerLink))
