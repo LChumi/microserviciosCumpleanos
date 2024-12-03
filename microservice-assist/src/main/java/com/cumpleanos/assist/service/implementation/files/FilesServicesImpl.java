@@ -1,8 +1,8 @@
 package com.cumpleanos.assist.service.implementation.files;
 
 import com.cumpleanos.assist.persistence.entity.ProductoTemp;
-import com.cumpleanos.assist.persistence.records.ProductImportResponse;
-import com.cumpleanos.assist.persistence.dto.ProductoDTO;
+import com.cumpleanos.assist.persistence.dto.ProductImportResponse;
+import com.cumpleanos.assist.persistence.records.ProductoDTO;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.utils.FileUtils;
 import lombok.RequiredArgsConstructor;

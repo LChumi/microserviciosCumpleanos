@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.utils;
 
-import com.cumpleanos.assist.persistence.records.ProductImportResponse;
+import com.cumpleanos.assist.persistence.dto.ProductImportResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;

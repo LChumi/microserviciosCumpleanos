@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.presentation.controller;
 
-import com.cumpleanos.assist.persistence.records.ProductImportResponse;
+import com.cumpleanos.assist.persistence.dto.ProductImportResponse;
 import com.cumpleanos.assist.service.implementation.files.FilesServicesImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

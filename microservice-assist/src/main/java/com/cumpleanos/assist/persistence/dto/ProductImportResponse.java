@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.persistence.records;
+package com.cumpleanos.assist.persistence.dto;
 
 import lombok.Builder;
 import lombok.Data;

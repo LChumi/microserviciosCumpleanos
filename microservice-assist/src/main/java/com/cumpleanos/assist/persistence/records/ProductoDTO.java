@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.persistence.dto;
+package com.cumpleanos.assist.persistence.records;
 
 public record ProductoDTO(
         Long codigo,
