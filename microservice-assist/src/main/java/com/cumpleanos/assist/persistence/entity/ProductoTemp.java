@@ -1,9 +1,6 @@
 package com.cumpleanos.assist.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -13,9 +10,11 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "PRODUCTO_TEMP")
 @Data
+@SequenceGenerator(name = "PRODUCTO_TEMP_S_CODIGO", sequenceName = "PRODUCTO_TEMP_S_CODIGO", allocationSize = 1)
 public class ProductoTemp {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCTO_TEMP_S_CODIGO")
     @Column(name = "PRO_CODIGO", nullable = false)
     private Long codigo;
 

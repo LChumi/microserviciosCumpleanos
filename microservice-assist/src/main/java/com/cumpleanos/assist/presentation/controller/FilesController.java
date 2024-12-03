@@ -23,9 +23,10 @@ public class FilesController {
     private final FilesServicesImpl filesServices;
 
     @PostMapping("/excel/import")
-    public ResponseEntity<List<ProductImportResponse>> importExcel(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<List<ProductImportResponse>> importExcel(@RequestParam("file") MultipartFile file,
+                                                                   @RequestParam("empresa") Long empresa) {
         try {
-            List<ProductImportResponse> items = filesServices.readExcelFile(file);
+            List<ProductImportResponse> items = filesServices.readExcelFile(file, empresa);
             return ResponseEntity.ok(items);
         } catch (Exception e) {
             log.error(e.getMessage());

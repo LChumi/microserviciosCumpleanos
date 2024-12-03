@@ -33,13 +33,13 @@ public class FileUtils {
         DataFormatter formatter = new DataFormatter();
         NumberFormat numberFormat = NumberFormat.getInstance();
 
-        return new ProductImportResponse(
-                formatter.formatCellValue(row.getCell(0)),
-                formatter.formatCellValue(row.getCell(1)),
-                formatter.formatCellValue(row.getCell(2)),
-                (int) numberFormat.parse(formatter.formatCellValue(row.getCell(3))).intValue(),
-                numberFormat.parse(formatter.formatCellValue(row.getCell(4))).doubleValue(),
-                (long) numberFormat.parse(formatter.formatCellValue(row.getCell(5))).longValue()
-        );
+        return  ProductImportResponse.builder()
+                .id(formatter.formatCellValue(row.getCell(0)))
+                .item(formatter.formatCellValue(row.getCell(1)))
+                .nombre(formatter.formatCellValue(row.getCell(2)))
+                .cantidad((int) numberFormat.parse(formatter.formatCellValue(row.getCell(3))).intValue())
+                .fob(numberFormat.parse(formatter.formatCellValue(row.getCell(4))).doubleValue())
+                .proveedor((long) numberFormat.parse(formatter.formatCellValue(row.getCell(5))).longValue())
+                .build();
     }
 }
