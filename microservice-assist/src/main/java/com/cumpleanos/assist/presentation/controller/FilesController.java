@@ -22,7 +22,7 @@ public class FilesController {
 
     private final FilesServicesImpl filesServices;
 
-    @PostMapping("/excel/import")
+    @PostMapping("/excel/solicitud")
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
                                                                       @RequestParam("empresa") Long empresa) {
         try {

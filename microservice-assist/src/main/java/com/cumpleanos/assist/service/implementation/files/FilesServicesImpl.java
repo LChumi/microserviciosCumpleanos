@@ -4,6 +4,7 @@ import com.cumpleanos.assist.persistence.entity.ProductoTemp;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
+import com.cumpleanos.assist.service.interfaces.IProductoTempService;
 import com.cumpleanos.assist.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import java.util.List;
 public class FilesServicesImpl {
 
     private final IProductoService productoService;
+    private final IProductoTempService productoTempService;
 
     public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) throws IOException {
 
@@ -64,11 +66,17 @@ public class FilesServicesImpl {
             ProductoDTO producto= productoService.getProductoByBarraAndEmpresa(item.getId(),empresa);
             if (producto == null) {
                 log.info("Producto no encontrado buscando en ProductoTemp");
-                ProductoTemp temp = productoService.getProductoTempByBarraAndEmpresa(item.getId(),empresa);
+                ProductoTemp temp = productoTempService.getProductoTempByBarraAndEmpresa(item.getId(),empresa);
                 if (temp == null) {
                     log.warn("Producto no encontrado registrando en ProductoTemp");
                     item.setStatus("Nuevo");
                     //Crear en productoTemp
+                    ProductoTemp productoTemp = new ProductoTemp();
+                    productoTemp.setNombre(item.getNombre());
+                    productoTemp.setProId(item.getId());
+                    productoTemp.setEmpresa(empresa);
+                    productoTemp.setProveedor(item.getProveedor());
+                    log.info("Nuevo producto {}", productoTemp);
                 } else {
                     item.setStatus("Proceso");
                 }

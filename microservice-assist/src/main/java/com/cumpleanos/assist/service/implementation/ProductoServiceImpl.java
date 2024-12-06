@@ -1,6 +1,5 @@
 package com.cumpleanos.assist.service.implementation;
 
-import com.cumpleanos.assist.persistence.entity.ProductoTemp;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.repository.ProductoRepository;
 import com.cumpleanos.assist.persistence.repository.ProductoTempRepository;
@@ -43,10 +42,5 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
                     prod.getUnidad().getId().getCodigo()
             );
         }
-    }
-
-    @Override
-    public ProductoTemp getProductoTempByBarraAndEmpresa(String barra, Long empresa) {
-        return productoTempRepository.findByProIdAndEmpresa(barra,empresa).orElse(null);
     }
 }
