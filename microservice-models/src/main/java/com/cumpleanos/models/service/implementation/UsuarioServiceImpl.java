@@ -2,6 +2,7 @@ package com.cumpleanos.models.service.implementation;
 
 import com.cumpleanos.core.models.entities.Usuario;
 import com.cumpleanos.models.persistence.repository.UsuarioRepository;
+import com.cumpleanos.models.service.exception.BadCredentialsException;
 import com.cumpleanos.models.service.interfaces.IUsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,6 @@ public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implem
 
     @Override
     public Usuario findByUsrIdAnClave(String usrId, String clave) {
-        return repository.findByUsrIdAndClave(usrId.toUpperCase(), clave).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return repository.findByUsrIdAndClave(usrId.toUpperCase(), clave).orElseThrow(() -> new BadCredentialsException("Usuario no encontrado"));
     }
 }

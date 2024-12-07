@@ -13,4 +13,5 @@ public class ProductImportTransformer {
     private double fob;
     private Long proveedor;
     private String status;
+    private String imagen;
 }

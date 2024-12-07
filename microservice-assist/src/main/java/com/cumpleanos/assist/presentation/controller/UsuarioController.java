@@ -3,11 +3,11 @@ package com.cumpleanos.assist.presentation.controller;
 import com.cumpleanos.assist.persistence.auth.AuthenticationRequest;
 import com.cumpleanos.assist.persistence.inmutables.ServiceResponse;
 import com.cumpleanos.assist.persistence.inmutables.UserResponse;
+import com.cumpleanos.assist.service.exception.BadCredentialsException;
 import com.cumpleanos.assist.service.implementation.UsuarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ public class UsuarioController {
     public ResponseEntity<UserResponse> login(@RequestBody @Valid AuthenticationRequest request) {
         UserResponse user = usuarioService.login(request);
         if(user==null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            throw new BadCredentialsException("Usuario no autenticado");
         }
         return ResponseEntity.accepted().body(user);
     }
