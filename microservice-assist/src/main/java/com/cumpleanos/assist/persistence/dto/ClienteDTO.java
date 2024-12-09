@@ -21,8 +21,7 @@ public class ClienteDTO {
     private String mail;
     private short tipoced;
 
-
-    public ClienteDTO mapToCliente(Cliente cliente) {
+    public static ClienteDTO mapToCliente(Cliente cliente) {
         return ClienteDTO.builder()
                 .codigo(cliente.getId().getCodigo())
                 .empresa(cliente.getId().getEmpresa())
@@ -35,7 +34,7 @@ public class ClienteDTO {
                 .telefono2(cliente.getTelefono2())
                 .telefono3(cliente.getTelefono3())
                 .mail(cliente.getMail())
-                .tipoced(cliente.getTipoced())
+                .tipoced(cliente.getTipoced() != null ? cliente.getTipoced() : 0) // Evitar el error de Nullpointer
                 .build();
     }
 
