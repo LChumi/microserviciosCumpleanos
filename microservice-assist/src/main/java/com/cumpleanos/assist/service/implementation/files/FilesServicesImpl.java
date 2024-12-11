@@ -35,26 +35,34 @@ public class FilesServicesImpl {
 
         List<ProductImportTransformer> productosList = new ArrayList<>();
 
-        try(InputStream inputStream = file.getInputStream()){
+        try (InputStream inputStream = file.getInputStream()) {
             Workbook workbook = WorkbookFactory.create(inputStream);
-
-            Sheet sheet = workbook.getSheetAt(0); //Leer la primera hoja
+            Sheet sheet = workbook.getSheetAt(0); // Leer la primera hoja
             Iterator<Row> rowIterator = sheet.iterator();
 
-            //encabezados
+            // Encabezados
             Row headerRow = rowIterator.next();
-            if (!FileUtils.isValidHeaderImpor(headerRow)){
-                throw new IOException("El formato del archivo Excel no es valido");
+            if (!FileUtils.isValidHeaderImpor(headerRow)) {
+                throw new IOException("El formato del archivo Excel no es válido");
             }
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                productosList.add(FileUtils.mapRowToProductImport(row));
+
+                // Verificar si la fila está vacía
+                if (FileUtils.isRowEmpty(row)) {
+                    break; // Detener el procesamiento si la fila está vacía
+                }
+
+                try {
+                    productosList.add(FileUtils.mapRowToProductImport(row));
+                } catch (ParseException e) {
+                    log.error("Error al procesar la fila: {} " , e.getMessage());
+                }
             }
-        } catch (ParseException e) {
-            throw new RuntimeException("Error al convertir la celda a un atributo", e);
         }
 
+        // Verificar los productos antes de retornar
         chekProduct(productosList, empresa);
 
         return productosList;
