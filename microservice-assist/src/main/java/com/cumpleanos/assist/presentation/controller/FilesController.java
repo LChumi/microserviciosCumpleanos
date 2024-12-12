@@ -25,13 +25,8 @@ public class FilesController {
 
     @PostMapping("/excel/solicitud")
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
-                                                                      @RequestParam("empresa") Long empresa) {
-        try {
-            List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
-            return ResponseEntity.ok(items);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.badRequest().body(null);
-        }
+                                                                      @RequestParam("empresa") Long empresa) throws IOException {
+        List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
+        return ResponseEntity.ok(items);
     }
 }
