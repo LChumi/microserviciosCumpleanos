@@ -34,5 +34,15 @@ public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> i
         return clienteDTOS;
     }
 
+    @Override
+    public Set<ClienteDTO> findByEmpresaTipoAndCategoria(Long empresa, Short tipo, Long categoria) {
+        Set<ClienteDTO> clienteDTOS = new HashSet<>();
+        Set<Cliente> cli = repository.findById_empresaAndTipoAndCliCategoria(empresa, tipo, categoria);
+        for (Cliente client : cli) {
+            clienteDTOS.add(ClienteDTO.mapToCliente(client));
+        }
+        return clienteDTOS;
+    }
+
 
 }

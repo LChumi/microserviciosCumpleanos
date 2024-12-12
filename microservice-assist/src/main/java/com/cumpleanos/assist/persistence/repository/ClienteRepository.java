@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface ClienteRepository extends JpaRepository<Cliente, ClienteId> {
     Set<Cliente> findById_EmpresaAndTipo(Long empresa, Short tipo);
+    Set<Cliente> findById_empresaAndTipoAndCliCategoria(Long empresa, Short tipo, Long categoria);
 }

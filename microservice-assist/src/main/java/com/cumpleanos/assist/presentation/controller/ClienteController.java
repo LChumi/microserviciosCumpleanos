@@ -24,4 +24,10 @@ public class ClienteController {
         Set<ClienteDTO> clientes = clienteService.findByTipoAndEmpresa(tipo, empresa);
         return ResponseEntity.ok(clientes);
     }
+
+    @GetMapping("/cliente/{empresa}/{tipo}/{categoria}")
+    public ResponseEntity<Set<ClienteDTO>> getClientesXtipoXcategoria(@PathVariable("empresa") Long empresa, @PathVariable("tipo") Short tipo, @PathVariable("categoria") Long categoria) {
+        Set<ClienteDTO> clientes = clienteService.findByEmpresaTipoAndCategoria(empresa, tipo, categoria);
+        return ResponseEntity.ok(clientes);
+    }
 }

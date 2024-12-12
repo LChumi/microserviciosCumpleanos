@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface IClienteService extends IGenericService<Cliente, ClienteId> {
     Set<ClienteDTO> findByTipoAndEmpresa(Short tipo, Long empresa);
+    Set<ClienteDTO> findByEmpresaTipoAndCategoria(Long empresa, Short tipo , Long categoria);
 }
