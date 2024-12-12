@@ -1,6 +1,6 @@
 package com.cumpleanos.pos.utils;
 
-import com.cumpleanos.pos.persistence.api.DatosRecepcionResponse;
+import com.cumpleanos.pos.persistence.api.datapos.DatosRecepcionResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
