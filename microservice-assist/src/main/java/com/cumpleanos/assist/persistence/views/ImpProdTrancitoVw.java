@@ -59,16 +59,16 @@ public class ImpProdTrancitoVw {
     private String nroPoliza;
 
     @Column(name = "IPT_CANT_PEDIDA")
-    private BigDecimal cantPedida;
+    private Long cantPedida;
 
     @Column(name = "IPT_CANT_LLEGADA")
-    private BigDecimal cantLlegada;
+    private Long cantLlegada;
 
     @Column(name = "IPT_FOB")
     private BigDecimal fob;
 
     @Column(name = "IPT_FOB_TOTAL")
-    private Long fobTotal;
+    private BigDecimal fobTotal;
 
     @Column(name = "IPT_ESTADO")
     private String estado;

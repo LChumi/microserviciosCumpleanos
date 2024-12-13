@@ -1,8 +1,11 @@
 package com.cumpleanos.assist.service.implementation.files;
 
 import com.cumpleanos.assist.persistence.entity.ProductoTemp;
+import com.cumpleanos.assist.persistence.transformers.ImpProdTrancitoTransformer;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
+import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
+import com.cumpleanos.assist.service.interfaces.IImpProdTrancitoVwService;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.IProductoTempService;
 import com.cumpleanos.assist.utils.FileUtils;
@@ -19,9 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -30,6 +31,7 @@ public class FilesServicesImpl {
 
     private final IProductoService productoService;
     private final IProductoTempService productoTempService;
+    private final IImpProdTrancitoVwService impProdTrancitoVwService;
 
     public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) throws IOException {
 
@@ -87,12 +89,27 @@ public class FilesServicesImpl {
                     //ProductoTemp productoNuevo = productoTempService.save(productoTemp);
                     log.info("Nuevo producto {}", productoTemp);
                 } else {
+                    Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(temp.getCodigo(),empresa);
+                    item.setTrancitos(chekImports(importaciones));
                     item.setStatus("Proceso");
                 }
             }else {
+                Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(producto.codigo(),empresa);
+                item.setTrancitos(chekImports(importaciones));
                 item.setStatus("Reposicion");
             }
         }
+    }
+
+    private Set<ImpProdTrancitoTransformer> chekImports(Set<ImpProdTrancitoVw> items){
+        if (items.isEmpty()) {
+            return new HashSet<>();
+        }
+        Set<ImpProdTrancitoTransformer> importaciones = new HashSet<>();
+        for (ImpProdTrancitoVw item : items) {
+            importaciones.add(ImpProdTrancitoTransformer.mapToImpProdTrancitoVw(item));
+        }
+        return importaciones;
     }
 
 }
