@@ -92,11 +92,13 @@ public class FilesServicesImpl {
                     Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(temp.getCodigo(),empresa);
                     item.setTrancitos(chekImports(importaciones));
                     item.setStatus("Proceso");
+                    item.calcularCantidadEnTrancito();
                 }
             }else {
                 Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(producto.codigo(),empresa);
                 item.setTrancitos(chekImports(importaciones));
                 item.setStatus("Reposicion");
+                item.calcularCantidadEnTrancito();
             }
         }
     }
