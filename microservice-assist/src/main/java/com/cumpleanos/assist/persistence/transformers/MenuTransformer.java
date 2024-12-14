@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.persistence.dto;
+package com.cumpleanos.assist.persistence.transformers;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class MenuDTO{
+public class MenuTransformer {
     private String label;
     private String icon;
-    private List<MenuItemDTO> items;
+    private List<MenuItemTransformer> items;
 }

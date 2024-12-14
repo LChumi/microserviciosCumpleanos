@@ -1,4 +1,4 @@
-package com.cumpleanos.pos.persistence.api;
+package com.cumpleanos.pos.persistence.api.datapos;
 
 import lombok.Data;
 

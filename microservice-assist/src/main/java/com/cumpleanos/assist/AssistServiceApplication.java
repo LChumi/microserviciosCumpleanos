@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EntityScan(basePackages = "com.cumpleanos.core.models")
+@EntityScan(basePackages = {"com.cumpleanos.core.models", "com.cumpleanos.assist.persistence"})
 @OpenAPIDefinition( info = @Info(
 		title = "ASSIST WEB", description = "Documentacion ASSIST WEB API v 1"))
 @EnableFeignClients

@@ -1,7 +1,10 @@
 package com.cumpleanos.models.service.interfaces;
 
-import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.ids.ClienteId;
+import com.cumpleanos.core.models.entities.CatCliente;
+import com.cumpleanos.core.models.ids.CatClienteId;
 
-public interface ICatClienteService extends GenericService<Cliente, ClienteId>{
+import java.util.Set;
+
+public interface ICatClienteService extends GenericService<CatCliente, CatClienteId>{
+    Set<CatCliente> listByEmpresa(Long empresa);
 }

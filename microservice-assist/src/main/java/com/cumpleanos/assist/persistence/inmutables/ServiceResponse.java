@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.persistence.dto;
+package com.cumpleanos.assist.persistence.inmutables;
 
 public record ServiceResponse(String message, Boolean success) {
 }

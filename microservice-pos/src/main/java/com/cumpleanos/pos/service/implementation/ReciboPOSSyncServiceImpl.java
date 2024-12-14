@@ -1,7 +1,7 @@
 package com.cumpleanos.pos.service.implementation;
 
-import com.cumpleanos.pos.persistence.api.DatosEnvioRequest;
-import com.cumpleanos.pos.persistence.api.DatosRecepcionResponse;
+import com.cumpleanos.pos.persistence.api.datapos.DatosEnvioRequest;
+import com.cumpleanos.pos.persistence.api.datapos.DatosRecepcionResponse;
 import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
