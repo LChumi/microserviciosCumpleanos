@@ -10,14 +10,13 @@ import java.text.ParseException;
 @Slf4j
 public class FileUtils {
 
-    private static final String[] HeadersImport = {"ID", "ITEM", "NOMBRE", "CANTIDAD", "FOB", "PROVEEDOR", "CBM"};
+    private static final String[] HeadersImport = {"ID", "ITEM", "NOMBRE", "CANTIDAD", "FOB", "CBM"};
 
     // Validación del encabezado del archivo
     public static boolean isValidHeaderImpor(Row headerRow) {
         if (headerRow.getLastCellNum() != HeadersImport.length) {
             return false; // Si el número de columnas no coincide, no es válido
         }
-
         for (int i = 0; i < HeadersImport.length; i++) {
             Cell cell = headerRow.getCell(i);
             if (cell == null || cell.getCellType() != CellType.STRING) {
@@ -39,8 +38,7 @@ public class FileUtils {
                 .nombre(getCellValueSafely(row.getCell(2)))
                 .cantidad(parseIntegerSafely(getCellValueSafely(row.getCell(3)))) // Valor predeterminado 0
                 .fob(parseDoubleSafely(getCellValueSafely(row.getCell(4)))) // Valor predeterminado 0.0
-                .proveedor(parseLongSafely(getCellValueSafely(row.getCell(5)))) // Valor predeterminado 0L
-                .cbm(parseDoubleSafely(getCellValueSafely(row.getCell(6)))) // Valor predeterminado 0.0
+                .cbm(parseDoubleSafely(getCellValueSafely(row.getCell(5)))) // Valor predeterminado 0.0
                 .build();
     }
 
@@ -81,23 +79,12 @@ public class FileUtils {
         if (value == null || value.isEmpty()) {
             return 0.0;
         }
-
         try {
             NumberFormat format = NumberFormat.getInstance(); // Usa configuración regional actual
             return format.parse(value).doubleValue();
         } catch (Exception e) {
             System.err.println("Error al convertir valor a Double: " + value);
             return 0.0; // Valor predeterminado
-        }
-    }
-
-
-    // Conversión segura de String a Long
-    private static long parseLongSafely(String value) {
-        try {
-            return value.isEmpty() ? 0L : Long.parseLong(value);
-        } catch (NumberFormatException e) {
-            return 0L;
         }
     }
 }

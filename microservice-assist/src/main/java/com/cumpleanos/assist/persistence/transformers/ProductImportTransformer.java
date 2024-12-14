@@ -17,7 +17,6 @@ public class ProductImportTransformer {
     private String nombre;
     private int cantidad;
     private double fob;
-    private Long proveedor;
     private double cbm;
     private String status;
     private String imagen;

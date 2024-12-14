@@ -85,7 +85,6 @@ public class FilesServicesImpl {
                     productoTemp.setNombre(item.getNombre());
                     productoTemp.setProId(item.getId());
                     productoTemp.setEmpresa(empresa);
-                    productoTemp.setProveedor(item.getProveedor());
                     //ProductoTemp productoNuevo = productoTempService.save(productoTemp);
                     log.info("Nuevo producto {}", productoTemp);
                 } else {
