@@ -44,9 +44,9 @@ public class FilesServicesImpl {
 
             // Encabezados
             Row headerRow = rowIterator.next();
-            if (!FileUtils.isValidHeaderImpor(headerRow)) {
+            /*if (!FileUtils.isValidHeaderImpor(headerRow)) {
                 throw new IOException("El formato del archivo Excel no es válido");
-            }
+            }*/
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
