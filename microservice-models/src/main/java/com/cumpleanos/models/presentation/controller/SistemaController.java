@@ -29,4 +29,10 @@ public class SistemaController {
         }
         return ResponseEntity.ok(sistema);
     }
+
+    @GetMapping("/id-empresa/{id}")
+    public ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id) {
+        Sistema sistema = sistemaService.findById(id);
+        return ResponseEntity.ok(sistema);
+    }
 }
