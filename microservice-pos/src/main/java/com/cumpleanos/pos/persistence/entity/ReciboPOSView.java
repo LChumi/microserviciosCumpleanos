@@ -120,4 +120,7 @@ public class ReciboPOSView {
     @Column(name = "ALM_ID")
     private String almId;
 
+    @Column(name = "RPO_TOTAL")
+    private BigDecimal total;
+
 }
