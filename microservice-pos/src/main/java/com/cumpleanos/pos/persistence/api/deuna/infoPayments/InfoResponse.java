@@ -1,6 +1,6 @@
 package com.cumpleanos.pos.persistence.api.deuna.infoPayments;
 
-public record infoResponse(
+public record InfoResponse(
         String status,
         String internalTransactionReference,
         Long amount,
