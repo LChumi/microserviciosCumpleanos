@@ -39,6 +39,9 @@ public class ReciboPOSView {
     @Column(name = "CAP_IP")
     private String ip;
 
+    @Column(name = "CAP_ID")
+    private String capId;
+
     @Column(name = "CAP_NOMBRE_EQUIPO")
     private String nombreEquipo;
 

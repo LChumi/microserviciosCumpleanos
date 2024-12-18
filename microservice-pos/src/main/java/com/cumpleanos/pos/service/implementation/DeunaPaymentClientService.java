@@ -1,6 +1,8 @@
 package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.core.models.exception.ApiResponse;
+import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoRequest;
+import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoResponse;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentRequest;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentResponse;
 import com.cumpleanos.pos.service.exception.HttpResponseHandler;
@@ -30,6 +32,13 @@ public class DeunaPaymentClientService {
                         deunaPaymentClient.requestPaymet(apiKey, apiSecret, paymentRequest),
                 "Error en la obtencion del pago"
         );
+    }
+
+    public ApiResponse<InfoResponse> getInfo(InfoRequest infoRequest) {
+        return HttpResponseHandler.handle(() ->
+                deunaPaymentClient.requestInfoPayment(apiKey,apiSecret,infoRequest),
+                "Error en la obtencion de la info de pago"
+                );
     }
 
 }
