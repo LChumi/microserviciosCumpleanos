@@ -116,7 +116,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
     }
 
     private InfoResponse esperarAprobacion(ReciboPOSView view, InfoRequest request) {
-        int intentosMaximos = 30;
+        int intentosMaximos = 20;
         int intervaloEspera = 2000; // En milisegundos 2 segundos
         int intentos = 0;
 
@@ -146,8 +146,8 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
                 throw new InfoPaymentException("Error inesperado durante la aprobación", e);
             }
         }
-
-        throw new TimeoutException("Tiempo de espera excedido después de " + intentosMaximos + " intentos.");
+        log.error("Tiempo de espera excedido después de {} intentos.", intentosMaximos);
+        throw new TimeoutException("Tiempo de espera agotado.");
     }
 
 }
