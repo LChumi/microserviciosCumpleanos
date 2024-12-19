@@ -1,6 +1,7 @@
 package com.cumpleanos.pos.presentation.controller;
 
 import com.cumpleanos.core.models.exception.ApiResponse;
+import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoResponse;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentResponse;
 import com.cumpleanos.pos.service.interfaces.IDeUnaSyncService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,11 @@ public class DeUnaController {
         }else {
             return ResponseEntity.status(HttpStatus.CREATED).body(response.getData());
         }
+    }
+
+    @GetMapping("/validar-pago/{usrlLiq}/{empresa}")
+    public ResponseEntity<InfoResponse> validarPago(@PathVariable Long usrlLiq, @PathVariable Long empresa) {
+        InfoResponse response = deunaSyncService.procesarInfoPayment(usrlLiq,empresa);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
