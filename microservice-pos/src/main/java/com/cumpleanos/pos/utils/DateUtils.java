@@ -16,13 +16,13 @@ public class DateUtils {
 
     public static String obtenerHora(){
         LocalDateTime fecha = LocalDateTime.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HHmmss");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");
         return fecha.format(formato);
     }
 
     public static String obtenerFecha(){
         LocalDateTime fecha = LocalDateTime.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMMyyyy");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return fecha.format(formato);
     }
 }
