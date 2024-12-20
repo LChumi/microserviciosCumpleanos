@@ -1,4 +1,4 @@
 package com.cumpleanos.pos.persistence.api.deuna.devolutions;
 
-public record devolutionRequest(String transferNumber) {
+public record DevolutionRequest(String transferNumber) {
 }

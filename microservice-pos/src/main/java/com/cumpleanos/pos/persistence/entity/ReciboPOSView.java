@@ -39,6 +39,9 @@ public class ReciboPOSView {
     @Column(name = "CAP_IP")
     private String ip;
 
+    @Column(name = "CAP_ID")
+    private String capId;
+
     @Column(name = "CAP_NOMBRE_EQUIPO")
     private String nombreEquipo;
 
@@ -119,5 +122,8 @@ public class ReciboPOSView {
 
     @Column(name = "ALM_ID")
     private String almId;
+
+    @Column(name = "RPO_TOTAL")
+    private BigDecimal total;
 
 }

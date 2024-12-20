@@ -1,6 +1,6 @@
 package com.cumpleanos.pos.persistence.api.deuna.cancelTransaction;
 
-public record cancelRequest(
+public record CancelRequest(
         String id,
         String transactionId
 ) {}

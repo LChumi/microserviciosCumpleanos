@@ -26,6 +26,9 @@ public class CajaPOS {
     @Column(name = "CAP_PVENTA")
     private Long pventa;
 
+    @Column(name = "CAP_ID")
+    private String capId;
+
     @Size(max = 20)
     @Column(name = "CAP_IP", length = 20)
     private String ip;

@@ -118,6 +118,12 @@ public class ReciboPOS {
     @Column(name = "RPO_TOTAL", precision = 17, scale = 4)
     private BigDecimal rpoTotal;
 
+    @Column(name = "RPO_NRO_DOC")
+    private String nroDoc;
+
+    @Column(name = "RPO_IDENTIFICACION_CLI")
+    private String identificacionCli;
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumns({
             @JoinColumn(name = "RPO_TIPO_CREDITO_POS", referencedColumnName = "TCR_CODIGO", insertable = false, updatable = false),
