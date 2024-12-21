@@ -23,4 +23,9 @@ public class ProductoTemoServiceImpl extends GenericServiceImpl<ProductoTemp,Lon
     public ProductoTemp getProductoTempByBarraAndEmpresa(String barra, Long empresa) {
         return repository.findByProIdAndEmpresa(barra, empresa).orElse(null);
     }
+
+    @Override
+    public ProductoTemp getProductoTempByBarraOrItem(String barra, Long empresa) {
+        return repository.findByEmpresaAndCodFabricaOrProId(empresa, barra).orElse(null);
+    }
 }

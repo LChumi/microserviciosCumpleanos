@@ -144,4 +144,7 @@ public class ProductoTemp {
 
     @Column(name = "PRO_DETALLE")
     private Short detalle;
+
+    @Column(name = "PRO_COD_FABRICA")
+    private String codFabrica;
 }
