@@ -10,7 +10,7 @@ import java.text.ParseException;
 @Slf4j
 public class FileUtils {
 
-    private static final String[] HeadersImport = {"ID", "ITEM", "NOMBRE", "CANTIDAD", "FOB", "CBM"};
+    private static final String[] HeadersImport = {"ID", "ITEM", "NOMBRE", "CANTIDAD", "FOB", "CBM", "CXB"};
 
     // Validación del encabezado del archivo
     public static boolean isValidHeaderImpor(Row headerRow) {
@@ -39,6 +39,7 @@ public class FileUtils {
                 .cantidad(parseIntegerSafely(getCellValueSafely(row.getCell(3)))) // Valor predeterminado 0
                 .fob(parseDoubleSafely(getCellValueSafely(row.getCell(4)))) // Valor predeterminado 0.0
                 .cbm(parseDoubleSafely(getCellValueSafely(row.getCell(5)))) // Valor predeterminado 0.0
+                .cxb(parseIntegerSafely(getCellValueSafely(row.getCell(6))))
                 .build();
     }
 

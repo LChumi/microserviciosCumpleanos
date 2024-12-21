@@ -91,13 +91,13 @@ public class FilesServicesImpl {
                     Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(temp.getCodigo(),empresa);
                     item.setTrancitos(chekImports(importaciones));
                     item.setStatus("Proceso");
-                    item.calcularCantidadEnTrancito();
+                    calcularTotales(item);
                 }
             }else {
                 Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(producto.codigo(),empresa);
                 item.setTrancitos(chekImports(importaciones));
                 item.setStatus("Reposicion");
-                item.calcularCantidadEnTrancito();
+                calcularTotales(item);
             }
         }
     }
@@ -111,6 +111,13 @@ public class FilesServicesImpl {
             importaciones.add(ImpProdTrancitoTransformer.mapToImpProdTrancitoVw(item));
         }
         return importaciones;
+    }
+
+    private void calcularTotales(ProductImportTransformer item){
+        item.calcularCantidadEnTrancito();
+        item.calcularCantidadTotal();
+        item.calcularCbmTotal();
+        item.calcularFobTotal();
     }
 
 }
