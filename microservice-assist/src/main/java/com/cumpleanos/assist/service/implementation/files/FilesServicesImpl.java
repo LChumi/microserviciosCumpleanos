@@ -70,6 +70,22 @@ public class FilesServicesImpl {
         return productosList;
     }
 
+    private void chekCotizacion(List<ProductImportTransformer> productosList, Long empresa) {
+        for (ProductImportTransformer product : productosList) {
+            if (product.getItem()==null){
+                ProductoTemp temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(product.getCodFabrica(), empresa);
+                saveOrUpdateProduct(product, empresa);
+            }else {
+                ProductoTemp temp = productoTempService.getProductoTempByBarraAndEmpresa(product.getId(),empresa);
+                if (temp == null) {
+                    saveOrUpdateProduct(product, empresa);
+                }else {
+                    product.setStatus("Proceso");
+                }
+            }
+
+        }
+    }
 
     private void chekProduct(List<ProductImportTransformer> items, Long empresa){
         for (ProductImportTransformer item : items) {
@@ -80,14 +96,9 @@ public class FilesServicesImpl {
                 if (temp == null) {
                     log.warn("Producto no encontrado registrando en ProductoTemp");
                     item.setStatus("Nuevo");
-                    //Crear en productoTemp
-                    ProductoTemp productoTemp = new ProductoTemp();
-                    productoTemp.setNombre(item.getNombre());
-                    productoTemp.setProId(item.getId());
-                    productoTemp.setEmpresa(empresa);
-                    //ProductoTemp productoNuevo = productoTempService.save(productoTemp);
-                    log.info("Nuevo producto {}", productoTemp);
+                    saveOrUpdateProduct(item, empresa);
                 } else {
+                    saveOrUpdateProduct(item, empresa);
                     Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(temp.getCodigo(),empresa);
                     item.setTrancitos(chekImports(importaciones));
                     item.setStatus("Proceso");
@@ -118,6 +129,16 @@ public class FilesServicesImpl {
         item.calcularCantidadTotal();
         item.calcularCbmTotal();
         item.calcularFobTotal();
+    }
+
+    private void saveOrUpdateProduct(ProductImportTransformer item, Long empresa){
+        ProductoTemp productoTemp = new ProductoTemp();
+        productoTemp.setNombre(item.getNombre());
+        productoTemp.setEmpresa(empresa);
+        productoTemp.setCodFabrica(item.getCodFabrica());
+        productoTemp.setProId(item.getId() != null ? item.getId() : "");
+        log.info("Producto registrado en ProductoTemp {}", productoTemp);
+        //ProductoTemp productoNuevo = productoTempService.save(productoTemp);
     }
 
 }

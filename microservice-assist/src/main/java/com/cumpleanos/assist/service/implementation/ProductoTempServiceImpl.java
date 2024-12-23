@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class ProductoTemoServiceImpl extends GenericServiceImpl<ProductoTemp,Long> implements IProductoTempService {
+public class ProductoTempServiceImpl extends GenericServiceImpl<ProductoTemp,Long> implements IProductoTempService {
 
     private final ProductoTempRepository repository;
 
@@ -22,6 +22,11 @@ public class ProductoTemoServiceImpl extends GenericServiceImpl<ProductoTemp,Lon
     @Override
     public ProductoTemp getProductoTempByBarraAndEmpresa(String barra, Long empresa) {
         return repository.findByProIdAndEmpresa(barra, empresa).orElse(null);
+    }
+
+    @Override
+    public ProductoTemp getProductoTempByCodFabricaAndEmpresa(String codFabrica, Long empresa) {
+        return repository.findByCodFabricaAndEmpresa(codFabrica, empresa).orElse(null);
     }
 
     @Override

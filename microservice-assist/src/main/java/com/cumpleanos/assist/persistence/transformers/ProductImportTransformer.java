@@ -20,6 +20,7 @@ public class ProductImportTransformer {
     private double cbm;
     private int cxb;
     private String status;
+    private String codFabrica;
 
     @Setter(AccessLevel.NONE)
     private int cantidadTotal =0;
