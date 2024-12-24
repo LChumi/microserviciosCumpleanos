@@ -18,10 +18,22 @@ public class ProductImportTransformer {
     private int cantidad;
     private double fob;
     private double cbm;
+    private int cxb;
     private String status;
-    private String imagen;
+    private String codFabrica;
+
+    @Setter(AccessLevel.NONE)
+    private int cantidadTotal =0;
+
+    @Setter(AccessLevel.NONE)
+    private double cbmTotal=0;
+
+    @Setter(AccessLevel.NONE)
+    private double fobTotal=0;
+
     @Setter(AccessLevel.NONE)
     private int cantidadTrancito=0;
+
     private Set<ImpProdTrancitoTransformer> trancitos;
 
     public void calcularCantidadEnTrancito() { cantidadTrancito = 0; // Inicializar a 0 antes de sumar
@@ -30,5 +42,17 @@ public class ProductImportTransformer {
                 cantidadTrancito += trancito.getCantidadPedida();
             }
         }
+    }
+
+    public void calcularCantidadTotal() {
+        cantidadTotal = cantidad * cxb;
+    }
+
+    public void calcularCbmTotal() {
+        cbmTotal = cbm * cantidad;
+    }
+
+    public void calcularFobTotal() {
+        fobTotal = fob * cantidadTotal;
     }
 }
