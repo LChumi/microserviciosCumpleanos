@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -34,7 +35,7 @@ public class ProductImportTransformer {
     @Setter(AccessLevel.NONE)
     private int cantidadTrancito=0;
 
-    private Set<ImpProdTrancitoTransformer> trancitos;
+    private Set<ImpProdTrancitoTransformer> trancitos = new HashSet<ImpProdTrancitoTransformer>();
 
     public void calcularCantidadEnTrancito() { cantidadTrancito = 0; // Inicializar a 0 antes de sumar
         if (!trancitos.isEmpty()) {

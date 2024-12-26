@@ -65,52 +65,60 @@ public class FilesServicesImpl {
         }
 
         // Verificar los productos antes de retornar
-        chekProduct(productosList, empresa);
+        productsFlow(productosList, empresa);
 
         return productosList;
     }
 
-    private void chekCotizacion(List<ProductImportTransformer> productosList, Long empresa) {
+    private void productsFlow(List<ProductImportTransformer> productosList, Long empresa) {
         for (ProductImportTransformer product : productosList) {
-            if (product.getItem()==null){
+            //Producto no tiene barra en el excel
+            if (product.getId()==null || product.getId().isEmpty()){
                 ProductoTemp temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(product.getCodFabrica(), empresa);
-                saveOrUpdateProduct(product, empresa);
-            }else {
-                ProductoTemp temp = productoTempService.getProductoTempByBarraAndEmpresa(product.getId(),empresa);
-                if (temp == null) {
+                //Si producto Temporal no existe
+                if (temp==null){
+                    product.setStatus("Nuevo");
                     saveOrUpdateProduct(product, empresa);
                 }else {
-                    product.setStatus("Proceso");
+                    product.setStatus("Reposicion");
+                    saveOrUpdateProduct(product, empresa);
+                    getTrancitos(product, temp.getCodigo(), empresa);
                 }
+            }else {
+                chekProduct(product, empresa);
             }
 
         }
     }
 
-    private void chekProduct(List<ProductImportTransformer> items, Long empresa){
-        for (ProductImportTransformer item : items) {
+    private void chekProduct(ProductImportTransformer item, Long empresa){
             ProductoDTO producto= productoService.getProductoByBarraAndEmpresa(item.getId(),empresa);
+            //Si producto no existe en Tabla Producto
             if (producto == null) {
-                log.info("Producto no encontrado buscando en ProductoTemp");
+                log.info("Producto no encontrado buscando en ProductoTemp por barra");
                 ProductoTemp temp = productoTempService.getProductoTempByBarraAndEmpresa(item.getId(),empresa);
+                //Si producto Temporal no existe por barra
                 if (temp == null) {
-                    log.warn("Producto no encontrado registrando en ProductoTemp");
-                    item.setStatus("Nuevo");
+                    log.warn("Producto no encontrado en ProductoTemp buscando por codFabrica");
+                    ProductoTemp tempCodFabrica = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), empresa);
+                    //Si producto temporal no existe por codigo fabrica
+                    if (tempCodFabrica == null) {
+                        item.setStatus("Sin registro");
+                        log.error("Producto no se encuentra registrado dentro del sistema");
+                    } else { //Producto temporal existe por codigo fabrica
+                        item.setStatus("Reposicion");
+                        saveOrUpdateProduct(item, empresa);
+                        getTrancitos(item,tempCodFabrica.getCodigo(),empresa);
+                    }
+                } else { //Producto temporal existe por barra
                     saveOrUpdateProduct(item, empresa);
-                } else {
-                    saveOrUpdateProduct(item, empresa);
-                    Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(temp.getCodigo(),empresa);
-                    item.setTrancitos(chekImports(importaciones));
-                    item.setStatus("Proceso");
-                    calcularTotales(item);
+                    item.setStatus("Reposicion");
+                    getTrancitos(item, temp.getCodigo(),empresa);
                 }
-            }else {
-                Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(producto.codigo(),empresa);
-                item.setTrancitos(chekImports(importaciones));
+            }else { //Producto existe en Tabla producto
                 item.setStatus("Reposicion");
-                calcularTotales(item);
+                getTrancitos(item,producto.codigo(),empresa);
             }
-        }
     }
 
     private Set<ImpProdTrancitoTransformer> chekImports(Set<ImpProdTrancitoVw> items){
@@ -139,6 +147,16 @@ public class FilesServicesImpl {
         productoTemp.setProId(item.getId() != null ? item.getId() : "");
         log.info("Producto registrado en ProductoTemp {}", productoTemp);
         //ProductoTemp productoNuevo = productoTempService.save(productoTemp);
+    }
+
+    private void getTrancitos(ProductImportTransformer item ,Long proCodigo, Long empresa){
+        Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(proCodigo,empresa);
+        if (importaciones.isEmpty()){
+            log.error("Importaciones vacias no se registran los trancitos ");
+        }else {
+            item.setTrancitos(chekImports(importaciones));
+            calcularTotales(item);
+        }
     }
 
 }
