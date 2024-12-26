@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,5 +25,11 @@ public class FilesController {
                                                                       @RequestParam("empresa") Long empresa) throws IOException {
         List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
         return ResponseEntity.ok(items);
+    }
+
+    @PostMapping("/confirmar/solicitud")
+    public ResponseEntity<Boolean> confirmarSolicitud(@RequestBody List<ProductImportTransformer> items) {
+        log.info("Confirmar solicitud lista de items \n {}", items);
+        return ResponseEntity.ok(true);
     }
 }
