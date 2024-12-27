@@ -1,4 +1,4 @@
-package com.cumpleanos.models.service.interfaces;
+package com.cumpleanos.assist.service.interfaces;
 
 public interface ISolicitudImportacionService {
     void generarCabeceraSCI();
