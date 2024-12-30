@@ -18,4 +18,9 @@ public class ProgramaWServiceImpl extends GenericServiceImpl<ProgramaW, Long> im
     public CrudRepository<ProgramaW, Long> getRepository() {
         return repository;
     }
+
+    @Override
+    public ProgramaW getProgramaByPath(String path) {
+        return repository.findByPath(path).orElse(null);
+    }
 }

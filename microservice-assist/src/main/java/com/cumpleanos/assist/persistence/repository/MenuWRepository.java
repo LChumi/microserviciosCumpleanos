@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface MenuWRepository extends JpaRepository<MenuW, Long> {
     Set<MenuW> findByReporta(Long reporta);
+    Set<MenuW> findByReportaAndInactivoFalse(Long reporta);
 }

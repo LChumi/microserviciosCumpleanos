@@ -130,6 +130,6 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
      * Metodo para obtener los submenus que reporta un menú (busca los menús por "mnw_reporta").
      */
     private Set<MenuW> findSubMenus(Long menuId) {
-        return menuWRepository.findByReporta(menuId);  // Buscar los menús reportados por el menú con el ID `menuId`
+        return menuWRepository.findByReportaAndInactivoFalse(menuId);  // Buscar los menús reportados por el menú con el ID `menuId`
     }
 }
