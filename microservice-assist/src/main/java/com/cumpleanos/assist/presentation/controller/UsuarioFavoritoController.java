@@ -18,9 +18,9 @@ public class UsuarioFavoritoController {
 
     private final IUsuarioFavoritoService service;
 
-    @GetMapping("/favoritos/{usuario}")
-    public ResponseEntity<Set<UsuarioFavoritos>> listByUser(@PathVariable("usuario") Long usuario) {
-        Set<UsuarioFavoritos> favoritos = service.getFavoritosByUser(usuario);
+    @GetMapping("/favoritos/{usuario}/{empresa}")
+    public ResponseEntity<Set<UsuarioFavoritos>> listByUser(@PathVariable("usuario") Long usuario, @PathVariable("empresa") Long empresa) {
+        Set<UsuarioFavoritos> favoritos = service.getFavoritosByUserAndEmpresa(usuario, empresa);
         return ResponseEntity.ok(favoritos);
     }
 
@@ -29,4 +29,11 @@ public class UsuarioFavoritoController {
         UsuarioFavoritos favorito = service.saveFavorito(request);
         return ResponseEntity.ok(favorito);
     }
+
+    @PostMapping("/getFavorite/")
+    public ResponseEntity<Boolean> getFavorite(@RequestBody @Valid FavoriteRequest request) {
+        boolean isFavorite = service.getFavoritoByUsuarioEmpresaPath(request) != null;
+        return ResponseEntity.ok(isFavorite);
+    }
+
 }

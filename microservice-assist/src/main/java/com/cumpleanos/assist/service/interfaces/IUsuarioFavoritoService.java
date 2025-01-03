@@ -6,6 +6,7 @@ import com.cumpleanos.assist.persistence.inmutables.FavoriteRequest;
 import java.util.Set;
 
 public interface IUsuarioFavoritoService extends IGenericService<UsuarioFavoritos, Long>{
-    Set<UsuarioFavoritos> getFavoritosByUser(Long idUsuario);
+    Set<UsuarioFavoritos> getFavoritosByUserAndEmpresa(Long idUsuario, Long empresa);
     UsuarioFavoritos saveFavorito(FavoriteRequest request);
+    UsuarioFavoritos getFavoritoByUsuarioEmpresaPath(FavoriteRequest request);
 }
