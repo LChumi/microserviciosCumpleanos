@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> implements IAccesoRolService {
 
     private final AccesoRolRepository accesoRolRepository;

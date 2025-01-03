@@ -14,7 +14,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("assist")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ClienteController {
 
     private final IClienteService clienteService;
