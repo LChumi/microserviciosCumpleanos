@@ -24,16 +24,18 @@ public class UsuarioFavoritoController {
         return ResponseEntity.ok(favoritos);
     }
 
-    @PostMapping("/add/favoritos")
+    @PostMapping("/favoritos/add")
     public ResponseEntity<UsuarioFavoritos> addFavorito(@RequestBody @Valid FavoriteRequest request) {
         UsuarioFavoritos favorito = service.saveFavorito(request);
         return ResponseEntity.ok(favorito);
     }
 
-    @PostMapping("/getFavorite/")
+    @PostMapping("/favoritos/get")
     public ResponseEntity<Boolean> getFavorite(@RequestBody @Valid FavoriteRequest request) {
         boolean isFavorite = service.getFavoritoByUsuarioEmpresaPath(request) != null;
         return ResponseEntity.ok(isFavorite);
     }
+
+
 
 }

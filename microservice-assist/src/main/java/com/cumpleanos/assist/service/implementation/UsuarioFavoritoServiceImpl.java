@@ -58,4 +58,10 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
         return repository.findByUsuario_IdAndEmpresaAndPrograma(request.idUsuario(), request.empresa(), programa).orElseThrow(() -> new FavoriteNotFoundException("Favorito no encontrado"));
     }
 
+    @Override
+    public void deleteFavoritoByUsuarioEmpresaPath(FavoriteRequest request) {
+        UsuarioFavoritos favorito = getFavoritoByUsuarioEmpresaPath(request);
+        repository.delete(favorito);
+    }
+
 }

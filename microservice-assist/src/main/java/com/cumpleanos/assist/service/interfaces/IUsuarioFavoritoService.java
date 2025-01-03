@@ -9,4 +9,5 @@ public interface IUsuarioFavoritoService extends IGenericService<UsuarioFavorito
     Set<UsuarioFavoritos> getFavoritosByUserAndEmpresa(Long idUsuario, Long empresa);
     UsuarioFavoritos saveFavorito(FavoriteRequest request);
     UsuarioFavoritos getFavoritoByUsuarioEmpresaPath(FavoriteRequest request);
+    void deleteFavoritoByUsuarioEmpresaPath(FavoriteRequest request);
 }
