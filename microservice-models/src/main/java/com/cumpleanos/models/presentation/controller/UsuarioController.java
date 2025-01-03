@@ -22,19 +22,18 @@ public class UsuarioController {
     @GetMapping("/usuario/{userId}")
     public ResponseEntity<Usuario> getUsuario(@PathVariable("userId") String userId){
         Usuario usuario = usuarioService.findByUsername(userId);
-        if(usuario == null){
-            log.error("Usuario no encontrado {}", userId);
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/usuario/{userId}/{clave}")
     public ResponseEntity<Usuario> getUsuario(@PathVariable("userId") String userId, @PathVariable("clave") String clave){
         Usuario usuario = usuarioService.findByUsrIdAnClave(userId, clave);
-        if(usuario == null){
-            log.error("Usuario invalido");
-        }
+        return ResponseEntity.ok(usuario);
+    }
+
+    @GetMapping("/usuario/codigo/{codigo}")
+    public ResponseEntity<Usuario> getUsuarioByCodigo(@PathVariable("codigo") Long codigo){
+        Usuario usuario = usuarioService.findById(codigo);
         return ResponseEntity.ok(usuario);
     }
 }

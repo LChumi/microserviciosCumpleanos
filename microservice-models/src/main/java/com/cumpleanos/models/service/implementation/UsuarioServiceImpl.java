@@ -27,6 +27,6 @@ public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implem
 
     @Override
     public Usuario findByUsrIdAnClave(String usrId, String clave) {
-        return repository.findByUsrIdAndClave(usrId.toUpperCase(), clave).orElseThrow(() -> new BadCredentialsException("Usuario no encontrado"));
+        return repository.findByUsrIdAndClave(usrId.toUpperCase(), clave).orElseThrow(() -> new BadCredentialsException("Nombre de usuario o clave incorrectos"));
     }
 }
