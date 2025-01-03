@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class ClientServiceImpl {
+public class ClientServiceImpl{
 
     private final IModelsClient modelsClient;
     private final IEmailClient emailClient;
@@ -24,6 +24,11 @@ public class ClientServiceImpl {
     public Usuario getUsuario(String usrId) {
         return HttpResponseHandler.handle(() -> modelsClient.findByUsrId(usrId),
                 "Error al obtener el usuario con id: " + usrId);
+    }
+
+    public Usuario getUsuarioByCodigo(Long usrId) {
+        return HttpResponseHandler.handle(() -> modelsClient.findByUsrCodigo(usrId),
+                "Error al obtener el usuario con codigo: " + usrId);
     }
 
     public Usuario login(String usrId, String passwd) {

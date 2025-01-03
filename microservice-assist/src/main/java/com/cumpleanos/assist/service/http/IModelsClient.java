@@ -18,7 +18,7 @@ public interface IModelsClient {
     ResponseEntity<Usuario> findByUsrClave(@PathVariable String userId, @PathVariable String clave);
 
     @GetMapping("/models/usuario/codigo/{codigo}")
-    ResponseEntity<Usuario> findByUsrCodigo(@PathVariable String codigo);
+    ResponseEntity<Usuario> findByUsrCodigo(@PathVariable Long codigo);
 
     //TODO servicio que viene del controlador EmpleadoController
     @GetMapping("/models/empleado/id-usuario/{usuarioId}")
