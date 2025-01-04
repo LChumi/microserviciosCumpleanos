@@ -36,6 +36,10 @@ public class UsuarioFavoritoController {
         return ResponseEntity.ok(isFavorite);
     }
 
-
+    @DeleteMapping("/favoritos/delete")
+    public ResponseEntity<Void> deleteFavorito(@RequestBody @Valid FavoriteRequest request) {
+        service.deleteFavoritoByUsuarioEmpresaPath(request);
+        return ResponseEntity.noContent().build();
+    }
 
 }

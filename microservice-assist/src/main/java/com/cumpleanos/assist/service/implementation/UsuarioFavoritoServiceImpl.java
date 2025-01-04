@@ -42,8 +42,7 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
         if (usuario == null) {
             throw new UserNotFoundException("Usuario no encontrado");
         }
-        ProgramaW programa = programaRepository.findByPath(request.path())
-                .orElseThrow(() -> new ProgramaNotFoundException("Programa no encontrado"));
+        ProgramaW programa = getPrograma(request.path());
         return super.save(UsuarioFavoritos.builder()
                 .usuario(usuario)
                 .programa(programa)
@@ -53,15 +52,20 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
 
     @Override
     public UsuarioFavoritos getFavoritoByUsuarioEmpresaPath(FavoriteRequest request) {
-        ProgramaW programa = programaRepository.findByPath(request.path())
-                .orElseThrow(() -> new ProgramaNotFoundException("Programa no encontrado"));
-        return repository.findByUsuario_IdAndEmpresaAndPrograma(request.idUsuario(), request.empresa(), programa).orElseThrow(() -> new FavoriteNotFoundException("Favorito no encontrado"));
+        ProgramaW programa = getPrograma(request.path());
+        return repository.findByUsuario_IdAndEmpresaAndPrograma(request.idUsuario(), request.empresa(), programa).orElse(null);
     }
 
     @Override
     public void deleteFavoritoByUsuarioEmpresaPath(FavoriteRequest request) {
-        UsuarioFavoritos favorito = getFavoritoByUsuarioEmpresaPath(request);
+        ProgramaW programa = getPrograma(request.path());
+        UsuarioFavoritos favorito = repository.findByUsuario_IdAndEmpresaAndPrograma(request.idUsuario(), request.empresa(), programa).orElseThrow(() -> new FavoriteNotFoundException("Favorito no encontrado"));
         repository.delete(favorito);
+    }
+
+    private ProgramaW getPrograma(String path){
+        return programaRepository.findByPath(path)
+                .orElseThrow(() -> new ProgramaNotFoundException("Programa no encontrado"));
     }
 
 }
