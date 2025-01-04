@@ -29,12 +29,12 @@ public class UsuarioFavoritos {
     @Column(name = "USF_EMPRESA", nullable = false)
     private Long empresa;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "USF_USUARIO",referencedColumnName = "USR_CODIGO", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "USF_PROGRAMA",referencedColumnName ="PRW_CODIGO" , nullable = false)
     private ProgramaW programa;
