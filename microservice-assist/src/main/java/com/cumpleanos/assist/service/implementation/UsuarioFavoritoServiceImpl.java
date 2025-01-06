@@ -4,9 +4,12 @@ import com.cumpleanos.assist.persistence.entity.UsuarioFavoritos;
 import com.cumpleanos.assist.persistence.inmutables.FavoriteRequest;
 import com.cumpleanos.assist.persistence.repository.ProgramaWRepository;
 import com.cumpleanos.assist.persistence.repository.UsuarioFavoritoRepository;
+import com.cumpleanos.assist.persistence.transformers.MenuItemTransformer;
+import com.cumpleanos.assist.persistence.transformers.MenuTransformer;
 import com.cumpleanos.assist.service.exception.FavoriteNotFoundException;
 import com.cumpleanos.assist.service.exception.ProgramaNotFoundException;
 import com.cumpleanos.assist.service.exception.UserNotFoundException;
+import com.cumpleanos.assist.service.interfaces.IAccesoRolService;
 import com.cumpleanos.assist.service.interfaces.IUsuarioFavoritoService;
 import com.cumpleanos.core.models.entities.ProgramaW;
 import com.cumpleanos.core.models.entities.Usuario;
@@ -15,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -25,6 +30,8 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
     private final ProgramaWRepository programaRepository;
     private final ClientServiceImpl modelsClient;
 
+    private final IAccesoRolService accesoRolService;
+
     @Override
     public CrudRepository<UsuarioFavoritos, Long> getRepository() {
         return repository;
@@ -32,7 +39,14 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
 
     @Override
     public Set<UsuarioFavoritos> getFavoritosByUserAndEmpresa(Long idUsuario, Long empresa) {
-        return repository.findByUsuario_IdAndEmpresa(idUsuario, empresa);
+        Set<MenuTransformer> menus = accesoRolService.obtenerMenusYSubmenus(idUsuario, empresa);
+        Set<String> menuPaths = obtenerTodosLosRouterLinks(menus);
+
+        // Filtrar los favoritos basándote en los `path` de los menús
+        Set<UsuarioFavoritos> favoritos = repository.findByUsuario_IdAndEmpresa(idUsuario, empresa);
+       return favoritos.stream()
+                .filter(favorito -> menuPaths.contains(favorito.getPrograma().getPath()))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -67,5 +81,30 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
         return programaRepository.findByPath(path)
                 .orElseThrow(() -> new ProgramaNotFoundException("Programa no encontrado"));
     }
+
+    private Set<String> obtenerTodosLosRouterLinks(Set<MenuTransformer> menus) {
+        Set<String> routerLinks = new HashSet<>();
+        for (MenuTransformer menu : menus) {
+            if (menu.getItems() != null) {
+                for (MenuItemTransformer item : menu.getItems()) {
+                    obtenerRouterLinksRecursivo(item, routerLinks);
+                }
+            }
+        }
+        return routerLinks;
+    }
+
+
+    private void obtenerRouterLinksRecursivo(MenuItemTransformer item, Set<String> routerLinks) {
+        if (item.getRouterLink() != null) {
+            routerLinks.addAll(item.getRouterLink());
+        }
+        if (item.getItems() != null) {
+            for (MenuItemTransformer subItem : item.getItems()) {
+                obtenerRouterLinksRecursivo(subItem, routerLinks);
+            }
+        }
+    }
+
 
 }
