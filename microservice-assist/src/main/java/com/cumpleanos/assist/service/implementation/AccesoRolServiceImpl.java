@@ -37,7 +37,7 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
     @Override
     public Set<MenuTransformer> obtenerMenusYSubmenus(Long usuario, Long empresa) {
         // Obtener los accesos del usuario en la empresa
-        List<AccesoRol> accesoRols = accesoRolRepository.findByUsuarioAndEmpresa(usuario, empresa);
+        List<AccesoRol> accesoRols = accesoRolRepository.findByUsuarioAndEmpresaOrderByOrden(usuario, empresa);
         if (accesoRols == null || accesoRols.isEmpty()) {
             return new HashSet<>();
         }
@@ -45,16 +45,18 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
         // Obtener los roles a partir de los accesos
         Set<RolW> roles = accesoRols.stream()
                 .map(AccesoRol::getRolW)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
         // Obtener los menús asociados a los roles
         List<RolMenu> rolMenus = rolMenuRepository.findByRolWIn(new ArrayList<>(roles));
+
         Set<MenuW> menus = rolMenus.stream()
                 .map(RolMenu::getMenuW)
-                .collect(Collectors.toSet());
+                .sorted(Comparator.comparing(MenuW::getOrden))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
         // Crear una lista de menús de DTOs, añadiendo los submenus correctamente
-        Set<MenuTransformer> menuTransformers = new HashSet<>();
+        Set<MenuTransformer> menuTransformers = new LinkedHashSet<>();
         for (MenuW menu : menus) {
             MenuTransformer menuTransformer = buildMenuDTO(menu);  // Llamar al metodo recursivo para construir el DTO
             menuTransformers.add(menuTransformer);
@@ -130,6 +132,6 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
      * Metodo para obtener los submenus que reporta un menú (busca los menús por "mnw_reporta").
      */
     private Set<MenuW> findSubMenus(Long menuId) {
-        return menuWRepository.findByReportaAndInactivoFalse(menuId);  // Buscar los menús reportados por el menú con el ID `menuId`
+        return menuWRepository.findByReportaAndInactivoFalseOrderByOrden(menuId);  // Buscar los menús reportados por el menú con el ID `menuId`
     }
 }

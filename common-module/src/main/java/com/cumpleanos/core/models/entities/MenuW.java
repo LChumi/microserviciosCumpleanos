@@ -42,6 +42,9 @@ public class MenuW {
     @Column(name = "MNW_REPORTA")
     private Long reporta;
 
+    @Column(name = "MNW_ORDEN")
+    private Long orden;
+
     @ManyToOne(fetch = FetchType.EAGER  )
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "MNW_PROGRAMA", referencedColumnName = "PRW_CODIGO")

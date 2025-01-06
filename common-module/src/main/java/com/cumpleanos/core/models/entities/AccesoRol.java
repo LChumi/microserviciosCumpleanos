@@ -31,6 +31,9 @@ public class AccesoRol {
     @Column(name = "ACR_USUARIO", nullable = false)
     private Long usuario;
 
+    @Column(name = "ACR_ORDEN")
+    private Long orden;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "ACR_ROL_W", referencedColumnName = "RLW_CODIGO")
