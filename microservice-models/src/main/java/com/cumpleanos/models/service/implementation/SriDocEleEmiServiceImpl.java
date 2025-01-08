@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class SriDocEleEmiServiceImpl extends GenericServiceImpl<SriDocEleEmi, SriDocEleEmiId> implements ISriDocEleEmiService {
 
     private final SriDocEleEmiRepository repository;

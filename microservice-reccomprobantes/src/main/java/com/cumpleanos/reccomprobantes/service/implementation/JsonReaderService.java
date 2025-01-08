@@ -5,6 +5,7 @@ import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.persistence.models.json.ComprobanteJson;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ import static com.cumpleanos.reccomprobantes.util.ComprobantesUtils.cleanXml;
 import static com.cumpleanos.reccomprobantes.util.ComprobantesUtils.transformXml;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class JsonReaderService {
 
     private final XMLConversionService xmlService;

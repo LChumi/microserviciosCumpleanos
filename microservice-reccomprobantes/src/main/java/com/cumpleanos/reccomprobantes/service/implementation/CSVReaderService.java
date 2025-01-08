@@ -10,6 +10,7 @@ import com.cumpleanos.reccomprobantes.util.ComprobantesUtils;
 import com.cumpleanos.reccomprobantes.util.DateTimeUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -21,7 +22,7 @@ import static com.cumpleanos.reccomprobantes.util.ComprobantesUtils.*;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CSVReaderService {
 
     private final ModelsServiceImpl modelsService;

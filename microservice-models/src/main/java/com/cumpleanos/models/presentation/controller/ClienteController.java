@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("models")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ClienteController {
 
     private final IClienteService clienteServiceImpl;

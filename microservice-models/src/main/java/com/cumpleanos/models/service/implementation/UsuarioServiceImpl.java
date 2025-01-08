@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implements IUsuarioService {
 
     private final UsuarioRepository repository;

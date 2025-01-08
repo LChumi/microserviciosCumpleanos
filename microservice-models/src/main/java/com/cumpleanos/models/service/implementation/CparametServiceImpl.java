@@ -11,7 +11,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CparametServiceImpl extends GenericServiceImpl<Cparamet, CparametId> implements ICparametService {
 
     private final CparametRepository repository;

@@ -4,16 +4,17 @@ import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.service.interfaces.IReciboPOSService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ReciboPOSServiceImpl implements IReciboPOSService {
 
-    @Autowired
-    private ReciboPOSRepository reciboPOSRepository;
+    private final ReciboPOSRepository reciboPOSRepository;
 
     @Override
     public ReciboPOS findByIdAndEmpresa(Long id, Long empresa) {

@@ -13,6 +13,7 @@ import com.cumpleanos.reccomprobantes.service.implementation.ModelsServiceImpl;
 import com.cumpleanos.reccomprobantes.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ComprobantesProcessor implements ComprobanteVisitor {
 
     private final ModelsServiceImpl modelsService;
