@@ -26,7 +26,7 @@ import java.util.*;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class FilesServicesImpl {
 
     private final IProductoService productoService;

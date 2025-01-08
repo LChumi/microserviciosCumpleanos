@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class RolMenuServiceImpl extends GenericServiceImpl<RolMenu, Long> implements IRolMenuService {
 
     private final RolMenuRepository repository;

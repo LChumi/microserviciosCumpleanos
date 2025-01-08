@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> implements IClienteService {
 
     private final ClienteRepository repository;

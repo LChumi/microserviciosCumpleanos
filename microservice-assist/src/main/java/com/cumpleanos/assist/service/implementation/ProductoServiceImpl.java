@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId> implements IProductoService {
 
     private final ProductoRepository repository;

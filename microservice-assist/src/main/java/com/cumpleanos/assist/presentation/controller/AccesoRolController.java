@@ -12,7 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("assist")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class AccesoRolController {
 
     private final IAccesoRolService service;

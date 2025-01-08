@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("assist")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
 public class FilesController {
 

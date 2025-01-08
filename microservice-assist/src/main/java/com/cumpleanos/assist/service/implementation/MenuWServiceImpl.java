@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class MenuWServiceImpl extends GenericServiceImpl<MenuW, Long> implements IMenuWService {
 
     private final MenuWRepository repository;

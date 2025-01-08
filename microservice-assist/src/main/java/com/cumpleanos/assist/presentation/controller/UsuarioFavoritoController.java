@@ -13,7 +13,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("assist")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UsuarioFavoritoController {
 
     private final IUsuarioFavoritoService service;
