@@ -2,6 +2,7 @@ package com.cumpleanos.assist.presentation.controller;
 
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.implementation.files.FilesServicesImpl;
+import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.List;
 public class FilesController {
 
     private final FilesServicesImpl filesServices;
+    private final ISolicitudImportacionService solicitudImportacionService;
 
     @PostMapping("/excel/solicitud")
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
