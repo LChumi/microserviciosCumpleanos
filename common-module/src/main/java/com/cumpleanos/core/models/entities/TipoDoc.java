@@ -70,18 +70,4 @@ public class TipoDoc {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Modulo modulo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "TPD_PROG_IMP",referencedColumnName = "PRG_CODIGO")
-    private Programa programaImp;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "TPD_PROG_EJE",referencedColumnName = "PRG_CODIGO")
-    private Programa programaEje;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "TPD_PROG_CON",referencedColumnName = "PRG_CODIGO")
-    private Programa programaCon;
 }

@@ -84,7 +84,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
 
         actualizarReciboPOS(reciboPOS, resp.transactionId(), req.internalTransactionReference());
         try {
-            reciboPOSRepository.save(reciboPOS);
+            reciboPOSRepository.saveAndFlush(reciboPOS);
         }catch (Exception e){
             log.error("Error al actualizar recibo pos: {}", e.getMessage());
         }
