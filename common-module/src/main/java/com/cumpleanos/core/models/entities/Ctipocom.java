@@ -69,12 +69,19 @@ public class Ctipocom {
     private Sistema sistema;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CTI_RETDATO", referencedColumnName = "RTD_CODIGO", insertable = false, updatable = false)
+    @JoinColumns({
+            @JoinColumn(name = "CTI_RETDATO", referencedColumnName = "RTD_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CTI_TABLACOA", referencedColumnName = "RTD_TABLACOA", insertable = false, updatable = false),
+            @JoinColumn(name = "CTI_EMPRESA", referencedColumnName = "RTD_EMPRESA", insertable = false, updatable = false)
+    })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private RetDato retDato;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CTI_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false)
+    @JoinColumns({
+            @JoinColumn(name = "CTI_CUENTA", referencedColumnName = "CUE_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "CTI_EMPRESA", referencedColumnName = "CUE_EMPRESA", insertable = false, updatable = false)
+    })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cuenta cuenta;
 }
