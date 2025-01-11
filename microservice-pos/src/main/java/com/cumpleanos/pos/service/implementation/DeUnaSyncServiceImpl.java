@@ -32,7 +32,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
 
     @Override
     public ApiResponse<PaymentResponse> procesarPago(Long usrLiquida, Long empresa) {
-        ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida,empresa).orElseThrow(() ->
+        ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
                 new RuntimeException("Recibo no encontrado")
         );
         PaymentRequest request = createPaymentRequest(view);
@@ -41,7 +41,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
             log.error("Error al procesar pago de recibo: {}", response.getError());
             return response;
         }
-        actualizarReciboPosSend(view,response.getData(),request);
+        actualizarReciboPosSend(view, response.getData(), request);
         return response;
     }
 
@@ -53,13 +53,13 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
         return esperarAprobacion(view, request);
     }
 
-    private PaymentRequest createPaymentRequest(ReciboPOSView v){
+    private PaymentRequest createPaymentRequest(ReciboPOSView v) {
         ApiResponse<Sistema> empresa = modelsClientService.getEmpresa(v.getEmpresa());
-        if (empresa.getData()==null){
+        if (empresa.getData() == null) {
             throw new RuntimeException("Error al obtener la empresa");
         }
-        String detail = "Compra en "+ empresa.getData().getNombrecorto();
-        String codigoPuntoVenta = String.valueOf(v.getCodigo())+ String.valueOf(v.getPventa());
+        String detail = "Compra en " + empresa.getData().getNombrecorto();
+        String codigoPuntoVenta = String.valueOf(v.getCodigo()) + String.valueOf(v.getPventa());
         String internalTransactioonReference = DateUtils.obtenerFechaHora() + codigoPuntoVenta;
         return new PaymentRequest(
                 v.getCapId(),
@@ -71,44 +71,44 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
         );
     }
 
-    private InfoRequest createInfoRequest(ReciboPOSView v){
+    private InfoRequest createInfoRequest(ReciboPOSView v) {
         return new InfoRequest(
                 v.getReferencia(),
                 "0"
         );
     }
 
-    private void actualizarReciboPosSend(ReciboPOSView v, PaymentResponse resp, PaymentRequest req){
+    private void actualizarReciboPosSend(ReciboPOSView v, PaymentResponse resp, PaymentRequest req) {
         ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
                 .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo"));
 
         actualizarReciboPOS(reciboPOS, resp.transactionId(), req.internalTransactionReference());
         try {
             reciboPOSRepository.saveAndFlush(reciboPOS);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error al actualizar recibo pos: {}", e.getMessage());
         }
     }
 
-    private void actualizarReciboPOS(ReciboPOS pos , String transactionId, String internalTransactionReference){
+    private void actualizarReciboPOS(ReciboPOS pos, String transactionId, String internalTransactionReference) {
         pos.setNroDoc(internalTransactionReference);
         pos.setReferencia(transactionId);
         pos.setHora(DateUtils.obtenerHora());
         pos.setFecha(DateUtils.obtenerFecha());
     }
 
-    private void actualizarReciboPosAcepted(ReciboPOSView v, InfoResponse resp){
+    private void actualizarReciboPosAcepted(ReciboPOSView v, InfoResponse resp) {
         ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
                 .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo"));
         grabarPOSFinalizado(reciboPOS, resp);
         try {
             reciboPOSRepository.save(reciboPOS);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error al Grabar recibo pos: {}", e.getMessage());
         }
     }
 
-    private void grabarPOSFinalizado(ReciboPOS pos, InfoResponse resp){
+    private void grabarPOSFinalizado(ReciboPOS pos, InfoResponse resp) {
         pos.setTarjetaHabiente(resp.ordererName());
         pos.setNumAprob(resp.transferNumber());
         pos.setResultado(resp.status());
