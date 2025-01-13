@@ -31,16 +31,16 @@ public class Ctipocom {
     private String ctiId;
 
     @Column(name = "CTI_NOMBRE", nullable = false, length = 100)
-    private String ctiNombre;
+    private String nombre;
 
     @Column(name = "CTI_TIPO", nullable = false)
-    private Boolean ctiTipo = false;
+    private Boolean tipo = false;
 
     @Column(name = "CTI_AUTORIZA", nullable = false)
-    private Boolean ctiAutoriza = false;
+    private Boolean autoriza = false;
 
     @Column(name = "CTI_INACTIVO", nullable = false)
-    private Boolean ctiInactivo = false;
+    private Boolean inactivo = false;
 
     @Column(name = "CREA_USR", length = 10)
     private String creaUsr;
@@ -55,13 +55,13 @@ public class Ctipocom {
     private LocalDate modFecha;
 
     @Column(name = "CTI_MANTENER_VALOR")
-    private Boolean ctiMantenerValor;
+    private Boolean mantenerValor;
 
     @Column(name = "CTI_IVA")
-    private Boolean ctiIva;
+    private Boolean iva;
 
     @Column(name = "CTI_DEBCRE")
-    private Boolean ctiDebcre;
+    private Boolean debcre;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CTI_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
