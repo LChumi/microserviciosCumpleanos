@@ -124,7 +124,7 @@ public class ReciboPOS {
     @Column(name = "RPO_IDENTIFICACION_CLI")
     private String identificacionCli;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "RPO_TIPO_CREDITO_POS", referencedColumnName = "TCR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "RPO_EMPRESA", referencedColumnName = "TCR_EMPRESA", insertable = false, updatable = false)
