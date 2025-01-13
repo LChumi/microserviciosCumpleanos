@@ -113,7 +113,7 @@ public class PuntoVenta {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "PVE_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false,updatable = false),
             @JoinColumn(name = "PVE_EMPRESA", referencedColumnName = "ALM_EMPRESA", insertable = false,updatable = false)
