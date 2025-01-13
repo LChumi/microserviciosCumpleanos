@@ -3,6 +3,7 @@ package com.cumpleanos.assist.service.implementation;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEmailClient;
 import com.cumpleanos.assist.service.http.IModelsClient;
+import com.cumpleanos.core.models.dto.DTipoDocDTO;
 import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.dto.PuntoVentaDTO;
 import com.cumpleanos.core.models.entities.Empleado;
@@ -46,7 +47,12 @@ public class ClientServiceImpl{
 
     public Set<PuntoVentaDTO> listPuntoVentas(Long empresa, Long almacen){
         return HttpResponseHandler.handle(() -> modelsClient.listarPve(empresa, almacen),
-                "Error al obtener los puntos del almacen");
+                "Error al obtener los puntos del almacen en la empresa" + empresa);
+    }
+
+    public DTipoDocDTO getTipoDoc(Long empresa, Long tpdCodigo){
+        return HttpResponseHandler.handle(() -> modelsClient.getDtipoDoc(empresa, tpdCodigo),
+                "Error al obtener el tipo de document del empresa: " + empresa);
     }
 
     //TODO servicio de microservicio notificacion

@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.service.http;
 
+import com.cumpleanos.core.models.dto.DTipoDocDTO;
 import com.cumpleanos.core.models.dto.PuntoVentaDTO;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
@@ -31,4 +32,7 @@ public interface IModelsClient {
     @GetMapping("/models/pve/listar/{empresa}/{almacen}")
     ResponseEntity<Set<PuntoVentaDTO>> listarPve(@PathVariable Long empresa, @PathVariable Long almacen);
 
+    //TODO servicio que viene del controlador DtipoDocController
+    @GetMapping("/models/dtipodoc/{empresa}/{tpdCodigo}")
+    ResponseEntity<DTipoDocDTO> getDtipoDoc(@PathVariable Long empresa, @PathVariable Long tpdCodigo);
 }
