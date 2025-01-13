@@ -4,6 +4,7 @@ import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEmailClient;
 import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.core.models.dto.EmailRecord;
+import com.cumpleanos.core.models.dto.PuntoVentaDTO;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -39,6 +42,11 @@ public class ClientServiceImpl{
     public Empleado getEmpledo(Long usuarioId){
         return HttpResponseHandler.handle(() -> modelsClient.getEmpleadoByUsuarioId(usuarioId),
                 "Error al obtener el empleado del usuario: " + usuarioId);
+    }
+
+    public Set<PuntoVentaDTO> listPuntoVentas(Long empresa, Long almacen){
+        return HttpResponseHandler.handle(() -> modelsClient.listarPve(empresa, almacen),
+                "Error al obtener los puntos del almacen");
     }
 
     //TODO servicio de microservicio notificacion
