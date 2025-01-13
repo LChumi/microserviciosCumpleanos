@@ -4,8 +4,10 @@ import com.cumpleanos.pos.persistence.api.datapos.DatosEnvioRequest;
 import com.cumpleanos.pos.persistence.api.datapos.DatosRecepcionResponse;
 import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
+import com.cumpleanos.pos.service.exception.ReciboNotFoundException;
 import com.cumpleanos.pos.service.interfaces.IReciboPOSSyncService;
 import com.cumpleanos.pos.service.http.ApiConsumoService;
 import com.cumpleanos.pos.utils.FilesUtils;
@@ -71,8 +73,9 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             if (response == null) {
                 return "No se pudo procesar la anulación, respuesta nula";
             } else {
-                ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
-                        .orElseThrow(() -> new RuntimeException("No se encontró el recibo POS"));
+                ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+                ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                        .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
 
                 actualizarReciboPOS(reciboPOS, response);
                 reciboPOS.setAnulado(true);
@@ -101,8 +104,9 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     }
 
     private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response){
-        ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
-                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo"));
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
         actualizarReciboPOS(reciboPOS,response);
         try {
             reciboPOSRepository.save(reciboPOS);

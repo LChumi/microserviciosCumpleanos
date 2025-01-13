@@ -8,6 +8,7 @@ import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentRequest;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentResponse;
 import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
 import com.cumpleanos.pos.service.exception.InfoPaymentException;
@@ -79,8 +80,9 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
     }
 
     private void actualizarReciboPosSend(ReciboPOSView v, PaymentResponse resp, PaymentRequest req) {
-        ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
-                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo"));
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
 
         actualizarReciboPOS(reciboPOS, resp.transactionId(), req.internalTransactionReference());
         try {
@@ -98,8 +100,9 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
     }
 
     private void actualizarReciboPosAcepted(ReciboPOSView v, InfoResponse resp) {
-        ReciboPOS reciboPOS = reciboPOSRepository.findByIdAndEmpresa(v.getRpoCodigo(), v.getEmpresa())
-                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo"));
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
         grabarPOSFinalizado(reciboPOS, resp);
         try {
             reciboPOSRepository.save(reciboPOS);
