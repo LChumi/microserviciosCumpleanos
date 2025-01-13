@@ -42,6 +42,12 @@ public class DtipoDocServiceImpl extends GenericServiceImpl<Dtipodoc, DtipodocId
         Ctipocom ctipocom = ctipocomRepository.findById(id).
                 orElseThrow(() -> new EntityNotFoundException("No se encontro datos en Ctipocom"));
 
-        return new DTipoDocDTO(empresa,dtipodoc.getId().getCtiCodigo(), ctipocom.getNombre(), tpdCodigo, tipoDoc.getNombre());
+        return new DTipoDocDTO(
+                empresa,
+                dtipodoc.getId().getCtiCodigo(),
+                ctipocom.getNombre(),
+                ctipocom.getCtiId(),
+                tpdCodigo,
+                tipoDoc.getNombre());
     }
 }
