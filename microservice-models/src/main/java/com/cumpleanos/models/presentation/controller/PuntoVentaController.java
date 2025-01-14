@@ -19,7 +19,7 @@ public class PuntoVentaController {
 
     private final IPuntoVentaService service;
 
-    @GetMapping("pve/listar/{empresa}/{almacen}")
+    @GetMapping("/pve/listar/{empresa}/{almacen}")
     public ResponseEntity<Set<PuntoVentaDTO>> listarPve(@PathVariable("empresa") Long empresa, @PathVariable("almacen") Long almacen) {
         Set<PuntoVentaDTO> puntoVentas = service.listPuntoVentaByEmpresaAndAlmacen(empresa, almacen);
         return ResponseEntity.ok(puntoVentas);
