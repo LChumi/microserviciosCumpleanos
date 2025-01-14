@@ -11,6 +11,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -37,5 +38,16 @@ public class AlmacenServiceImpl extends GenericServiceImpl<Almacen, AlmacenId> i
                     ));
         }
         return almacenes;
+    }
+
+    @Override
+    public Optional<AlmacenDTO> getById(AlmacenId id) {
+        Almacen alm = super.findById(id);
+        if (alm == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+                new AlmacenDTO(alm.getId().getEmpresa(), alm.getId().getCodigo(), alm.getAlmId(), alm.getNombre(), alm.getDireccion())
+        );
     }
 }
