@@ -1,7 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.core.models.dto.AlmacenDTO;
-import com.cumpleanos.core.models.entities.Almacen;
 import com.cumpleanos.core.models.ids.AlmacenId;
 import com.cumpleanos.models.service.interfaces.IAlmacenService;
 import lombok.RequiredArgsConstructor;
