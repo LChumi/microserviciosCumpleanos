@@ -58,7 +58,7 @@ public class Acceso {
     private LocalDate modFecha;
 
     @Column(name = "ACC_EMPRESA_DEF")
-    private Boolean empresaDef;
+    private Long empresaDef;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)

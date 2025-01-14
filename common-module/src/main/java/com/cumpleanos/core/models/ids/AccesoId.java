@@ -31,5 +31,5 @@ public class AccesoId implements Serializable {
 
     @NotNull
     @Column(name = "ACC_ALMACEN", nullable = false)
-    private Long accAlmacen;
+    private Long almacen;
 }
