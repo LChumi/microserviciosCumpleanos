@@ -11,6 +11,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -41,5 +42,24 @@ public class PuntoVentaServiceImpl extends GenericServiceImpl<PuntoVenta, PuntoV
                             puntoVenta.getReporte()));
         }
         return puntoVentas;
+    }
+
+    @Override
+    public Optional<PuntoVentaDTO> getPuntoVentaById(PuntoVentaId puntoVentaId) {
+        PuntoVenta pv = super.findById(puntoVentaId);
+        if (pv == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new PuntoVentaDTO(
+                pv.getId().getEmpresa(),
+                pv.getId().getAlmacen(),
+                pv.getId().getSecuencia(),
+                pv.getNombre(),
+                pv.getPveId(),
+                pv.getInactivo(),
+                pv.getMultiagente(),
+                pv.getElectronico(),
+                pv.getReporte()
+        ));
     }
 }
