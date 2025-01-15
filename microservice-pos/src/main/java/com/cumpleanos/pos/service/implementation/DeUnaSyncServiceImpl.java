@@ -66,7 +66,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
                 v.getCapId(),
                 "dynamic",
                 v.getTotal().doubleValue(),
-                detail,
+                detail.toUpperCase(),
                 internalTransactioonReference,
                 "2"
         );
