@@ -37,7 +37,7 @@ public class DtipoDocServiceImpl extends GenericServiceImpl<Dtipodoc, DtipodocId
         Set<Dtipodoc> dtipodoc = repository.findById_EmpresaAndId_TpdCodigo(empresa, tpdCodigo);
         TipoDoc tipoDoc = tipoDocRepository.findById(tpdCodigo).
                 orElseThrow(() -> new EntityNotFoundException("No se encontro datos en TipoDoc"));
-        if(dtipodoc.isEmpty()) {
+        if (dtipodoc.isEmpty()) {
             return new HashSet<>();
         }
         for (Dtipodoc d : dtipodoc) {
