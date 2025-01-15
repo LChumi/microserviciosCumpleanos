@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class DtipoDocServiceImpl extends GenericServiceImpl<Dtipodoc, DtipodocId> implements IDtipoDocService {
@@ -29,25 +32,28 @@ public class DtipoDocServiceImpl extends GenericServiceImpl<Dtipodoc, DtipodocId
     }
 
     @Override
-    public DTipoDocDTO getDtipodocByEmpresaAndTpdCodigo(Long empresa, Long tpdCodigo) {
-        Dtipodoc dtipodoc = repository.findById_EmpresaAndId_TpdCodigo(empresa, tpdCodigo).
-                orElseThrow(() -> new EntityNotFoundException("No se encontro datos en Dtipodoc"));
-
+    public Set<DTipoDocDTO> getDtipodocByEmpresaAndTpdCodigo(Long empresa, Long tpdCodigo) {
+        Set<DTipoDocDTO> documentos = new HashSet<>();
+        Set<Dtipodoc> dtipodoc = repository.findById_EmpresaAndId_TpdCodigo(empresa, tpdCodigo);
         TipoDoc tipoDoc = tipoDocRepository.findById(tpdCodigo).
                 orElseThrow(() -> new EntityNotFoundException("No se encontro datos en TipoDoc"));
-
-        CtipocomId id = new CtipocomId();
-        id.setCodigo(dtipodoc.getId().getCtiCodigo());
-        id.setEmpresa(empresa);
-        Ctipocom ctipocom = ctipocomRepository.findById(id).
-                orElseThrow(() -> new EntityNotFoundException("No se encontro datos en Ctipocom"));
-
-        return new DTipoDocDTO(
-                empresa,
-                dtipodoc.getId().getCtiCodigo(),
-                ctipocom.getNombre(),
-                ctipocom.getCtiId(),
-                tpdCodigo,
-                tipoDoc.getNombre());
+        if(dtipodoc.isEmpty()) {
+            return new HashSet<>();
+        }
+        for (Dtipodoc d : dtipodoc) {
+            CtipocomId id = new CtipocomId();
+            id.setCodigo(d.getId().getCtiCodigo());
+            id.setEmpresa(empresa);
+            Ctipocom ctipocom = ctipocomRepository.findById(id).
+                    orElseThrow(() -> new EntityNotFoundException("No se encontro datos en Ctipocom"));
+            documentos.add(new DTipoDocDTO(
+                    empresa,
+                    d.getId().getCtiCodigo(),
+                    ctipocom.getNombre(),
+                    ctipocom.getCtiId(),
+                    tpdCodigo,
+                    tipoDoc.getNombre()));
+        }
+        return documentos;
     }
 }

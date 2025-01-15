@@ -5,9 +5,9 @@ import com.cumpleanos.core.models.ids.DtipodocId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface DtipodocRepository extends JpaRepository<Dtipodoc, DtipodocId> {
-    Optional<Dtipodoc> findById_EmpresaAndId_TpdCodigo(Long idEmpresa, Long idTpdCodigo);
+    Set<Dtipodoc> findById_EmpresaAndId_TpdCodigo(Long idEmpresa, Long idTpdCodigo);
 }

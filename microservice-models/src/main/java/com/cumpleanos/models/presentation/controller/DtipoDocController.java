@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("models")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -18,8 +20,8 @@ public class DtipoDocController {
     private final IDtipoDocService service;
 
     @GetMapping("/dtipodoc/{empresa}/{tpdCodigo}")
-    public ResponseEntity<DTipoDocDTO> getDtipoDoc(@PathVariable Long empresa, @PathVariable Long tpdCodigo){
-        DTipoDocDTO doc = service.getDtipodocByEmpresaAndTpdCodigo(empresa, tpdCodigo);
-        return ResponseEntity.ok(doc);
+    public ResponseEntity<Set<DTipoDocDTO>> getDtipoDoc(@PathVariable Long empresa, @PathVariable Long tpdCodigo){
+        Set<DTipoDocDTO> docs = service.getDtipodocByEmpresaAndTpdCodigo(empresa, tpdCodigo);
+        return ResponseEntity.ok(docs);
     }
 }
