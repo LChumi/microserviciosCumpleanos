@@ -15,8 +15,8 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final ProcedureOracleRepository procedureRepository;
 
     @Override
-    public BigInteger generarCabeceraSCI(Long empresa, Long tipoDoc, Long almacen, Long codCliPro, Long usuario) {
-        return procedureRepository.getCabeceraIdByProcedure(empresa, tipoDoc, almacen, codCliPro, usuario);
+    public BigInteger generarCabeceraSCI(Long empresa, Long tipoDoc, Long almacen, Long pventa, Long sigla,  Long codCliPro, Long usuario) {
+        return procedureRepository.getCabeceraIdByProcedure(empresa, tipoDoc, almacen, pventa, sigla, codCliPro, usuario);
     }
 
     @Override
