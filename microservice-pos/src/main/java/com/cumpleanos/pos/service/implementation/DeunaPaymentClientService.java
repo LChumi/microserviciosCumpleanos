@@ -6,7 +6,8 @@ import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoResponse;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentRequest;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentResponse;
 import com.cumpleanos.pos.service.exception.HttpResponseHandler;
-import com.cumpleanos.pos.service.http.IDeunaPaymentClient;
+import com.cumpleanos.pos.service.http.IDeunaPaymentClientProd;
+import com.cumpleanos.pos.service.http.IDeunaPaymentClientTest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +21,48 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class DeunaPaymentClientService {
 
-    private final IDeunaPaymentClient deunaPaymentClient;
+    private final IDeunaPaymentClientTest deunaPaymentClientTest;
+    private final IDeunaPaymentClientProd deunaPaymentClientProd;
+
+    //Keys de pruebas
+    @Value("${x-api-key-test}")
+    String apiKeyTest;
+    @Value("${x-api-secret-test}")
+    String apiSecretTest;
+
+    //Keys de produccion
     @Value("${x-api-key}")
-    String apiKey;
-
+    String apiKeyProd;
     @Value("${x-api-secret}")
-    String apiSecret;
+    String apiSecretProd;
 
+    public ApiResponse<PaymentResponse> getPaymentTest(PaymentRequest paymentRequest) {
+        return HttpResponseHandler.handle(() ->
+                        deunaPaymentClientTest.requestPaymet(apiKeyTest, apiSecretTest, paymentRequest),
+                "Error en la obtencion del pago"
+        );
+    }
+
+    public ApiResponse<InfoResponse> getInfoTest(InfoRequest infoRequest) {
+        return HttpResponseHandler.handle(() ->
+                deunaPaymentClientTest.requestInfoPayment(apiKeyTest,apiSecretTest,infoRequest),
+                "Error en la obtencion de la info de pago"
+                );
+    }
+
+    //metodos produccion
     public ApiResponse<PaymentResponse> getPayment(PaymentRequest paymentRequest) {
         return HttpResponseHandler.handle(() ->
-                        deunaPaymentClient.requestPaymet(apiKey, apiSecret, paymentRequest),
+                        deunaPaymentClientProd.requestPaymet(apiKeyProd, apiSecretProd, paymentRequest),
                 "Error en la obtencion del pago"
         );
     }
 
     public ApiResponse<InfoResponse> getInfo(InfoRequest infoRequest) {
         return HttpResponseHandler.handle(() ->
-                deunaPaymentClient.requestInfoPayment(apiKey,apiSecret,infoRequest),
+                        deunaPaymentClientProd.requestInfoPayment(apiKeyProd, apiSecretProd,infoRequest),
                 "Error en la obtencion de la info de pago"
-                );
+        );
     }
 
 }

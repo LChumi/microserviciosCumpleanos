@@ -119,7 +119,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
     }
 
     private InfoResponse esperarAprobacion(ReciboPOSView view, InfoRequest request) {
-        int intentosMaximos = 20;
+        int intentosMaximos = 25;
         int intervaloEspera = 2000; // En milisegundos 2 segundos
         int intentos = 0;
 
