@@ -41,6 +41,7 @@
 		<module>microservice-pos</module>
 		<module>microservice-notification</module>
 		<module>microservice-assist</module>
+		<module>meta-service</module>
 	</modules>
 
 	<properties>
