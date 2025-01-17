@@ -11,7 +11,7 @@
 	<groupId>com.cumpleanos.notification</groupId>
 	<artifactId>microservice-notification</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>microservice-notification</name>
+	<name>notification-email-service</name>
 	<description>Mircoservice for notifications</description>
 
 	<properties>
