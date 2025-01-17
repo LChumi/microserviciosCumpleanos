@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "paymentClient", url = "https://deuna-test.apigee.net")
+@FeignClient(name = "paymentClient", url = "https://deuna-prod.apigee.net")
 public interface IDeunaPaymentClient {
 
     @PostMapping("/merchant/api/v2/payment/request")

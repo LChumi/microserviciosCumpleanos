@@ -34,8 +34,8 @@ public class ProcedureOracleRepository {
             query.setParameter("PN_EMPRESA", empresa);
             query.setParameter("PN_TIPODOC", tipoDoc);
             query.setParameter("PN_ALMACEN", almacen);
-            query.setParameter("PN_PVENTA", almacen);
-            query.setParameter("PN_SIGLA", almacen);
+            query.setParameter("PN_PVENTA", pventa);
+            query.setParameter("PN_SIGLA", sigla);
             query.setParameter("PN_CODCLIPRO", codCliPro);
             query.setParameter("PN_USUARIO", usuario);
 

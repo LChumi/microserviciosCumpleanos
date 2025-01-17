@@ -5,5 +5,6 @@ public record DTipoDocDTO(Long empresa,
                           String nombreCtipocom,
                           String ctiId,
                           Long tpdCodigo,
-                          String nombreTipoDoc) {
+                          String nombreTipoDoc,
+                          String modulo) {
 }
