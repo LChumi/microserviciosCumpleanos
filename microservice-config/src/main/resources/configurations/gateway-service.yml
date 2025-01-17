@@ -55,6 +55,10 @@ spring:
           uri: lb://assist-service
           predicates:
             - Path=/assist/**
+        - id: meta-service
+          uri: lb://meta-service
+          predicates:
+            - Path=/meta/**
 
 management:
   endpoints:
