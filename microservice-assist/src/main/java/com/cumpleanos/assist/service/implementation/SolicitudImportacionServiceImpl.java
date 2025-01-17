@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -15,8 +16,17 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final ProcedureOracleRepository procedureRepository;
 
     @Override
-    public BigInteger generarCabeceraSCI(Long empresa, Long tipoDoc, Long almacen, Long pventa, Long sigla,  Long codCliPro, Long usuario) {
-        return procedureRepository.getCabeceraIdByProcedure(empresa, tipoDoc, almacen, pventa, sigla, codCliPro, usuario);
+    public BigInteger generarCabeceraSCI(Long empresa,
+                                         Long tipoDoc,
+                                         Long almacen,
+                                         Long pventa,
+                                         Long sigla,
+                                         Long codCliPro,
+                                         Long usuario,
+                                         LocalDate fecha,
+                                         Long modulo
+    ) {
+        return procedureRepository.getCabeceraIdByProcedure(empresa, tipoDoc, almacen, pventa, sigla, codCliPro, usuario, fecha, modulo);
     }
 
     @Override

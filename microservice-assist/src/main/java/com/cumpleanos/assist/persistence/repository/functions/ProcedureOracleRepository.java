@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Repository
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -18,7 +20,16 @@ public class ProcedureOracleRepository {
 
     private final EntityManager em;
 
-    public BigInteger getCabeceraIdByProcedure(Long empresa, Long tipoDoc, Long almacen, Long pventa, Long sigla, Long codCliPro, Long usuario) {
+    public BigInteger getCabeceraIdByProcedure(Long empresa,
+                                               Long tipoDoc,
+                                               Long almacen,
+                                               Long pventa,
+                                               Long sigla,
+                                               Long codCliPro,
+                                               Long usuario,
+                                               LocalDate fecha,
+                                               Long modulo
+    ) {
         try {
             StoredProcedureQuery query = em.createStoredProcedureQuery("PRG_USR.AST_WEB.CREAR_CABECERA_CCO");
 
@@ -29,6 +40,8 @@ public class ProcedureOracleRepository {
             query.registerStoredProcedureParameter("PN_SIGLA", Long.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("PN_CODCLIPRO", Long.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("PN_USUARIO", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_FECHA", Date.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_MODULO", Long.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("PN_COMPROBANTE", BigInteger.class, ParameterMode.OUT);
 
             query.setParameter("PN_EMPRESA", empresa);
@@ -38,6 +51,8 @@ public class ProcedureOracleRepository {
             query.setParameter("PN_SIGLA", sigla);
             query.setParameter("PN_CODCLIPRO", codCliPro);
             query.setParameter("PN_USUARIO", usuario);
+            query.setParameter("PN_FECHA", Date.valueOf(fecha));
+            query.setParameter("PN_MODULO", modulo);
 
             return (BigInteger) query.getOutputParameterValue("PN_COMPROBANTE");
         }catch (Exception e) {
