@@ -61,4 +61,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     public void anularSCI() {
 
     }
+
+    @Override
+    public String procesarSolicitud(Long empresa, Long tipoDoc, Long almacen, Long pventa, Long sigla, Long codCliPro, Long usuario, LocalDate fecha , Long modulo) {
+
+        return "";
+    }
 }

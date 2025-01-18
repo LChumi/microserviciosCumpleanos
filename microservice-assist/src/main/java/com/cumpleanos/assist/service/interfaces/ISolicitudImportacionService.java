@@ -8,4 +8,6 @@ public interface ISolicitudImportacionService {
     void insertarDetalle(String detalle);
     void guardarSolicitud();
     void anularSCI();
+
+    String procesarSolicitud(Long empresa, Long tipoDoc, Long almacen, Long pventa, Long sigla, Long codCliPro, Long usuario, LocalDate fecha , Long modulo);
 }
