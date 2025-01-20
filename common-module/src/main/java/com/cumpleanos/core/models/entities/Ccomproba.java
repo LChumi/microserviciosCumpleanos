@@ -276,6 +276,8 @@ public class Ccomproba {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private PuntoVenta puntoVenta;
 
+    @Column(name = "CCO_BODEGA")
+    private Long ccoBodega;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "CCO_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
