@@ -7,6 +7,7 @@ import com.cumpleanos.core.models.dto.AlmacenDTO;
 import com.cumpleanos.core.models.dto.DTipoDocDTO;
 import com.cumpleanos.core.models.dto.EmailRecord;
 import com.cumpleanos.core.models.dto.PuntoVentaDTO;
+import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,11 @@ public class ClientServiceImpl{
     public Set<AlmacenDTO> listAlmacenes(Long empresa){
         return HttpResponseHandler.handle(() -> modelsClient.listarAlmacenes(empresa),
                 "Error al listar los almacenes en la empresa: " + empresa);
+    }
+
+    public Boolean newDfactura(Dfactura d){
+        return HttpResponseHandler.handle(() -> modelsClient.create(d),
+                "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
     }
 
     //TODO servicio de microservicio notificacion

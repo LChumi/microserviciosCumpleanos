@@ -3,12 +3,15 @@ package com.cumpleanos.assist.service.http;
 import com.cumpleanos.core.models.dto.AlmacenDTO;
 import com.cumpleanos.core.models.dto.DTipoDocDTO;
 import com.cumpleanos.core.models.dto.PuntoVentaDTO;
+import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Set;
 
@@ -40,4 +43,8 @@ public interface IModelsClient {
     //TODO servicio que viene del controlador AlmacenController
     @GetMapping("/models/almacenes/{empresa}")
     ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable("empresa") Long empresa);
+
+    //TODO servicio que viene del controlador DfacturaController
+    @PostMapping("/models/dfac/new")
+    ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
 }

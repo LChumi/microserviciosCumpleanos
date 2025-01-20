@@ -38,17 +38,7 @@ public class FilesController {
             @RequestBody @Valid SolicitudRequestDTO solicitudRequestDTO) {
         log.info("Confirmar solicitud lista de items: {}", solicitudRequestDTO.getItems());
 
-        String result = solicitudImportacionService.procesarSolicitud(
-                solicitudRequestDTO.getEmpresa(),
-                solicitudRequestDTO.getTipodoc(),
-                solicitudRequestDTO.getAlmacen(),
-                solicitudRequestDTO.getPventa(),
-                solicitudRequestDTO.getSigla(),
-                solicitudRequestDTO.getProveedor(),
-                solicitudRequestDTO.getUsuario(),
-                solicitudRequestDTO.getFecha(),
-                solicitudRequestDTO.getModulo()
-        );
+        String result = solicitudImportacionService.procesarSolicitud(solicitudRequestDTO);
         return ResponseEntity.ok(result);
     }
 
