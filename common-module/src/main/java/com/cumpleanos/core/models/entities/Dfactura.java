@@ -248,6 +248,12 @@ public class Dfactura {
     @Column(name = "DFAC_CAJAEMP", length = 100)
     private String cajaemp;
 
+    @Column(name = "DFAC_PRODUCTO_TEMP")
+    private Long productTemp;
+
+    @Column(name = "DFAC_CANT_BULTO")
+    private BigDecimal cantBulto;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_CLIENTE", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -265,6 +271,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Factor factor;
 
+    @Column(name = "DFAC_PRODUCTO")
+    private Long dfacProducto;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
@@ -281,6 +289,8 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
+    @Column(name = "DFAC_BODEGA", nullable = false)
+    private Long dfacBodega;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "DFAC_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),

@@ -29,6 +29,8 @@ public class SolicitudRequestDTO {
     private LocalDate fecha;
     @NotNull
     private Long modulo;
+    @NotNull
+    private Long bodega;
 
     private List<ProductImportTransformer> items;
 }

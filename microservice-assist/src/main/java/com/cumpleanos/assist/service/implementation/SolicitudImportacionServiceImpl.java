@@ -1,11 +1,15 @@
 package com.cumpleanos.assist.service.implementation;
 
+import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
+import com.cumpleanos.assist.persistence.entity.ProductoTemp;
 import com.cumpleanos.assist.persistence.repository.functions.FunctionOracleRepository;
 import com.cumpleanos.assist.persistence.repository.functions.ProcedureOracleRepository;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.exception.ProcedureNotCompletedException;
 import com.cumpleanos.assist.service.http.IModelsClient;
+import com.cumpleanos.assist.service.interfaces.IProductoService;
+import com.cumpleanos.assist.service.interfaces.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.ids.DfacturaId;
@@ -14,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -25,6 +30,9 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final ProcedureOracleRepository procedureRepository;
     private final FunctionOracleRepository functionRepository;
     private final IModelsClient modelsClient;
+    private final IProductoTempService productoTempService;
+    private final IProductoService productoService;
+
 
     @Override
     public String procesarSolicitud(SolicitudRequestDTO solicitudRequestDTO) {
@@ -48,7 +56,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         return "";
     }
 
-     private String getComprobante(Long empresa, BigInteger coo) {
+     private String getComprobanteCreado(Long empresa, BigInteger coo) {
         try {
             return functionRepository.getComprobante(empresa, coo);
         } catch (Exception e) {
@@ -56,7 +64,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         }
     }
 
-    private void createDfacturas(Long empresa, BigInteger cco , List<ProductImportTransformer> items){
+    private void createDfacturas(Long empresa,Long bodega,  BigInteger cco , List<ProductImportTransformer> items){
         long cont = 0L;
         for (ProductImportTransformer item : items) {
             Dfactura detalle = new Dfactura();
@@ -66,6 +74,40 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             id.setCfacComproba(cco);
 
             detalle.setId(id);
+            detalle.setCantidad(BigDecimal.valueOf(item.getCantidadTotal()));
+            detalle.setCanapr(BigDecimal.ZERO);
+            detalle.setPrecio(BigDecimal.valueOf(item.getFob()));
+
+            detalle.setDfacBodega(bodega);
+            detalle.setTotal(BigDecimal.valueOf(item.getFobTotal()));
+            detalle.setCanent(BigDecimal.ZERO);
+            detalle.setCandev(BigDecimal.ZERO);
+            detalle.setCanres(BigDecimal.ZERO);
+            detalle.setDscitem(BigDecimal.ZERO);
+            detalle.setTraitem(BigDecimal.ZERO);
+
+            detalle.setIvaitem(BigDecimal.ZERO);
+
+            detalle.setCantini(BigDecimal.valueOf(item.getCantidadTotal()));
+            detalle.setCdigitada(BigDecimal.valueOf(item.getCantidadTotal()));
+            if (item.getId() == null){
+                ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), empresa);
+                if (temporal != null){
+                    detalle.setProductTemp(temporal.getCodigo());
+                }
+            } else {
+                ProductoDTO producto= productoService.getProductoByBarraAndEmpresa(item.getId(),empresa);
+                if (producto != null){
+                    detalle.setDfacProducto(producto.codigo());
+                }
+            }
+            if (detalle.getDfacProducto() != null || detalle.getProductTemp() != null){
+                Boolean save =modelsClient.create(detalle).getBody();
+                if (Boolean.FALSE.equals(save)){
+                    log.error("Error al crear la dfactura");
+                }
+            }
         }
     }
+
 }

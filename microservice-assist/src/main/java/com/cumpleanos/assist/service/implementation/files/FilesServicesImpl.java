@@ -77,10 +77,10 @@ public class FilesServicesImpl {
                 ProductoTemp temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(product.getCodFabrica(), empresa);
                 //Si producto Temporal no existe
                 if (temp==null){
-                    product.setStatus("Nuevo");
+                    product.setStatus("NUEVO".toUpperCase());
                     saveOrUpdateProduct(product, empresa);
                 }else {
-                    product.setStatus("Reposicion");
+                    product.setStatus("REPOSICION".toUpperCase());
                     saveOrUpdateProduct(product, empresa);
                     getTrancitos(product, temp.getCodigo(), empresa);
                 }
