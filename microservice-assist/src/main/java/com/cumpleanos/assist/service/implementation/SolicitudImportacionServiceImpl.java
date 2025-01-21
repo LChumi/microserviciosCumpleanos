@@ -63,13 +63,11 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             if (Boolean.FALSE.equals(update)) {
                 throw new UpdateEntityException("No se pudo actualizar el comprobante");
             }
-
             return getComprobanteCreado(request.getEmpresa(), cco);
         } catch (ProcedureNotCompletedException e) {
             log.error("Error al generar la cabecera SCI: {}", e.getMessage(), e);
             throw e;
         }
-        return "";
     }
 
      private String getComprobanteCreado(Long empresa, BigInteger coo) {
