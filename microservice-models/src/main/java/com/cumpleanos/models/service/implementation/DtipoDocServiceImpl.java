@@ -53,7 +53,9 @@ public class DtipoDocServiceImpl extends GenericServiceImpl<Dtipodoc, DtipodocId
                     ctipocom.getCtiId(),
                     tpdCodigo,
                     tipoDoc.getNombre(),
-                    tipoDoc.getModulo().getModId()));
+                    tipoDoc.getModulo().getModId(),
+                    tipoDoc.getModulo().getId()
+            ));
         }
         return documentos;
     }

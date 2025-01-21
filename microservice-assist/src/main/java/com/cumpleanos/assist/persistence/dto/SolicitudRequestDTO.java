@@ -32,5 +32,7 @@ public class SolicitudRequestDTO {
     @NotNull
     private Long bodega;
 
+    private String observacion;
+
     private List<ProductImportTransformer> items;
 }

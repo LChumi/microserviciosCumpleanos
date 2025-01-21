@@ -7,10 +7,12 @@ import com.cumpleanos.assist.persistence.repository.functions.FunctionOracleRepo
 import com.cumpleanos.assist.persistence.repository.functions.ProcedureOracleRepository;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.exception.ProcedureNotCompletedException;
+import com.cumpleanos.assist.service.exception.UpdateEntityException;
 import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
+import com.cumpleanos.core.models.dto.UpdateCcoBodObsRequest;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.ids.DfacturaId;
 import lombok.RequiredArgsConstructor;
@@ -35,20 +37,34 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
 
     @Override
-    public String procesarSolicitud(SolicitudRequestDTO solicitudRequestDTO) {
+    public String procesarSolicitud(SolicitudRequestDTO request) {
 
         try {
             BigInteger cco= procedureRepository.getCabeceraIdByProcedure(
-                    solicitudRequestDTO.getEmpresa(),
-                    solicitudRequestDTO.getTipodoc(),
-                    solicitudRequestDTO.getAlmacen(),
-                    solicitudRequestDTO.getPventa(),
-                    solicitudRequestDTO.getSigla(),
-                    solicitudRequestDTO.getProveedor(),
-                    solicitudRequestDTO.getUsuario(),
-                    solicitudRequestDTO.getFecha(),
-                    solicitudRequestDTO.getModulo()
+                    request.getEmpresa(),
+                    request.getTipodoc(),
+                    request.getAlmacen(),
+                    request.getPventa(),
+                    request.getSigla(),
+                    request.getProveedor(),
+                    request.getUsuario(),
+                    request.getFecha(),
+                    request.getModulo()
             );
+
+            createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
+            UpdateCcoBodObsRequest updateRequest = new UpdateCcoBodObsRequest(
+                    request.getEmpresa(),
+                    cco,
+                    request.getBodega(),
+                    request.getObservacion()
+            );
+            Boolean update = modelsClient.updateCco(updateRequest).getBody();
+            if (Boolean.FALSE.equals(update)) {
+                throw new UpdateEntityException("No se pudo actualizar el comprobante");
+            }
+
+            return getComprobanteCreado(request.getEmpresa(), cco);
         } catch (ProcedureNotCompletedException e) {
             log.error("Error al generar la cabecera SCI: {}", e.getMessage(), e);
             throw e;
@@ -104,7 +120,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             if (detalle.getDfacProducto() != null || detalle.getProductTemp() != null){
                 Boolean save =modelsClient.create(detalle).getBody();
                 if (Boolean.FALSE.equals(save)){
-                    log.error("Error al crear la dfactura");
+                    log.error("Error al crear la dfactura en la empresa: {} en el cco: {}", empresa, cco );
                 }
             }
         }

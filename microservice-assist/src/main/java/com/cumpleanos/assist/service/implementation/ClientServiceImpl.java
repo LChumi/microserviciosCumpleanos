@@ -3,10 +3,7 @@ package com.cumpleanos.assist.service.implementation;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEmailClient;
 import com.cumpleanos.assist.service.http.IModelsClient;
-import com.cumpleanos.core.models.dto.AlmacenDTO;
-import com.cumpleanos.core.models.dto.DTipoDocDTO;
-import com.cumpleanos.core.models.dto.EmailRecord;
-import com.cumpleanos.core.models.dto.PuntoVentaDTO;
+import com.cumpleanos.core.models.dto.*;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
@@ -65,6 +62,11 @@ public class ClientServiceImpl{
     public Boolean newDfactura(Dfactura d){
         return HttpResponseHandler.handle(() -> modelsClient.create(d),
                 "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
+    }
+
+    public Boolean updateCCo(UpdateCcoBodObsRequest u){
+        return HttpResponseHandler.handle(() -> modelsClient.updateCco(u),
+                "Error al actualizar ccomproba con el codigo "+ u.codigo().toString());
     }
 
     //TODO servicio de microservicio notificacion

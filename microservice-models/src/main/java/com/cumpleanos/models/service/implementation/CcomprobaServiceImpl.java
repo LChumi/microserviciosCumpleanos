@@ -23,13 +23,14 @@ public class CcomprobaServiceImpl extends GenericServiceImpl<Ccomproba, Ccomprob
     }
 
     @Override
-    public Boolean updateBodegaCco(Long empresa, BigInteger codigo, Long bodega) {
+    public Boolean updateBodegaCco(Long empresa, BigInteger codigo, Long bodega, String observacion) {
         CcomprobaId id = new CcomprobaId();
         id.setCodigo(codigo);
         id.setEmpresa(empresa);
 
         Ccomproba c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el comprobante "));
         c.setCcoBodega(bodega);
+        c.setCcoConcepto(observacion);
         repository.save(c);
         return true;
     }

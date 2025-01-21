@@ -6,5 +6,5 @@ import com.cumpleanos.core.models.ids.CcomprobaId;
 import java.math.BigInteger;
 
 public interface ICcomprobaService  extends GenericService<Ccomproba, CcomprobaId>{
-    Boolean updateBodegaCco(Long empresa, BigInteger codigo, Long bodega);
+    Boolean updateBodegaCco(Long empresa, BigInteger codigo, Long bodega, String observacion);
 }
