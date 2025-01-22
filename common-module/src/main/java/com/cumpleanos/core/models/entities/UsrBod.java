@@ -38,7 +38,7 @@ public class UsrBod {
     @Column(name = "UBO_DEFAULT")
     private Boolean uboDefault;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "UBO_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "UBO_EMPRESA", referencedColumnName = "BOD_EMPRESA", insertable = false, updatable = false)
@@ -46,12 +46,12 @@ public class UsrBod {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "UBO_EMPRESA", referencedColumnName = "SIS_CODIGO", insertable = false, updatable = false)
     private Sistema sistema;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "UBO_USUARIO", referencedColumnName = "USR_CODIGO", insertable = false, updatable = false)
     private Usuario usuario;
