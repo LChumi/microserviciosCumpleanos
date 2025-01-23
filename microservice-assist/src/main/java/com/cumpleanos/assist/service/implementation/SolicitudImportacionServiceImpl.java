@@ -7,12 +7,10 @@ import com.cumpleanos.assist.persistence.repository.functions.FunctionOracleRepo
 import com.cumpleanos.assist.persistence.repository.functions.ProcedureOracleRepository;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.exception.ProcedureNotCompletedException;
-import com.cumpleanos.assist.service.exception.UpdateEntityException;
 import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
-import com.cumpleanos.core.models.dto.UpdateCcoBodObsRequest;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.ids.DfacturaId;
 import lombok.RequiredArgsConstructor;
@@ -49,20 +47,12 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                     request.getProveedor(),
                     request.getUsuario(),
                     request.getFecha(),
-                    request.getModulo()
-            );
-
-            createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
-            UpdateCcoBodObsRequest updateRequest = new UpdateCcoBodObsRequest(
-                    request.getEmpresa(),
-                    cco,
+                    request.getModulo(),
                     request.getBodega(),
                     request.getObservacion()
             );
-            Boolean update = modelsClient.updateCco(updateRequest).getBody();
-            if (Boolean.FALSE.equals(update)) {
-                throw new UpdateEntityException("No se pudo actualizar el comprobante");
-            }
+
+            createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
             return getComprobanteCreado(request.getEmpresa(), cco);
         } catch (ProcedureNotCompletedException e) {
             log.error("Error al generar la cabecera SCI: {}", e.getMessage(), e);

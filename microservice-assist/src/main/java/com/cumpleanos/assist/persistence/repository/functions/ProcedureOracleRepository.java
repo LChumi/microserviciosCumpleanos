@@ -28,7 +28,9 @@ public class ProcedureOracleRepository {
                                                Long codCliPro,
                                                Long usuario,
                                                LocalDate fecha,
-                                               Long modulo
+                                               Long modulo,
+                                               Long bodega,
+                                               String concepto
     ) {
         try {
             StoredProcedureQuery query = em.createStoredProcedureQuery("PRG_USR.AST_WEB.CREAR_CABECERA_CCO");
@@ -42,6 +44,8 @@ public class ProcedureOracleRepository {
             query.registerStoredProcedureParameter("PN_USUARIO", Long.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("PN_FECHA", Date.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("PN_MODULO", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_BODEGA", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_CONCEPTO", String.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("PN_COMPROBANTE", BigInteger.class, ParameterMode.OUT);
 
             query.setParameter("PN_EMPRESA", empresa);
@@ -53,6 +57,8 @@ public class ProcedureOracleRepository {
             query.setParameter("PN_USUARIO", usuario);
             query.setParameter("PN_FECHA", Date.valueOf(fecha));
             query.setParameter("PN_MODULO", modulo);
+            query.setParameter("PN_BODEGA", bodega);
+            query.setParameter("PN_CONCEPT", concepto);
 
             return (BigInteger) query.getOutputParameterValue("PN_COMPROBANTE");
         }catch (Exception e) {

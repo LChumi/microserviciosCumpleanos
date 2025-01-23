@@ -3,7 +3,6 @@ package com.cumpleanos.assist.service.http;
 import com.cumpleanos.core.models.dto.AlmacenDTO;
 import com.cumpleanos.core.models.dto.DTipoDocDTO;
 import com.cumpleanos.core.models.dto.PuntoVentaDTO;
-import com.cumpleanos.core.models.dto.UpdateCcoBodObsRequest;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
@@ -46,7 +45,4 @@ public interface IModelsClient {
     @PostMapping("/models/dfac/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
 
-    //TODO servicio que viene del controlador CComproba
-    @PutMapping("update/cco")
-    ResponseEntity<Boolean> updateCco(@RequestBody UpdateCcoBodObsRequest request);
 }

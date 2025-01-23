@@ -64,11 +64,6 @@ public class ClientServiceImpl{
                 "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
     }
 
-    public Boolean updateCCo(UpdateCcoBodObsRequest u){
-        return HttpResponseHandler.handle(() -> modelsClient.updateCco(u),
-                "Error al actualizar ccomproba con el codigo "+ u.codigo().toString());
-    }
-
     //TODO servicio de microservicio notificacion
     public void enviarEmail(EmailRecord email){
         try {
