@@ -9,5 +9,5 @@ import java.util.Set;
 
 @Repository
 public interface UsrBodRepository extends JpaRepository<UsrBod, UsrbodId> {
-    Set<UsrBod> findById_UsuarioAndId_Empresa(Long idUsuario, Long idEmpresa);
+    Set<UsrBod> findById_UsuarioAndId_EmpresaOrderByUboDefaultDesc(Long idUsuario, Long idEmpresa);
 }

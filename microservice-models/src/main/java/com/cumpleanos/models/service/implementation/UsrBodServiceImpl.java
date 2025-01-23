@@ -26,7 +26,7 @@ public class UsrBodServiceImpl extends GenericServiceImpl<UsrBod, UsrbodId> impl
 
     @Override
     public Set<BodegaDTO> listBodByUser(Long usuario, Long empresa) {
-        Set<UsrBod> lista = repository.findById_UsuarioAndId_Empresa(usuario, empresa);
+        Set<UsrBod> lista = repository.findById_UsuarioAndId_EmpresaOrderByUboDefaultDesc(usuario, empresa);
         Set<BodegaDTO> bodegas = new LinkedHashSet<>();
         for (UsrBod usrBod : lista) {
             Bodega bod = usrBod.getBodega();
@@ -35,7 +35,8 @@ public class UsrBodServiceImpl extends GenericServiceImpl<UsrBod, UsrbodId> impl
                     bod.getId().getCodigo(),
                     bod.getBodId(),
                     bod.getNombre(),
-                    bod.getBodUbicacion()
+                    bod.getBodUbicacion(),
+                    usrBod.getUboDefault()
             );
             bodegas.add(bd);
         }

@@ -5,7 +5,8 @@ public record BodegaDTO(
         Long codigo,
         String bodId,
         String nombre,
-        String ubucacion
+        String ubicacion,
+        Boolean bodDefault
 
 ) {
 }
