@@ -51,7 +51,6 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                     request.getBodega(),
                     request.getObservacion()
             );
-
             createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
             return getComprobanteCreado(request.getEmpresa(), cco);
         } catch (ProcedureNotCompletedException e) {
@@ -69,12 +68,11 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     }
 
     private void createDfacturas(Long empresa,Long bodega,  BigInteger cco , List<ProductImportTransformer> items){
-        long cont = 0L;
+        long cont = 1L;
         for (ProductImportTransformer item : items) {
             Dfactura detalle = new Dfactura();
             DfacturaId id = new DfacturaId();
             id.setEmpresa(empresa);
-            id.setSecuencia(cont++);
             id.setCfacComproba(cco);
 
             detalle.setId(id);
@@ -106,6 +104,8 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 }
             }
             if (detalle.getDfacProducto() != null || detalle.getProductTemp() != null){
+                id.setSecuencia(cont++);
+                log.info("detalle creado \n{}", detalle);
                 Boolean save =modelsClient.create(detalle).getBody();
                 if (Boolean.FALSE.equals(save)){
                     log.error("Error al crear la dfactura en la empresa: {} en el cco: {}", empresa, cco );
