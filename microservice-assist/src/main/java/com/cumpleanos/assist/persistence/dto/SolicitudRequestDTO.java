@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.persistence.dto;
 
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,5 +35,6 @@ public class SolicitudRequestDTO {
 
     private String observacion;
 
+    @NotEmpty
     private List<ProductImportTransformer> items;
 }
