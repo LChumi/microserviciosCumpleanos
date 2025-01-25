@@ -38,7 +38,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     public String procesarSolicitud(SolicitudRequestDTO request) {
 
         try {
-            BigInteger cco= procedureRepository.getCabeceraIdByProcedure(
+            BigInteger cco = procedureRepository.getCabeceraIdByProcedure(
                     request.getEmpresa(),
                     request.getTipodoc(),
                     request.getAlmacen(),
@@ -59,7 +59,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         }
     }
 
-     private String getComprobanteCreado(Long empresa, BigInteger coo) {
+    private String getComprobanteCreado(Long empresa, BigInteger coo) {
         try {
             return functionRepository.getComprobante(empresa, coo);
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         }
     }
 
-    private void createDfacturas(Long empresa,Long bodega,  BigInteger cco , List<ProductImportTransformer> items){
+    private void createDfacturas(Long empresa, Long bodega, BigInteger cco, List<ProductImportTransformer> items) {
         long cont = 1L;
         for (ProductImportTransformer item : items) {
             Dfactura detalle = new Dfactura();
@@ -92,23 +92,23 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
             detalle.setCantini(BigDecimal.valueOf(item.getCantidadTotal()));
             detalle.setCdigitada(BigDecimal.valueOf(item.getCantidadTotal()));
-            if (item.getId() == null){
+            if (item.getId() == null) {
                 ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), empresa);
-                if (temporal != null){
+                if (temporal != null) {
                     detalle.setProductTemp(temporal.getCodigo());
                 }
             } else {
-                ProductoDTO producto= productoService.getProductoByBarraAndEmpresa(item.getId(),empresa);
-                if (producto != null){
+                ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), empresa);
+                if (producto != null) {
                     detalle.setDfacProducto(producto.codigo());
                 }
             }
-            if (detalle.getDfacProducto() != null || detalle.getProductTemp() != null){
+            if (detalle.getDfacProducto() != null || detalle.getProductTemp() != null) {
                 id.setSecuencia(cont++);
                 log.info("detalle creado \n{}", detalle);
-                Boolean save =modelsClient.create(detalle).getBody();
-                if (Boolean.FALSE.equals(save)){
-                    log.error("Error al crear la dfactura en la empresa: {} en el cco: {}", empresa, cco );
+                Boolean save = modelsClient.create(detalle).getBody();
+                if (Boolean.FALSE.equals(save)) {
+                    log.error("Error al crear la dfactura en la empresa: {} en el cco: {}", empresa, cco);
                 }
             }
         }
