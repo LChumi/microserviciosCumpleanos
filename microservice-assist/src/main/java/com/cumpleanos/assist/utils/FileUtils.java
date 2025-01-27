@@ -40,6 +40,7 @@ public class FileUtils {
                 .fob(parseDoubleSafely(getCellValueSafely(row.getCell(4)))) // Valor predeterminado 0.0
                 .cbm(parseDoubleSafely(getCellValueSafely(row.getCell(5)))) // Valor predeterminado 0.0
                 .cxb(parseIntegerSafely(getCellValueSafely(row.getCell(6))))
+                .codFabrica(getCellValueSafely(row.getCell(7)))
                 .build();
     }
 
