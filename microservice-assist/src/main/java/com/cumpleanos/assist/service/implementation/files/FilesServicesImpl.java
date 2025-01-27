@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,114 +35,103 @@ public class FilesServicesImpl {
     private final IImpProdTrancitoVwService impProdTrancitoVwService;
 
     public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) throws IOException {
-
-        List<ProductImportTransformer> productosList = new ArrayList<>();
-
+        List<ProductImportTransformer> productosList;
         try (InputStream inputStream = file.getInputStream()) {
             Workbook workbook = WorkbookFactory.create(inputStream);
-            Sheet sheet = workbook.getSheetAt(0); // Leer la primera hoja
-            Iterator<Row> rowIterator = sheet.iterator();
+            Sheet sheet = workbook.getSheetAt(0);
+            productosList = mapRowsToProducts(sheet);
+        }
+        // Procesar flujo de productos
+        productsFlow(productosList, empresa);
+        return productosList;
+    }
 
-            // Encabezados
-            Row headerRow = rowIterator.next();
-            /*if (!FileUtils.isValidHeaderImpor(headerRow)) {
-                throw new IOException("El formato del archivo Excel no es válido");
-            }*/
+    private List<ProductImportTransformer> mapRowsToProducts(Sheet sheet) throws IOException {
+        List<ProductImportTransformer> productosList = new ArrayList<>();
+        Iterator<Row> rowIterator = sheet.iterator();
 
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
+        // Leer encabezado
+        Row headerRow = rowIterator.next();
+        /*if (!FileUtils.isValidHeaderImpor(headerRow)) {
+            throw new IOException("El formato del archivo Excel no es válido");
+        }*/
 
-                // Verificar si la fila está vacía
-                if (FileUtils.isRowEmpty(row)) {
-                    break; // Detener el procesamiento si la fila está vacía
-                }
-
-                try {
-                    productosList.add(FileUtils.mapRowToProductImport(row));
-                } catch (ParseException e) {
-                    log.error("Error al procesar la fila: {} " , e.getMessage());
-                }
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            if (FileUtils.isRowEmpty(row)) break;
+            try {
+                productosList.add(FileUtils.mapRowToProductImport(row));
+            } catch (ParseException e) {
+                log.error("Error al procesar la fila: {}", e.getMessage());
             }
         }
-
-        // Verificar los productos antes de retornar
-        productsFlow(productosList, empresa);
-
         return productosList;
     }
 
     private void productsFlow(List<ProductImportTransformer> productosList, Long empresa) {
-        for (ProductImportTransformer product : productosList) {
-            //Producto no tiene barra en el excel
-            if (product.getId()==null || product.getId().isEmpty()){
-                ProductoTemp temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(product.getCodFabrica(), empresa);
-                //Si producto Temporal no existe
-                if (temp==null){
-                    product.setStatus("NUEVO".toUpperCase());
-                    calcularTotales(product);
-                    saveOrUpdateProduct(product, empresa);
-                }else {
-                    product.setStatus("REPOSICION".toUpperCase());
-                    saveOrUpdateProduct(product, empresa);
-                    getTrancitos(product, temp.getCodigo(), empresa);
-                    calcularTotales(product);
-                }
-            }else {
+        productosList.forEach(product -> {
+            if (product.getId() == null || product.getId().isEmpty()) {
+                handleNewOrRepositionedProduct(product, empresa);
+            } else {
                 checkProduct(product, empresa);
             }
+        });
+    }
 
+    private void handleNewOrRepositionedProduct(ProductImportTransformer product, Long empresa) {
+        ProductoTemp temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(product.getCodFabrica(), empresa);
+        if (temp == null) {
+            product.setStatus("NUEVO");
+            calcularTotales(product);
+            saveOrUpdateProduct(product, empresa);
+        } else {
+            product.setStatus("REPOSICION");
+            saveOrUpdateProduct(product, empresa);
+            getTrancitos(product, temp.getCodigo(), empresa);
+            calcularTotales(product);
         }
     }
 
-    private void checkProduct(ProductImportTransformer item, Long empresa){
-            ProductoDTO producto= productoService.getProductoByBarraAndEmpresa(item.getId(),empresa);
-            //Si producto no existe en Tabla Producto
-            if (producto == null) {
-                log.info("Producto no encontrado buscando en ProductoTemp por barra");
-                ProductoTemp temp = productoTempService.getProductoTempByBarraAndEmpresa(item.getId(),empresa);
-                //Si producto Temporal no existe por barra
-                if (temp == null) {
-                    log.warn("Producto no encontrado en ProductoTemp buscando por codFabrica");
-                    ProductoTemp tempCodFabrica = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), empresa);
-                    //Si producto temporal no existe por codigo fabrica
-                    if (tempCodFabrica == null) {
-                        item.setStatus("Error verificar".toUpperCase());
-                        log.error("Producto no encontrado en tabla PRODUCTO ni en PRODUCTO_TEMP");
-                    } else { //Producto temporal existe por codigo fabrica
-                        item.setStatus("Reposicion");
-                        saveOrUpdateProduct(item, empresa);
-                        getTrancitos(item,tempCodFabrica.getCodigo(),empresa);
-                    }
-                } else { //Producto temporal existe por barra
-                    saveOrUpdateProduct(item, empresa);
-                    item.setStatus("Reposicion");
-                    getTrancitos(item, temp.getCodigo(),empresa);
-                }
-            }else { //Producto existe en Tabla producto
-                item.setStatus("Reposicion");
-                calcularTotales(item);
-                getTrancitos(item,producto.codigo(),empresa);
+    private void checkProduct(ProductImportTransformer item, Long empresa) {
+        ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), empresa);
+        if (producto == null) {
+            ProductoTemp temp = findProductoTemp(item.getId(), item.getCodFabrica(), empresa);
+            if (temp == null) {
+                item.setStatus("ERROR_VERIFICAR");
+                log.error("Producto no encontrado en tabla PRODUCTO ni en PRODUCTO_TEMP");
+            } else {
+                item.setStatus("REPOSICION");
+                saveOrUpdateProduct(item, empresa);
+                getTrancitos(item, temp.getCodigo(), empresa);
             }
+        } else {
+            item.setStatus("REPOSICION");
+            calcularTotales(item);
+            getTrancitos(item, producto.codigo(), empresa);
+        }
     }
 
-    private Set<ImpProdTrancitoTransformer> chekImports(Set<ImpProdTrancitoVw> items){
-        if (items.isEmpty()) {
-            return new HashSet<>();
+    private ProductoTemp findProductoTemp(String id, String codFabrica, Long empresa) {
+        ProductoTemp temp = productoTempService.getProductoTempByBarraAndEmpresa(id, empresa);
+        if (temp == null) {
+            temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(codFabrica, empresa);
         }
-        Set<ImpProdTrancitoTransformer> importaciones = new HashSet<>();
-        for (ImpProdTrancitoVw item : items) {
-            importaciones.add(ImpProdTrancitoTransformer.mapToImpProdTrancitoVw(item));
-        }
-        return importaciones;
+        return temp;
     }
 
-    private void calcularTotales(ProductImportTransformer item){
+    private Set<ImpProdTrancitoTransformer> chekImports(Set<ImpProdTrancitoVw> items) {
+        return items.stream()
+                .map(ImpProdTrancitoTransformer::mapToImpProdTrancitoVw)
+                .collect(Collectors.toSet());
+    }
+
+    private void calcularTotales(ProductImportTransformer item) {
         item.calcularCantidadTotal();
         item.calcularCbmTotal();
         item.calcularFobTotal();
     }
 
-    private void saveOrUpdateProduct(ProductImportTransformer item, Long empresa){
+    private void saveOrUpdateProduct(ProductImportTransformer item, Long empresa) {
         ProductoTemp productoTemp = new ProductoTemp();
         productoTemp.setNombre(item.getNombre().toUpperCase());
         productoTemp.setEmpresa(empresa);
@@ -152,15 +142,14 @@ public class FilesServicesImpl {
         calcularTotales(item);
     }
 
-    private void getTrancitos(ProductImportTransformer item ,Long proCodigo, Long empresa){
-        Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(proCodigo,empresa);
-        if (importaciones.isEmpty()){
-            log.error("Importaciones vacias no se registran los trancitos ");
+    private void getTrancitos(ProductImportTransformer item, Long proCodigo, Long empresa) {
+        Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(proCodigo, empresa);
+        if (importaciones.isEmpty()) {
+            log.error("Importaciones vacías, no se registran los tránsitos.");
             item.setTrancitos(new HashSet<>());
-        }else {
+        } else {
             item.setTrancitos(chekImports(importaciones));
             item.calcularCantidadEnTrancito();
         }
     }
-
 }
