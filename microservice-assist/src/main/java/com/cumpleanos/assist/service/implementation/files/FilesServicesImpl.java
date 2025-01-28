@@ -136,7 +136,7 @@ public class FilesServicesImpl {
         productoTemp.setNombre(item.getNombre().toUpperCase());
         productoTemp.setEmpresa(empresa);
         productoTemp.setCodFabrica(item.getCodFabrica());
-        productoTemp.setProId(item.getId() != null ? item.getId() : "");
+        productoTemp.setProId(item.getId() != null ? item.getId() : " ");
         //ProductoTemp productoNuevo = productoTempService.save(productoTemp);
         log.info("Producto registrado en ProductoTemp {}", productoTemp);
         calcularTotales(item);
