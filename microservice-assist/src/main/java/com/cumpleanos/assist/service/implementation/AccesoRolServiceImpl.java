@@ -30,6 +30,7 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
 
     /**
      * Metodo para obtener los menús y submenus de un usuario en una empresa específica.
+     *
      * @param usuario El ID del usuario
      * @param empresa El ID de la empresa
      * @return Un conjunto de menús y submenus que el usuario puede acceder.
@@ -116,8 +117,8 @@ public class AccesoRolServiceImpl extends GenericServiceImpl<AccesoRol, Long> im
         String routerLink = null;
         if (menuW.getPrograma() != null) {
             routerLink = menuW.getPrograma().getPath();
-        }else{
-            routerLink= "";
+        } else {
+            routerLink = "";
         }
 
         return MenuItemTransformer.builder()

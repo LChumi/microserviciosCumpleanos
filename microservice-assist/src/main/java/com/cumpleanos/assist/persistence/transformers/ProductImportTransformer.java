@@ -24,20 +24,21 @@ public class ProductImportTransformer {
     private String codFabrica;
 
     @Setter(AccessLevel.NONE)
-    private int cantidadTotal =0;
+    private int cantidadTotal = 0;
 
     @Setter(AccessLevel.NONE)
-    private double cbmTotal=0;
+    private double cbmTotal = 0;
 
     @Setter(AccessLevel.NONE)
-    private double fobTotal=0;
+    private double fobTotal = 0;
 
     @Setter(AccessLevel.NONE)
-    private int cantidadTrancito=0;
+    private int cantidadTrancito = 0;
 
     private Set<ImpProdTrancitoTransformer> trancitos = new HashSet<ImpProdTrancitoTransformer>();
 
-    public void calcularCantidadEnTrancito() { cantidadTrancito = 0; // Inicializar a 0 antes de sumar
+    public void calcularCantidadEnTrancito() {
+        cantidadTrancito = 0; // Inicializar a 0 antes de sumar
         if (!trancitos.isEmpty()) {
             for (ImpProdTrancitoTransformer trancito : trancitos) {
                 cantidadTrancito += trancito.getCantidadPedida();

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class ProductoTempServiceImpl extends GenericServiceImpl<ProductoTemp,Long> implements IProductoTempService {
+public class ProductoTempServiceImpl extends GenericServiceImpl<ProductoTemp, Long> implements IProductoTempService {
 
     private final ProductoTempRepository repository;
 
