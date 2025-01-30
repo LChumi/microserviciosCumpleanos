@@ -3,6 +3,7 @@ package com.cumpleanos.assist.service.implementation;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
 import com.cumpleanos.assist.persistence.entity.ProductoTemp;
+import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 import com.cumpleanos.assist.persistence.repository.functions.FunctionOracleRepository;
 import com.cumpleanos.assist.persistence.repository.functions.ProcedureOracleRepository;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
@@ -35,7 +36,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
 
     @Override
-    public String procesarSolicitud(SolicitudRequestDTO request) {
+    public SciResponse procesarSolicitud(SolicitudRequestDTO request) {
 
         try {
             BigInteger cco = procedureRepository.getCabeceraIdByProcedure(
@@ -52,7 +53,8 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                     request.getObservacion()
             );
             createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
-            return getComprobanteCreado(request.getEmpresa(), cco);
+            String comprobante = getComprobanteCreado(request.getEmpresa(), cco);
+            return new SciResponse(cco, comprobante);
         } catch (ProcedureNotCompletedException e) {
             log.error("Error al generar la cabecera SCI: {}", e.getMessage(), e);
             throw e;
@@ -73,10 +75,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             Dfactura detalle = new Dfactura();
             DfacturaId id = new DfacturaId();
             id.setEmpresa(empresa);
-            id.setCfacComproba(cco);
+            id.setCco(cco);
 
             detalle.setId(id);
-            detalle.setCantidad(BigDecimal.valueOf(item.getCantidadTotal()));
+            detalle.setCantidad((long) item.getCantidadTotal());
             detalle.setCanapr(BigDecimal.ZERO);
             detalle.setPrecio(BigDecimal.valueOf(item.getFob()));
 

@@ -28,7 +28,7 @@ public class DfacturaId implements Serializable {
 
     @NotNull
     @Column(name = "DFAC_CFAC_COMPROBA", nullable = false)
-    private BigInteger cfacComproba;
+    private BigInteger cco;
 
     @NotNull
     @Column(name = "DFAC_SECUENCIA", nullable = false)

@@ -1,7 +1,8 @@
 package com.cumpleanos.assist.service.interfaces;
 
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
+import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 
 public interface ISolicitudImportacionService {
-    String procesarSolicitud(SolicitudRequestDTO solicitudRequestDTO);
+    SciResponse procesarSolicitud(SolicitudRequestDTO solicitudRequestDTO);
 }

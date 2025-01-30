@@ -1,23 +1,25 @@
 package com.cumpleanos.core.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @Builder
-public class SolicitudComproImportacionDTO {
+public class SolicitudCompraImportacionDTO {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigInteger cco;
     private String almacen;
-    private String alamcenId;
+    private String almacenId;
     private LocalDate fecha;
     private String sigla;
     private String docuento;
     private String concepto;
-    private List<DfacturaDto> items;
+    private Set<DfacturaDTO> items;
 }

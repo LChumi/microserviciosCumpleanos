@@ -50,7 +50,7 @@ public class Dfactura {
 
     @NotNull
     @Column(name = "DFAC_CANTIDAD", nullable = false, precision = 17, scale = 4)
-    private BigDecimal cantidad;
+    private Long cantidad;
 
     @NotNull
     @Column(name = "DFAC_CANAPR", nullable = false, precision = 17, scale = 4)
@@ -273,7 +273,7 @@ public class Dfactura {
 
     @Column(name = "DFAC_PRODUCTO")
     private Long dfacProducto;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)

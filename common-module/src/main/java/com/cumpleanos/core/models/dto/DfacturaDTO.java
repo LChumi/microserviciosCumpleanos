@@ -1,13 +1,15 @@
 package com.cumpleanos.core.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public record DfacturaDto(
+public record DfacturaDTO(
         Long empresa,
-        BigInteger cco,
+        @JsonFormat(shape = JsonFormat.Shape.STRING) BigInteger cco,
         Long secuencia,
-        Long barra,
+        String barra,
         String producto,
         String item,
         Long cantidad,
