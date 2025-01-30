@@ -6,7 +6,5 @@ public record BodegaDTO(
         String bodId,
         String nombre,
         String ubicacion,
-        Boolean bodDefault
-
-) {
+        Boolean bodDefault) {
 }

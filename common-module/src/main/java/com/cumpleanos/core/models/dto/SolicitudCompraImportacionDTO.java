@@ -15,11 +15,17 @@ import java.util.Set;
 public class SolicitudCompraImportacionDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigInteger cco;
+    //Datos almacen
     private String almacen;
     private String almacenId;
+
     private LocalDate fecha;
+    //Datos de Documento & tipo Documento
     private String sigla;
     private String documento;
     private String concepto;
+    //Secuencia y sigla de comprobnte
+    private String comprobante;
+    private ClienteDTO cliente;
     private Set<DfacturaDTO> items;
 }
