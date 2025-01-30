@@ -19,7 +19,7 @@ public class SolicitudCompraImportacionDTO {
     private String almacenId;
     private LocalDate fecha;
     private String sigla;
-    private String docuento;
+    private String documento;
     private String concepto;
     private Set<DfacturaDTO> items;
 }

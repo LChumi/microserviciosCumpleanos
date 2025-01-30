@@ -51,7 +51,7 @@ public class SolicitudCompraImportacionServiceImpl implements ISolicitudCompraIm
                 .almacenId(ccomproba.getAlmacen().getAlmId())
                 .fecha(ccomproba.getCcoFecha())
                 .sigla(sigla.getCtiId())
-                .docuento(sigla.getNombre())
+                .documento(sigla.getNombre())
                 .concepto(ccomproba.getCcoConcepto())
                 .items(itemsDTO)
                 .build();
