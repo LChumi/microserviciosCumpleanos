@@ -4,9 +4,11 @@ import com.cumpleanos.assist.persistence.entity.ProductoTemp;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface ProductoTempRepository extends JpaRepository<ProductoTemp, Long> {
     Optional<ProductoTemp> findByProIdAndEmpresa(String proId, Long empresa);
     Optional<ProductoTemp> findByCodFabricaAndEmpresa(String proId, Long empresa);
