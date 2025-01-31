@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.annotations.Immutable;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
@@ -18,13 +19,13 @@ public class ListCcomprobaV {
 
     @Id
     @Column(name = "CCO_CODIGO", nullable = false)
-    private Long ccoCodigo;
+    private BigInteger ccoCodigo;
 
     @Column(name = "DSP_COMPROBA", length = 50)
     private String dspComproba;
 
     @Column(name = "CCO_FECHA", nullable = false)
-    private LocalDate ccoFecha;
+    private LocalDate fecha;
 
     @Column(name = "CCO_EMPRESA", nullable = false)
     private Long ccoEmpresa;
@@ -36,7 +37,7 @@ public class ListCcomprobaV {
     private Long ccoSigla;
 
     @Column(name = "CCO_ALMACEN")
-    private Long ccoAlmacen;
+    private Long almacen;
 
     @Column(name = "CCO_SERIE", nullable = false)
     private Long ccoSerie;
