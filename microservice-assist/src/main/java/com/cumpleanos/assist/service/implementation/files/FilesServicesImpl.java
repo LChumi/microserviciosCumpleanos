@@ -136,9 +136,13 @@ public class FilesServicesImpl {
         productoTemp.setNombre(item.getNombre().toUpperCase());
         productoTemp.setEmpresa(empresa);
         productoTemp.setCodFabrica(item.getCodFabrica());
-        productoTemp.setProId(item.getId() != null ? item.getId() : " ");
-        //ProductoTemp productoNuevo = productoTempService.save(productoTemp);
-        log.info("Producto registrado en ProductoTemp {}", productoTemp);
+
+        // Verificar si item.getId() y item.getCodFabrica() no son null
+        String proId = (item.getId() != null && !item.getId().isEmpty()) ? item.getId() : item.getCodFabrica();
+        productoTemp.setProId(proId);
+
+        ProductoTemp productoNuevo = productoTempService.save(productoTemp);
+        log.info("Producto registrado en ProductoTemp {}", productoNuevo);
         calcularTotales(item);
     }
 
