@@ -28,91 +28,91 @@ public class ListCcomprobaV {
     private LocalDate fecha;
 
     @Column(name = "CCO_EMPRESA", nullable = false)
-    private Long ccoEmpresa;
+    private Long empresa;
 
     @Column(name = "CCO_PERIODO", nullable = false)
-    private Short ccoPeriodo;
+    private Short periodo;
 
     @Column(name = "CCO_SIGLA", nullable = false)
-    private Long ccoSigla;
+    private Long sigla;
 
     @Column(name = "CCO_ALMACEN")
     private Long almacen;
 
     @Column(name = "CCO_SERIE", nullable = false)
-    private Long ccoSerie;
+    private Long serie;
 
     @Column(name = "CCO_NUMERO", nullable = false)
-    private Long ccoNumero;
+    private Long numero;
 
     @Column(name = "CCO_DOCTRAN", length = 30)
-    private String ccoDoctran;
+    private String doctran;
 
     @Column(name = "CCO_TIPODOC", nullable = false)
-    private Long ccoTipodoc;
+    private Long tipodoc;
 
     @Column(name = "CCO_CONCEPTO", nullable = false, length = 300)
-    private String ccoConcepto;
+    private String concepto;
 
     @Column(name = "CCO_MODULO", nullable = false)
-    private Long ccoModulo;
+    private Long modulo;
 
     @Column(name = "CCO_NOCONTABLE", nullable = false)
-    private Boolean ccoNocontable = false;
+    private Boolean nocontable = false;
 
     @Column(name = "CCO_ESTADO", nullable = false)
-    private Boolean ccoEstado = false;
+    private Boolean estado = false;
 
     @Column(name = "CCO_DESCUADRE", nullable = false)
-    private Boolean ccoDescuadre = false;
+    private Boolean descuadre = false;
 
     @Column(name = "CCO_ADESTINO", nullable = false)
-    private Long ccoAdestino;
+    private Long adestino;
 
     @Column(name = "CCO_PVENTA")
-    private Long ccoPventa;
+    private Long pventa;
 
     @Column(name = "CCO_CENTRO")
-    private Long ccoCentro;
+    private Long centro;
 
     @Column(name = "CCO_TIPO_CAMBIO", nullable = false, precision = 17, scale = 4)
-    private BigDecimal ccoTipoCambio;
+    private BigDecimal tipoCambio;
 
     @Column(name = "CCO_TCLIPRO")
-    private Boolean ccoTclipro;
+    private Boolean tclipro;
 
     @Column(name = "CCO_CODCLIPRO")
-    private Long ccoCodclipro;
+    private Long codclipro;
 
     @Column(name = "CCO_AGENTE")
-    private Long ccoAgente;
+    private Long agente;
 
     @Column(name = "CCO_CUENTA")
-    private Long ccoCuenta;
+    private Long cuenta;
 
     @Column(name = "CCO_TRANSACC")
-    private Long ccoTransacc;
+    private Long transacc;
 
     @Column(name = "CCO_CODCLIPRO1")
-    private Long ccoCodclipro1;
+    private Long codclipro1;
 
     @Column(name = "CCO_CIE_COMPROBA")
-    private Long ccoCieComproba;
+    private BigInteger cieComproba;
 
     @Column(name = "CCO_REF_COMPROBA")
-    private Long ccoRefComproba;
+    private BigInteger refComproba;
 
     @Column(name = "CCO_ANULADO", nullable = false)
-    private Boolean ccoAnulado = false;
+    private Long anulado;
 
     @Column(name = "CCO_ANU_COMPROBA")
-    private Long ccoAnuComproba;
+    private BigInteger anuComproba;
 
     @Column(name = "CCO_AUT_TIPO")
-    private Boolean ccoAutTipo;
+    private Boolean autTipo;
 
     @Column(name = "CCO_NIVEL_APROB")
-    private Short ccoNivelAprob;
+    private Short nivelAprob;
 
     @Column(name = "TPD_ID", nullable = false, length = 10)
     private String tpdId;
@@ -160,5 +160,5 @@ public class ListCcomprobaV {
     private String ccoNombre;
 
     @Column(name = "CCO_VAL_COMPROBA")
-    private Long valComproba;
+    private BigInteger valComproba;
 }
