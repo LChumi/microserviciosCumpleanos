@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class SolicitudCompraImportacionDTO {
+public class ComprobanteDetalleProductoDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigInteger cco;
     //Datos almacen

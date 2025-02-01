@@ -1,7 +1,7 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.core.models.dto.SolicitudCompraImportacionDTO;
-import com.cumpleanos.models.service.interfaces.ISolicitudCompraImportacionService;
+import com.cumpleanos.core.models.dto.ComprobanteDetalleProductoDTO;
+import com.cumpleanos.models.service.interfaces.IComprobanteDetalleProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,11 @@ import java.math.BigInteger;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class SolicitudCompraImportacionController {
 
-    private final ISolicitudCompraImportacionService solicitudCompraService;
+    private final IComprobanteDetalleProductoService solicitudCompraService;
 
     @GetMapping("ver-sci/{cco}")
-    public ResponseEntity<SolicitudCompraImportacionDTO> verSolicitudCompro(@PathVariable("cco") BigInteger cco) {
-        SolicitudCompraImportacionDTO response = solicitudCompraService.getSolicitudComproImportacion(cco);
+    public ResponseEntity<ComprobanteDetalleProductoDTO> verSolicitudCompro(@PathVariable("cco") BigInteger cco) {
+        ComprobanteDetalleProductoDTO response = solicitudCompraService.getComprobanteDetalleProducto(cco);
         return ResponseEntity.ok(response);
     }
 }

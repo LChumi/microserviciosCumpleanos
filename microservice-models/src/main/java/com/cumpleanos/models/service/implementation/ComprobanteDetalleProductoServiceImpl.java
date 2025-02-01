@@ -2,14 +2,14 @@ package com.cumpleanos.models.service.implementation;
 
 import com.cumpleanos.core.models.dto.ClienteDTO;
 import com.cumpleanos.core.models.dto.DfacturaDTO;
-import com.cumpleanos.core.models.dto.SolicitudCompraImportacionDTO;
+import com.cumpleanos.core.models.dto.ComprobanteDetalleProductoDTO;
 import com.cumpleanos.core.models.entities.Ccomproba;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Ctipocom;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.ids.CtipocomId;
 import com.cumpleanos.models.persistence.repository.*;
-import com.cumpleanos.models.service.interfaces.ISolicitudCompraImportacionService;
+import com.cumpleanos.models.service.interfaces.IComprobanteDetalleProductoService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class SolicitudCompraImportacionServiceImpl implements ISolicitudCompraImportacionService {
+public class ComprobanteDetalleProductoServiceImpl implements IComprobanteDetalleProductoService {
 
     private final DfacturaRepository dfacturaRepository;
     private final CcomprobaRepository ccoRepository;
@@ -32,7 +32,7 @@ public class SolicitudCompraImportacionServiceImpl implements ISolicitudCompraIm
 
     @Transactional
     @Override
-    public SolicitudCompraImportacionDTO getSolicitudComproImportacion(BigInteger cco) {
+    public ComprobanteDetalleProductoDTO getComprobanteDetalleProducto(BigInteger cco) {
 
         // Cabecera Comprobante principal
         Ccomproba ccomproba = ccoRepository.findById_Codigo(cco)
@@ -83,7 +83,7 @@ public class SolicitudCompraImportacionServiceImpl implements ISolicitudCompraIm
             );
         }
 
-        return SolicitudCompraImportacionDTO.builder()
+        return ComprobanteDetalleProductoDTO.builder()
                 .cco(cco)
                 .almacen(Optional.ofNullable(ccomproba.getAlmacen().getNombre()).orElse("Sin almacén"))
                 .almacenId(Optional.ofNullable(ccomproba.getAlmacen().getAlmId()).orElse("00"))
