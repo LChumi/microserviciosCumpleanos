@@ -116,6 +116,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
         pos.setNumAprob(resp.transferNumber());
         pos.setResultado(resp.status());
         pos.setIdentificacionCli(resp.ordererIdentification());
+        pos.setAprobado(true);
     }
 
     private InfoResponse esperarAprobacion(ReciboPOSView view, InfoRequest request) {

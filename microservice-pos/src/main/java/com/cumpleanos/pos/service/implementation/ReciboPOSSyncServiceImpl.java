@@ -127,6 +127,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         reciboPOS.setResultado(response.getMensajeResultado());
         reciboPOS.setFecha(response.getFecha());
         reciboPOS.setHora(response.getHora());
+        reciboPOS.setAprobado(true);
     }
 
 }
