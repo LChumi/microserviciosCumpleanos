@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.presentation.controller;
 
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
+import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.implementation.files.FilesServicesImpl;
 import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
@@ -32,12 +33,12 @@ public class FilesController {
     }
 
     @PostMapping("/confirmar/solicitud")
-    public ResponseEntity<String> confirmarSolicitud(
+    public ResponseEntity<SciResponse> confirmarSolicitud(
             @RequestBody @Valid SolicitudRequestDTO solicitudRequestDTO) {
         log.info("Confirmar solicitud lista de items: {}", solicitudRequestDTO.getItems());
 
-        //String result = solicitudImportacionService.procesarSolicitud(solicitudRequestDTO);
-        return ResponseEntity.ok("ok");
+        SciResponse result = solicitudImportacionService.procesarSolicitud(solicitudRequestDTO);
+        return ResponseEntity.ok(result);
     }
 
 }

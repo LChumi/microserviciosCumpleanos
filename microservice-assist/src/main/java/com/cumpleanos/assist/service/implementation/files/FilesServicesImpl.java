@@ -83,10 +83,10 @@ public class FilesServicesImpl {
         if (temp == null) {
             product.setStatus("NUEVO");
             calcularTotales(product);
-            saveOrUpdateProduct(product, empresa);
+            saveOrUpdateProduct(Optional.empty(), product, empresa);
         } else {
             product.setStatus("REPOSICION");
-            saveOrUpdateProduct(product, empresa);
+            saveOrUpdateProduct(Optional.of(temp), product, empresa);
             getTrancitos(product, temp.getCodigo(), empresa);
             calcularTotales(product);
         }
@@ -101,7 +101,7 @@ public class FilesServicesImpl {
                 log.error("Producto no encontrado en tabla PRODUCTO ni en PRODUCTO_TEMP");
             } else {
                 item.setStatus("REPOSICION");
-                saveOrUpdateProduct(item, empresa);
+                saveOrUpdateProduct(Optional.of(temp),item, empresa);
                 getTrancitos(item, temp.getCodigo(), empresa);
             }
         } else {
@@ -131,16 +131,13 @@ public class FilesServicesImpl {
         item.calcularFobTotal();
     }
 
-    private void saveOrUpdateProduct(ProductImportTransformer item, Long empresa) {
-        ProductoTemp productoTemp = new ProductoTemp();
+    private void saveOrUpdateProduct(Optional<ProductoTemp> prod, ProductImportTransformer item, Long empresa) {
+        ProductoTemp productoTemp = prod.orElseGet(ProductoTemp::new);
         productoTemp.setNombre(item.getNombre().toUpperCase());
         productoTemp.setEmpresa(empresa);
         productoTemp.setCodFabrica(item.getCodFabrica());
-
-        // Verificar si item.getId() y item.getCodFabrica() no son null
         String proId = (item.getId() != null && !item.getId().isEmpty()) ? item.getId() : item.getCodFabrica();
         productoTemp.setProId(proId);
-
         ProductoTemp productoNuevo = productoTempService.save(productoTemp);
         log.info("Producto registrado en ProductoTemp {}", productoNuevo);
         calcularTotales(item);

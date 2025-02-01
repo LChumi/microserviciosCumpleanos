@@ -6,6 +6,6 @@ import java.math.BigInteger;
 
 public record SciResponse(
         @JsonFormat(shape = JsonFormat.Shape.STRING) BigInteger cco,
-        String conprobante
+        String comprobante
 ) {
 }
