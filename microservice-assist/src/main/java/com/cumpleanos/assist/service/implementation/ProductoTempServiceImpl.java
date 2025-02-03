@@ -1,8 +1,8 @@
 package com.cumpleanos.assist.service.implementation;
 
-import com.cumpleanos.assist.persistence.entity.ProductoTemp;
 import com.cumpleanos.assist.persistence.repository.ProductoTempRepository;
 import com.cumpleanos.assist.service.interfaces.IProductoTempService;
+import com.cumpleanos.core.models.entities.ProductoTemp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;

@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.persistence.repository;
 
-import com.cumpleanos.assist.persistence.entity.ProductoTemp;
+import com.cumpleanos.core.models.entities.ProductoTemp;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

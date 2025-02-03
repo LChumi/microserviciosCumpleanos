@@ -346,4 +346,12 @@ public class Dfactura {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Centro centro;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "DFAC_PRODUCTO_TEMP", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private ProductoTemp productoTemp;
 }

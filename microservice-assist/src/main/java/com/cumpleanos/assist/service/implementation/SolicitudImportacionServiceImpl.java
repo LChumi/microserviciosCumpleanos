@@ -2,7 +2,6 @@ package com.cumpleanos.assist.service.implementation;
 
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
-import com.cumpleanos.assist.persistence.entity.ProductoTemp;
 import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 import com.cumpleanos.assist.persistence.repository.functions.FunctionOracleRepository;
 import com.cumpleanos.assist.persistence.repository.functions.ProcedureOracleRepository;
@@ -13,6 +12,7 @@ import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
 import com.cumpleanos.core.models.entities.Dfactura;
+import com.cumpleanos.core.models.entities.ProductoTemp;
 import com.cumpleanos.core.models.ids.DfacturaId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

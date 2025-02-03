@@ -43,7 +43,7 @@ public class ComprobanteDetalleProductoServiceImpl implements IComprobanteDetall
         CtipocomId id = new CtipocomId();
         id.setEmpresa(empresa);
         id.setCodigo(ccomproba.getCcoSigla());
-        Ctipocom sigla = ctipocomRepository.findById(id).orElseThrow( () -> new EntityNotFoundException("No se encontro el tipocom"));
+        Ctipocom sigla = ctipocomRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el tipocom"));
 
         // Detalle del comprobante
         Set<Dfactura> listaItems = dfacturaRepository.findById_CcoOrderById_Secuencia(cco);
@@ -52,9 +52,9 @@ public class ComprobanteDetalleProductoServiceImpl implements IComprobanteDetall
                         item.getId().getEmpresa(),
                         item.getId().getCco(),
                         item.getId().getSecuencia(),
-                        item.getProducto().getProId(),
-                        item.getProducto().getNombre(),
-                        item.getProducto().getProId1(),
+                        item.getProducto() != null ? item.getProducto().getProId() : item.getProductoTemp().getProId(),
+                        item.getProducto() != null ? item.getProducto().getNombre() : item.getProductoTemp().getNombre(),
+                        item.getProducto() != null ? item.getProducto().getProId1() : item.getProductoTemp().getProId(),
                         item.getCantidad(),
                         item.getPrecio(),
                         item.getTotal()))
@@ -96,29 +96,5 @@ public class ComprobanteDetalleProductoServiceImpl implements IComprobanteDetall
                 .cliente(clienteDTO)
                 .build();
 
-    }
-
-    /**
-     * Convertir clase a dto
-     * @param listaItems clases de entidad
-     * @return lista de items
-     */
-    private static Set<DfacturaDTO> getDfacturaDTOS(Set<Dfactura> listaItems) {
-        Set<DfacturaDTO> itemsDTO= new LinkedHashSet<>();
-        for (Dfactura item : listaItems) {
-            DfacturaDTO detalle = new DfacturaDTO(
-                    item.getId().getEmpresa(),
-                    item.getId().getCco(),
-                    item.getId().getSecuencia(),
-                    item.getProducto().getProId(),
-                    item.getProducto().getNombre(),
-                    item.getProducto().getProId1(),
-                    item.getCantidad(),
-                    item.getPrecio(),
-                    item.getTotal()
-            );
-            itemsDTO.add(detalle);
-        }
-        return itemsDTO;
     }
 }

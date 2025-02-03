@@ -1,6 +1,5 @@
 package com.cumpleanos.assist.service.implementation.files;
 
-import com.cumpleanos.assist.persistence.entity.ProductoTemp;
 import com.cumpleanos.assist.persistence.transformers.ImpProdTrancitoTransformer;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
@@ -9,6 +8,7 @@ import com.cumpleanos.assist.service.interfaces.IImpProdTrancitoVwService;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.IProductoTempService;
 import com.cumpleanos.assist.utils.FileUtils;
+import com.cumpleanos.core.models.entities.ProductoTemp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;

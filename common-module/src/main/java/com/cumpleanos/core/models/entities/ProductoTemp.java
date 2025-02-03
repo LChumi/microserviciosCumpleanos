@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.persistence.entity;
+package com.cumpleanos.core.models.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -148,3 +148,4 @@ public class ProductoTemp {
     @Column(name = "PRO_COD_FABRICA")
     private String codFabrica;
 }
+

@@ -15,7 +15,7 @@ import java.math.BigInteger;
 @RestController
 @RequestMapping("models")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class SolicitudCompraImportacionController {
+public class ComprobanteDetalleController {
 
     private final IComprobanteDetalleProductoService solicitudCompraService;
 
