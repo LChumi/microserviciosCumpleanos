@@ -61,7 +61,7 @@ public class ListCcomprobaV {
     private Boolean nocontable = false;
 
     @Column(name = "CCO_ESTADO", nullable = false)
-    private Boolean estado = false;
+    private Long estado;
 
     @Column(name = "CCO_DESCUADRE", nullable = false)
     private Boolean descuadre = false;

@@ -28,8 +28,12 @@ public class ListCcomprobaVController {
             @RequestParam(required = false) Long sigla,
             @RequestParam(required = false) Long almacen,
             @RequestParam(required = false) Long serie,
-            @RequestParam(required = false) Long numero
+            @RequestParam(required = false) Long numero,
+            @RequestParam(required = false) String concepto,
+            @RequestParam(required = false) String doctran,
+            @RequestParam(required = false) Long estado,
+            @RequestParam(required = false) Long tipodoc
             ) {
-        return service.find(empresa, periodo, fecha, mes, sigla, almacen, serie, numero);
+        return service.find(empresa, periodo, fecha, mes, sigla, almacen, serie, numero, concepto, doctran, estado, tipodoc);
     }
 }

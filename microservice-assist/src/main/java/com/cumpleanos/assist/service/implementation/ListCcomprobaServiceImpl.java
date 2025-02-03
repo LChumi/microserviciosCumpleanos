@@ -26,9 +26,13 @@ public class ListCcomprobaServiceImpl {
             Long sigla,
             Long almacen,
             Long serie,
-            Long numero) {
+            Long numero,
+            String concepto,
+            String doctran,
+            Long estado,
+            Long tipodoc) {
 
-        Specification<ListCcomprobaV> spec = ListCcomprobaVSpecification.filterBy(empresa, periodo, fecha, mes, sigla, almacen, serie, numero);
+        Specification<ListCcomprobaV> spec = ListCcomprobaVSpecification.filterBy(empresa, periodo, fecha, mes, sigla, almacen, serie, numero, concepto, doctran, estado, tipodoc);
 
         return new HashSet<>(repository.findAll(spec));
     }

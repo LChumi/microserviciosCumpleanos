@@ -18,7 +18,12 @@ public class ListCcomprobaVSpecification {
             Long sigla,
             Long almacen,
             Long serie,
-            Long numero) {
+            Long numero,
+            String concepto,
+            String doctran,
+            Long estado,
+            Long tipodoc
+            ) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -46,6 +51,18 @@ public class ListCcomprobaVSpecification {
             }
             if (numero != null) {
                 predicates.add(criteriaBuilder.equal(root.get("numero"), numero));
+            }
+            if (concepto != null) {
+                predicates.add(criteriaBuilder.equal(root.get("concepto"), concepto));
+            }
+            if (doctran != null) {
+                predicates.add(criteriaBuilder.equal(root.get("doctran"), doctran));
+            }
+            if (estado != null) {
+                predicates.add(criteriaBuilder.equal(root.get("estado"), estado));
+            }
+            if (tipodoc != null) {
+                predicates.add(criteriaBuilder.equal(root.get("tipodoc"), tipodoc));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
