@@ -19,7 +19,7 @@ public class ListCcomprobaVController {
 
     private final ListCcomprobaServiceImpl service;
 
-    @GetMapping("/buscar")
+    @GetMapping("/buscar/ccocomproba-v")
     public Set<ListCcomprobaV> buscar(
             @RequestParam(required = false) Long empresa,
             @RequestParam(required = false) Short periodo,
@@ -30,10 +30,10 @@ public class ListCcomprobaVController {
             @RequestParam(required = false) Long serie,
             @RequestParam(required = false) Long numero,
             @RequestParam(required = false) String concepto,
-            @RequestParam(required = false) String doctran,
+            @RequestParam(required = false) String referencia,
             @RequestParam(required = false) Long estado,
             @RequestParam(required = false) Long tipodoc
             ) {
-        return service.find(empresa, periodo, fecha, mes, sigla, almacen, serie, numero, concepto, doctran, estado, tipodoc);
+        return service.find(empresa, periodo, fecha, mes, sigla, almacen, serie, numero, concepto, referencia, estado, tipodoc);
     }
 }
