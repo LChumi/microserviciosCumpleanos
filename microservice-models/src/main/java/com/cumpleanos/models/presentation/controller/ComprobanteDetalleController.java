@@ -19,7 +19,7 @@ public class ComprobanteDetalleController {
 
     private final IComprobanteDetalleProductoService solicitudCompraService;
 
-    @GetMapping("ver-sci/{cco}")
+    @GetMapping("comprobante-detalle/{cco}/productos")
     public ResponseEntity<ComprobanteDetalleProductoDTO> verSolicitudCompro(@PathVariable("cco") BigInteger cco) {
         ComprobanteDetalleProductoDTO response = solicitudCompraService.getComprobanteDetalleProducto(cco);
         return ResponseEntity.ok(response);
