@@ -97,10 +97,11 @@ public class FilesServicesImpl {
         if (producto == null) {
             ProductoTemp temp = findProductoTemp(item.getId(), item.getCodFabrica(), empresa);
             if (temp == null) {
-                item.setStatus("ERROR_VERIFICAR");
-                log.error("Producto no encontrado en tabla PRODUCTO ni en PRODUCTO_TEMP");
+                item.setStatus("NUEVO");
+                calcularTotales(item);
+                saveOrUpdateProduct(Optional.empty(), item, empresa);
             } else {
-                item.setStatus("REPOSICION");
+                item.setStatus("REGISTRADO");
                 saveOrUpdateProduct(Optional.of(temp),item, empresa);
                 getTrancitos(item, temp.getCodigo(), empresa);
             }

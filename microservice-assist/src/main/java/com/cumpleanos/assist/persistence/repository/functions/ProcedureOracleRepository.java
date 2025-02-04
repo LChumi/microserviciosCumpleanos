@@ -58,7 +58,7 @@ public class ProcedureOracleRepository {
             query.setParameter("PN_FECHA", Date.valueOf(fecha));
             query.setParameter("PN_MODULO", modulo);
             query.setParameter("PN_BODEGA", bodega);
-            query.setParameter("PN_CONCEPT", concepto);
+            query.setParameter("PN_CONCEPTO", concepto);
 
             return (BigInteger) query.getOutputParameterValue("PN_COMPROBANTE");
         }catch (Exception e) {
