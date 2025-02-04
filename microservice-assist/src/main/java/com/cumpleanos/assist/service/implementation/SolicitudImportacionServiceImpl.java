@@ -39,7 +39,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     public SciResponse procesarSolicitud(SolicitudRequestDTO request) {
 
         try {
-            /*BigInteger cco = procedureRepository.getCabeceraIdByProcedure(
+            BigInteger cco = procedureRepository.getCabeceraIdByProcedure(
                     request.getEmpresa(),
                     request.getTipodoc(),
                     request.getAlmacen(),
@@ -51,9 +51,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                     request.getModulo(),
                     request.getBodega(),
                     request.getObservacion()
-            );*/
-            String ccoStr= "100000000000000000009852231";
-            BigInteger cco = new BigInteger(ccoStr);
+            );
             createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
             String comprobante = getComprobanteCreado(request.getEmpresa(), cco);
             return new SciResponse(cco, comprobante);
