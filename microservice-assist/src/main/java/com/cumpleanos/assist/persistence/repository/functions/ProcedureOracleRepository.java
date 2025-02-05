@@ -61,7 +61,7 @@ public class ProcedureOracleRepository {
             query.setParameter("PN_CONCEPTO", concepto);
 
             return (BigInteger) query.getOutputParameterValue("PN_COMPROBANTE");
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error al crear la cabecera :{}", e.getMessage(), e);
             throw new ProcedureNotCompletedException("Error al crear cabecera." + e.getMessage());
         }

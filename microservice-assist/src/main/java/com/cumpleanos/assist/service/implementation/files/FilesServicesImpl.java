@@ -102,7 +102,7 @@ public class FilesServicesImpl {
                 saveOrUpdateProduct(Optional.empty(), item, empresa);
             } else {
                 item.setStatus("REGISTRADO");
-                saveOrUpdateProduct(Optional.of(temp),item, empresa);
+                saveOrUpdateProduct(Optional.of(temp), item, empresa);
                 getTrancitos(item, temp.getCodigo(), empresa);
             }
         } else {
