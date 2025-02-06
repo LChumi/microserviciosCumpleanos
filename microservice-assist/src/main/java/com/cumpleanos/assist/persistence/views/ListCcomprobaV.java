@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.persistence.views;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,6 +20,7 @@ public class ListCcomprobaV {
 
     @Id
     @Column(name = "CCO_CODIGO", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigInteger ccoCodigo;
 
     @Column(name = "DSP_COMPROBA", length = 50)
