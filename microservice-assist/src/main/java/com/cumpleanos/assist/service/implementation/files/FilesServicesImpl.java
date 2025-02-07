@@ -56,15 +56,28 @@ public class FilesServicesImpl {
             throw new IOException("El formato del archivo Excel no es válido");
         }*/
 
+        int count = 0;
         while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
+            Row row = rowIterator.next(); // Obtén la siguiente fila
+
+            // Verifica si la fila está vacía
             if (FileUtils.isRowEmpty(row)) break;
+
             try {
-                productosList.add(FileUtils.mapRowToProductImport(row));
+                // Mapea la fila a un objeto ProductImportTransformer
+                ProductImportTransformer item = FileUtils.mapRowToProductImport(row);
+                // Incrementa el contador solo si la fila no está vacía
+                count++;
+                // Asigna el contador de secuencia
+                item.setSecuencia(count);
+                // Agrega el objeto a la lista de productos
+                productosList.add(item);
             } catch (ParseException e) {
+                // Registra un error si ocurre una excepción de tipo ParseException
                 log.error("Error al procesar la fila: {}", e.getMessage());
             }
         }
+
         return productosList;
     }
 

@@ -13,6 +13,7 @@ import java.util.Set;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ProductImportTransformer {
+    private int secuencia;
     private String id;
     private String item;
     private String nombre;
