@@ -19,7 +19,7 @@ public class ImpProdTrancitoVwController {
 
     private final IImpProdTrancitoVwService service;
 
-    @GetMapping("/buscar/prodtransitos-v")
+    @GetMapping("/buscar/prodtrancitos-v")
     public Set<ImpProdTrancitoVw> buscar(
             @RequestParam(required = false) Long empresa,
             @RequestParam(required = false) String nroComprobante,
