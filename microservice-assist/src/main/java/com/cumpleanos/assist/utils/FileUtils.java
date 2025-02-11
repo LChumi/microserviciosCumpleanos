@@ -82,11 +82,16 @@ public class FileUtils {
             return 0.0;
         }
         try {
-            NumberFormat format = NumberFormat.getInstance(); // Usa configuración regional actual
+            // Elimina cualquier símbolo de moneda y caracteres no numéricos
+            value = value.replaceAll("[^\\d,.-]", "");
+
+            // Usa NumberFormat para analizar el valor
+            NumberFormat format = NumberFormat.getInstance();
             return format.parse(value).doubleValue();
         } catch (Exception e) {
             System.err.println("Error al convertir valor a Double: " + value);
             return 0.0; // Valor predeterminado
         }
     }
+
 }

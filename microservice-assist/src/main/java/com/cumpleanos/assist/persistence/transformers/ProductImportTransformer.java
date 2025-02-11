@@ -38,9 +38,12 @@ public class ProductImportTransformer {
 
     private Set<ImpProdTrancitoTransformer> trancitos = new HashSet<ImpProdTrancitoTransformer>();
 
+    /**
+     * Calcula la cantidad total en tránsito sumando las cantidades pedidas de cada objeto en la lista `trancitos`.
+     */
     public void calcularCantidadEnTrancito() {
         cantidadTrancito = 0; // Inicializar a 0 antes de sumar
-        if (!trancitos.isEmpty()) {
+        if (trancitos != null && !trancitos.isEmpty()) {
             for (ImpProdTrancitoTransformer trancito : trancitos) {
                 cantidadTrancito += trancito.getCantidadPedida();
             }

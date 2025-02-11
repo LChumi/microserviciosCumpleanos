@@ -67,8 +67,11 @@ public class ImpProdTrancitoVw {
     @Column(name = "IPT_FOB")
     private BigDecimal fob;
 
-    @Column(name = "IPT_FOB_TOTAL")
-    private BigDecimal fobTotal;
+    @Column(name = "IPT_FOB_TOTAL_PEDIDO")
+    private BigDecimal fobTotalPedido;
+
+    @Column(name = "IPT_FOB_TOTAL_APROBADO")
+    private BigDecimal fobTotalAprobado;
 
     @Column(name = "IPT_ESTADO")
     private String estado;

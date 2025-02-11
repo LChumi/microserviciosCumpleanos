@@ -15,7 +15,8 @@ public class ImpProdTrancitoTransformer {
     private String observacion;
     private Long cantidadPedida;
     private BigDecimal fob;
-    private BigDecimal fobTotal;
+    private BigDecimal fobTotalPedido;
+    private BigDecimal fobTotalAprobado;
     private String tipoDoc;
 
     public static ImpProdTrancitoTransformer mapToImpProdTrancitoVw(ImpProdTrancitoVw imp) {
@@ -23,9 +24,10 @@ public class ImpProdTrancitoTransformer {
                 .nroComprobante(imp.getNroComprobante())
                 .fecha(imp.getFecha())
                 .observacion(imp.getObservacion())
-                .cantidadPedida(imp.getCantPedida())
+                .cantidadPedida(imp.getCantPedida() !=null ? imp.getCantPedida() : 0)
                 .fob(imp.getFob())
-                .fobTotal(imp.getFobTotal())
+                .fobTotalPedido(imp.getFobTotalPedido())
+                .fobTotalAprobado(imp.getFobTotalAprobado())
                 .tipoDoc(imp.getTipoDoc())
                 .build();
     }
