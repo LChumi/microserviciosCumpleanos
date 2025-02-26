@@ -42,6 +42,7 @@
 		<module>microservice-notification</module>
 		<module>microservice-assist</module>
 		<module>meta-service</module>
+		<module>mongo-service</module>
 	</modules>
 
 	<properties>
