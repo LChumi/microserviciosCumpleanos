@@ -1,0 +1,36 @@
+server:
+  port: 9095
+  forward-header-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: mongo-service
+
+  config:
+    import: classpath:/configurations/mongo-secure.yml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+        exclude: "beans, env, threaddump"
+  endpoint:
+    health:
+      show-details: never
+  info:
+    env:
+      enable: false
+
+info:
+  app:
+    name: ${spring.application.name}

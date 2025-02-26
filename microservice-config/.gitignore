@@ -34,3 +34,4 @@ build/
 
 ###configuracion sensible
 application-secure.yml
+mongo-secure.yml
