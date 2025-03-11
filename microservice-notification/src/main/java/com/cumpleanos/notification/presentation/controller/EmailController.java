@@ -35,7 +35,7 @@ public class EmailController {
     }
 
     @PostMapping("/enviar/adjunto")
-    public ResponseEntity<String> enviarMailAdjunto(@Valid @RequestBody EmailRecord email,
+    public ResponseEntity<?> enviarMailAdjunto(@Valid @RequestBody EmailRecord email,
                                                     @RequestParam("file") MultipartFile file,
                                                     @RequestParam("filename") String filename) throws IOException {
         if (file.isEmpty() || filename == null || filename.isBlank()) {
