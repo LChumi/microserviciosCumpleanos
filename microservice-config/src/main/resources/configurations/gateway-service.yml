@@ -61,6 +61,10 @@ spring:
           uri: lb://meta-service
           predicates:
             - Path=/meta/**
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/email/**
 
 management:
   endpoints:
