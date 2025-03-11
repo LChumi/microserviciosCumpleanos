@@ -6,12 +6,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("email")
@@ -33,4 +35,17 @@ public class EmailController {
         emailService.sendMail(email);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/enviar/adjunto")
+    public ResponseEntity<String> enviarMailAdjunto(@Valid @RequestBody EmailRecord email,
+                                                    @RequestParam("file") MultipartFile file,
+                                                    @RequestParam("filename") String filename) throws IOException {
+        if (file.isEmpty() || filename == null || filename.isBlank()) {
+            throw new IllegalArgumentException("El archivo y su nombre son obligatorios.");
+        }
+
+        emailService.sendMailAttach(email, filename, file.getBytes());
+        return ResponseEntity.ok("Correo enviado correctamente");
+    }
+
 }

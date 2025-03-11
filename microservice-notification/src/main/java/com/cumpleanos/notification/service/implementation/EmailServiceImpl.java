@@ -7,10 +7,14 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -48,5 +52,31 @@ public class EmailServiceImpl implements IEmailService {
         mailMessage.setText(email.message());
 
         mailSender.send(mailMessage);
+    }
+
+    @Override
+    public void sendMailAttach(EmailRecord email, String nameAttach, byte[] fileAttach) {
+        if (nameAttach == null || nameAttach.isBlank()) {
+            throw new IllegalArgumentException("El nombre del adjunto no puede ser nulo o vacío");
+        }
+        if (fileAttach == null || fileAttach.length == 0) {
+            throw new IllegalArgumentException("El archivo adjunto no puede ser nulo o vacío");
+        }
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setFrom(emailUser);
+            helper.setTo(email.toUser());
+            helper.setSubject(email.subject());
+            helper.setText(email.message());
+
+            ByteArrayResource attach = new ByteArrayResource(fileAttach);
+            helper.addAttachment(nameAttach, attach);
+
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new MailSendException("Error al enviar el correo con adjunto", e);
+        }
     }
 }
