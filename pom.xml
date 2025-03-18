@@ -43,6 +43,7 @@
 		<module>microservice-assist</module>
 		<module>meta-service</module>
 		<module>mongo-service</module>
+		<module>ecommerce-service</module>
 	</modules>
 
 	<properties>
