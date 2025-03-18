@@ -50,7 +50,25 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Dependencia WooCommerce Api -->
+		<dependency>
+			<groupId>com.icoderman</groupId>
+			<artifactId>wc-api-java</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- Dependencias de swagger -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+
+
 	</dependencies>
+
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
