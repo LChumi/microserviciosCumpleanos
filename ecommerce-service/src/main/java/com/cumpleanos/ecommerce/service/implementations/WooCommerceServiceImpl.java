@@ -21,7 +21,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     private WooCommerce wooCommerce;
 
-    public WooCommerceServiceImpl(WooCommerceProperties properties){
+    public WooCommerceServiceImpl(WooCommerceProperties properties) {
         OAuthConfig config = new OAuthConfig(
                 properties.getUrl(),
                 properties.getClient(),
@@ -30,14 +30,15 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
         this.wooCommerce = new WooCommerceAPI(config, ApiVersionType.V3);
     }
+
     // Obtener una categoría por nombre
     @Override
     public Integer obtenerCategoriaId(String nombreCategoria) {
-        Map<String,String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("search", nombreCategoria);
-        List<Map<String,Object>> categorias = wooCommerce.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), params);
+        List<Map<String, Object>> categorias = wooCommerce.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), params);
 
-        if (!categorias.isEmpty()){
+        if (!categorias.isEmpty()) {
             return (Integer) categorias.get(0).get("id");
         }
         return null;
@@ -89,7 +90,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         Map<String, Object> productData = new HashMap<>();
         productData.put("name", nombre);
         productData.put("type", "simple");
-        productData.put("regular_price", precio);
+        productData.put("regular_price", precio);//00.00
         productData.put("description", descripcion);
 
         //  Asegurar que categories[] contenga un Integer
