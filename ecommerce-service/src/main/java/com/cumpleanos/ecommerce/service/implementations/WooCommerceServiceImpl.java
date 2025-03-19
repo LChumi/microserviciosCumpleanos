@@ -1,6 +1,7 @@
 package com.cumpleanos.ecommerce.service.implementations;
 
 import com.cumpleanos.ecommerce.configuration.WooCommerceProperties;
+import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
 import com.cumpleanos.ecommerce.service.interfaces.WooCommerceService;
 import com.icoderman.woocommerce.ApiVersionType;
 import com.icoderman.woocommerce.EndpointBaseType;
@@ -15,11 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.cumpleanos.ecommerce.utils.WoocommerceUtils.*;
+
 @Service
 @PropertySource("classpath:ecommerce.properties")
 public class WooCommerceServiceImpl implements WooCommerceService {
 
-    private WooCommerce wooCommerce;
+    private final WooCommerce wooCommerce;
 
     public WooCommerceServiceImpl(WooCommerceProperties properties) {
         OAuthConfig config = new OAuthConfig(
@@ -28,6 +31,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
                 properties.getSecretClient()
         );
 
+
         this.wooCommerce = new WooCommerceAPI(config, ApiVersionType.V3);
     }
 
@@ -35,11 +39,23 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     @Override
     public Integer obtenerCategoriaId(String nombreCategoria) {
         Map<String, String> params = new HashMap<>();
-        params.put("search", nombreCategoria);
+        params.put("search", encodedString(nombreCategoria));
         List<Map<String, Object>> categorias = wooCommerce.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), params);
 
         if (!categorias.isEmpty()) {
             return (Integer) categorias.get(0).get("id");
+        }
+        return null;
+    }
+
+    @Override
+    public Integer obtenerProductoId(String sku) {
+        Map<String, String> params = new HashMap<>();
+        params.put("sku", sku);
+
+        List<Map<String, Object>> existingProducts = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), params);
+        if (!existingProducts.isEmpty()) {
+            return (Integer) existingProducts.get(0).get("id");
         }
         return null;
     }
@@ -52,7 +68,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         }
 
         Map<String, Object> categoriaData = new HashMap<>();
-        categoriaData.put("name", nombreCategoria);
+        categoriaData.put("name", encodedString(nombreCategoria));
 
         // Si la categoría tiene un padre, lo agregamos
         if (categoriaPadre != null) {
@@ -73,25 +89,21 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     // Subir un producto con categoría y subcategoría
     @Override
-    public Map<String, Object> subirProducto(String nombre, String precio, String descripcion, String categoria, String subcategoria) {
+    public Map<String, Object> subirProducto(ProductRequest request) {
         // Verificar si la categoría existe, si no, crearla
-        Integer categoriaId = obtenerCategoriaId(categoria);
+        Integer categoriaId = obtenerCategoriaId(request.categoria().trim());
         if (categoriaId == null) {
-            categoriaId = crearCategoria(categoria, null);
+            categoriaId = crearCategoria(request.categoria().trim(), null);
         }
 
         // Verificar si la subcategoría existe, si no, crearla bajo la categoría padre
-        Integer subcategoriaId = obtenerCategoriaId(subcategoria);
+        Integer subcategoriaId = obtenerCategoriaId(request.subcategoria().trim());
         if (subcategoriaId == null) {
-            subcategoriaId = crearCategoria(subcategoria, categoriaId);
+            subcategoriaId = crearCategoria(request.subcategoria(), categoriaId);
         }
 
         // Crear el producto con la subcategoría asignada
-        Map<String, Object> productData = new HashMap<>();
-        productData.put("name", nombre);
-        productData.put("type", "simple");
-        productData.put("regular_price", precio);//00.00
-        productData.put("description", descripcion);
+        Map<String, Object> productData = convertObjectToMap(request);
 
         //  Asegurar que categories[] contenga un Integer
         List<Map<String, Object>> categorias = new ArrayList<>();
