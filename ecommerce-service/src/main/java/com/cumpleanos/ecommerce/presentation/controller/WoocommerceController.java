@@ -19,7 +19,6 @@ public class WoocommerceController {
     @PostMapping("/woocommerce/upload-product")
     public ResponseEntity<Map<String, Object>> subirProducto(@RequestBody ProductRequest producto) {
         Map<String, Object> result = service.subirProducto(producto);
-        System.out.println(result);
         return ResponseEntity.ok(result);
     }
 }

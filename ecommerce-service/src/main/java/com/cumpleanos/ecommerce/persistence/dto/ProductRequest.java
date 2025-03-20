@@ -1,7 +1,5 @@
 package com.cumpleanos.ecommerce.persistence.dto;
 
-import java.util.Optional;
-
 public record ProductRequest(
         String nombre,
         String sku,
@@ -9,6 +7,6 @@ public record ProductRequest(
         String descripcion,
         String categoria,
         String subcategoria,
-        String stock,
+        Integer stock,
         Boolean withIva
 ) {}

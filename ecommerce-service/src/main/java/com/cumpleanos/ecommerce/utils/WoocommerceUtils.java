@@ -14,6 +14,7 @@ public class WoocommerceUtils {
         productData.put("type", "simple");
         productData.put("regular_price", request.precio());
         productData.put("description", request.descripcion());
+        productData.put("manage_stock", "true");
         productData.put("stock_quantity", request.stock());
         if (Boolean.FALSE.equals(request.withIva())) {
             productData.put("shipping_taxable", "false");
