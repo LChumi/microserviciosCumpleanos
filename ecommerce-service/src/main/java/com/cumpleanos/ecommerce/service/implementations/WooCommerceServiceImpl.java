@@ -2,12 +2,10 @@ package com.cumpleanos.ecommerce.service.implementations;
 
 import com.cumpleanos.ecommerce.configuration.WooCommerceProperties;
 import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
+import com.cumpleanos.ecommerce.service.http.WooCommerceClient;
 import com.cumpleanos.ecommerce.service.interfaces.WooCommerceService;
-import com.icoderman.woocommerce.ApiVersionType;
-import com.icoderman.woocommerce.EndpointBaseType;
-import com.icoderman.woocommerce.WooCommerce;
-import com.icoderman.woocommerce.WooCommerceAPI;
-import com.icoderman.woocommerce.oauth.OAuthConfig;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
@@ -19,41 +17,27 @@ import java.util.Map;
 import static com.cumpleanos.ecommerce.utils.WoocommerceUtils.*;
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @PropertySource("classpath:ecommerce.properties")
 public class WooCommerceServiceImpl implements WooCommerceService {
 
-    private final WooCommerce wooCommerce;
-
-    public WooCommerceServiceImpl(WooCommerceProperties properties) {
-        OAuthConfig config = new OAuthConfig(
-                properties.getUrl(),
-                properties.getClient(),
-                properties.getSecretClient()
-        );
-
-
-        this.wooCommerce = new WooCommerceAPI(config, ApiVersionType.V3);
-    }
+    private final WooCommerceClient wooCommerce;
+    private final WooCommerceProperties properties;
 
     // Obtener una categoría por nombre
     @Override
     public Integer obtenerCategoriaId(String nombreCategoria) {
-        Map<String, String> params = new HashMap<>();
-        params.put("search", encodedString(nombreCategoria));
-        List<Map<String, Object>> categorias = wooCommerce.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), params);
+        List<Map<String, Object>> categories = wooCommerce.getAllCategories(properties.getClient(), properties.getSecretClient(), nombreCategoria);
 
-        if (!categorias.isEmpty()) {
-            return (Integer) categorias.get(0).get("id");
+        if (!categories.isEmpty()) {
+            return (Integer) categories.get(0).get("id");
         }
         return null;
     }
 
     @Override
     public Integer obtenerProductoId(String sku) {
-        Map<String, String> params = new HashMap<>();
-        params.put("sku", sku);
-
-        List<Map<String, Object>> existingProducts = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), params);
+        List<Map<String, Object>> existingProducts = wooCommerce.getAllProducts(properties.getClient(), properties.getSecretClient(), sku);
         if (!existingProducts.isEmpty()) {
             return (Integer) existingProducts.get(0).get("id");
         }
@@ -76,7 +60,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         }
 
         // Enviar la categoría a WooCommerce
-        Map<String, Object> categoriaCreada = wooCommerce.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), categoriaData);
+        Map<String, Object> categoriaCreada = wooCommerce.createCategory(categoriaData, properties.getClient(), properties.getSecretClient());
 
         // Verificar si la API devolvió un ID correcto
         if (categoriaCreada != null && categoriaCreada.containsKey("id")) {
@@ -102,7 +86,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
             subcategoriaId = crearCategoria(request.subcategoria(), categoriaId);
         }
 
-        // Crear el producto con la subcategoría asignada
+        // Crear el producto con la subcategoría asignada y convertir a Map
         Map<String, Object> productData = convertObjectToMap(request);
 
         //  Asegurar que categories[] contenga un Integer
@@ -114,7 +98,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
         productData.put("categories", categorias);
 
-        return wooCommerce.create(EndpointBaseType.PRODUCTS.getValue(), productData);
+        return wooCommerce.createProduct(productData, properties.getClient(), properties.getSecretClient());
     }
 
 }

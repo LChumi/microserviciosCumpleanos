@@ -6,5 +6,6 @@ public record ProductRequest(
         String precio,
         String descripcion,
         String categoria,
-        String subcategoria
+        String subcategoria,
+        String stock
 ) {}

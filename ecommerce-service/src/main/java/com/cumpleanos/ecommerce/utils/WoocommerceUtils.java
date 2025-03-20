@@ -16,6 +16,7 @@ public class WoocommerceUtils {
         productData.put("type", "simple");
         productData.put("regular_price", request.precio());
         productData.put("description", encodedString(request.descripcion()));
+        productData.put("stock_quantity", request.stock());
         return productData;
     }
 
