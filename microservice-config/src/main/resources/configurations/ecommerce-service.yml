@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: ecommerce-service
+
+server:
+  port: 8085
+  forward-header-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health, info, logfile"
+        exclude: "beans, env, threaddump"
+      endpoint:
+        health:
+          show-details: never
+        info:
+          env:
+            enable:false
+
+info:
+  app:
+    name: ${spring.application.name}
