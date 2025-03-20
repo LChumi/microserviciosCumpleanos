@@ -19,8 +19,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health, info, logfile"
-        exclude: "beans, env, threaddump"
+        include: health, info, logfile
+        exclude: beans, env, threaddump
       endpoint:
         health:
           show-details: never

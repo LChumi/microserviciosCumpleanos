@@ -70,8 +70,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,info,metrics,gateway"
-      exclude: "beans,env,threaddump,logfile"
+        include: health,info,metrics,gateway
+      exclude: beans,env,threaddump,logfile
   endpoint:
     health:
       show-details: never
