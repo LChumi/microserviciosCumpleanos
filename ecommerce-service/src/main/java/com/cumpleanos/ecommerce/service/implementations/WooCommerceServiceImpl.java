@@ -52,7 +52,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         }
 
         Map<String, Object> categoriaData = new HashMap<>();
-        categoriaData.put("name", encodedString(nombreCategoria));
+        categoriaData.put("name", nombreCategoria);
 
         // Si la categoría tiene un padre, lo agregamos
         if (categoriaPadre != null) {
