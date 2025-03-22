@@ -9,7 +9,7 @@ import java.util.Map;
 @FeignClient(name = "wooCommerceClient", url = "${woocommerce.url}/wp-json/wc/v3")
 public interface WooCommerceClient {
 
-    // 📌 CATEGORÍAS
+    //CATEGORÍAS
 
     @GetMapping("/products/categories")
     List<Map<String, Object>> getAllCategories(@RequestParam("consumer_key") String consumerKey,
@@ -21,7 +21,7 @@ public interface WooCommerceClient {
                                        @RequestParam("consumer_key") String consumerKey,
                                        @RequestParam("consumer_secret") String consumerSecret);
 
-    // 📌 PRODUCTOS
+    //PRODUCTOS
 
     @GetMapping("/products")
     List<Map<String, Object>> getAllProducts(@RequestParam("consumer_key") String consumerKey,
