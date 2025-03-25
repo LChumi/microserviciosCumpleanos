@@ -101,4 +101,37 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         return wooCommerce.createProduct(productData, properties.getClient(), properties.getSecretClient());
     }
 
+    @Override
+    public Map<String, Object> actualizarProducto(Integer id, ProductRequest request) {
+        if (id == null) {
+            throw new IllegalArgumentException("El ID del producto no puede ser nulo");
+        }
+
+        // Convertimos el objeto de request a un Map
+        Map<String, Object> productData = convertObjectToMap(request);
+
+        // Validamos y actualizamos la categoría si es necesario
+        Integer categoriaId = obtenerCategoriaId(request.categoria().trim());
+        if (categoriaId == null) {
+            categoriaId = crearCategoria(request.categoria().trim(), null);
+        }
+
+        Integer subcategoriaId = obtenerCategoriaId(request.subcategoria().trim());
+        if (subcategoriaId == null) {
+            subcategoriaId = crearCategoria(request.subcategoria().trim(), categoriaId);
+        }
+
+        // Agregamos las categorías al producto
+        List<Map<String, Object>> categorias = new ArrayList<>();
+        Map<String, Object> cat1 = new HashMap<>();
+        cat1.put("id", subcategoriaId);
+        categorias.add(cat1);
+
+        productData.put("categories", categorias);
+
+        // Llamamos a la API de WooCommerce para actualizar el producto
+        return wooCommerce.updateProduct(id, productData, properties.getClient(), properties.getSecretClient());
+    }
+
+
 }

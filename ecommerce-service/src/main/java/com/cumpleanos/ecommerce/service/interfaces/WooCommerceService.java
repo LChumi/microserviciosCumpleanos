@@ -13,4 +13,6 @@ public interface WooCommerceService {
     Integer crearCategoria(String nombreCategoria, Integer idPadre);
 
     Map<String, Object> subirProducto(ProductRequest productRequest);
+
+    Map<String, Object> actualizarProducto(Integer id, ProductRequest request);
 }

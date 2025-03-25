@@ -21,4 +21,10 @@ public class WoocommerceController {
         Map<String, Object> result = service.subirProducto(producto);
         return ResponseEntity.ok(result);
     }
+
+    @PutMapping("/woocommerce/products/{id}")
+    public ResponseEntity<Map<String,Object>> updateProduct(@PathVariable Integer id, ProductRequest request){
+        Map<String, Object> result = service.actualizarProducto(id, request);
+        return ResponseEntity.ok(result);
+    }
 }

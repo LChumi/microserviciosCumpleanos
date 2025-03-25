@@ -32,4 +32,11 @@ public interface WooCommerceClient {
     Map<String, Object> createProduct(@RequestBody Map<String, Object> productData,
                                       @RequestParam("consumer_key") String consumerKey,
                                       @RequestParam("consumer_secret") String consumerSecret);
+
+    @PutMapping("/products/{id}")
+    Map<String, Object> updateProduct(@PathVariable("id") int id,
+                                      @RequestBody Map<String, Object> productData,
+                                      @RequestParam("consumer_key") String consumerKey,
+                                      @RequestParam("consumer_secret") String consumerSecret);
+
 }
