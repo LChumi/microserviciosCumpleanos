@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("producto-ecom")
+@RequestMapping("assist")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CargaProductoEcomVController {
 
     private final ICargaProductoEcomVService service;
 
-    @GetMapping("/producto/{id}")
+    @GetMapping("/producto-ecom/{id}")
     public ResponseEntity<CargaProductoEcomV> getProducto(@PathVariable Long id) {
         CargaProductoEcomV p = service.findByProducto(id);
         return ResponseEntity.ok(p);
