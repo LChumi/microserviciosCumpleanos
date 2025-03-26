@@ -2,7 +2,7 @@ package com.cumpleanos.assist.service.interfaces;
 
 import com.cumpleanos.assist.persistence.inmutables.ServiceResponse;
 
-public interface IProductosEcommerce {
+public interface IProductosEcommerceService {
 
     ServiceResponse uploadProductEcommerce(Long id, Long empresa);
 
