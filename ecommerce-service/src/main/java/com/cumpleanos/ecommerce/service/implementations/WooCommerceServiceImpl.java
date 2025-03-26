@@ -2,6 +2,7 @@ package com.cumpleanos.ecommerce.service.implementations;
 
 import com.cumpleanos.ecommerce.configuration.WooCommerceProperties;
 import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
+import com.cumpleanos.ecommerce.service.exceptions.WoocommerceDataNotFound;
 import com.cumpleanos.ecommerce.service.http.WooCommerceClient;
 import com.cumpleanos.ecommerce.service.interfaces.WooCommerceService;
 import lombok.RequiredArgsConstructor;
@@ -102,9 +103,14 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     }
 
     @Override
-    public Map<String, Object> actualizarProducto(Integer id, ProductRequest request) {
-        if (id == null) {
+    public Map<String, Object> actualizarProducto(String sku, ProductRequest request) {
+        if (sku == null) {
             throw new IllegalArgumentException("El ID del producto no puede ser nulo");
+        }
+
+        Integer productId= obtenerProductoId(sku);
+        if (productId == null) {
+            throw new WoocommerceDataNotFound("Producto no encontrado");
         }
 
         // Convertimos el objeto de request a un Map
@@ -130,7 +136,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         productData.put("categories", categorias);
 
         // Llamamos a la API de WooCommerce para actualizar el producto
-        return wooCommerce.updateProduct(id, productData, properties.getClient(), properties.getSecretClient());
+        return wooCommerce.updateProduct(productId, productData, properties.getClient(), properties.getSecretClient());
     }
 
 

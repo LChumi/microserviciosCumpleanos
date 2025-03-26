@@ -22,9 +22,9 @@ public class WoocommerceController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/woocommerce/products/{id}")
-    public ResponseEntity<Map<String,Object>> updateProduct(@PathVariable Integer id, ProductRequest request){
-        Map<String, Object> result = service.actualizarProducto(id, request);
+    @PutMapping("/woocommerce/products/{sku}")
+    public ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, ProductRequest request){
+        Map<String, Object> result = service.actualizarProducto(sku, request);
         return ResponseEntity.ok(result);
     }
 }
