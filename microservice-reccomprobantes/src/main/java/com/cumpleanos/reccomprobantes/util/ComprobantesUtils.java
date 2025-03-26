@@ -110,7 +110,7 @@ public class ComprobantesUtils {
 
         // Asegura de que el nombre no supere los 100 caracteres
         if (razonSocial.length() > 100) {
-            log.warn("Razon pasa de los 100 caracteres {}", razonSocial);
+            log.warn("Nombre pasa de los 100 caracteres {}", razonSocial);
             razonSocial = razonSocial.substring(0, 100); // Corta a los primeros 100 caracteres
         }
 
