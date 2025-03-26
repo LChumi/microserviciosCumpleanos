@@ -9,6 +9,7 @@ import com.cumpleanos.core.models.ids.ClienteId;
 import com.cumpleanos.core.models.ids.SriDocEleEmiId;
 import com.cumpleanos.reccomprobantes.persistence.models.csv.ComprobanteCsv;
 import com.cumpleanos.reccomprobantes.persistence.models.xml.InfoTributaria;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class ComprobantesUtils {
 
     public static ComprobanteCsv getComprobanteCsv(String[] values) {
@@ -104,11 +106,19 @@ public class ComprobantesUtils {
     }
 
     public static Cliente crearProveedor(InfoTributaria info, Long empresa, Long tipoJuridico) {
+        String razonSocial = info.getRazonSocial().trim().toUpperCase();
+
+        // Asegura de que el nombre no supere los 100 caracteres
+        if (razonSocial.length() > 100) {
+            log.warn("Razon pasa de los 100 caracteres {}", razonSocial);
+            razonSocial = razonSocial.substring(0, 100); // Corta a los primeros 100 caracteres
+        }
+
         Cliente proveedor = new Cliente();
         ClienteId id= new ClienteId();
         id.setEmpresa(empresa);
         proveedor.setId(id);
-        proveedor.setNombre(info.getRazonSocial().toUpperCase());
+        proveedor.setNombre(razonSocial);
         proveedor.setRucCedula(info.getRuc());
         proveedor.setTipoced(tipoCedula(info.getRuc()));
         proveedor.setTipo((short)2);

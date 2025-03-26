@@ -31,7 +31,9 @@ public class AccesoServiceImpl extends GenericServiceImpl<Acceso, AccesoId> impl
                 acceso.getId().getEmpresa(),
                 acceso.getId().getAlmacen(),
                 acceso.getEmpresaDef(),
-                acceso.getPuntoVenta().getId().getSecuencia()
+                acceso.getPuntoVenta() != null && acceso.getPuntoVenta().getId() != null
+                        ? acceso.getPuntoVenta().getId().getSecuencia()
+                        : null // Devuelve null si PuntoVenta o su ID son null
         );
     }
 }
