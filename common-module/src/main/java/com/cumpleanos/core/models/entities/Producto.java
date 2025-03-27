@@ -353,7 +353,7 @@ public class Producto {
     private String nombreAduana;
 
     @Column(name = "PRO_CARGA_WEB")
-    private Boolean cargaWeb;
+    private Short cargaWeb;
 
     @Column(name = "PRO_MINIMO_WEB", precision = 17, scale = 4)
     private BigDecimal minimoWeb;

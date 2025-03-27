@@ -13,9 +13,9 @@ import java.util.Map;
 @FeignClient(name = "ecommerce-service")
 public interface IEcommerceClient {
 
-    @PostMapping("/woocommerce/upload-product")
+    @PostMapping("/ecommerce/woocommerce/upload-product")
     ResponseEntity<Map<String, Object>> subirProducto(@RequestBody ProductRequest producto);
 
-    @PutMapping("/woocommerce/products/{sku}")
+    @PutMapping("/ecommerce/woocommerce/products/{sku}")
     ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, ProductRequest request);
 }

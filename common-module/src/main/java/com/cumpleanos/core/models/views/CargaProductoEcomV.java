@@ -59,4 +59,7 @@ public class CargaProductoEcomV {
 
     @Column(name = "PRE_GRUPO", nullable = false, length = 100)
     private String categoria;
+
+    @Column(name = "PRE_IMPUESTO")
+    private Long impuesto;
 }

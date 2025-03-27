@@ -22,7 +22,7 @@ public class CargaProductoEcomVServiceImpl extends GenericServiceImpl<CargaProdu
     }
 
     @Override
-    public CargaProductoEcomV findByProducto(Long producto) {
-        return repository.findByProducto(producto);
+    public CargaProductoEcomV findByProducto(Long producto, Long empresa) {
+        return repository.findByProductoAndEmpresa(producto, empresa);
     }
 }

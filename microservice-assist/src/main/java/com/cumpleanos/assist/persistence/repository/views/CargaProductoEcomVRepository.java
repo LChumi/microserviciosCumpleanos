@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CargaProductoEcomVRepository extends JpaRepository<CargaProductoEcomV, String> {
 
-    CargaProductoEcomV findByProducto(Long producto);
+    CargaProductoEcomV findByProductoAndEmpresa(Long producto, Long empresa);
 }

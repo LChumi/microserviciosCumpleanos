@@ -4,5 +4,5 @@ import com.cumpleanos.core.models.views.CargaProductoEcomV;
 
 public interface ICargaProductoEcomVService extends IGenericService<CargaProductoEcomV, String> {
 
-    CargaProductoEcomV findByProducto(Long producto);
+    CargaProductoEcomV findByProducto(Long producto, Long empresa);
 }
