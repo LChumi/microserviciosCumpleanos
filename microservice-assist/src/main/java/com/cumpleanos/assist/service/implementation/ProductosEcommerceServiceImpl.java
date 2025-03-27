@@ -12,6 +12,7 @@ import com.cumpleanos.core.models.ids.ProductoId;
 import com.cumpleanos.core.models.views.CargaProductoEcomV;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.Map;
 
 import static com.cumpleanos.assist.utils.StringUtils.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ProductosEcommerceServiceImpl implements IProductosEcommerceService {
@@ -34,6 +36,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
             throw new EntityNotFoundException("No se encontró el producto");
         }
 
+        validateStocks(pv);
         ProductRequest p = viewToProductRequest(pv);
 
         Map<String, Object> carga = ecomerceClient.uploadProduct(p);
@@ -89,5 +92,15 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
     private Boolean whitIva(Long value) {
         return value != null && value == 1;
     }
+
+    private void validateStocks(CargaProductoEcomV v) {
+        // Verificar si el stock es válido
+        if (v.getStock() < v.getCantMin()) {
+            // Si el stock es menor que la cantidad mínima, ajustar el stock a 0
+            v.setStock(0L);
+        }
+        // Si el stock es mayor o igual a la cantidad mínima, no se hace nada
+    }
+
 
 }
