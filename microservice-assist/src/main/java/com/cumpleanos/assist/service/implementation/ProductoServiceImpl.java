@@ -2,7 +2,6 @@ package com.cumpleanos.assist.service.implementation;
 
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.repository.ProductoRepository;
-import com.cumpleanos.assist.persistence.repository.ProductoTempRepository;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.ProductoId;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId> implements IProductoService {
 
     private final ProductoRepository repository;
-    private final ProductoTempRepository productoTempRepository;
 
     @Override
     public CrudRepository<Producto, ProductoId> getRepository() {

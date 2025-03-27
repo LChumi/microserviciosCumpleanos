@@ -121,7 +121,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                     if (proveedor != null) {
                         saveAndVerifyAutClient(docSri,proveedor.codigo(), empresa, info);
                     }else {
-                        log.info("Proveedor no existe agregando.....");
+                        log.info("Proveedor no existe agregando {}.....", info.getRuc());
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = generarProveedorNuevo(info, empresa.getId(), tipClient);
 
