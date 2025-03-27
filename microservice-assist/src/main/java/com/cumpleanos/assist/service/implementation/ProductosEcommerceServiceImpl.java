@@ -42,6 +42,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         Map<String, Object> carga = ecomerceClient.uploadProduct(p);
         if (carga != null && carga.containsKey("id")) {
             Integer prodEcomId=(Integer) carga.get("id");
+            log.info("Producto Creado con id: {} " , prodEcomId);
         }else {
             throw new ProductNotCreatedException("Error al crear el producto en el Ecommerce: " + pv.getProducto());
         }
@@ -56,7 +57,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         }
         prod.setCargaWeb((short) 2);
         productoService.save(prod);
-        return new ServiceResponse("Producto creado "+ p.nombre() + "En Ecommerce y actualizado en BD", Boolean.TRUE );
+        return new ServiceResponse("Producto creado "+ p.sku() + "En Ecommerce y actualizado en BD", Boolean.TRUE );
     }
 
     @Override
