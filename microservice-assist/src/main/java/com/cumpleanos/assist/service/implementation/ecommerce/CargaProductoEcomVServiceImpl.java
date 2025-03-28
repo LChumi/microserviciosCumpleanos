@@ -1,7 +1,8 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.assist.service.implementation.ecommerce;
 
 import com.cumpleanos.assist.persistence.repository.views.CargaProductoEcomVRepository;
-import com.cumpleanos.assist.service.interfaces.ICargaProductoEcomVService;
+import com.cumpleanos.assist.service.implementation.GenericServiceImpl;
+import com.cumpleanos.assist.service.interfaces.ecommerce.ICargaProductoEcomVService;
 import com.cumpleanos.core.models.views.CargaProductoEcomV;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

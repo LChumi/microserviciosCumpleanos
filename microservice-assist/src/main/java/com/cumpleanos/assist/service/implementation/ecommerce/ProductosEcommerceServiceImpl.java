@@ -1,12 +1,10 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.assist.service.implementation.ecommerce;
 
 import com.cumpleanos.assist.persistence.inmutables.ProductRequest;
 import com.cumpleanos.assist.persistence.inmutables.ServiceResponse;
-import com.cumpleanos.assist.persistence.repository.ProductoRepository;
 import com.cumpleanos.assist.service.exception.ProductNotCreatedException;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
-import com.cumpleanos.assist.service.interfaces.IProductosEcommerceService;
-import com.cumpleanos.assist.utils.StringUtils;
+import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;
 import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.ProductoId;
 import com.cumpleanos.core.models.views.CargaProductoEcomV;

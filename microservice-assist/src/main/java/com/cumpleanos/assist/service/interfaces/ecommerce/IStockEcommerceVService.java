@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.service.interfaces;
+package com.cumpleanos.assist.service.interfaces.ecommerce;
 
 import com.cumpleanos.core.models.views.StockEcommerceV;
 

@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.assist.service.implementation.ecommerce;
 
 import com.cumpleanos.assist.persistence.inmutables.ProductRequest;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
