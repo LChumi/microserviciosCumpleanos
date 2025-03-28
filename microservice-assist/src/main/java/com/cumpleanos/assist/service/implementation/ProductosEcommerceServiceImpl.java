@@ -79,12 +79,12 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
 
     private ProductRequest viewToProductRequest(CargaProductoEcomV pv) {
         return new ProductRequest(
-                pv.getPro_nombre(),
+                stringCleaner(pv.getPro_nombre()),
                 pv.getPro_id(),
                 bigDecimalToString(pv.getPrecio1()),
                 "",
-                pv.getCategoria(),
-                pv.getSubcategoria(),
+                stringCleaner(pv.getCategoria()),
+                stringCleaner(pv.getSubcategoria()),
                 longToInteger(pv.getStock()),
                 whitIva(pv.getImpuesto())
         );
