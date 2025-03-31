@@ -21,8 +21,8 @@ spring:
         cors-configurations:
           '[/**]':
             allowed-origins:
-              - "http://assist.cumpleanos.com.ec"
-              - "http://apis.cumpleanos.com.ec"
+              - "https://assist.cumpleanos.com.ec"
+              - "https://apis.cumpleanos.com.ec"
               - "http://localhost:4200"
             allowed-methods:
               - GET
