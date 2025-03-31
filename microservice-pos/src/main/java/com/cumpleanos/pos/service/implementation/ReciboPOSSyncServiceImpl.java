@@ -117,7 +117,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     }
 
     private void actualizarReciboPOS(ReciboPOS reciboPOS, DatosRecepcionResponse response) {
-        reciboPOS.setTarjetaHabiente(response.getTarjetaHabiente());
+        String tarjetaCliente = response.getTarjetaHabiente().trim().toUpperCase();
+        reciboPOS.setTarjetaHabiente(tarjetaCliente);
         reciboPOS.setNumAprob(response.getNumeroAprobacion());
         reciboPOS.setNomEmisor(response.getNombreEmisor());
         reciboPOS.setReferencia(response.getReferencia());

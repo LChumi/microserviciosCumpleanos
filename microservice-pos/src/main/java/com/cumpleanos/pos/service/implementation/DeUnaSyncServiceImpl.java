@@ -112,7 +112,8 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
     }
 
     private void grabarPOSFinalizado(ReciboPOS pos, InfoResponse resp) {
-        pos.setTarjetaHabiente(resp.ordererName());
+        String tarjetaCliente = resp.ordererName().trim().toUpperCase();
+        pos.setTarjetaHabiente(tarjetaCliente);
         pos.setNumAprob(resp.transferNumber());
         pos.setResultado(resp.status());
         pos.setIdentificacionCli(resp.ordererIdentification());
