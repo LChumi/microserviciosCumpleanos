@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,5 +27,11 @@ public class WoocommerceController {
     public ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, ProductRequest request){
         Map<String, Object> result = service.actualizarProducto(sku, request);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/woocommerce/orders")
+    public ResponseEntity<List<Map<String, Object>>> getOrders() {
+        List<Map<String, Object>> listOrders = service.getOrders();
+        return ResponseEntity.ok(listOrders);
     }
 }

@@ -39,4 +39,10 @@ public interface WooCommerceClient {
                                       @RequestParam("consumer_key") String consumerKey,
                                       @RequestParam("consumer_secret") String consumerSecret);
 
+
+    //ORDERS
+    @GetMapping("/orders")
+    List<Map<String,Object>> getOrders(@RequestParam("consumer_key") String consumerKey,
+                                 @RequestParam("consumer_secret") String consumerSecret);
+
 }

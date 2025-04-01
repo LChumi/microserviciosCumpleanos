@@ -139,5 +139,10 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         return wooCommerce.updateProduct(productId, productData, properties.getClient(), properties.getSecretClient());
     }
 
+    @Override
+    public List<Map<String, Object>> getOrders() {
+        return wooCommerce.getOrders(properties.getClient(), properties.getSecretClient());
+    }
+
 
 }
