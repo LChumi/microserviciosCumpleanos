@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -142,6 +144,11 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     @Override
     public List<Map<String, Object>> getOrders() {
         return wooCommerce.getOrders(properties.getClient(), properties.getSecretClient());
+    }
+
+    @Override
+    public List<Map<String, Object>> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin) {
+        return wooCommerce.getOrdersByDate(properties.getClient(), properties.getSecretClient(), startOfDay(fecha) , endOfDay(fechaFin));
     }
 
 

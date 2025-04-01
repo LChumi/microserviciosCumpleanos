@@ -2,6 +2,8 @@ package com.cumpleanos.ecommerce.utils;
 
 import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,5 +22,13 @@ public class WoocommerceUtils {
             productData.put("shipping_taxable", "false");
         }
         return productData;
+    }
+
+    public static String startOfDay(LocalDate date){
+        return date.atStartOfDay().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+    }
+
+    public static String endOfDay(LocalDate date){
+        return date.atTime(23, 59, 59).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
     }
 }

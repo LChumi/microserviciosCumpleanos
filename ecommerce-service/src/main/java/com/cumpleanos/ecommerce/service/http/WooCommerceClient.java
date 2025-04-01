@@ -45,4 +45,11 @@ public interface WooCommerceClient {
     List<Map<String,Object>> getOrders(@RequestParam("consumer_key") String consumerKey,
                                  @RequestParam("consumer_secret") String consumerSecret);
 
+    @GetMapping("/orders")
+    List<Map<String, Object>> getOrdersByDate(
+            @RequestParam("consumer_key") String consumerKey,
+            @RequestParam("consumer_secret") String consumerSecret,
+            @RequestParam("after") String after,  // Fecha inicio (ej. "2024-03-30T00:00:00")
+            @RequestParam("before") String before // Fecha fin (ej. "2024-03-30T23:59:59")
+    );
 }

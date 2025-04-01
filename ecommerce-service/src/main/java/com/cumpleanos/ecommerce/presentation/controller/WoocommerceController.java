@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +30,10 @@ public class WoocommerceController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/woocommerce/orders")
-    public ResponseEntity<List<Map<String, Object>>> getOrders() {
-        List<Map<String, Object>> listOrders = service.getOrders();
+    @GetMapping("/woocommerce/orders-date/{d1}/{d2}")
+    public ResponseEntity<List<Map<String, Object>>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2) {
+        List<Map<String,Object>> listOrders = service.getOrdesrByDate(d1, d2);
         return ResponseEntity.ok(listOrders);
     }
+
 }
