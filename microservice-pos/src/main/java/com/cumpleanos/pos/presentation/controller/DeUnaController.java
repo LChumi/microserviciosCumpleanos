@@ -3,6 +3,7 @@ package com.cumpleanos.pos.presentation.controller;
 import com.cumpleanos.core.models.exception.ApiResponse;
 import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoResponse;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentResponse;
+import com.cumpleanos.pos.persistence.dto.ResponseRecord;
 import com.cumpleanos.pos.service.interfaces.IDeUnaSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,12 @@ public class DeUnaController {
     @GetMapping("/validar-pago/{usrlLiq}/{empresa}")
     public ResponseEntity<InfoResponse> validarPago(@PathVariable Long usrlLiq, @PathVariable Long empresa) {
         InfoResponse response = deunaSyncService.procesarInfoPayment(usrlLiq,empresa);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/verificar-pago-existente/{usrLiq}/{empresa}")
+    public ResponseEntity<ResponseRecord> verificarPagoExistente(@PathVariable Long usrLiq, @PathVariable Long empresa) {
+        ResponseRecord response = deunaSyncService.procesarInfoRecibo(usrLiq,empresa);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
