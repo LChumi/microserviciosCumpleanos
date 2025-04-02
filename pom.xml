@@ -44,6 +44,7 @@
 		<module>meta-service</module>
 		<module>mongo-service</module>
 		<module>ecommerce-service</module>
+		<module>scheduler-service</module>
 	</modules>
 
 	<properties>
