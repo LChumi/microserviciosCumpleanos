@@ -3,11 +3,10 @@ package com.cumpleanos.assist.service.http;
 import com.cumpleanos.assist.persistence.inmutables.ProductRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "ecommerce-service")
@@ -18,4 +17,7 @@ public interface IEcommerceClient {
 
     @PutMapping("/ecommerce/woocommerce/products/{sku}")
     ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, ProductRequest request);
+
+    @GetMapping("/ecommerce/woocommerce/orders-date/{d1}/{d2}")
+    ResponseEntity<List<Map<String, Object>>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2);
 }

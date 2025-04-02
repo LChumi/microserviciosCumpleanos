@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -23,7 +25,12 @@ public class EcommerceClientServiceImpl {
     }
 
     public Map<String, Object> updateProduct(String sku, ProductRequest product) {
-        return HttpResponseHandler.handle(() -> ecommerce.updateProduct(sku, product)
-        , "Error al actualizar producto: " + product.sku());
+        return HttpResponseHandler.handle(() -> ecommerce.updateProduct(sku, product),
+                "Error al actualizar producto: " + product.sku());
+    }
+
+    public List<Map<String, Object>> getOrdesrByDate(LocalDate d1, LocalDate d2) {
+        return HttpResponseHandler.handle(() -> ecommerce.getOrdersDate(d1, d2),
+                "Error al obtener los pedidos");
     }
 }
