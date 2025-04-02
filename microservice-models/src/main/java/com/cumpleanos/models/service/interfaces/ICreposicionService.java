@@ -1,0 +1,9 @@
+package com.cumpleanos.models.service.interfaces;
+
+import com.cumpleanos.core.models.entities.Creposicion;
+import com.cumpleanos.core.models.ids.CreposicionId;
+
+public interface ICreposicionService extends GenericService<Creposicion, CreposicionId> {
+
+    Boolean existCreposicion(Long empresa, Long codigo);
+}

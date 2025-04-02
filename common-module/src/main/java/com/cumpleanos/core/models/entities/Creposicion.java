@@ -173,7 +173,7 @@ public class Creposicion {
     @Column(name = "CRP_GONDOLA")
     private Long gondolaId;
 
-    @Column(name = "CRP_BODEGA")
+    @Column(name = "CRP_BODEGA_FIN")
     private Long bodegaFinId;
 
     @ManyToOne(fetch = FetchType.LAZY)
