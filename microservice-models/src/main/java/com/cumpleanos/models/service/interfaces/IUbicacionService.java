@@ -1,6 +1,5 @@
 package com.cumpleanos.models.service.interfaces;
 
-
 import com.cumpleanos.core.models.entities.Ubicacion;
 import com.cumpleanos.core.models.ids.UbicacionId;
 

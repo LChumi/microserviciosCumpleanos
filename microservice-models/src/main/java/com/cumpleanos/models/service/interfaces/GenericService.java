@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface GenericService <T, ID extends Serializable> {
 
-    public T save(T entity);
-    public T findById(ID id);
-    public List<T> findAll();
-    public void delete(ID id);
+    T save(T entity);
+    T findById(ID id);
+    List<T> findAll();
+    void delete(ID id);
 }
