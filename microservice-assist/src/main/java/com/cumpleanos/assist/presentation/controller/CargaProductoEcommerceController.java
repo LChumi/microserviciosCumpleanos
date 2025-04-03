@@ -1,7 +1,7 @@
 package com.cumpleanos.assist.presentation.controller;
 
-import com.cumpleanos.assist.persistence.inmutables.ServiceResponse;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;
+import com.cumpleanos.core.models.dto.ServiceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

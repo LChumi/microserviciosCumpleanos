@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.service.interfaces.ecommerce;
 
-import com.cumpleanos.assist.persistence.inmutables.ServiceResponse;
+import com.cumpleanos.core.models.dto.ServiceResponse;
 
 public interface IProductosEcommerceService {
 
