@@ -1,9 +1,9 @@
 package com.cumpleanos.assist.service.implementation.ecommerce;
 
-import com.cumpleanos.assist.persistence.inmutables.ProductRequest;
 import com.cumpleanos.assist.service.exception.ProductNotCreatedException;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;
+import com.cumpleanos.core.models.dto.ProductEcomRequest;
 import com.cumpleanos.core.models.dto.ServiceResponse;
 import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.ProductoId;
@@ -35,7 +35,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         }
 
         validateStocks(pv);
-        ProductRequest p = viewToProductRequest(pv);
+        ProductEcomRequest p = viewToProductRequest(pv);
 
         Map<String, Object> carga = ecomerceClient.uploadProduct(p);
         if (carga != null && carga.containsKey("id")) {
@@ -64,7 +64,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         if (pv == null) {
             throw new EntityNotFoundException("No se encontró el producto");
         }
-        ProductRequest p = viewToProductRequest(pv);
+        ProductEcomRequest p = viewToProductRequest(pv);
 
         Map<String,Object> update = ecomerceClient.updateProduct(barraAnt, p);
         Integer prodEcomId=(Integer) update.get("id");
@@ -75,8 +75,8 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         return new ServiceResponse("Producto actualizado en Ecommerce", Boolean.TRUE );
     }
 
-    private ProductRequest viewToProductRequest(CargaProductoEcomV pv) {
-        return new ProductRequest(
+    private ProductEcomRequest viewToProductRequest(CargaProductoEcomV pv) {
+        return new ProductEcomRequest(
                 stringCleaner(pv.getPro_nombre()),
                 pv.getPro_id(),
                 bigDecimalToString(pv.getPrecio1()),
@@ -84,6 +84,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
                 stringCleaner(pv.getCategoria()),
                 stringCleaner(pv.getSubcategoria()),
                 longToInteger(pv.getStock()),
+                Math.toIntExact(pv.getEmpresa()),
                 whitIva(pv.getImpuesto())
         );
     }

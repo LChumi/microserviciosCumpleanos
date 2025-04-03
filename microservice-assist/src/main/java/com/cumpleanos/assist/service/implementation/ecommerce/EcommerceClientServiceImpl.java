@@ -1,8 +1,8 @@
 package com.cumpleanos.assist.service.implementation.ecommerce;
 
-import com.cumpleanos.assist.persistence.inmutables.ProductRequest;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEcommerceClient;
+import com.cumpleanos.core.models.dto.ProductEcomRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ public class EcommerceClientServiceImpl {
 
     private final IEcommerceClient ecommerce;
 
-    public Map<String, Object> uploadProduct(ProductRequest product) {
+    public Map<String, Object> uploadProduct(ProductEcomRequest product) {
         return HttpResponseHandler.handle(() -> ecommerce.subirProducto(product),
                 "Error al subir producto: " + product.sku());
     }
 
-    public Map<String, Object> updateProduct(String sku, ProductRequest product) {
+    public Map<String, Object> updateProduct(String sku, ProductEcomRequest product) {
         return HttpResponseHandler.handle(() -> ecommerce.updateProduct(sku, product),
                 "Error al actualizar producto: " + product.sku());
     }

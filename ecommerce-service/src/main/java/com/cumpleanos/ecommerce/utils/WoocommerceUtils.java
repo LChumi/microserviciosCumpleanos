@@ -4,7 +4,9 @@ import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WoocommerceUtils {
@@ -21,6 +23,17 @@ public class WoocommerceUtils {
         if (Boolean.FALSE.equals(request.withIva())) {
             productData.put("shipping_taxable", "false");
         }
+
+        //Agregar referencia
+        if (request.empresa() != null) {
+            List<Map<String, Object>> metaData = new ArrayList<>();
+            Map<String,Object> referencia = new HashMap<>();
+            referencia.put("key", "empresa");
+            referencia.put("value", request.empresa());
+            metaData.add(referencia);
+            productData.put("meta_data", metaData);
+        }
+        
         return productData;
     }
 

@@ -1,6 +1,6 @@
-package com.cumpleanos.assist.persistence.inmutables;
+package com.cumpleanos.core.models.dto;
 
-public record ProductRequest(
+public record ProductEcomRequest(
         String nombre,
         String sku,
         String precio,
@@ -8,5 +8,6 @@ public record ProductRequest(
         String categoria,
         String subcategoria,
         Integer stock,
+        Integer empresa,
         Boolean withIva
 ) {}

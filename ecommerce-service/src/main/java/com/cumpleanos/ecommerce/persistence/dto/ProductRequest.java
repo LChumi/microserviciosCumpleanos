@@ -8,5 +8,6 @@ public record ProductRequest(
         String categoria,
         String subcategoria,
         Integer stock,
+        Integer empresa,
         Boolean withIva
 ) {}
