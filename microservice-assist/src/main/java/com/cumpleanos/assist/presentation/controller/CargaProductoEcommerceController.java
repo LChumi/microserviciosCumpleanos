@@ -23,7 +23,7 @@ public class CargaProductoEcommerceController {
         return ResponseEntity.ok(p);
     }
 
-    @GetMapping("/eccomerce/product-update/{id}/{empresa}/{sku}")
+    @GetMapping("/ecommerce/product-update/{id}/{empresa}/{sku}")
     public ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku) {
         ServiceResponse response = service.updateProductEcommerce(id,sku,empresa);
         return ResponseEntity.ok(response);

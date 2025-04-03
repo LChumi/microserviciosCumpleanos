@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "assist-service")
 public interface IAssistClient {
 
-    @GetMapping("/ecommerce/producto-save/{id}/{empresa}")
+    @GetMapping("/assist/ecommerce/producto-save/{id}/{empresa}")
     ResponseEntity<ServiceResponse> getProducto(@PathVariable Long id, @PathVariable Long empresa);
 }
