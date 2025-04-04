@@ -1,12 +1,15 @@
 package com.cumpleanos.ecommerce.presentation.controller;
 
 import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
+import com.cumpleanos.ecommerce.service.implementations.WooCommerceMediaServiceImpl;
 import com.cumpleanos.ecommerce.service.interfaces.WooCommerceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import java.util.Map;
 public class WoocommerceController {
 
     private final WooCommerceService service;
+    private final WooCommerceMediaServiceImpl mediaService;
 
     @PostMapping("/woocommerce/upload-product")
     public ResponseEntity<Map<String, Object>> subirProducto(@RequestBody ProductRequest producto) {
@@ -36,4 +40,9 @@ public class WoocommerceController {
         return ResponseEntity.ok(listOrders);
     }
 
+    @GetMapping("/woocomerce/images/{sku}")
+    public ResponseEntity<Integer> uploadImage(@PathVariable String sku) throws IOException {
+        Integer response = mediaService.uploadImage(sku);
+        return ResponseEntity.ok(response);
+    }
 }

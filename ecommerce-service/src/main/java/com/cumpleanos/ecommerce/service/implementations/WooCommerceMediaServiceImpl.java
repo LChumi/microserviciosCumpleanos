@@ -7,6 +7,7 @@ import com.cumpleanos.ecommerce.service.http.ImagesClient;
 import com.cumpleanos.ecommerce.service.http.WooCommerceMediaClient;
 import com.cumpleanos.ecommerce.utils.CustomMultipartFile;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class WooCommerceMediaServiceImpl {
@@ -37,10 +39,10 @@ public class WooCommerceMediaServiceImpl {
 
         if (response.getStatusCode().is2xxSuccessful() && imageResource.exists()) {
             MultipartFile imageFile = convertResourceToMultipartFile(imageResource, id);
+            String token = "Bearer "+properties.getToken();
             Map<String, Object> responseWoocommerce = wooCommerceMediaClient.uploadImage(
-                    imageFile,
-                    properties.getClient(),
-                    properties.getSecretClient()
+                    token,
+                    imageFile
             );
             if (responseWoocommerce.isEmpty()) {
                 throw new WoocommerceDataNotFound("No se puedo subir la imagen en el servicio");
@@ -56,8 +58,9 @@ public class WooCommerceMediaServiceImpl {
         String fileName = id + ".jpg";
         return new CustomMultipartFile(
                 imageBytes,
-                id,
+                fileName,
                 "image/jpeg"
         );
     }
+
 }
