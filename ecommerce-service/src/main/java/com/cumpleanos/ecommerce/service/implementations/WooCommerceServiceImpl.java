@@ -6,10 +6,12 @@ import com.cumpleanos.ecommerce.service.exceptions.WoocommerceDataNotFound;
 import com.cumpleanos.ecommerce.service.http.WooCommerceClient;
 import com.cumpleanos.ecommerce.service.interfaces.WooCommerceService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 import static com.cumpleanos.ecommerce.utils.WoocommerceUtils.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @PropertySource("classpath:ecommerce.properties")
@@ -25,6 +28,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     private final WooCommerceClient wooCommerce;
     private final WooCommerceProperties properties;
+    private final WooCommerceMediaServiceImpl mediaService;
 
     // Obtener una categoría por nombre
     @Override
@@ -68,7 +72,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         if (categoriaCreada != null && categoriaCreada.containsKey("id")) {
             return (Integer) categoriaCreada.get("id");
         } else {
-            System.err.println("Error al crear la categoría: " + categoriaCreada);
+            log.error("Error al crear la categoría: {} ", categoriaCreada);
             return null; // Manejo de error
         }
     }
@@ -79,17 +83,24 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         // Verificar si la categoría existe, si no, crearla
         Integer categoriaId = obtenerCategoriaId(request.categoria().trim());
         if (categoriaId == null) {
+            log.info("Saving the category {}", request.categoria().trim());
             categoriaId = crearCategoria(request.categoria().trim(), null);
         }
 
         // Verificar si la subcategoría existe, si no, crearla bajo la categoría padre
         Integer subcategoriaId = obtenerCategoriaId(request.subcategoria().trim());
         if (subcategoriaId == null) {
+            log.info("Saving the subcategory {}", request.subcategoria().trim());
             subcategoriaId = crearCategoria(request.subcategoria(), categoriaId);
         }
-
+        Integer imageId=null;
+        try {
+            imageId = mediaService.uploadImage(request.sku());
+        }catch (IOException e){
+            log.error("Advertencia error en el servicio la imagen no existe o no se pudo subir", e);
+        }
         // Crear el producto con la subcategoría asignada y convertir a Map
-        Map<String, Object> productData = convertObjectToMap(request);
+        Map<String, Object> productData = convertObjectToMap(request, imageId);
 
         //  Asegurar que categories[] contenga un Integer
         List<Map<String, Object>> categorias = new ArrayList<>();
@@ -115,7 +126,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         }
 
         // Convertimos el objeto de request a un Map
-        Map<String, Object> productData = convertObjectToMap(request);
+        Map<String, Object> productData = convertObjectToMap(request, null);
 
         // Validamos y actualizamos la categoría si es necesario
         Integer categoriaId = obtenerCategoriaId(request.categoria().trim());

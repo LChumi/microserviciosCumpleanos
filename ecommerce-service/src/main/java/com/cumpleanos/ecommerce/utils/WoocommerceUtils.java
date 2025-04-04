@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class WoocommerceUtils {
 
-    public static Map<String, Object> convertObjectToMap(ProductRequest request) {
+    public static Map<String, Object> convertObjectToMap(ProductRequest request, Integer imageId) {
         Map<String, Object> productData = new HashMap<>();
         productData.put("name", request.nombre());
         productData.put("sku", request.sku());
@@ -32,6 +32,11 @@ public class WoocommerceUtils {
             referencia.put("value", request.empresa());
             metaData.add(referencia);
             productData.put("meta_data", metaData);
+        }
+
+        //Agregar Imagen
+        if (imageId != null) {
+            productData.put("images", List.of(Map.of("id", imageId)));
         }
         
         return productData;
