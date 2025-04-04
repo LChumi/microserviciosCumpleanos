@@ -52,7 +52,6 @@ public class WooCommerceMediaServiceImpl {
         return null;
     }
 
-
     private MultipartFile convertResourceToMultipartFile(Resource resource, String id) throws IOException {
         byte[] imageBytes = StreamUtils.copyToByteArray(resource.getInputStream());
         String fileName = id + ".jpg";
