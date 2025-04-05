@@ -36,7 +36,7 @@ public class EcommerceController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/stock-ecommerce/view")
+    @GetMapping("/ecommerce/stock/view")
     public ResponseEntity<List<StockEcommerceV>> findAll() {
         List<StockEcommerceV> lista = serviceStockEcommerce.findAll();
         log.info(lista.toString());
