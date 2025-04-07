@@ -1,7 +1,7 @@
 package com.cumpleanos.scheduler.service.http;
 
-import com.cumpleanos.core.models.dto.ServiceResponse;
-import com.cumpleanos.core.models.views.StockEcommerceV;
+import com.cumpleanos.scheduler.models.ServiceResponse;
+import com.cumpleanos.scheduler.models.StockEcommerceVDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface AssistClient {
 
     @GetMapping("/assist/ecommerce/stock/view")
-    ResponseEntity<List<StockEcommerceV>> findAll();
+    ResponseEntity<List<StockEcommerceVDTO>> findAll();
 
     @GetMapping("/assist/ecommerce/product-update/{id}/{empresa}/{sku}")
     ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku);
