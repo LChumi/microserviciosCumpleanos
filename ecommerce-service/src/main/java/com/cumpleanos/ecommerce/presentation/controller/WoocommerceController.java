@@ -27,9 +27,9 @@ public class WoocommerceController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/woocommerce/products/{sku}")
-    public ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, ProductRequest request){
-        Map<String, Object> result = service.actualizarProducto(sku, request);
+    @PutMapping("/woocommerce/products/{sku}/{process}")
+    public ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductRequest request) {
+        Map<String, Object> result = service.actualizarProducto(sku,process, request);
         return ResponseEntity.ok(result);
     }
 
@@ -39,7 +39,7 @@ public class WoocommerceController {
         return ResponseEntity.ok(listOrders);
     }
 
-    @GetMapping("/woocomerce/images/{sku}")
+    @GetMapping("/wordpress/images/{sku}")
     public ResponseEntity<Integer> uploadImage(@PathVariable String sku) throws IOException {
         Integer response = mediaService.uploadImage(sku);
         return ResponseEntity.ok(response);

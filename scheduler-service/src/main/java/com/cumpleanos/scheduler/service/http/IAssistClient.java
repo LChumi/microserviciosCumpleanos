@@ -12,9 +12,9 @@ import java.util.List;
 @FeignClient(name = "assist-service")
 public interface IAssistClient {
 
-    @GetMapping("/assist/ecommerce/producto-save/{id}/{empresa}")
-    ResponseEntity<ServiceResponse> getProducto(@PathVariable Long id, @PathVariable Long empresa);
-
     @GetMapping("/assist/ecommerce/stock/view")
     ResponseEntity<List<StockEcommerceV>> findAll();
+
+    @GetMapping("/ecommerce/product-update/{id}/{empresa}/{sku}")
+    ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku);
 }

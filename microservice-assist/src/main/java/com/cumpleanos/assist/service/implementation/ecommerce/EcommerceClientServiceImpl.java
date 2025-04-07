@@ -24,8 +24,8 @@ public class EcommerceClientServiceImpl {
                 "Error al subir producto: " + product.sku());
     }
 
-    public Map<String, Object> updateProduct(String sku, ProductEcomRequest product) {
-        return HttpResponseHandler.handle(() -> ecommerce.updateProduct(sku, product),
+    public Map<String, Object> updateProduct(String sku,Integer process, ProductEcomRequest product) {
+        return HttpResponseHandler.handle(() -> ecommerce.updateProduct(sku,process, product),
                 "Error al actualizar producto: " + product.sku());
     }
 

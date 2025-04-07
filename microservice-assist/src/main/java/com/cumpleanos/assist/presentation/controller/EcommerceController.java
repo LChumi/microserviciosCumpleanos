@@ -30,9 +30,9 @@ public class EcommerceController {
         return ResponseEntity.ok(p);
     }
 
-    @GetMapping("/ecommerce/product-update/{id}/{empresa}/{sku}")
-    public ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku) {
-        ServiceResponse response = serviceProductsEcommerce.updateProductEcommerce(id,sku,empresa);
+    @GetMapping("/ecommerce/product-update/{id}/{empresa}/{sku}/{process}")
+    public ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku, @PathVariable Integer process) {
+        ServiceResponse response = serviceProductsEcommerce.updateProductEcommerce(id,sku,empresa, process);
         return ResponseEntity.ok(response);
     }
 

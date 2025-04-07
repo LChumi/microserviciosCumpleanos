@@ -59,14 +59,14 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
     }
 
     @Override
-    public ServiceResponse updateProductEcommerce(Long id, String barraAnt, Long empresa) {
+    public ServiceResponse updateProductEcommerce(Long id, String barraAnt, Long empresa, Integer process) {
         CargaProductoEcomV pv = cargaProductoEcomV.findByProducto(id, empresa);
         if (pv == null) {
             throw new EntityNotFoundException("No se encontró el producto");
         }
-        ProductEcomRequest p = viewToProductRequest(pv);
+        ProductEcomRequest request = viewToProductRequest(pv);
 
-        Map<String,Object> update = ecomerceClient.updateProduct(barraAnt, p);
+        Map<String,Object> update = ecomerceClient.updateProduct(barraAnt, process, request);
         Integer prodEcomId=(Integer) update.get("id");
         if (prodEcomId == null) {
             throw new ProductNotCreatedException("Error al actualizar el producto en el Ecommerce: " + pv.getProducto());
