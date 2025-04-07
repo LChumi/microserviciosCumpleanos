@@ -125,8 +125,15 @@ public class WooCommerceServiceImpl implements WooCommerceService {
             throw new WoocommerceDataNotFound("Producto no encontrado");
         }
 
+        Integer imageId=null;
+        try {
+            imageId = mediaService.uploadImage(request.sku());
+        }catch (IOException e){
+            log.error("Advertencia error en el servicio la imagen no existe o no se pudo subir", e);
+        }
+
         // Convertimos el objeto de request a un Map
-        Map<String, Object> productData = convertObjectToMap(request, null);
+        Map<String, Object> productData = convertObjectToMap(request, imageId);
 
         // Validamos y actualizamos la categoría si es necesario
         Integer categoriaId = obtenerCategoriaId(request.categoria().trim());
@@ -160,6 +167,5 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     public List<Map<String, Object>> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin) {
         return wooCommerce.getOrdersByDate(properties.getClient(), properties.getSecretClient(), startOfDay(fecha) , endOfDay(fechaFin));
     }
-
 
 }
