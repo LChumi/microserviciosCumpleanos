@@ -15,7 +15,7 @@ public interface IEcommerceClient {
     @PostMapping("/ecommerce/woocommerce/upload-product")
     ResponseEntity<Map<String, Object>> subirProducto(@RequestBody ProductEcomRequest producto);
 
-    @PutMapping("/woocommerce/products/{sku}/{process}")
+    @PutMapping("/ecommerce/woocommerce/products/{sku}/{process}")
     ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductEcomRequest request);
 
     @GetMapping("/ecommerce/woocommerce/orders-date/{d1}/{d2}")
