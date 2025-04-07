@@ -15,6 +15,6 @@ public interface IAssistClient {
     @GetMapping("/assist/ecommerce/stock/view")
     ResponseEntity<List<StockEcommerceV>> findAll();
 
-    @GetMapping("/ecommerce/product-update/{id}/{empresa}/{sku}")
+    @GetMapping("/assist/ecommerce/product-update/{id}/{empresa}/{sku}")
     ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku);
 }
