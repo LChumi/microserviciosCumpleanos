@@ -36,7 +36,7 @@ public class ProductUpdateService {
                 log.error("Error desconocido en SKU: {}", product.proId());
             }
         } catch (Exception e) {
-            log.error("Escepcion al actualizar producto SKU: {} ERROR: {}", product.proId(), e.getMessage(), e);
+            log.error("Excepcion al actualizar producto SKU: {} ERROR: {}", product.proId(), e.getMessage(), e);
         }
         return CompletableFuture.completedFuture(null);
     }
