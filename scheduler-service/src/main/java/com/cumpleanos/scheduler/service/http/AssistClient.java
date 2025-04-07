@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @FeignClient(name = "assist-service")
-public interface IAssistClient {
+public interface AssistClient {
 
     @GetMapping("/assist/ecommerce/stock/view")
     ResponseEntity<List<StockEcommerceV>> findAll();
