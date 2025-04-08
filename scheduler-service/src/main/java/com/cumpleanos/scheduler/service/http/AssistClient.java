@@ -1,7 +1,7 @@
 package com.cumpleanos.scheduler.service.http;
 
-import com.cumpleanos.scheduler.models.ServiceResponse;
-import com.cumpleanos.scheduler.models.StockEcommerceVDTO;
+import com.cumpleanos.common.records.ServiceResponse;
+import com.cumpleanos.common.records.StockEcommerceVDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

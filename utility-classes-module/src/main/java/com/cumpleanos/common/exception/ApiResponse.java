@@ -1,4 +1,4 @@
-package com.cumpleanos.core.models.exception;
+package com.cumpleanos.common.exception;
 
 import lombok.Getter;
 import lombok.Setter;

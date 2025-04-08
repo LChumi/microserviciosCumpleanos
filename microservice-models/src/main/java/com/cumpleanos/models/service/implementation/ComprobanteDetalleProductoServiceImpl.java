@@ -1,8 +1,8 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.core.models.dto.ClienteDTO;
-import com.cumpleanos.core.models.dto.DfacturaDTO;
-import com.cumpleanos.core.models.dto.ComprobanteDetalleProductoDTO;
+import com.cumpleanos.common.dtos.ComprobanteDetalleProductoDTO;
+import com.cumpleanos.common.records.ClienteDTO;
+import com.cumpleanos.common.records.DfacturaDTO;
 import com.cumpleanos.core.models.entities.Ccomproba;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Ctipocom;

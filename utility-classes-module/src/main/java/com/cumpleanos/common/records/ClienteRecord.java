@@ -1,4 +1,4 @@
-package com.cumpleanos.core.models.dto;
+package com.cumpleanos.common.records;
 
 public record ClienteRecord(
         Long empresa,

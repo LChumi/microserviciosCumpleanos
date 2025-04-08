@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.core.models.dto.AccesoDTO;
+import com.cumpleanos.common.records.AccesoDTO;
 import com.cumpleanos.models.service.interfaces.IAccesoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

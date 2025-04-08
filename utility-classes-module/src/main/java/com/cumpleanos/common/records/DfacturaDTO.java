@@ -1,4 +1,4 @@
-package com.cumpleanos.core.models.dto;
+package com.cumpleanos.common.records;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -1,7 +1,7 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
-import com.cumpleanos.core.models.dto.ClienteRecord;
-import com.cumpleanos.core.models.dto.EmailRecord;
+import com.cumpleanos.common.records.ClienteRecord;
+import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.reccomprobantes.service.http.EmailClient;
 import com.cumpleanos.reccomprobantes.service.http.HttpResponseHandler;

@@ -1,7 +1,7 @@
 package com.cumpleanos.notification.presentation.controller;
 
+import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.notification.service.interfaces.IEmailService;
-import com.cumpleanos.notification.utils.record.EmailRecord;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

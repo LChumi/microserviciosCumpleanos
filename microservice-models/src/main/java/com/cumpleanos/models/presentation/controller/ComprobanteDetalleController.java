@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.core.models.dto.ComprobanteDetalleProductoDTO;
+import com.cumpleanos.common.dtos.ComprobanteDetalleProductoDTO;
 import com.cumpleanos.models.service.interfaces.IComprobanteDetalleProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

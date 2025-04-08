@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.presentation.advice;
 
-import com.cumpleanos.core.models.exception.ErrorResponse;
+import com.cumpleanos.common.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

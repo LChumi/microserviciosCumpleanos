@@ -1,4 +1,4 @@
-package com.cumpleanos.scheduler.models;
+package com.cumpleanos.common.records;
 
 import java.math.BigDecimal;
 

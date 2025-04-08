@@ -1,6 +1,6 @@
 package com.cumpleanos.scheduler.cron.jobs;
 
-import com.cumpleanos.scheduler.models.StockEcommerceVDTO;
+import com.cumpleanos.common.records.StockEcommerceVDTO;
 import com.cumpleanos.scheduler.service.http.AssistClient;
 import com.cumpleanos.scheduler.service.implementation.ProductUpdateService;
 import lombok.RequiredArgsConstructor;

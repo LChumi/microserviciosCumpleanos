@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.core.models.dto.CtipocomDTO;
+import com.cumpleanos.common.records.CtipocomDTO;
 import com.cumpleanos.core.models.entities.Ctipocom;
 import com.cumpleanos.core.models.ids.CtipocomId;
 import com.cumpleanos.models.persistence.repository.CtipocomRepository;

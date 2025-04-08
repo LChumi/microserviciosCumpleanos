@@ -1,12 +1,12 @@
 package com.cumpleanos.pos.service.implementation;
 
+import com.cumpleanos.common.exception.ApiResponse;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Sistema;
-import com.cumpleanos.core.models.exception.ApiResponse;
 import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoRequest;
 import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoResponse;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentRequest;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentResponse;
-import com.cumpleanos.pos.persistence.dto.ResponseRecord;
 import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
@@ -56,23 +56,23 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
     }
 
     @Override
-    public ResponseRecord procesarInfoRecibo(Long usrLiquida, Long empresa) {
+    public ServiceResponse procesarInfoRecibo(Long usrLiquida, Long empresa) {
         ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
                 .orElseThrow(() -> new ReciboNotFoundException("Recibo no encontrado"));
         if (view.getReferencia() == null) {
             log.warn("Recibo sin referencia pago no efectuado usrLiquida: {} en la empresa: {}", usrLiquida, empresa);
-            return new ResponseRecord("Recibo sin referencia ", Boolean.FALSE);
+            return new ServiceResponse("Recibo sin referencia ", Boolean.FALSE);
         }
         if ("APPROVED".equalsIgnoreCase(view.getResultado())) {
-            return new ResponseRecord("APPROVED", Boolean.TRUE);
+            return new ServiceResponse("APPROVED", Boolean.TRUE);
         }
         InfoRequest request = createInfoRequest(view);
         ApiResponse<InfoResponse> response = deunaClientService.getInfo(request);
         if ("APPROVED".equalsIgnoreCase(response.getData().status())) {
             actualizarReciboPosAcepted(view, response.getData());
-            return new ResponseRecord("APPROVED", Boolean.TRUE);
+            return new ServiceResponse("APPROVED", Boolean.TRUE);
         } else {
-            return new ResponseRecord(response.getData().status(), Boolean.FALSE);
+            return new ServiceResponse(response.getData().status(), Boolean.FALSE);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.cumpleanos.pos.service.exception;
 
-import com.cumpleanos.core.models.exception.ApiResponse;
-import com.cumpleanos.core.models.exception.ErrorResponse;
+import com.cumpleanos.common.exception.ApiResponse;
+import com.cumpleanos.common.exception.ErrorResponse;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

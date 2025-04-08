@@ -1,6 +1,6 @@
 package com.cumpleanos.pos.service.implementation;
 
-import com.cumpleanos.core.models.exception.ApiResponse;
+import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoRequest;
 import com.cumpleanos.pos.persistence.api.deuna.infoPayments.InfoResponse;
 import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentRequest;

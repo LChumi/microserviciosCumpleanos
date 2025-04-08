@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.service.http;
 
-import com.cumpleanos.core.models.dto.ProductEcomRequest;
+import com.cumpleanos.common.records.ProductEcomRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.patterns.visitor;
 
-import com.cumpleanos.core.models.dto.ClienteRecord;
+import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.reccomprobantes.configuration.RutasConfig;

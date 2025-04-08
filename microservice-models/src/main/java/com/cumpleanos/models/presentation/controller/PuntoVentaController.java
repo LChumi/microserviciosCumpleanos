@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.core.models.dto.PuntoVentaDTO;
+import com.cumpleanos.common.records.PuntoVentaDTO;
 import com.cumpleanos.core.models.ids.PuntoVentaId;
 import com.cumpleanos.models.service.interfaces.IPuntoVentaService;
 import lombok.RequiredArgsConstructor;

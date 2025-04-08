@@ -2,7 +2,7 @@ package com.cumpleanos.assist.presentation.controller;
 
 import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IStockEcommerceVService;
-import com.cumpleanos.core.models.dto.ServiceResponse;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.views.StockEcommerceV;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

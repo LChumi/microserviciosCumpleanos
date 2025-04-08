@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.core.models.dto.DTipoDocDTO;
+import com.cumpleanos.common.records.DTipoDocDTO;
 import com.cumpleanos.core.models.entities.Ctipocom;
 import com.cumpleanos.core.models.entities.Dtipodoc;
 import com.cumpleanos.core.models.entities.TipoDoc;

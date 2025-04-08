@@ -1,6 +1,6 @@
 package com.cumpleanos.notification.service.interfaces;
 
-import com.cumpleanos.notification.utils.record.EmailRecord;
+import com.cumpleanos.common.records.EmailRecord;
 
 public interface IEmailService {
 

@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
-import com.cumpleanos.core.models.dto.EmailRecord;
+import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.util.FilesUtils;

@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.core.models.dto.AlmacenDTO;
+import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.core.models.entities.Almacen;
 import com.cumpleanos.core.models.ids.AlmacenId;
 import com.cumpleanos.models.persistence.repository.AlmacenRepository;

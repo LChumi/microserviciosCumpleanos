@@ -73,7 +73,7 @@
 			<version>3.1.8</version>
 		</dependency>
 
-		<!--Dependencia de Modulo Comun-->
+		<!--Dependencia de Módulos Comunes-->
 		<dependency>
 			<groupId>com.cumpleanos.core</groupId>
 			<artifactId>common-module</artifactId>

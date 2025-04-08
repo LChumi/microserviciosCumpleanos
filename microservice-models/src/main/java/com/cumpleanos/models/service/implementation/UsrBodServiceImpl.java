@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.core.models.dto.BodegaDTO;
+import com.cumpleanos.common.records.BodegaDTO;
 import com.cumpleanos.core.models.entities.Bodega;
 import com.cumpleanos.core.models.entities.UsrBod;
 import com.cumpleanos.core.models.ids.UsrbodId;

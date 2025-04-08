@@ -1,4 +1,4 @@
-package com.cumpleanos.notification.utils.record;
+package com.cumpleanos.common.records;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

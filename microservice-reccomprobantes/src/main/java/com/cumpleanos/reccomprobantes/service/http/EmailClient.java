@@ -1,6 +1,6 @@
 package com.cumpleanos.reccomprobantes.service.http;
 
-import com.cumpleanos.core.models.dto.EmailRecord;
+import com.cumpleanos.common.records.EmailRecord;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

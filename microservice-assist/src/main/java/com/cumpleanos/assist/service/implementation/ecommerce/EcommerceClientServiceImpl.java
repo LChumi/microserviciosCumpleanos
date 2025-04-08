@@ -2,7 +2,7 @@ package com.cumpleanos.assist.service.implementation.ecommerce;
 
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEcommerceClient;
-import com.cumpleanos.core.models.dto.ProductEcomRequest;
+import com.cumpleanos.common.records.ProductEcomRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,7 @@
-package com.cumpleanos.core.models.dto;
+package com.cumpleanos.common.dtos;
 
+import com.cumpleanos.common.records.ClienteDTO;
+import com.cumpleanos.common.records.DfacturaDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;

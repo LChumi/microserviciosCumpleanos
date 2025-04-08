@@ -2,8 +2,8 @@ package com.cumpleanos.assist.service.implementation;
 
 import com.cumpleanos.assist.persistence.auth.AuthenticationRequest;
 import com.cumpleanos.assist.persistence.inmutables.UserResponse;
-import com.cumpleanos.core.models.dto.EmailRecord;
-import com.cumpleanos.core.models.dto.ServiceResponse;
+import com.cumpleanos.common.records.EmailRecord;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;
 import lombok.RequiredArgsConstructor;

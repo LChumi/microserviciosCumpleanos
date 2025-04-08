@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.core.models.dto.CtipocomDTO;
+import com.cumpleanos.common.records.CtipocomDTO;
 import com.cumpleanos.models.service.interfaces.ICtipocomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

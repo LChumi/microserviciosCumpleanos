@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 8086
   forward-headers-strategy: framework
 
 spring:

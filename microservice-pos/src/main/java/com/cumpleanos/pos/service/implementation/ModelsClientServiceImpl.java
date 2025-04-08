@@ -1,7 +1,7 @@
 package com.cumpleanos.pos.service.implementation;
 
+import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.core.models.entities.Sistema;
-import com.cumpleanos.core.models.exception.ApiResponse;
 import com.cumpleanos.pos.service.exception.HttpResponseHandler;
 import com.cumpleanos.pos.service.http.IModelsClient;
 import lombok.RequiredArgsConstructor;

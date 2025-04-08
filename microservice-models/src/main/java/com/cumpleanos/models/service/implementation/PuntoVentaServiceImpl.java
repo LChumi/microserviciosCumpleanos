@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.core.models.dto.PuntoVentaDTO;
+import com.cumpleanos.common.records.PuntoVentaDTO;
 import com.cumpleanos.core.models.entities.PuntoVenta;
 import com.cumpleanos.core.models.ids.PuntoVentaId;
 import com.cumpleanos.models.persistence.repository.PuntoVentaRepository;

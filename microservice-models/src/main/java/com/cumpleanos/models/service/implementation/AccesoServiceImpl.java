@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.core.models.dto.AccesoDTO;
+import com.cumpleanos.common.records.AccesoDTO;
 import com.cumpleanos.core.models.entities.Acceso;
 import com.cumpleanos.core.models.ids.AccesoId;
 import com.cumpleanos.models.persistence.repository.AccesoRepository;

@@ -1,7 +1,7 @@
 package com.cumpleanos.scheduler.service.implementation;
 
-import com.cumpleanos.scheduler.models.ServiceResponse;
-import com.cumpleanos.scheduler.models.StockEcommerceVDTO;
+import com.cumpleanos.common.records.ServiceResponse;
+import com.cumpleanos.common.records.StockEcommerceVDTO;
 import com.cumpleanos.scheduler.service.http.AssistClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

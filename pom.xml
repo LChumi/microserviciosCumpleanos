@@ -60,6 +60,13 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<!--Dependencia modulo común -->
+		<dependency>
+			<groupId>com.cumpleanos.common</groupId>
+			<artifactId>utility-classes-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

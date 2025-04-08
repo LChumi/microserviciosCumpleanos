@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.core.models.dto.ClienteRecord;
+import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.models.service.interfaces.IClienteService;
 import lombok.RequiredArgsConstructor;

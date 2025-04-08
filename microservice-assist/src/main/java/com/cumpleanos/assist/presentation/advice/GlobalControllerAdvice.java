@@ -1,7 +1,7 @@
 package com.cumpleanos.assist.presentation.advice;
 
 import com.cumpleanos.assist.service.exception.BadCredentialsException;
-import com.cumpleanos.core.models.exception.ErrorResponse;
+import com.cumpleanos.common.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.cumpleanos.assist.service.http;
 
-import com.cumpleanos.core.models.dto.AlmacenDTO;
-import com.cumpleanos.core.models.dto.DTipoDocDTO;
-import com.cumpleanos.core.models.dto.PuntoVentaDTO;
+import com.cumpleanos.common.records.AlmacenDTO;
+import com.cumpleanos.common.records.DTipoDocDTO;
+import com.cumpleanos.common.records.PuntoVentaDTO;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.Empleado;
 import com.cumpleanos.core.models.entities.Usuario;

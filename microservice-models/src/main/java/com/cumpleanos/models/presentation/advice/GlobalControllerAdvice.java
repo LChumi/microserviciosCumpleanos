@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.advice;
 
-import com.cumpleanos.core.models.exception.ErrorResponse;
+import com.cumpleanos.common.exception.ErrorResponse;
 import com.cumpleanos.models.service.exception.BadCredentialsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;

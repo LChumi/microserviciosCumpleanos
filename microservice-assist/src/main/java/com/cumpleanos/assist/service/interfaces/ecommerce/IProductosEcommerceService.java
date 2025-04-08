@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.service.interfaces.ecommerce;
 
-import com.cumpleanos.core.models.dto.ServiceResponse;
+import com.cumpleanos.common.records.ServiceResponse;
 
 public interface IProductosEcommerceService {
 

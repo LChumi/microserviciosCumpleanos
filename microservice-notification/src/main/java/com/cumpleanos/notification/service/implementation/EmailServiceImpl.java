@@ -1,7 +1,7 @@
 package com.cumpleanos.notification.service.implementation;
 
+import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.notification.service.interfaces.IEmailService;
-import com.cumpleanos.notification.utils.record.EmailRecord;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})

@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.interfaces;
 
-import com.cumpleanos.core.models.dto.ComprobanteDetalleProductoDTO;
+import com.cumpleanos.common.dtos.ComprobanteDetalleProductoDTO;
 
 import java.math.BigInteger;
 
