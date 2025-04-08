@@ -39,12 +39,11 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
 
         Map<String, Object> carga = ecomerceClient.uploadProduct(p);
         if (carga != null && carga.containsKey("id")) {
-            Integer prodEcomId=(Integer) carga.get("id");
-            log.info("Producto Creado con id: {} " , prodEcomId);
-        }else {
+            Integer prodEcomId = (Integer) carga.get("id");
+            log.info("Producto Creado con id: {} ", prodEcomId);
+        } else {
             throw new ProductNotCreatedException("Error al crear el producto en el Ecommerce: " + pv.getProducto());
         }
-
 
         ProductoId proId = new ProductoId();
         proId.setCodigo(pv.getProducto());
@@ -55,7 +54,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         }
         prod.setCargaWeb((short) 2);
         productoService.save(prod);
-        return new ServiceResponse("Producto creado "+ p.sku() + "En Ecommerce y actualizado en BD", Boolean.TRUE );
+        return new ServiceResponse("Producto creado " + p.sku() + "En Ecommerce y actualizado en BD", Boolean.TRUE);
     }
 
     @Override
@@ -66,13 +65,13 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         }
         ProductEcomRequest request = viewToProductRequest(pv);
 
-        Map<String,Object> update = ecomerceClient.updateProduct(barraAnt, process, request);
-        Integer prodEcomId=(Integer) update.get("id");
+        Map<String, Object> update = ecomerceClient.updateProduct(barraAnt, process, request);
+        Integer prodEcomId = (Integer) update.get("id");
         if (prodEcomId == null) {
             throw new ProductNotCreatedException("Error al actualizar el producto en el Ecommerce: " + pv.getProducto());
         }
 
-        return new ServiceResponse("Producto actualizado en Ecommerce", Boolean.TRUE );
+        return new ServiceResponse("Producto actualizado en Ecommerce", Boolean.TRUE);
     }
 
     private ProductEcomRequest viewToProductRequest(CargaProductoEcomV pv) {
@@ -101,6 +100,4 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         }
         // Si el stock es mayor o igual a la cantidad mínima, no se hace nada
     }
-
-
 }

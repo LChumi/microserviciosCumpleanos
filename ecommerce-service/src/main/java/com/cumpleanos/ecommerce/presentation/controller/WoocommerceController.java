@@ -28,14 +28,14 @@ public class WoocommerceController {
     }
 
     @PutMapping("/woocommerce/products/{sku}/{process}")
-    public ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductRequest request) {
-        Map<String, Object> result = service.actualizarProducto(sku,process, request);
+    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductRequest request) {
+        Map<String, Object> result = service.actualizarProducto(sku, process, request);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/woocommerce/orders-date/{d1}/{d2}")
     public ResponseEntity<List<Map<String, Object>>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2) {
-        List<Map<String,Object>> listOrders = service.getOrdesrByDate(d1, d2);
+        List<Map<String, Object>> listOrders = service.getOrdesrByDate(d1, d2);
         return ResponseEntity.ok(listOrders);
     }
 

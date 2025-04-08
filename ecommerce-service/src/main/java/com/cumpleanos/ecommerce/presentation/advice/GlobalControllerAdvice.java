@@ -16,7 +16,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGeneralException(Exception e) {
         Map<String, String> error = new HashMap<>();
-        error.put(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        error.put(String.valueOf(HttpStatus.NOT_FOUND.value()), e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

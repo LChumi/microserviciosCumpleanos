@@ -28,9 +28,9 @@ public class ProductUpdateService {
                     0
             ).getBody();
 
-            if (response != null && response.success()){
+            if (response != null && response.success()) {
                 log.info("Producto actualizado satisfactoriamente SKU: {}", product.proId());
-            } else if (response != null){
+            } else if (response != null) {
                 log.error("Error en la actualizacion de producto SKU: {} error: {}", product.proId(), response.message());
             } else {
                 log.error("Error desconocido en SKU: {}", product.proId());
