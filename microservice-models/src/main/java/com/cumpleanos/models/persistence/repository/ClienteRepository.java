@@ -2,9 +2,12 @@ package com.cumpleanos.models.persistence.repository;
 
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.ids.ClienteId;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,5 +15,9 @@ import java.util.Optional;
 public interface ClienteRepository extends JpaRepository<Cliente, ClienteId> {
 
     Optional<Cliente> findById_EmpresaAndRucCedulaAndTipo(Long empresa, String rucCedula, Short tipo);
+
     List<Cliente> findByCliIdLikeAndId_Empresa(String cliId, Long empresa);
+
+    Optional<Cliente> findById_empresaAndRucCedulaAndTipoIn(@NotNull Long idEmpresa, @Size(max = 20) String rucCedula, Collection<Short> tipos);
+
 }

@@ -44,7 +44,6 @@ public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> i
     @Transactional
     public Cliente save(Cliente entity) {
         Long nuevoCodigo = getNextSequenceValue(Sequence.CLICODIGO);
-        System.out.println(nuevoCodigo);
 
         ClienteId id = new ClienteId();
         id.setCodigo(nuevoCodigo);

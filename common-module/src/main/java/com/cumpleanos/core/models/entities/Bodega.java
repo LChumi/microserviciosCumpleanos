@@ -87,7 +87,7 @@ public class Bodega {
     private String custodio;
 
     @Column(name = "BOD_DIRECTO")
-    private Boolean directo;
+    private Short directo;
 
     @Column(name = "BOD_FECHA_INICIO")
     private LocalDate fechaInicio;
@@ -96,28 +96,28 @@ public class Bodega {
     private LocalDate fechaFinal;
 
     @Column(name = "BOD_PROMOCION")
-    private Boolean promocion;
+    private Short promocion;
 
     @Column(name = "BOD_VER_CAL")
-    private Boolean verCal;
+    private Short verCal;
 
     @Column(name = "BOD_TIPO")
-    private Boolean tipo;
+    private Short tipo;
 
     @Column(name = "BOD_PROVEEDOR")
-    private Boolean proveedor;
+    private Short proveedor;
 
     @Column(name = "BOD_COMPRA")
-    private Boolean compra;
+    private Short compra;
 
     @Column(name = "BOD_MAYORISTA")
-    private Boolean mayorista;
+    private Short mayorista;
 
     @Column(name = "BOD_BODEGA_WEB")
-    private Boolean bodegaWeb;
+    private Short bodegaWeb;
 
     @Column(name = "BOD_BODEGA_WEB_DEF")
-    private Boolean bodegaWebDef;
+    private Short bodegaWebDef;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({

@@ -9,5 +9,6 @@ import java.util.Set;
 
 @Repository
 public interface AlmacenRepository extends JpaRepository<Almacen, AlmacenId> {
+
     Set<Almacen> findById_Empresa(Long emnpresa);
 }
