@@ -18,6 +18,4 @@ public interface ClienteRepository extends JpaRepository<Cliente, ClienteId> {
 
     List<Cliente> findByCliIdLikeAndId_Empresa(String cliId, Long empresa);
 
-    Optional<Cliente> findById_empresaAndRucCedulaAndTipoIn(@NotNull Long idEmpresa, @Size(max = 20) String rucCedula, Collection<Short> tipos);
-
 }
