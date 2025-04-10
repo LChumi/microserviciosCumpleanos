@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.persistence.dto;
+package com.cumpleanos.models.persistence.dto;
 
 import com.cumpleanos.core.models.entities.Cliente;
 import lombok.Builder;

@@ -1,5 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
+import com.cumpleanos.models.persistence.dto.ClienteDTO;
 import com.cumpleanos.models.persistence.repository.ClienteRepository;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.ids.ClienteId;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -51,5 +54,15 @@ public class ClienteServiceImpl extends GenericServiceImpl<Cliente, ClienteId> i
         entity.setId(id);
 
         return super.save(entity);
+    }
+
+    @Override
+    public Set<ClienteDTO> findByTipoAndEmpresa(Short tipo, Long empresa) {
+        Set<ClienteDTO> clienteDTOS = new HashSet<>();
+        Set<Cliente> cli = repository.findById_EmpresaAndTipo(empresa, tipo);
+        for (Cliente client : cli) {
+            clienteDTOS.add(ClienteDTO.mapToCliente(client));
+        }
+        return clienteDTOS;
     }
 }

@@ -7,15 +7,14 @@ import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.common.records.DTipoDocDTO;
 import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.common.records.PuntoVentaDTO;
-import com.cumpleanos.core.models.entities.Dfactura;
-import com.cumpleanos.core.models.entities.Empleado;
-import com.cumpleanos.core.models.entities.Usuario;
+import com.cumpleanos.core.models.entities.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -27,6 +26,7 @@ public class ClientServiceImpl{
     private final IEmailClient emailClient;
 
     //TODO servicio de micorservicio models
+    //USUARIOS
     public Usuario getUsuario(String usrId) {
         return HttpResponseHandler.handle(() -> modelsClient.findByUsrId(usrId),
                 "Error al obtener el usuario con id: " + usrId);
@@ -47,11 +47,13 @@ public class ClientServiceImpl{
                 "Error al obtener el empleado del usuario: " + usuarioId);
     }
 
+    //PUNTO VENTA
     public Set<PuntoVentaDTO> listPuntoVentas(Long empresa, Long almacen){
         return HttpResponseHandler.handle(() -> modelsClient.listarPve(empresa, almacen),
                 "Error al obtener los puntos del almacen en la empresa" + empresa);
     }
 
+    //DTIPODOC
     public DTipoDocDTO getTipoDoc(Long empresa, Long tpdCodigo){
         return HttpResponseHandler.handle(() -> modelsClient.getDtipoDoc(empresa, tpdCodigo),
                 "Error al obtener el tipo de document del empresa: " + empresa);
@@ -62,9 +64,27 @@ public class ClientServiceImpl{
                 "Error al listar los almacenes en la empresa: " + empresa);
     }
 
+    //DFACTURA
     public Boolean newDfactura(Dfactura d){
         return HttpResponseHandler.handle(() -> modelsClient.create(d),
                 "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
+    }
+
+    //CREPOSICION
+    public Creposicion save(Creposicion c){
+        return HttpResponseHandler.handle(() -> modelsClient.saveCreposicionEc(c),
+                "Error al guardar el creposicion en la empresa: " + c.getId().getEmpresa());
+    }
+
+    //CLIENTE
+    public Cliente save (Cliente cliente){
+        return HttpResponseHandler.handle(() -> modelsClient.saveCliente(cliente),
+                "Error al guardar el cliente en BD "+cliente.getId() + " ruc:" + cliente.getRucCedula());
+    }
+
+    public List<String> getIdsClientes(String cliId, Long empresa){
+        return HttpResponseHandler.handle(() -> modelsClient.getClientes(cliId, empresa),
+                "Error al obtener los ids de clientes "+ cliId);
     }
 
     //TODO servicio de microservicio notificacion
