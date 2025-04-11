@@ -1,5 +1,6 @@
 package com.cumpleanos.ecommerce.presentation.controller;
 
+import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
 import com.cumpleanos.ecommerce.service.implementations.WooCommerceMediaServiceImpl;
 import com.cumpleanos.ecommerce.service.interfaces.WooCommerceService;
@@ -34,8 +35,8 @@ public class WoocommerceController {
     }
 
     @GetMapping("/woocommerce/orders-date/{d1}/{d2}")
-    public ResponseEntity<List<Map<String, Object>>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2) {
-        List<Map<String, Object>> listOrders = service.getOrdesrByDate(d1, d2);
+    public ResponseEntity<List<PedidoWoocommerce>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2) {
+        List<PedidoWoocommerce> listOrders = service.getOrdesrByDate(d1, d2);
         return ResponseEntity.ok(listOrders);
     }
 

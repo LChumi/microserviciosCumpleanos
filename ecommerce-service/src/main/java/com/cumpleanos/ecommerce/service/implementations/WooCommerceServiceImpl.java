@@ -1,5 +1,6 @@
 package com.cumpleanos.ecommerce.service.implementations;
 
+import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.ecommerce.configuration.WooCommerceProperties;
 import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
 import com.cumpleanos.ecommerce.service.exceptions.ImageUploadException;
@@ -92,7 +93,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
             log.error("Advertencia error en el servicio la imagen no existe o no se pudo subir", e);
         }
         // Crear el producto con la subcategoría asignada y convertir a Map
-        Map<String, Object> productData = convertObjectToMap(request, imageId);
+        Map<String, Object> productData = convertObjectToMap(request, imageId, true);
 
         //  Asegurar que categories[] contenga un Integer
         List<Map<String, Object>> categorias = new ArrayList<>();
@@ -122,7 +123,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         Optional<Integer> imageId = uploadImage(processType, request.sku());
 
         // Convertimos el objeto de request a un Map
-        Map<String, Object> productData = convertObjectToMap(request, imageId.orElse(null));
+        Map<String, Object> productData = convertObjectToMap(request, imageId.orElse(null), false);
 
         // Validamos y actualizamos la categoría si es necesario
         Integer categoriaId = ensureCategoryExists(request.categoria(), null);
@@ -144,7 +145,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     }
 
     @Override
-    public List<Map<String, Object>> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin) {
+    public List<PedidoWoocommerce> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin) {
         return wooCommerce.getOrdersByDate(properties.getClient(), properties.getSecretClient(), startOfDay(fecha) , endOfDay(fechaFin));
     }
 

@@ -1,5 +1,6 @@
 package com.cumpleanos.ecommerce.service.http;
 
+import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +47,7 @@ public interface WooCommerceClient {
                                  @RequestParam("consumer_secret") String consumerSecret);
 
     @GetMapping("/orders")
-    List<Map<String, Object>> getOrdersByDate(
+    List<PedidoWoocommerce> getOrdersByDate(
             @RequestParam("consumer_key") String consumerKey,
             @RequestParam("consumer_secret") String consumerSecret,
             @RequestParam("after") String after,  // Fecha inicio (ej. "2024-03-30T00:00:00")

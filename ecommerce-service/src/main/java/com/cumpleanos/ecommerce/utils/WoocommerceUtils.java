@@ -11,9 +11,11 @@ import java.util.Map;
 
 public class WoocommerceUtils {
 
-    public static Map<String, Object> convertObjectToMap(ProductRequest request, Integer imageId) {
+    public static Map<String, Object> convertObjectToMap(ProductRequest request, Integer imageId, Boolean status) {
         Map<String, Object> productData = new HashMap<>();
-        productData.put("name", request.nombre());
+        if (status){
+            productData.put("name", request.nombre());
+        }
         productData.put("sku", request.sku());
         productData.put("type", "simple");
         productData.put("regular_price", request.precio());

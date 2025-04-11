@@ -1,5 +1,6 @@
 package com.cumpleanos.ecommerce.service.interfaces;
 
+import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
 
 import java.time.LocalDate;
@@ -20,5 +21,5 @@ public interface WooCommerceService {
 
     List<Map<String, Object>> getOrders();
 
-    List<Map<String, Object>> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin);
+    List<PedidoWoocommerce> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin);
 }
