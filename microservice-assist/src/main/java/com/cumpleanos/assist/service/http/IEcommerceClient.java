@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.service.http;
 
+import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.common.records.ProductEcomRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,5 @@ public interface IEcommerceClient {
     ResponseEntity<Map<String,Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductEcomRequest request);
 
     @GetMapping("/ecommerce/woocommerce/orders-date/{d1}/{d2}")
-    ResponseEntity<List<Map<String, Object>>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2);
+    ResponseEntity<List<PedidoWoocommerce>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2);
 }

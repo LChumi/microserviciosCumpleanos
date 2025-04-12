@@ -2,6 +2,7 @@ package com.cumpleanos.assist.service.implementation.ecommerce;
 
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEcommerceClient;
+import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.common.records.ProductEcomRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class EcommerceClientServiceImpl {
                 "Error al actualizar producto: " + product.sku());
     }
 
-    public List<Map<String, Object>> getOrdesrByDate(LocalDate d1, LocalDate d2) {
+    public List<PedidoWoocommerce> getOrdesrByDate(LocalDate d1, LocalDate d2) {
         return HttpResponseHandler.handle(() -> ecommerce.getOrdersDate(d1, d2),
                 "Error al obtener los pedidos");
     }
