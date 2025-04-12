@@ -43,8 +43,8 @@ public interface WooCommerceClient {
 
     //ORDERS
     @GetMapping("/orders")
-    List<Map<String,Object>> getOrders(@RequestParam("consumer_key") String consumerKey,
-                                 @RequestParam("consumer_secret") String consumerSecret);
+    List<Map<String, Object>> getOrders(@RequestParam("consumer_key") String consumerKey,
+                                        @RequestParam("consumer_secret") String consumerSecret);
 
     @GetMapping("/orders")
     List<PedidoWoocommerce> getOrdersByDate(

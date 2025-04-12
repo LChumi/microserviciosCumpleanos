@@ -86,10 +86,10 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         // Verificar si la subcategoría existe, si no, crearla bajo la categoría padre
         Integer subcategoriaId = ensureCategoryExists(request.subcategoria(), categoriaId);
 
-        Integer imageId=null;
+        Integer imageId = null;
         try {
             imageId = mediaService.uploadImage(request.sku());
-        }catch (IOException e){
+        } catch (IOException e) {
             log.error("Advertencia error en el servicio la imagen no existe o no se pudo subir", e);
         }
         // Crear el producto con la subcategoría asignada y convertir a Map
@@ -109,12 +109,12 @@ public class WooCommerceServiceImpl implements WooCommerceService {
             throw new IllegalArgumentException("El ID del producto no puede ser nulo");
         }
 
-        Integer productId= obtenerProductoId(sku);
+        Integer productId = obtenerProductoId(sku);
         if (productId == null) {
             throw new WoocommerceDataNotFound("Producto no encontrado para SKU: " + sku);
         }
 
-        ProcessType processType =ProcessType.getByProcess(process);
+        ProcessType processType = ProcessType.getByProcess(process);
 
         if (processType == null) {
             throw new IllegalArgumentException("Tipo de proceso no válido para el valor proporcionado: " + process);
@@ -146,7 +146,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     @Override
     public List<PedidoWoocommerce> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin) {
-        return wooCommerce.getOrdersByDate(properties.getClient(), properties.getSecretClient(), startOfDay(fecha) , endOfDay(fechaFin));
+        return wooCommerce.getOrdersByDate(properties.getClient(), properties.getSecretClient(), startOfDay(fecha), endOfDay(fechaFin));
     }
 
     private Optional<Integer> uploadImage(ProcessType process, String sku) {
@@ -161,7 +161,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         }
     }
 
-    private Integer ensureCategoryExists(String categoryName, Integer parentId){
+    private Integer ensureCategoryExists(String categoryName, Integer parentId) {
         Integer categoryId = obtenerCategoriaId(categoryName.trim());
         if (categoryId == null) {
             categoryId = crearCategoria(categoryName, parentId);

@@ -39,7 +39,7 @@ public class WooCommerceMediaServiceImpl {
 
         if (response.getStatusCode().is2xxSuccessful() && imageResource.exists()) {
             MultipartFile imageFile = convertResourceToMultipartFile(imageResource, id);
-            String token = "Bearer "+properties.getToken();
+            String token = "Bearer " + properties.getToken();
             Map<String, Object> responseWoocommerce = wooCommerceMediaClient.uploadImage(
                     token,
                     imageFile
@@ -61,5 +61,4 @@ public class WooCommerceMediaServiceImpl {
                 "image/jpeg"
         );
     }
-
 }

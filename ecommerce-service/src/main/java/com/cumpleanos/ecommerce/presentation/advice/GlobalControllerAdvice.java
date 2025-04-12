@@ -1,5 +1,6 @@
 package com.cumpleanos.ecommerce.presentation.advice;
 
+import com.cumpleanos.common.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,9 @@ import java.util.Map;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGeneralException(Exception e) {
-        Map<String, String> error = new HashMap<>();
-        error.put(String.valueOf(HttpStatus.NOT_FOUND.value()), e.getMessage());
-        log.error("Error message:{}",e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    public ResponseEntity<ErrorResponse> handelGeneralException(Exception e) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        log.error(e.getMessage(), e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

@@ -17,7 +17,7 @@ public interface WooCommerceService {
 
     Map<String, Object> subirProducto(ProductRequest productRequest);
 
-    Map<String, Object> actualizarProducto(String sku,Integer process, ProductRequest request);
+    Map<String, Object> actualizarProducto(String sku, Integer process, ProductRequest request);
 
     List<Map<String, Object>> getOrders();
 
