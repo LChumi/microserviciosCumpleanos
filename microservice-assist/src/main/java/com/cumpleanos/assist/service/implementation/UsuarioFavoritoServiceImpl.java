@@ -44,7 +44,7 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
 
         // Filtrar los favoritos basándote en los `path` de los menús
         Set<UsuarioFavoritos> favoritos = repository.findByUsuario_IdAndEmpresa(idUsuario, empresa);
-       return favoritos.stream()
+        return favoritos.stream()
                 .filter(favorito -> menuPaths.contains(favorito.getPrograma().getPath()))
                 .collect(Collectors.toSet());
     }
@@ -77,7 +77,7 @@ public class UsuarioFavoritoServiceImpl extends GenericServiceImpl<UsuarioFavori
         repository.delete(favorito);
     }
 
-    private ProgramaW getPrograma(String path){
+    private ProgramaW getPrograma(String path) {
         return programaRepository.findByPath(path)
                 .orElseThrow(() -> new ProgramaNotFoundException("Programa no encontrado"));
     }

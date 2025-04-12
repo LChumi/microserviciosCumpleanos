@@ -16,7 +16,7 @@ public class UsuarioServiceImpl {
 
     private final ClientServiceImpl clienteService;
 
-    public UserResponse login(AuthenticationRequest request){
+    public UserResponse login(AuthenticationRequest request) {
         Usuario usuario = clienteService.login(request.nombreUsuario(), request.clave());
         if (usuario == null) {
             return null;
@@ -24,7 +24,7 @@ public class UsuarioServiceImpl {
         return new UserResponse(usuario.getId(), usuario.getUsrId(), usuario.getNombre());
     }
 
-    public ServiceResponse recoveryPassword(String usr_id){
+    public ServiceResponse recoveryPassword(String usr_id) {
         Usuario usuario = clienteService.getUsuario(usr_id);
         if (usuario == null) {
             return new ServiceResponse("Usuario no encontrado.", false);
@@ -42,13 +42,13 @@ public class UsuarioServiceImpl {
                 "Atentamente,\nEl equipo de soporte";
         try {
             EmailRecord email = new EmailRecord(
-              new String[]{empleado.getMailEmpresa()},
-              asunto,
-              mensaje
+                    new String[]{empleado.getMailEmpresa()},
+                    asunto,
+                    mensaje
             );
             clienteService.enviarEmail(email);
-            return new ServiceResponse("Su contraseña ha sido enviada al correo: "+ empleado.getMailEmpresa(), true);
-        }catch (Exception e) {
+            return new ServiceResponse("Su contraseña ha sido enviada al correo: " + empleado.getMailEmpresa(), true);
+        } catch (Exception e) {
             return new ServiceResponse("Error al enviar el correo.", false);
         }
     }

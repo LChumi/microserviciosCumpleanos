@@ -23,10 +23,10 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
 
     @Override
     public ProductoDTO getProductoByBarraAndEmpresa(String barra, Long empresa) {
-        Producto prod = repository.findById_EmpresaAndProId(empresa,barra).orElse(null);
+        Producto prod = repository.findById_EmpresaAndProId(empresa, barra).orElse(null);
         if (prod == null) {
             return null;
-        }else {
+        } else {
             return new ProductoDTO(
                     prod.getId().getCodigo(),
                     prod.getId().getEmpresa(),

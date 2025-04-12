@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class ImpProdTrancitoVwServiceImpl extends  GenericServiceImpl<ImpProdTrancitoVw, BigInteger> implements IImpProdTrancitoVwService {
+public class ImpProdTrancitoVwServiceImpl extends GenericServiceImpl<ImpProdTrancitoVw, BigInteger> implements IImpProdTrancitoVwService {
 
     private final ImpProdTrancitoVwRepository repository;
 
