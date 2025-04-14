@@ -59,4 +59,7 @@ public interface IModelsClient {
     @GetMapping("/models/clientesid/{cliId}/{empresa}")
     ResponseEntity<List<String>> getClientes(@PathVariable("cliId") String cliId, @PathVariable("empresa") Long empresa);
 
+    //TODO servicio que viene del controlador FuctionOracleController
+    @GetMapping("/models/verificarJuridico/{ruc}")
+    ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
 }

@@ -89,6 +89,12 @@ public class ClientServiceImpl {
                 "Error al obtener los ids de clientes " + cliId);
     }
 
+    //TODO servicio que viene de FunctionOracleController
+    public Long verificarJuridico(String ruc){
+        return HttpResponseHandler.handle(() -> modelsClient.verificarJuridico(ruc),
+                "Error al verificar el tipo juridico del ruc: "+ruc);
+    }
+
     //TODO servicio de microservicio notificacion
     public void enviarEmail(EmailRecord email) {
         try {

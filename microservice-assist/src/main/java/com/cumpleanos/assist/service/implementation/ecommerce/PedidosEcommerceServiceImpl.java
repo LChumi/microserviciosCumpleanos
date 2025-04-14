@@ -3,6 +3,7 @@ package com.cumpleanos.assist.service.implementation.ecommerce;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
+import com.cumpleanos.common.builders.ecommerce.PedidosWoocommerceMetaDatum;
 import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private void createCpedido(PedidoWoocommerce pedido) {
-        Creposicion creposicion = new Creposicion();
+
     }
 
     private void findOrCreateCliente(String cedRuc, Long empresa) {
@@ -43,5 +45,13 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
     private static String generarPrefix(String nombre){
         return "ECOM-"+nombre.substring(0,3).toUpperCase().trim();
+    }
+
+    public static String getBillingDocument(PedidosWoocommerceMetaDatum[] metadata) {
+        return Arrays.stream(metadata)
+                .filter(meta -> "billing_document".equals(meta.getKey()))
+                .map(PedidosWoocommerceMetaDatum::getValue)
+                .findFirst()
+                .orElse("Clave no encontrada");
     }
 }
