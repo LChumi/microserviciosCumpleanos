@@ -57,6 +57,13 @@
 			<version>2.6.0</version>
 		</dependency>
 
+		<!--Dependencia modulo común -->
+		<dependency>
+			<groupId>com.cumpleanos.common</groupId>
+			<artifactId>utility-classes-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

@@ -3,10 +3,7 @@ package com.cumpleanos.assist.service.implementation;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEmailClient;
 import com.cumpleanos.assist.service.http.IModelsClient;
-import com.cumpleanos.common.records.AlmacenDTO;
-import com.cumpleanos.common.records.DTipoDocDTO;
-import com.cumpleanos.common.records.EmailRecord;
-import com.cumpleanos.common.records.PuntoVentaDTO;
+import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -80,6 +77,11 @@ public class ClientServiceImpl {
     public Cliente save(Cliente cliente) {
         return HttpResponseHandler.handle(() -> modelsClient.saveCliente(cliente),
                 "Error al guardar el cliente en BD " + cliente.getId() + " ruc:" + cliente.getRucCedula());
+    }
+
+    public ClienteRecord getByRucAndEmpresa(String ruc, Short tipo, Long empresa){
+        return HttpResponseHandler.handle(() -> modelsClient.findByRucAndEmpresa(ruc, tipo, empresa),
+                "Error al obtener el cliente por Ruc: "+ruc+" Tipo: "+tipo +"Empresa: "+empresa);
     }
 
     public List<String> getIdsClientes(String cliId, Long empresa) {

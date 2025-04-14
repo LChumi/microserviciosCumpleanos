@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.service.http;
 
 import com.cumpleanos.common.records.AlmacenDTO;
+import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.DTipoDocDTO;
 import com.cumpleanos.common.records.PuntoVentaDTO;
 import com.cumpleanos.core.models.entities.*;
@@ -49,6 +50,9 @@ public interface IModelsClient {
     ResponseEntity<Creposicion> saveCreposicionEc(@RequestBody Creposicion creposicion);
 
     //Todo servicio que viene del controlador ClienteController
+    @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
+    ResponseEntity<ClienteRecord> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("tipo") Short tipo, @PathVariable("empresa") Long empresa);
+
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente);
 
