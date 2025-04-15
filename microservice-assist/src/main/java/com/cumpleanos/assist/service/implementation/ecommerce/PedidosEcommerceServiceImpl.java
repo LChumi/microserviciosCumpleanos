@@ -7,6 +7,7 @@ import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.enums.ParametroEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,21 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             log.info("CLiente no ecnontrado agregando {}....", cedRuc);
             Long tipClient= clienteService.verificarJuridico(cedRuc);
             Cliente cliEcom = createClienteEcommerce(cedRuc, shiping, 2L, tipClient);
+            cliEcom.setCliCategoria(obtenerParametro(cliEcom.getId().getEmpresa(), ParametroEnum.CXC_CATEGORIA_CLIENTE));
+            cliEcom.setCliPolitica(obtenerParametro(cliEcom.getId().getEmpresa(), ParametroEnum.CXC_POLITICA_CLIENTE));
+            cliEcom.setCliCiudad(obtenerParametro(cliEcom.getId().getEmpresa(), ParametroEnum.CXP_CIUDAD_PROVEEDORES));
+
+            clienteService.save(cliEcom);
         }
+    }
+
+    private Long obtenerParametro(Long empresa, ParametroEnum parametro) {
+        return clienteService.verificarParametro(
+                empresa,
+                parametro.getSigla(),
+                parametro.getSecuencia(),
+                2
+        );
     }
 
 }

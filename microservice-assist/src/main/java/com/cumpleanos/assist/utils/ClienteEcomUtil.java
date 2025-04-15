@@ -47,6 +47,7 @@ public class ClienteEcomUtil {
         ecommerce.setCupo(BigDecimal.ZERO);
         ecommerce.setImpuestos((short)1);
         ecommerce.setFechaing(LocalDate.now());
+        ecommerce.setCliAgente(1005982L);
 
         return ecommerce;
     }

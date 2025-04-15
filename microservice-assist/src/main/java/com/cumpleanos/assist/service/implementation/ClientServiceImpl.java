@@ -95,6 +95,11 @@ public class ClientServiceImpl {
                 "Error al verificar el tipo juridico del ruc: "+ruc);
     }
 
+    public Long verificarParametro(Long empresa, String sigla, String secuencia, int tipo) {
+        return HttpResponseHandler.handle(() -> modelsClient.verificarParametro(empresa, sigla, secuencia, tipo),
+                "Error al verificar el parámetro, parametros empresa: "+empresa+" sigla: "+sigla+" secuencia: "+secuencia);
+    }
+
     //TODO servicio de microservicio notificacion
     public void enviarEmail(EmailRecord email) {
         try {

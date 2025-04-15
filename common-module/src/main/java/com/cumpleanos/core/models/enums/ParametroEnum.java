@@ -11,7 +11,9 @@ public enum ParametroEnum {
     CXP_POLITICA_PROVEEDOR("CXP", "POL"),
     COM_COA_TIPOCOM("COM", "COA"),
 
-    CXC_CATEGORIA_CLIENTE("CXC", "CAT"),;
+    CXC_CATEGORIA_CLIENTE("CXC", "CAT"),
+    CXC_POLITICA_CLIENTE("CXC", "CPN"),
+    CXC_CIUDADES_CLIENTES("CXC", "UBI"),;
 
     private final String sigla;
     private final String secuencia;
