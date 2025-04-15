@@ -4,11 +4,12 @@ import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.common.builders.ecommerce.Ing;
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
+import com.cumpleanos.common.records.BodegaDTO;
 import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.ServiceResponse;
-import com.cumpleanos.core.models.entities.Bodega;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.enums.ParametroEnum;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,14 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private Long findBodegaSis(Long empresa){
-        return null;
+        BodegaDTO bodega = clienteService.getBodegaDTO(empresa);
+        if (bodega == null) {
+            throw new EntityNotFoundException("Bodega no encontrada en la empresa: " + empresa);
+        }
+        return bodega.codigo();
     }
+
+    private Long findAlmacen(Long empresa){}
 
     private Long obtenerParametro(Long empresa, ParametroEnum parametro) {
         return clienteService.verificarParametro(

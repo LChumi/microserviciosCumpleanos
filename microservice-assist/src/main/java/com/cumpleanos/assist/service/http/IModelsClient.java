@@ -1,9 +1,6 @@
 package com.cumpleanos.assist.service.http;
 
-import com.cumpleanos.common.records.AlmacenDTO;
-import com.cumpleanos.common.records.ClienteRecord;
-import com.cumpleanos.common.records.DTipoDocDTO;
-import com.cumpleanos.common.records.PuntoVentaDTO;
+import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +55,10 @@ public interface IModelsClient {
 
     @GetMapping("/models/clientesid/{cliId}/{empresa}")
     ResponseEntity<List<String>> getClientes(@PathVariable("cliId") String cliId, @PathVariable("empresa") Long empresa);
+
+    //TODO servicio que viene del controlador BodegaController
+    @GetMapping("/models/bodega/web/{empresa}")
+    ResponseEntity<BodegaDTO> getBodegaWeb(@PathVariable Long empresa);
 
     //TODO servicio que viene del controlador FuctionOracleController
     @GetMapping("/models/verificarJuridico/{ruc}")
