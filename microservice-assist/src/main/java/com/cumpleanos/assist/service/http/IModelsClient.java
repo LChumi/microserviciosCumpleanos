@@ -38,6 +38,9 @@ public interface IModelsClient {
     @GetMapping("/models/almacenes/{empresa}")
     ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable("empresa") Long empresa);
 
+    @GetMapping("/almacen-get/{empresa}/{codigo}")
+    ResponseEntity<AlmacenDTO> getById(@PathVariable Long empresa, @PathVariable Long codigo);
+
     //TODO servicio que viene del controlador DfacturaController
     @PostMapping("/models/dfac/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
