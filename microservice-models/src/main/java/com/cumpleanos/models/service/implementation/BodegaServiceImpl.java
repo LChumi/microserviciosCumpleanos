@@ -27,13 +27,13 @@ public class BodegaServiceImpl extends GenericServiceImpl<Bodega, BodegaId> impl
         Bodega bod = repository.findById_EmpresaAndBodegaWebAndBodegaWebDef(empresa, (short) 1, (short) 1).orElseThrow(
                 () -> new EntityNotFoundException("BodegaWeb no encontrada en la empresa: " + empresa)
         );
-        return new BodegaDTO(
-                bod.getId().getEmpresa(),
-                bod.getId().getCodigo(),
-                bod.getBodId(),
-                bod.getNombre(),
-                bod.getBodUbicacion(),
-                false
-        );
+        return BodegaDTO.builder()
+                .id(bod.getId().getCodigo())
+                .empresa(bod.getId().getEmpresa())
+                .bodId(bod.getBodId())
+                .nombre(bod.getNombre())
+                .bodUbicacion(bod.getBodUbicacion())
+                .almacen(bod.getAlmacenId())
+                .build();
     }
 }

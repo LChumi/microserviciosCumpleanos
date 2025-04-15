@@ -1,6 +1,6 @@
 package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.common.records.BodegaDTO;
+import com.cumpleanos.common.records.UsrBodDTO;
 import com.cumpleanos.core.models.entities.Bodega;
 import com.cumpleanos.core.models.entities.UsrBod;
 import com.cumpleanos.core.models.ids.UsrbodId;
@@ -25,12 +25,12 @@ public class UsrBodServiceImpl extends GenericServiceImpl<UsrBod, UsrbodId> impl
     }
 
     @Override
-    public Set<BodegaDTO> listBodByUser(Long usuario, Long empresa) {
+    public Set<UsrBodDTO> listBodByUser(Long usuario, Long empresa) {
         Set<UsrBod> lista = repository.findById_UsuarioAndId_EmpresaOrderByUboDefaultDesc(usuario, empresa);
-        Set<BodegaDTO> bodegas = new LinkedHashSet<>();
+        Set<UsrBodDTO> bodegas = new LinkedHashSet<>();
         for (UsrBod usrBod : lista) {
             Bodega bod = usrBod.getBodega();
-            BodegaDTO bd = new BodegaDTO(
+            UsrBodDTO bd = new UsrBodDTO(
                     bod.getId().getEmpresa(),
                     bod.getId().getCodigo(),
                     bod.getBodId(),

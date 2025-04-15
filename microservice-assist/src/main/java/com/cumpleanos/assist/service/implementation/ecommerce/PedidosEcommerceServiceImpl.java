@@ -66,10 +66,12 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         if (bodega == null) {
             throw new EntityNotFoundException("Bodega no encontrada en la empresa: " + empresa);
         }
-        return bodega.codigo();
+        return bodega.getId();
     }
 
-    private Long findAlmacen(Long empresa){}
+    private Long findAlmacen(Long empresa){
+        return null;
+    }
 
     private Long obtenerParametro(Long empresa, ParametroEnum parametro) {
         return clienteService.verificarParametro(

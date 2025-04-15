@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.common.records.BodegaDTO;
+import com.cumpleanos.common.records.UsrBodDTO;
 import com.cumpleanos.models.service.interfaces.IUsrBodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,8 @@ public class UsrBodController {
     private final IUsrBodService service;
 
     @GetMapping("bodegas/usuario/{usrId}/{empresa}")
-    public ResponseEntity<Set<BodegaDTO>> listBodegasByUsr(@PathVariable Long usrId, @PathVariable Long empresa) {
-        Set<BodegaDTO> bodegas = service.listBodByUser(usrId, empresa);
+    public ResponseEntity<Set<UsrBodDTO>> listBodegasByUsr(@PathVariable Long usrId, @PathVariable Long empresa) {
+        Set<UsrBodDTO> bodegas = service.listBodByUser(usrId, empresa);
         return ResponseEntity.ok(bodegas);
     }
 }

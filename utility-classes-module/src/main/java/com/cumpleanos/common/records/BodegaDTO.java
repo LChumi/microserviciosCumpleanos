@@ -1,10 +1,17 @@
 package com.cumpleanos.common.records;
 
-public record BodegaDTO(
-        Long empresa,
-        Long codigo,
-        String bodId,
-        String nombre,
-        String ubicacion,
-        Boolean bodDefault) {
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class BodegaDTO {
+    private Long id;
+    private Long empresa;
+    private String bodId;
+    private String nombre;
+    private String bodUbicacion;
+    private Short proveedor;
+    private Long almacen;
+
 }

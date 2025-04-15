@@ -135,6 +135,9 @@ public class Bodega {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ubicacion;
 
+    @Column(name = "BOD_ALMACEN")
+    private Long almacenId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "BOD_ALMACEN", referencedColumnName = "ALM_CODIGO", insertable = false, updatable = false),
