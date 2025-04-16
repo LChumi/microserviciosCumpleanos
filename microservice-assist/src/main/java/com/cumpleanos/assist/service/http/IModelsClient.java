@@ -63,6 +63,10 @@ public interface IModelsClient {
     @GetMapping("/models/bodega/web/{empresa}")
     ResponseEntity<BodegaDTO> getBodegaWeb(@PathVariable Long empresa);
 
+    //TODO servicio que viene del controlador SistemaController
+    @GetMapping("/id-empresa/{id}")
+    ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id);
+
     //TODO servicio que viene del controlador FuctionOracleController
     @GetMapping("/models/verificarJuridico/{ruc}")
     ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);

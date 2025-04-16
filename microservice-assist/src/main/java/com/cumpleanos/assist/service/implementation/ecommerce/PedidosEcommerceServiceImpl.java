@@ -10,6 +10,7 @@ import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Creposicion;
+import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.core.models.ids.CreposicionId;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,8 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.cumpleanos.assist.utils.ClienteEcomUtil.createClienteEcommerce;
-import static com.cumpleanos.assist.utils.ClienteEcomUtil.getBillingDocument;
+import static com.cumpleanos.assist.utils.ClienteEcomUtil.*;
 
 @Slf4j
 @Service
@@ -31,9 +31,6 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
     private final EcommerceClientServiceImpl ecommerceClient;
     private final ClientServiceImpl clienteService;
-
-    private static final String USER = "WEB_USR";
-    private static final String OBS="PEDIDO GENERADO DESDE E-COMMERCE ";
 
     @Override
     public ServiceResponse getPedidosAndUpdateSystem() {
@@ -51,21 +48,9 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         Long cliId = findOrCreateCliente(cedRuc.trim(), pedido.getBilling());
         BodegaDTO bod = findBodegaSis();
         Long alm = findAlmacen(bod.getAlmacen(), bod.getEmpresa());
+        Sistema sis = getSistema(bod.getEmpresa());
 
-        Creposicion creposicion = new Creposicion();
-        CreposicionId id = new CreposicionId();
-
-        id.setEmpresa(2L);
-
-        creposicion.setId(id);
-        creposicion.setUsuario(USER);
-        creposicion.setObservacion(OBS+ pedido.getId());
-        creposicion.setFecha(LocalDate.now());
-        creposicion.setEstado((short) 0);
-        creposicion.setFinalizado((short) 0);
-        creposicion.setAlmacenId(alm);
-        creposicion.setBodegaId(bod.getId());
-        creposicion.setTipo(4L);
+        Creposicion creposicion = createCreposicion(pedido, sis, alm, bod.getId(), cliId);
     }
 
     private Long findOrCreateCliente(String cedRuc, Ing shiping) {
@@ -102,6 +87,14 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             throw new EntityNotFoundException("Almacén no encontrada en la empresa: " + empresa);
         }
         return almacen.codigo();
+    }
+
+    private Sistema getSistema(Long empresa) {
+        Sistema sis = clienteService.getEmpresa(empresa);
+        if (sis == null) {
+            throw new EntityNotFoundException("Empresa no encontrada");
+        }
+        return sis;
     }
 
     private Long obtenerParametro(Long empresa, ParametroEnum parametro) {

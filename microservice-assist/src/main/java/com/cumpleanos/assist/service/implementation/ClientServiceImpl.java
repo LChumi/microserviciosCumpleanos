@@ -101,6 +101,12 @@ public class ClientServiceImpl {
                 "Error al obtener el almacen en la empresa: " + empresa);
     }
 
+    //SISTEMA
+    public Sistema getEmpresa(Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.getEmpresaById(empresa),
+                "Error al obtener la empresa: " + empresa);
+    }
+
     //TODO servicio que viene de FunctionOracleController
     public Long verificarJuridico(String ruc){
         return HttpResponseHandler.handle(() -> modelsClient.verificarJuridico(ruc),
