@@ -42,10 +42,10 @@ public class Creposicion {
     private LocalDate fecha;
 
     @Column(name = "CRP_ESTADO")
-    private Boolean estado;
+    private Short estado;
 
     @Column(name = "CRP_FINALIZADO")
-    private Boolean finalizado;
+    private Short finalizado;
 
     @Column(name = "CRP_USR_LIQUIDA")
     private Long usrLiquida;
@@ -55,7 +55,7 @@ public class Creposicion {
 
     @ColumnDefault("0")
     @Column(name = "CRP_URGENTE")
-    private Boolean urgente;
+    private Short urgente;
 
     @Column(name = "CRP_CLI_DIR_ENTREGA", length = 100)
     private String cliDirEntrega;

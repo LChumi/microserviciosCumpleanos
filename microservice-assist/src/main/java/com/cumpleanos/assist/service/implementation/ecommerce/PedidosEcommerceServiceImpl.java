@@ -32,6 +32,9 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     private final EcommerceClientServiceImpl ecommerceClient;
     private final ClientServiceImpl clienteService;
 
+    private static final String USER = "WEB_USR";
+    private static final String OBS="PEDIDO GENERADO DESDE E-COMMERCE ";
+
     @Override
     public ServiceResponse getPedidosAndUpdateSystem() {
         LocalDate today = LocalDate.now();
@@ -55,9 +58,14 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         id.setEmpresa(2L);
 
         creposicion.setId(id);
-        creposicion.setUsuario("WEB_USR");
-        creposicion.setObservacion("PEDIDO GENERADO DESDE E-COMMERCE");
-        
+        creposicion.setUsuario(USER);
+        creposicion.setObservacion(OBS+ pedido.getId());
+        creposicion.setFecha(LocalDate.now());
+        creposicion.setEstado((short) 0);
+        creposicion.setFinalizado((short) 0);
+        creposicion.setAlmacenId(alm);
+        creposicion.setBodegaId(bod.getId());
+        creposicion.setTipo(4L);
     }
 
     private Long findOrCreateCliente(String cedRuc, Ing shiping) {
