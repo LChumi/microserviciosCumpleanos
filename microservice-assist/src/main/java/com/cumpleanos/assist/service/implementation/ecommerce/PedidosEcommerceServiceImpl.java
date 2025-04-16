@@ -9,7 +9,9 @@ import com.cumpleanos.common.records.BodegaDTO;
 import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.enums.ParametroEnum;
+import com.cumpleanos.core.models.ids.CreposicionId;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +49,14 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         BodegaDTO bod = findBodegaSis();
         Long alm = findAlmacen(bod.getAlmacen(), bod.getEmpresa());
 
+        Creposicion creposicion = new Creposicion();
+        CreposicionId id = new CreposicionId();
+
+        id.setEmpresa(2L);
+
+        creposicion.setId(id);
+        creposicion.setUsuario("WEB_USR");
+        creposicion.setObservacion("PEDIDO GENERADO DESDE E-COMMERCE");
         
     }
 
@@ -56,9 +66,13 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             log.info("CLiente no ecnontrado agregando {}....", cedRuc);
             Long tipClient= clienteService.verificarJuridico(cedRuc);
             Cliente cliEcom = createClienteEcommerce(cedRuc, shiping, 2L, tipClient);
-            cliEcom.setCliCategoria(obtenerParametro(cliEcom.getId().getEmpresa(), ParametroEnum.CXC_CATEGORIA_CLIENTE));
-            cliEcom.setCliPolitica(obtenerParametro(cliEcom.getId().getEmpresa(), ParametroEnum.CXC_POLITICA_CLIENTE));
-            cliEcom.setCliCiudad(obtenerParametro(cliEcom.getId().getEmpresa(), ParametroEnum.CXP_CIUDAD_PROVEEDORES));
+            Long empresa = cliEcom.getId().getEmpresa();
+            cliEcom.setCliCategoria(obtenerParametro(empresa, ParametroEnum.CXC_CATEGORIA_CLIENTE));
+            cliEcom.setCliPolitica(obtenerParametro(empresa, ParametroEnum.CXC_POLITICA_CLIENTE));
+            cliEcom.setCliCiudad(obtenerParametro(empresa, ParametroEnum.CXC_CIUDADES_CLIENTES));
+            cliEcom.setTipoCli(obtenerParametro(empresa, ParametroEnum.CXC_TIPOCLI_ECOOMERCE_CLIENTES));
+            cliEcom.setCliAgente(obtenerParametro(empresa, ParametroEnum.CXC_AGENTE_ECOMMERCE_CLIENTES));
+            cliEcom.setCliListapre(obtenerParametro(empresa, ParametroEnum.CXC_LISTAPRE_CLIENTES));
 
             Cliente c =clienteService.save(cliEcom);
             return c.getId().getCodigo();
