@@ -73,7 +73,7 @@ public class Creposicion {
     private BigDecimal descuento;
 
     @Column(name = "CRP_PORCIMPUESTO", precision = 17, scale = 4)
-    private BigDecimal porcimpuesto;
+    private Long porcimpuesto;
 
     @Column(name = "CRP_VAL_IMPUESTO", precision = 17, scale = 4)
     private BigDecimal valImpuesto;

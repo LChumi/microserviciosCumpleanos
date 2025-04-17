@@ -1,9 +1,6 @@
 package com.cumpleanos.assist.utils;
 
-import com.cumpleanos.common.builders.ecommerce.Ing;
-import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
-import com.cumpleanos.common.builders.ecommerce.PedidosWoocommerceMetaDatum;
-import com.cumpleanos.common.builders.ecommerce.ShippingLine;
+import com.cumpleanos.common.builders.ecommerce.*;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.entities.Sistema;
@@ -111,6 +108,35 @@ public class ClienteEcomUtil {
         return null;
     }
 
+    private void createTaxLines(Creposicion creposicion, PedidoWoocommerce pedido) {
+
+        BigDecimal total = safeParseBigDecimal(pedido.getTotal());
+        BigDecimal iva = safeParseBigDecimal(pedido.getTotal_tax());
+
+        BigDecimal subtotal = total.subtract(iva);
+
+        //Forma de pago
+        creposicion.setSubtotal(subtotal);
+        creposicion.setDescuento(safeParseBigDecimal(pedido.getDiscount_total()));
+
+        List<TaxLine> taxLine = pedido.getTax_lines();
+        List<ShippingLine> shipping = pedido.getShipping_lines();
+
+        if (taxLine != null && !taxLine.isEmpty()) {
+            TaxLine impuesto = taxLine.get(0);
+
+            //Impuesto
+            creposicion.setPorcimpuesto(impuesto.getRate_percent());
+            creposicion.setValImpuesto(safeParseBigDecimal(impuesto.getTax_total()));
+        }
+        if (shipping != null && !shipping.isEmpty()) {
+            ShippingLine envio = shipping.get(0);
+            creposicion.setTransporte(safeParseBigDecimal(envio.getTotal()));
+        }
+
+
+    }
+
     /**
      * Determina el tipo de retiro basado en la información de envío.
      * @param shipping Lista de líneas de envío (debe contener al menos un elemento).
@@ -125,6 +151,18 @@ public class ClienteEcomUtil {
         return envio != null && envio.getMethod_title().equalsIgnoreCase(METODO_ALMACEN_NARANCAY)
                 ? ALM.getCodigo()
                 : DOM.getCodigo();
+    }
+
+    /**
+     * @param value Dato de valor String con formato de decimales 0.00
+     * @return Bigdecimal convertiendo el string en decimal
+     */
+    public static BigDecimal safeParseBigDecimal(String value){
+        try{
+            return value != null ? new BigDecimal(value) : BigDecimal.ZERO;
+        }catch (NumberFormatException e){
+            return BigDecimal.ZERO; //Manejo de formatos no validos
+        }
     }
 
 }
