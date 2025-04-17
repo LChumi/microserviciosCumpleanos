@@ -25,7 +25,7 @@ public class ClienteEcomUtil {
     private static final String METODO_ALMACEN_NARANCAY = "Retiro en almacén (Narancay)";
 
 
-    private static String generarPrefix(String nombre){
+    public static String generarPrefix(String nombre){
         return "ECOM-"+nombre.substring(0,3).toUpperCase().trim();
     }
 

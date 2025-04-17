@@ -12,7 +12,6 @@ import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.core.models.enums.ParametroEnum;
-import com.cumpleanos.core.models.ids.CreposicionId;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +59,8 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             Long tipClient= clienteService.verificarJuridico(cedRuc);
             Cliente cliEcom = createClienteEcommerce(cedRuc, shiping, 2L, tipClient);
             Long empresa = cliEcom.getId().getEmpresa();
+
+            cliEcom.setCliId(generarIdCliente(cliEcom.getNombre(), cliEcom.getId().getEmpresa()));
             cliEcom.setCliCategoria(obtenerParametro(empresa, ParametroEnum.CXC_CATEGORIA_CLIENTE));
             cliEcom.setCliPolitica(obtenerParametro(empresa, ParametroEnum.CXC_POLITICA_CLIENTE));
             cliEcom.setCliCiudad(obtenerParametro(empresa, ParametroEnum.CXC_CIUDADES_CLIENTES));
@@ -104,6 +105,28 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                 parametro.getSecuencia(),
                 2
         );
+    }
+
+    private String generarIdCliente(String nombre, Long empresa){
+
+        String nuevoIdBase = generarPrefix(nombre);
+
+        //Lista de Ids existentes
+        List<String> ids = clienteService.getIdsClientes(nuevoIdBase, empresa);
+
+        if (ids.isEmpty()) {
+            return nuevoIdBase+"001";
+        } else {
+            int maxNum =0;
+            for (String id : ids) {
+                String numStr = id.substring(nuevoIdBase.length());
+                int num = Integer.parseInt(numStr);
+                if (num > maxNum) {
+                    maxNum = num;
+                }
+            }
+            return nuevoIdBase+String.format("%03d", maxNum + 1);
+        }
     }
 
 }
