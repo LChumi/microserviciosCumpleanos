@@ -42,16 +42,16 @@ public class Creposicion {
     private LocalDate fecha;
 
     @Column(name = "CRP_ESTADO")
-    private Short estado;
+    private Integer estado;
 
     @Column(name = "CRP_FINALIZADO")
-    private Short finalizado;
+    private Integer finalizado;
 
     @Column(name = "CRP_USR_LIQUIDA")
     private Long usrLiquida;
 
     @Column(name = "CRP_TIPO")
-    private Long tipo;
+    private Integer tipo;
 
     @ColumnDefault("0")
     @Column(name = "CRP_URGENTE")
@@ -131,7 +131,7 @@ public class Creposicion {
     private String linkFoto;
 
     @Column(name = "CRP_TIPO_RETIRO")
-    private Boolean tipoRetiro;
+    private Integer tipoRetiro;
 
     @Column(name = "CRP_REFERENCIA_ENTREGA", length = 300)
     private String referenciaEntrega;

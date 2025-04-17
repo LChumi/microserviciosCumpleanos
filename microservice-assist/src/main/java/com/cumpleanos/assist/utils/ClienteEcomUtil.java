@@ -3,6 +3,7 @@ package com.cumpleanos.assist.utils;
 import com.cumpleanos.common.builders.ecommerce.Ing;
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.common.builders.ecommerce.PedidosWoocommerceMetaDatum;
+import com.cumpleanos.common.builders.ecommerce.ShippingLine;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.entities.Sistema;
@@ -12,13 +13,16 @@ import com.cumpleanos.core.models.ids.CreposicionId;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.cumpleanos.common.utils.CedulatUtils.*;
+import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.*;
 
 public class ClienteEcomUtil {
 
     private static final String USER = "WEB_USR";
     private static final String OBS="PEDIDO GENERADO DESDE E-COMMERCE ";
+    private static final String METODO_ALMACEN_NARANCAY = "Retiro en almacén (Narancay)";
 
 
     private static String generarPrefix(String nombre){
@@ -85,22 +89,44 @@ public class ClienteEcomUtil {
         creposicion.setUsuario(USER);
         creposicion.setObservacion(OBS+ pedido.getId());
         creposicion.setFecha(LocalDate.now());
-        creposicion.setEstado((short) 0);
-        creposicion.setFinalizado((short) 0);
+        creposicion.setEstado(ESTADO_PROCESO.getCodigo());
+        creposicion.setFinalizado(NO_FINALIZADO.getCodigo());
         creposicion.setAlmacenId(alm);
         creposicion.setBodegaId(bod);
-        creposicion.setTipo(4L);
+        creposicion.setTipo(TIPO_ECOM.getCodigo());
         creposicion.setEmpresaGrupo(sis.getEmpresaGrupo());
         creposicion.setReferencia(String.valueOf(pedido.getId()));
 
-        //Detalle envio shipping
+        //Detalle envió shipping
         creposicion.setCliDirEntrega(address1);
         creposicion.setReferenciaEntrega(address2);
         creposicion.setCodigoPostal(pedido.getShipping().getPostcode());
 
         //Detalle entrega
+        creposicion.setTipoRetiro(getTipoRetiro(pedido.getShipping_lines()));
+
+        //Cliente
+        creposicion.setClienteId(cliId);
+
         return null;
     }
+
+    /**
+     * Determina el tipo de retiro basado en la información de envío.
+     * @param shipping Lista de líneas de envío (debe contener al menos un elemento).
+     * @return Código correspondiente al tipo de retiro (ALM o DOM).
+     * @throws IllegalArgumentException si la lista de envíos está vacía o nula.
+     */
+    private static Integer getTipoRetiro(List<ShippingLine> shipping) {
+        if (shipping == null || shipping.isEmpty()) {
+            throw new IllegalArgumentException("La lista de envíos no puede estar vacía ni nula.");
+        }
+        ShippingLine envio = shipping.get(0);
+        return envio != null && envio.getMethod_title().equalsIgnoreCase(METODO_ALMACEN_NARANCAY)
+                ? ALM.getCodigo()
+                : DOM.getCodigo();
+    }
+
 
 
 }
