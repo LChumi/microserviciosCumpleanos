@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.cumpleanos.assist.utils.ClienteEcomUtil.*;
+import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.*;
 
 @Slf4j
 @Service
@@ -49,7 +50,11 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         Long alm = findAlmacen(bod.getAlmacen(), bod.getEmpresa());
         Sistema sis = getSistema(bod.getEmpresa());
 
-        Creposicion creposicion = createCreposicion(pedido, sis, alm, bod.getId(), cliId);
+        Creposicion c = generarCabecera(pedido, sis, alm, bod.getId(), cliId);
+        Creposicion creposicion = clienteService.save(c);
+        if (creposicion == null) {
+
+        }
     }
 
     private Long findOrCreateCliente(String cedRuc, Ing shiping) {
