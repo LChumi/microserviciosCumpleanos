@@ -79,7 +79,7 @@ public class Dreposicion {
     private Producto producto;
 
     @Column(name= "DRP_CREPOSICION")
-    private Long dreposicionId;
+    private Long creposicionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
