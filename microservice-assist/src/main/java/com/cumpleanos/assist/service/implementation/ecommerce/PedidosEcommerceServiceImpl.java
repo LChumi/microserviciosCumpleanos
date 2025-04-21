@@ -3,6 +3,7 @@ package com.cumpleanos.assist.service.implementation.ecommerce;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.common.builders.ecommerce.Ing;
+import com.cumpleanos.common.builders.ecommerce.LineItem;
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
 import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.common.records.BodegaDTO;
@@ -43,7 +44,8 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     private void createCpedido(PedidoWoocommerce pedido) {
         String cedRuc = getBillingDocument(pedido.getMeta_data());
         if (cedRuc == null) {
-            throw new IllegalArgumentException("No se encontro los datos del cliente en el pedido");
+            log.error("No se encontro los datos del cliente en el pedido");
+            return;
         }
         Long cliId = findOrCreateCliente(cedRuc.trim(), pedido.getBilling());
         BodegaDTO bod = findBodegaSis();
@@ -53,7 +55,13 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         Creposicion c = generarCabecera(pedido, sis, alm, bod.getId(), cliId);
         Creposicion creposicion = clienteService.save(c);
         if (creposicion == null) {
+            log.error("No se pudo crear el registro de creposicion");
+            return;
+        }else {
+            //Insertar Detalle de productos
+            for (LineItem products : pedido.getLine_items()){
 
+            }
         }
     }
 

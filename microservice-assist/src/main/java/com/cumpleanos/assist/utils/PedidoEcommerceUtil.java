@@ -21,6 +21,7 @@ public class PedidoEcommerceUtil {
     private static final String OBS="PEDIDO GENERADO DESDE E-COMMERCE ";
     private static final String METODO_ALMACEN_NARANCAY = "local_pickup";
 
+    //TODO cabecera Creposicion
     /**
      * Metodo para generar la cabecera en BD
      * @param pedido -> datos del pedido recibido desde WooCommerce
@@ -126,11 +127,15 @@ public class PedidoEcommerceUtil {
      * @param value Dato de valor String con formato de decimales 0.00
      * @return Bigdecimal convertiendo el string en decimal
      */
-    public static BigDecimal safeParseBigDecimal(String value){
+    private static BigDecimal safeParseBigDecimal(String value){
         try{
             return value != null ? new BigDecimal(value) : BigDecimal.ZERO;
         }catch (NumberFormatException e){
             return BigDecimal.ZERO; //Manejo de formatos no validos
         }
     }
+
+    //TODO Detalle de producto agregado desde Ecommerce
+
+
 }
