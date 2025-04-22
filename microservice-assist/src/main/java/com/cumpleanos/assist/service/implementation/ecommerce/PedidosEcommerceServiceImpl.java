@@ -147,6 +147,12 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         }
     }
 
+    /**
+     * Metodo para insertar los detalles con los valores de los productos;
+     * @param items lista de items o productos desde WhooCommerce
+     * @param c la cabecera creada anteriormente en la base de datos.
+     * @param obs la observacion en caso de que exista.
+     */
     private void crearDetalles(List<LineItem> items, Creposicion c, String obs) {
         Dreposicion dreposicion;
         DreposicionId id = new DreposicionId();
@@ -166,11 +172,10 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                 dreposicion.setProductoId(producto.codigo());
                 dreposicion.setCantSol(item.getQuantity());
                 dreposicion.setCantApr(item.getQuantity());
-                //dreposicion.setObservacion();
                 dreposicion.setUsuario(USER);
                 dreposicion.setPrecio(BigDecimal.valueOf(item.getPrice()));
                 dreposicion.setTotal(BigDecimal.valueOf(item.getTotal()));
-                findDiscountAmount(dreposicion, item);
+                extractDiscountAndObservation(dreposicion, item);
                 clienteService.saveDreposicion(dreposicion);
             }
 
@@ -195,23 +200,40 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         }
     }
 
-    private static void findDiscountAmount(Dreposicion dreposicion, LineItem item){
+    private static void extractDiscountAndObservation(Dreposicion dreposicion, LineItem item) {
         if (item.getMeta_data() != null && !item.getMeta_data().isEmpty()) {
-            for (Map<String,Object> metaMap : item.getMeta_data()) {
-                    if ("_discount".equals(metaMap.get("key"))) {
-                        Map<String, Object> discountDetails = (Map<String, Object>) metaMap.get("value");
+            for (Map<String, Object> metaMap : item.getMeta_data()) {
+                String key = (String) metaMap.get("key");
+
+                // Descuento
+                if ("_discount".equals(key)) {
+                    Map<String, Object> discountDetails = (Map<String, Object>) metaMap.get("value");
+                    try {
                         double discountAmount = Double.parseDouble(discountDetails.get("amount").toString());
                         double discountPercentage = Double.parseDouble(discountDetails.get("percentage").toString());
 
-                        System.out.println("Descuento aplicado: $" + discountAmount);
-                        System.out.println("Porcentaje de descuento: " + discountPercentage + "%");
+                        log.info("Descuento aplicado: {}$", discountAmount);
+                        log.info("Porcentaje de descuento: {}", discountPercentage + "%");
 
                         dreposicion.setPorcDesc(BigDecimal.valueOf(discountPercentage));
                         dreposicion.setValDesc(BigDecimal.valueOf(discountAmount));
+                    } catch (Exception e) {
+                        System.err.println("Error al leer el descuento: " + e.getMessage());
                     }
+                }
+
+                // Observación
+                if ("observacion".equals(key)) {
+                    try {
+                        String observacion = metaMap.get("value").toString();
+                        log.info("Observación: {}", observacion);
+                        dreposicion.setObservacion(observacion);
+                    } catch (Exception e) {
+                        log.error("Error al leer la observación: {} " , e.getMessage());
+                    }
+                }
             }
         }
-
     }
 
 }
