@@ -34,6 +34,7 @@ public class PedidoEcommerceUtil {
     public static Creposicion generarCabecera(PedidoWoocommerce pedido, Sistema sis, Long alm, Long bod, Long cliId){
         String address1 = pedido.getShipping().getAddress_1() != null ? pedido.getShipping().getAddress_1().trim().toUpperCase() : "";
         String address2 = pedido.getShipping().getAddress_2() != null ? pedido.getShipping().getAddress_2().trim().toUpperCase() : "";
+        String referencia =pedido.getCustomer_note() != null ? pedido.getCustomer_note().trim().toUpperCase() : "";
 
         Creposicion creposicion = new Creposicion();
         CreposicionId id = new CreposicionId();
@@ -42,7 +43,7 @@ public class PedidoEcommerceUtil {
 
         creposicion.setId(id);
         creposicion.setUsuario(USER);
-        creposicion.setObservacion(OBS+ pedido.getId());
+        creposicion.setObservacion(OBS+ pedido.getId() + " " + referencia.trim().toUpperCase());
         creposicion.setFecha(LocalDate.now());
         creposicion.setEstado(ESTADO_PROCESO.getCodigo());
         creposicion.setFinalizado(NO_FINALIZADO.getCodigo());

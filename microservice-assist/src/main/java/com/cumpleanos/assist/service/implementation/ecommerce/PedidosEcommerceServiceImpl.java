@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static com.cumpleanos.assist.utils.ClienteEcomUtil.*;
 import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.*;
@@ -59,13 +60,13 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         Sistema sis = getSistema(bod.getEmpresa());
 
         Creposicion c = generarCabecera(pedido, sis, alm, bod.getId(), cliId);
-        Creposicion creposicion = clienteService.save(c);
+        Creposicion creposicion = clienteService.saveCreposicion(c);
         if (creposicion == null) {
             log.error("No se pudo crear el registro de creposicion");
             return;
         }else {
             //Insertar Detalle de productos
-            //Dreposicion detalle = crearDetalles(pedido.getLine_items(), c);
+            crearDetalles(pedido.getLine_items(), c, pedido.getCustomer_note());
         }
     }
 
@@ -85,7 +86,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             cliEcom.setCliAgente(obtenerParametro(empresa, ParametroEnum.CXC_AGENTE_ECOMMERCE_CLIENTES));
             cliEcom.setCliListapre(obtenerParametro(empresa, ParametroEnum.CXC_LISTAPRE_CLIENTES));
 
-            Cliente c =clienteService.save(cliEcom);
+            Cliente c =clienteService.saveCliente(cliEcom);
             return c.getId().getCodigo();
         }
         return cliente.codigo();
@@ -146,17 +147,19 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         }
     }
 
-    private void crearDetalles(List<LineItem> items, Creposicion c) {
+    private void crearDetalles(List<LineItem> items, Creposicion c, String obs) {
+        Dreposicion dreposicion;
+        DreposicionId id = new DreposicionId();
+
+        id.setEmpresa(c.getId().getEmpresa());
+
         for (LineItem item : items) {
             ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getSku(), c.getId().getEmpresa());
             if (producto == null){
                 log.error("Producto no existe en el sistema: {} ", item.getSku());
                 return;
             } else {
-                Dreposicion dreposicion = new Dreposicion();
-                DreposicionId id = new DreposicionId();
-
-                id.setEmpresa(c.getId().getEmpresa());
+                dreposicion = new Dreposicion();
 
                 dreposicion.setId(id);
                 dreposicion.setCreposicionId(c.getId().getCodigo());
@@ -166,19 +169,49 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                 //dreposicion.setObservacion();
                 dreposicion.setUsuario(USER);
                 dreposicion.setPrecio(BigDecimal.valueOf(item.getPrice()));
-               // dreposicion.setPorcDesc();
+                dreposicion.setTotal(BigDecimal.valueOf(item.getTotal()));
+                findDiscountAmount(dreposicion, item);
+                clienteService.saveDreposicion(dreposicion);
             }
 
+        }
+        if (c.getTipoRetiro() == 1){
+            ProductoDTO trans = productoService.getProductoByBarraAndEmpresa("TRANSIVA", c.getId().getEmpresa());
+            dreposicion = new Dreposicion();
+
+            dreposicion.setId(id);
+            dreposicion.setCreposicionId(c.getId().getCodigo());
+            dreposicion.setProductoId(trans.codigo());
+            dreposicion.setCantSol(1L);
+            dreposicion.setCantApr(1L);
+            if (obs!=null){
+                dreposicion.setObservacion(obs);
+            }
+            dreposicion.setUsuario(USER);
+            dreposicion.setPrecio(c.getTransporte());
+            dreposicion.setTotal(c.getTransporte());
+
+            clienteService.saveDreposicion(dreposicion);
         }
     }
 
-    /*private void findDiscountAmount(Dreposicion dreposicion, LineItem item){
+    private static void findDiscountAmount(Dreposicion dreposicion, LineItem item){
         if (item.getMeta_data() != null && !item.getMeta_data().isEmpty()) {
-            for (Object meta : item.getMeta_data()) {
-                if (meta)
+            for (Map<String,Object> metaMap : item.getMeta_data()) {
+                    if ("_discount".equals(metaMap.get("key"))) {
+                        Map<String, Object> discountDetails = (Map<String, Object>) metaMap.get("value");
+                        double discountAmount = Double.parseDouble(discountDetails.get("amount").toString());
+                        double discountPercentage = Double.parseDouble(discountDetails.get("percentage").toString());
+
+                        System.out.println("Descuento aplicado: $" + discountAmount);
+                        System.out.println("Porcentaje de descuento: " + discountPercentage + "%");
+
+                        dreposicion.setPorcDesc(BigDecimal.valueOf(discountPercentage));
+                        dreposicion.setValDesc(BigDecimal.valueOf(discountAmount));
+                    }
             }
         }
 
-    }*/
+    }
 
 }

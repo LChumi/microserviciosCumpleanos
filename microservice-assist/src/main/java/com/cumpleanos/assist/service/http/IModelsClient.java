@@ -47,7 +47,7 @@ public interface IModelsClient {
 
     //TODO servicio que viene del controlador DreposicionController
     @PostMapping("/models/save/dreposicion")
-    ResponseEntity<Dreposicion> save(Dreposicion dreposicion);
+    ResponseEntity<Dreposicion> saveDreposicion(Dreposicion dreposicion);
 
     //TODO servicio que viene del controlador CreposicionController
     @PostMapping("/models/creposicion/save")

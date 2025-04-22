@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -16,10 +17,10 @@ public class LineItem {
     private String tax_class;
     private String subtotal;
     private String subtotal_tax;
-    private String total;
+    private double total;
     private String total_tax;
     private List<Tax> taxes;
-    private List<Object> meta_data;
+    private List<Map<String, Object>> meta_data;
     private String sku;
     private double price;
     private Image image;

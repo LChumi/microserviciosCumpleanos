@@ -68,13 +68,19 @@ public class ClientServiceImpl {
     }
 
     //CREPOSICION
-    public Creposicion save(Creposicion c) {
+    public Creposicion saveCreposicion(Creposicion c) {
         return HttpResponseHandler.handle(() -> modelsClient.saveCreposicionEc(c),
                 "Error al guardar el creposicion en la empresa: " + c.getId().getEmpresa());
     }
 
+    //DREPOSICION
+    public Dreposicion saveDreposicion(Dreposicion d){
+        return HttpResponseHandler.handle(() -> modelsClient.saveDreposicion(d),
+                "Error al guardar el dreposicion en la empresa: " + d.getId().getEmpresa());
+    }
+
     //CLIENTE
-    public Cliente save(Cliente cliente) {
+    public Cliente saveCliente(Cliente cliente) {
         return HttpResponseHandler.handle(() -> modelsClient.saveCliente(cliente),
                 "Error al guardar el cliente en BD " + cliente.getId() + " ruc:" + cliente.getRucCedula());
     }
