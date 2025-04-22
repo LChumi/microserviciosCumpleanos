@@ -38,12 +38,16 @@ public interface IModelsClient {
     @GetMapping("/models/almacenes/{empresa}")
     ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable("empresa") Long empresa);
 
-    @GetMapping("/almacen-get/{empresa}/{codigo}")
+    @GetMapping("/models/almacen-get/{empresa}/{codigo}")
     ResponseEntity<AlmacenDTO> getById(@PathVariable Long empresa, @PathVariable Long codigo);
 
     //TODO servicio que viene del controlador DfacturaController
     @PostMapping("/models/dfac/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
+
+    //TODO servicio que viene del controlador DreposicionController
+    @PostMapping("/models/save/dreposicion")
+    ResponseEntity<Dreposicion> save(Dreposicion dreposicion);
 
     //TODO servicio que viene del controlador CreposicionController
     @PostMapping("/models/creposicion/save")
@@ -64,7 +68,7 @@ public interface IModelsClient {
     ResponseEntity<BodegaDTO> getBodegaWeb(@PathVariable Long empresa);
 
     //TODO servicio que viene del controlador SistemaController
-    @GetMapping("/id-empresa/{id}")
+    @GetMapping("models/id-empresa/{id}")
     ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id);
 
     //TODO servicio que viene del controlador FuctionOracleController

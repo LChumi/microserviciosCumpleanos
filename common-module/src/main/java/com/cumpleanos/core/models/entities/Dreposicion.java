@@ -29,10 +29,10 @@ public class Dreposicion {
     private DreposicionId id;
 
     @Column(name = "DRP_CANT_SOL", precision = 17, scale = 4)
-    private BigDecimal cantSol;
+    private Long cantSol;
 
     @Column(name = "DRP_CANT_APR", precision = 17, scale = 4)
-    private BigDecimal cantApr;
+    private Long cantApr;
 
     @Column(name = "DRP_OBSERVACION", length = 500)
     private String observacion;

@@ -1,6 +1,8 @@
 package com.cumpleanos.assist.service.implementation.ecommerce;
 
+import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
+import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.common.builders.ecommerce.Ing;
 import com.cumpleanos.common.builders.ecommerce.LineItem;
@@ -11,14 +13,17 @@ import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Cliente;
 import com.cumpleanos.core.models.entities.Creposicion;
+import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.core.models.enums.ParametroEnum;
+import com.cumpleanos.core.models.ids.DreposicionId;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,6 +37,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
     private final EcommerceClientServiceImpl ecommerceClient;
     private final ClientServiceImpl clienteService;
+    private final IProductoService productoService;
 
     @Override
     public ServiceResponse getPedidosAndUpdateSystem() {
@@ -59,9 +65,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             return;
         }else {
             //Insertar Detalle de productos
-            for (LineItem products : pedido.getLine_items()){
-
-            }
+            //Dreposicion detalle = crearDetalles(pedido.getLine_items(), c);
         }
     }
 
@@ -141,5 +145,40 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             return nuevoIdBase+String.format("%03d", maxNum + 1);
         }
     }
+
+    private void crearDetalles(List<LineItem> items, Creposicion c) {
+        for (LineItem item : items) {
+            ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getSku(), c.getId().getEmpresa());
+            if (producto == null){
+                log.error("Producto no existe en el sistema: {} ", item.getSku());
+                return;
+            } else {
+                Dreposicion dreposicion = new Dreposicion();
+                DreposicionId id = new DreposicionId();
+
+                id.setEmpresa(c.getId().getEmpresa());
+
+                dreposicion.setId(id);
+                dreposicion.setCreposicionId(c.getId().getCodigo());
+                dreposicion.setProductoId(producto.codigo());
+                dreposicion.setCantSol(item.getQuantity());
+                dreposicion.setCantApr(item.getQuantity());
+                //dreposicion.setObservacion();
+                dreposicion.setUsuario(USER);
+                dreposicion.setPrecio(BigDecimal.valueOf(item.getPrice()));
+               // dreposicion.setPorcDesc();
+            }
+
+        }
+    }
+
+    /*private void findDiscountAmount(Dreposicion dreposicion, LineItem item){
+        if (item.getMeta_data() != null && !item.getMeta_data().isEmpty()) {
+            for (Object meta : item.getMeta_data()) {
+                if (meta)
+            }
+        }
+
+    }*/
 
 }

@@ -17,9 +17,9 @@ import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.DOM;
 
 public class PedidoEcommerceUtil {
 
-    private static final String USER = "WEB_USR";
+    public static final String USER = "WEB_USR";
     private static final String OBS="PEDIDO GENERADO DESDE E-COMMERCE ";
-    private static final String METODO_ALMACEN_NARANCAY = "local_pickup";
+    private static final String METODO_RETIRO = "local_pickup";
 
     //TODO cabecera Creposicion
     /**
@@ -118,7 +118,7 @@ public class PedidoEcommerceUtil {
             throw new IllegalArgumentException("La lista de envíos no puede estar vacía ni nula.");
         }
         ShippingLine envio = shipping.get(0);
-        return envio != null && envio.getMethod_id().equalsIgnoreCase(METODO_ALMACEN_NARANCAY)
+        return envio != null && envio.getMethod_id().equalsIgnoreCase(METODO_RETIRO)
                 ? ALM.getCodigo()
                 : DOM.getCodigo();
     }
@@ -134,8 +134,4 @@ public class PedidoEcommerceUtil {
             return BigDecimal.ZERO; //Manejo de formatos no validos
         }
     }
-
-    //TODO Detalle de producto agregado desde Ecommerce
-
-
 }
