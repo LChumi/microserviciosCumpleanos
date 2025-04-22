@@ -200,6 +200,11 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         }
     }
 
+    /**
+     * Metodo para extraer la observacion y el descuento en caso de que exista
+     * @param dreposicion clase creada anteriormente
+     * @param item item del pedido de Woocommerce.
+     */
     private static void extractDiscountAndObservation(Dreposicion dreposicion, LineItem item) {
         if (item.getMeta_data() != null && !item.getMeta_data().isEmpty()) {
             for (Map<String, Object> metaMap : item.getMeta_data()) {
