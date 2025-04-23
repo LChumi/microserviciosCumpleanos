@@ -45,14 +45,6 @@ public interface IModelsClient {
     @PostMapping("/models/dfac/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
 
-    //TODO servicio que viene del controlador DreposicionController
-    @PostMapping("/models/save/dreposicion")
-    ResponseEntity<Dreposicion> saveDreposicion(Dreposicion dreposicion);
-
-    //TODO servicio que viene del controlador CreposicionController
-    @PostMapping("/models/creposicion/save")
-    ResponseEntity<Creposicion> saveCreposicionEc(@RequestBody Creposicion creposicion);
-
     //Todo servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
     ResponseEntity<ClienteRecord> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("tipo") Short tipo, @PathVariable("empresa") Long empresa);
@@ -74,6 +66,19 @@ public interface IModelsClient {
     //TODO servicio que viene del controlador FuctionOracleController
     @GetMapping("/models/verificarJuridico/{ruc}")
     ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
+
+    //ECOMMERCE
+    //TODO servicio que viene del controlador DreposicionController
+    @PostMapping("/models/save/dreposicion")
+    ResponseEntity<Dreposicion> saveDreposicion(Dreposicion dreposicion);
+
+    //TODO servicio que viene del controlador CreposicionController
+    @PostMapping("/models/creposicion/save")
+    ResponseEntity<Creposicion> saveCreposicionEc(@RequestBody Creposicion creposicion);
+
+    //TODO servicio que viene del controlador ReposicionController
+    @PostMapping("/models/crear-pago")
+    ResponseEntity<ReposicionPago> createPago(@RequestBody ReposicionPago reposicionPago);
 
     @GetMapping("/models/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
     ResponseEntity<Long> verificarParametro(@PathVariable("empresa") Long empresa,

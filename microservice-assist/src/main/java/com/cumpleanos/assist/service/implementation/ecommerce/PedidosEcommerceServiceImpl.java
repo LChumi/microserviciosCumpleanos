@@ -12,12 +12,10 @@ import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.common.records.BodegaDTO;
 import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.common.records.ServiceResponse;
-import com.cumpleanos.core.models.entities.Cliente;
-import com.cumpleanos.core.models.entities.Creposicion;
-import com.cumpleanos.core.models.entities.Dreposicion;
-import com.cumpleanos.core.models.entities.Sistema;
+import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.core.models.ids.DreposicionId;
+import com.cumpleanos.core.models.ids.ReposicionPagoId;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +69,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             if (detalles == 0){
                 log.warn("Lista de detalles vacia");
             } else {
-
+                crearFormaPago(c, pedido);
             }
         }
     }
@@ -215,6 +213,16 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         }
 
         return clienteService.saveDreposicion(dreposicion);
+    }
+
+    private void crearFormaPago(Creposicion c, PedidoWoocommerce p) {
+        ReposicionPago pago = new ReposicionPago();
+        ReposicionPagoId id = new ReposicionPagoId();
+        id.setEmpresa(c.getId().getEmpresa());
+
+        pago.setId(id);
+        pago.setCreposicionId(c.getId().getCodigo());
+
     }
 
 }

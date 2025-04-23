@@ -67,18 +67,6 @@ public class ClientServiceImpl {
                 "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
     }
 
-    //CREPOSICION
-    public Creposicion saveCreposicion(Creposicion c) {
-        return HttpResponseHandler.handle(() -> modelsClient.saveCreposicionEc(c),
-                "Error al guardar el creposicion en la empresa: " + c.getId().getEmpresa());
-    }
-
-    //DREPOSICION
-    public Dreposicion saveDreposicion(Dreposicion d){
-        return HttpResponseHandler.handle(() -> modelsClient.saveDreposicion(d),
-                "Error al guardar el dreposicion en la empresa: " + d.getId().getEmpresa());
-    }
-
     //CLIENTE
     public Cliente saveCliente(Cliente cliente) {
         return HttpResponseHandler.handle(() -> modelsClient.saveCliente(cliente),
@@ -111,6 +99,25 @@ public class ClientServiceImpl {
     public Sistema getEmpresa(Long empresa) {
         return HttpResponseHandler.handle(() -> modelsClient.getEmpresaById(empresa),
                 "Error al obtener la empresa: " + empresa);
+    }
+
+    /* --- ECOMMERCE ---*/
+    //CREPOSICION
+    public Creposicion saveCreposicion(Creposicion c) {
+        return HttpResponseHandler.handle(() -> modelsClient.saveCreposicionEc(c),
+                "Error al guardar el creposicion en la empresa: " + c.getId().getEmpresa());
+    }
+
+    //DREPOSICION
+    public Dreposicion saveDreposicion(Dreposicion d){
+        return HttpResponseHandler.handle(() -> modelsClient.saveDreposicion(d),
+                "Error al guardar el dreposicion en la empresa: " + d.getId().getEmpresa());
+    }
+
+    //REPOSICIONPAGO
+    public ReposicionPago saveReposicionPago(ReposicionPago pago){
+        return HttpResponseHandler.handle(() -> modelsClient.createPago(pago),
+                "Error al crar el pago en la empresa: " + pago.getId().getEmpresa());
     }
 
     //TODO servicio que viene de FunctionOracleController
