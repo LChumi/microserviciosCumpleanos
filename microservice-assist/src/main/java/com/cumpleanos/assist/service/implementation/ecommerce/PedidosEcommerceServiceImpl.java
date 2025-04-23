@@ -212,19 +212,24 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
                 // Descuento
                 if ("_discount".equals(key)) {
-                    Map<String, Object> discountDetails = (Map<String, Object>) metaMap.get("value");
-                    try {
-                        double discountAmount = Double.parseDouble(discountDetails.get("amount").toString());
-                        double discountPercentage = Double.parseDouble(discountDetails.get("percentage").toString());
+                    Object value = metaMap.get("value");
+                    if (value instanceof Map) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> discountDetails = (Map<String, Object>) value;
+                        try {
+                            double discountAmount = Double.parseDouble(discountDetails.get("amount").toString());
+                            double discountPercentage = Double.parseDouble(discountDetails.get("percentage").toString());
 
-                        log.info("Descuento aplicado: {}$", discountAmount);
-                        log.info("Porcentaje de descuento: {}", discountPercentage + "%");
+                            log.info("Descuento aplicado: {}$", discountAmount);
+                            log.info("Porcentaje de descuento: {}", discountPercentage + "%");
 
-                        dreposicion.setPorcDesc(BigDecimal.valueOf(discountPercentage));
-                        dreposicion.setValDesc(BigDecimal.valueOf(discountAmount));
-                    } catch (Exception e) {
-                        System.err.println("Error al leer el descuento: " + e.getMessage());
+                            dreposicion.setPorcDesc(BigDecimal.valueOf(discountPercentage));
+                            dreposicion.setValDesc(BigDecimal.valueOf(discountAmount));
+                        } catch (Exception e) {
+                            System.err.println("Error al leer el descuento: " + e.getMessage());
+                        }
                     }
+
                 }
 
                 // Observación
