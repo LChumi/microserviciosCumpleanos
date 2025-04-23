@@ -4,6 +4,7 @@ import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.models.service.interfaces.ICreposicionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,8 @@ public class CreposicionController {
 
     @PostMapping("/creposicion/save")
     public ResponseEntity<Creposicion> save(@RequestBody Creposicion creposicion) {
-        return ResponseEntity.ok(service.save(creposicion));
+        Creposicion create= service.save(creposicion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
     @GetMapping("/creposicion/find/{codigo}/{empresa}")

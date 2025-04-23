@@ -4,6 +4,7 @@ import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.ids.CreposicionId;
 import com.cumpleanos.models.persistence.repository.CreposicionRepository;
 import com.cumpleanos.models.service.interfaces.ICreposicionService;
+import com.cumpleanos.models.utils.enums.Sequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -27,5 +28,17 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
         id.setCodigo(codigo);
         Creposicion c = repository.findById(id).orElse(null);
         return c != null;
+    }
+
+    @Override
+    public Creposicion save(Creposicion entity) {
+        Long codigo = getNextSequenceValue(Sequence.CREPOSICIONCODIGO);
+
+        CreposicionId id = new CreposicionId();
+        id.setCodigo(codigo);
+        id.setEmpresa(entity.getId().getEmpresa());
+        entity.setId(id);
+
+        return super.save(entity);
     }
 }

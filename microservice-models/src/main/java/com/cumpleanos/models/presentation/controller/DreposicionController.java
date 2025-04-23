@@ -6,6 +6,7 @@ import com.cumpleanos.models.service.interfaces.IDreposicionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class DreposicionController {
     @PostMapping("/save/dreposicion")
     public ResponseEntity<Dreposicion> save(Dreposicion dreposicion) {
         Dreposicion dreposicionSave = service.save(dreposicion);
-        return ResponseEntity.ok(dreposicionSave);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dreposicionSave);
     }
 
     @GetMapping("/get-creposicion/{codigo}/{empresa}")
