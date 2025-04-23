@@ -4,6 +4,7 @@ import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
+import com.cumpleanos.assist.utils.DiscountObs;
 import com.cumpleanos.common.builders.ecommerce.Ing;
 import com.cumpleanos.common.builders.ecommerce.LineItem;
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
@@ -25,8 +26,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.cumpleanos.assist.utils.ClienteEcomUtil.*;
 import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.*;
@@ -66,7 +67,12 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             return;
         }else {
             //Insertar Detalle de productos
-            crearDetalles(pedido.getLine_items(), c, pedido.getCustomer_note());
+            int detalles =crearDetalles(pedido.getLine_items(), c, pedido.getCustomer_note());
+            if (detalles == 0){
+                log.warn("Lista de detalles vacia");
+            } else {
+
+            }
         }
     }
 
@@ -153,97 +159,62 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
      * @param c la cabecera creada anteriormente en la base de datos.
      * @param obs la observacion en caso de que exista.
      */
-    private void crearDetalles(List<LineItem> items, Creposicion c, String obs) {
-        Dreposicion dreposicion;
-        DreposicionId id = new DreposicionId();
+    private int crearDetalles(List<LineItem> items, Creposicion c, String obs) {
 
+        int count =0;
+        DreposicionId id = new DreposicionId();
         id.setEmpresa(c.getId().getEmpresa());
 
+        List<String> errores = new ArrayList<>();
+
         for (LineItem item : items) {
+
+            /* parsear meta_data */
+            DiscountObs meta = DiscountObs.of(item.getMeta_data());
+
+            /* obtener el producto por sku */
             ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getSku(), c.getId().getEmpresa());
             if (producto == null){
-                log.error("Producto no existe en el sistema: {} ", item.getSku());
-                return;
-            } else {
-                dreposicion = new Dreposicion();
-
-                dreposicion.setId(id);
-                dreposicion.setCreposicionId(c.getId().getCodigo());
-                dreposicion.setProductoId(producto.codigo());
-                dreposicion.setCantSol(item.getQuantity());
-                dreposicion.setCantApr(item.getQuantity());
-                dreposicion.setUsuario(USER);
-                dreposicion.setPrecio(BigDecimal.valueOf(item.getPrice()));
-                dreposicion.setTotal(BigDecimal.valueOf(item.getTotal()));
-                extractDiscountAndObservation(dreposicion, item);
-                clienteService.saveDreposicion(dreposicion);
+                errores.add("Producto no existe en el sistema: "+ item.getSku());
+                continue;
             }
 
+            Dreposicion detalle = crearDreposicion(id, c, producto, item.getQuantity(), BigDecimal.valueOf(item.getPrice()), BigDecimal.valueOf(item.getTotal()), meta.observacion());
+
+            if (meta.hasDiscount()){
+                detalle.setPorcDesc(meta.porcDesc());
+                detalle.setValDesc(meta.valDesc());
+                clienteService.saveDreposicion(detalle);
+            }
+
+            count++;
         }
         if (c.getTipoRetiro() == 1){
             ProductoDTO trans = productoService.getProductoByBarraAndEmpresa("TRANSIVA", c.getId().getEmpresa());
-            dreposicion = new Dreposicion();
-
-            dreposicion.setId(id);
-            dreposicion.setCreposicionId(c.getId().getCodigo());
-            dreposicion.setProductoId(trans.codigo());
-            dreposicion.setCantSol(1L);
-            dreposicion.setCantApr(1L);
-            if (obs!=null){
-                dreposicion.setObservacion(obs);
-            }
-            dreposicion.setUsuario(USER);
-            dreposicion.setPrecio(c.getTransporte());
-            dreposicion.setTotal(c.getTransporte());
-
-            clienteService.saveDreposicion(dreposicion);
+            crearDreposicion(id, c, trans, 1L, c.getTransporte(), c.getTransporte(), obs);
+            count++;
         }
+        errores.forEach(log::error);
+        return count;
     }
 
-    /**
-     * Metodo para extraer la observacion y el descuento en caso de que exista
-     * @param dreposicion clase creada anteriormente
-     * @param item item del pedido de Woocommerce.
-     */
-    private static void extractDiscountAndObservation(Dreposicion dreposicion, LineItem item) {
-        if (item.getMeta_data() != null && !item.getMeta_data().isEmpty()) {
-            for (Map<String, Object> metaMap : item.getMeta_data()) {
-                String key = (String) metaMap.get("key");
 
-                // Descuento
-                if ("_discount".equals(key)) {
-                    Object value = metaMap.get("value");
-                    if (value instanceof Map) {
-                        @SuppressWarnings("unchecked")
-                        Map<String, Object> discountDetails = (Map<String, Object>) value;
-                        try {
-                            double discountAmount = Double.parseDouble(discountDetails.get("amount").toString());
-                            double discountPercentage = Double.parseDouble(discountDetails.get("percentage").toString());
+    private Dreposicion crearDreposicion(DreposicionId id, Creposicion c, ProductoDTO producto, Long cantidad, BigDecimal precio, BigDecimal total, String observacion) {
+        Dreposicion dreposicion = new Dreposicion();
+        dreposicion.setId(id);
+        dreposicion.setCreposicionId(c.getId().getCodigo());
+        dreposicion.setProductoId(producto.codigo());
+        dreposicion.setCantSol(cantidad);
+        dreposicion.setCantApr(cantidad);
+        dreposicion.setUsuario(USER);
+        dreposicion.setPrecio(precio);
+        dreposicion.setTotal(total);
 
-                            log.info("Descuento aplicado: {}$", discountAmount);
-                            log.info("Porcentaje de descuento: {}", discountPercentage + "%");
-
-                            dreposicion.setPorcDesc(BigDecimal.valueOf(discountPercentage));
-                            dreposicion.setValDesc(BigDecimal.valueOf(discountAmount));
-                        } catch (Exception e) {
-                            System.err.println("Error al leer el descuento: " + e.getMessage());
-                        }
-                    }
-
-                }
-
-                // Observación
-                if ("observacion".equals(key)) {
-                    try {
-                        String observacion = metaMap.get("value").toString();
-                        log.info("Observación: {}", observacion);
-                        dreposicion.setObservacion(observacion);
-                    } catch (Exception e) {
-                        log.error("Error al leer la observación: {} " , e.getMessage());
-                    }
-                }
-            }
+        if (observacion != null) {
+            dreposicion.setObservacion(observacion);
         }
+
+        return clienteService.saveDreposicion(dreposicion);
     }
 
 }
