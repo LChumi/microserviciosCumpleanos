@@ -84,9 +84,9 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         Long alm = findAlmacen(bod.getAlmacen(), bod.getEmpresa());
         Sistema sis = getSistema(bod.getEmpresa());
 
-        Creposicion c = generarCabecera(pedido, sis, alm, bod.getId(), cliId);
-        Creposicion creposicion = clienteService.saveCreposicion(c);
-        if (creposicion == null) {
+        Creposicion cabecera = generarCabecera(pedido, sis, alm, bod.getId(), cliId);
+        Creposicion c = clienteService.saveCreposicion(cabecera);
+        if (c == null) {
             log.error("No se pudo crear el registro de creposicion");
             return;
         } else {
