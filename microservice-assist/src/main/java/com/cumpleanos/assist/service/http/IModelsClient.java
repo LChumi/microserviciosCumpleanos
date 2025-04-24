@@ -84,5 +84,5 @@ public interface IModelsClient {
     ResponseEntity<Long> verificarParametro(@PathVariable("empresa") Long empresa,
                                             @PathVariable("sigla") String sigla,
                                             @PathVariable("secuencia") String secuencia,
-                                            @PathVariable("tipo") int tipo );
+                                            @PathVariable("tipo") int tipo);
 }

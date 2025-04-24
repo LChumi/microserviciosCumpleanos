@@ -12,8 +12,8 @@ import static com.cumpleanos.common.utils.CedulatUtils.*;
 
 public class ClienteEcomUtil {
 
-    public static String generarPrefix(String nombre){
-        return "ECOM-"+nombre.substring(0,3).toUpperCase().trim();
+    public static String generarPrefix(String nombre) {
+        return "ECOM-" + nombre.substring(0, 3).toUpperCase().trim();
     }
 
     public static String getBillingDocument(PedidosWoocommerceMetaDatum[] metadata) {
@@ -34,8 +34,8 @@ public class ClienteEcomUtil {
                 (billing.getAddress_2() != null ? billing.getAddress_2().trim() : "");
         direccion = direccion.trim().toUpperCase();
 
-        nombre = validarCaracteres(nombre.toUpperCase().trim(),100);
-        direccion = validarCaracteres(direccion.toUpperCase().trim(),100);
+        nombre = validarCaracteres(nombre.toUpperCase().trim(), 100);
+        direccion = validarCaracteres(direccion.toUpperCase().trim(), 100);
 
         String email = billing.getEmail() != null ? billing.getEmail().trim() : "";
         String telefono = billing.getPhone() != null ? billing.getPhone().trim() : "";
@@ -54,7 +54,7 @@ public class ClienteEcomUtil {
         ecommerce.setTipoper(tipCliente.shortValue());
         ecommerce.setInactivo(true);
         ecommerce.setCupo(BigDecimal.ZERO);
-        ecommerce.setImpuestos((short)1);
+        ecommerce.setImpuestos((short) 1);
         ecommerce.setFechaing(LocalDate.now());
         ecommerce.setMail(email);
         ecommerce.setTelefono1(telefono);

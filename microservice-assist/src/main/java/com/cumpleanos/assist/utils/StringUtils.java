@@ -35,7 +35,7 @@ public class StringUtils {
         return limpio;
     }
 
-    public static Integer longToInteger(Long valor){
+    public static Integer longToInteger(Long valor) {
         return Math.toIntExact(valor);
     }
 }

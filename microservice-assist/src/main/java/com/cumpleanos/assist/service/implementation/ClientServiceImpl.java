@@ -73,9 +73,9 @@ public class ClientServiceImpl {
                 "Error al guardar el cliente en BD " + cliente.getId() + " ruc:" + cliente.getRucCedula());
     }
 
-    public ClienteRecord getByRucAndEmpresa(String ruc, Short tipo, Long empresa){
+    public ClienteRecord getByRucAndEmpresa(String ruc, Short tipo, Long empresa) {
         return HttpResponseHandler.handle(() -> modelsClient.findByRucAndEmpresa(ruc, tipo, empresa),
-                "Error al obtener el cliente por Ruc: "+ruc+" Tipo: "+tipo +"Empresa: "+empresa);
+                "Error al obtener el cliente por Ruc: " + ruc + " Tipo: " + tipo + "Empresa: " + empresa);
     }
 
     public List<String> getIdsClientes(String cliId, Long empresa) {
@@ -109,26 +109,26 @@ public class ClientServiceImpl {
     }
 
     //DREPOSICION
-    public Dreposicion saveDreposicion(Dreposicion d){
+    public Dreposicion saveDreposicion(Dreposicion d) {
         return HttpResponseHandler.handle(() -> modelsClient.saveDreposicion(d),
                 "Error al guardar el dreposicion en la empresa: " + d.getId().getEmpresa());
     }
 
     //REPOSICIONPAGO
-    public ReposicionPago saveReposicionPago(ReposicionPago pago){
+    public ReposicionPago saveReposicionPago(ReposicionPago pago) {
         return HttpResponseHandler.handle(() -> modelsClient.createPago(pago),
                 "Error al crar el pago en la empresa: " + pago.getId().getEmpresa());
     }
 
     //TODO servicio que viene de FunctionOracleController
-    public Long verificarJuridico(String ruc){
+    public Long verificarJuridico(String ruc) {
         return HttpResponseHandler.handle(() -> modelsClient.verificarJuridico(ruc),
-                "Error al verificar el tipo juridico del ruc: "+ruc);
+                "Error al verificar el tipo juridico del ruc: " + ruc);
     }
 
     public Long verificarParametro(Long empresa, String sigla, String secuencia, int tipo) {
         return HttpResponseHandler.handle(() -> modelsClient.verificarParametro(empresa, sigla, secuencia, tipo),
-                "Error al verificar el parámetro, parametros empresa: "+empresa+" sigla: "+sigla+" secuencia: "+secuencia);
+                "Error al verificar el parámetro, parametros empresa: " + empresa + " sigla: " + sigla + " secuencia: " + secuencia);
     }
 
     //TODO servicio de microservicio notificacion

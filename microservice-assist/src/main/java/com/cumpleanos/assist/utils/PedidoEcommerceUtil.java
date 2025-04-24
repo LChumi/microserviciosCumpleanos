@@ -18,23 +18,25 @@ import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.DOM;
 public class PedidoEcommerceUtil {
 
     public static final String USER = "WEB_USR";
-    private static final String OBS="PEDIDO GENERADO DESDE E-COMMERCE ";
+    private static final String OBS = "PEDIDO GENERADO DESDE E-COMMERCE ";
     private static final String METODO_RETIRO = "local_pickup";
 
     //TODO cabecera Creposicion
+
     /**
      * Metodo para generar la cabecera en BD
+     *
      * @param pedido -> datos del pedido recibido desde WooCommerce
-     * @param sis -> empresa donde se va a registrar la informacion
-     * @param alm codigo del Almacen
-     * @param bod codigo de Bodega
-     * @param cliId codigo del cliente
+     * @param sis    -> empresa donde se va a registrar la informacion
+     * @param alm    codigo del Almacen
+     * @param bod    codigo de Bodega
+     * @param cliId  codigo del cliente
      * @return creposicion cabecera con la informacion del pedido
      */
-    public static Creposicion generarCabecera(PedidoWoocommerce pedido, Sistema sis, Long alm, Long bod, Long cliId){
+    public static Creposicion generarCabecera(PedidoWoocommerce pedido, Sistema sis, Long alm, Long bod, Long cliId) {
         String address1 = pedido.getShipping().getAddress_1() != null ? pedido.getShipping().getAddress_1().trim().toUpperCase() : "";
         String address2 = pedido.getShipping().getAddress_2() != null ? pedido.getShipping().getAddress_2().trim().toUpperCase() : "";
-        String referencia =pedido.getCustomer_note() != null ? pedido.getCustomer_note().trim().toUpperCase() : "";
+        String referencia = pedido.getCustomer_note() != null ? pedido.getCustomer_note().trim().toUpperCase() : "";
 
         Creposicion creposicion = new Creposicion();
         CreposicionId id = new CreposicionId();
@@ -43,7 +45,7 @@ public class PedidoEcommerceUtil {
 
         creposicion.setId(id);
         creposicion.setUsuario(USER);
-        creposicion.setObservacion(OBS+ pedido.getId() + " " + referencia.trim().toUpperCase());
+        creposicion.setObservacion(OBS + pedido.getId() + " " + referencia.trim().toUpperCase());
         creposicion.setFecha(LocalDate.now());
         creposicion.setEstado(ESTADO_PROCESO.getCodigo());
         creposicion.setFinalizado(NO_FINALIZADO.getCodigo());
@@ -71,8 +73,9 @@ public class PedidoEcommerceUtil {
 
     /**
      * Metodo para agregar la información de Transporte y la información de impuesto
+     *
      * @param creposicion Objeto que se crea campos vacios.
-     * @param pedido Objeto con la información del pedido recibida desde WooCommerce
+     * @param pedido      Objeto con la información del pedido recibida desde WooCommerce
      */
     private static void createTaxAndShipingLine(Creposicion creposicion, PedidoWoocommerce pedido) {
 
@@ -110,6 +113,7 @@ public class PedidoEcommerceUtil {
 
     /**
      * Determina el tipo de retiro basado en la información de envío.
+     *
      * @param shipping Lista de líneas de envío (debe contener al menos un elemento).
      * @return Código correspondiente al tipo de retiro (ALM o DOM).
      * @throws IllegalArgumentException si la lista de envíos está vacía o nula.
@@ -128,10 +132,10 @@ public class PedidoEcommerceUtil {
      * @param value Dato de valor String con formato de decimales 0.00
      * @return Bigdecimal convertiendo el string en decimal
      */
-    private static BigDecimal safeParseBigDecimal(String value){
-        try{
+    private static BigDecimal safeParseBigDecimal(String value) {
+        try {
             return value != null ? new BigDecimal(value) : BigDecimal.ZERO;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return BigDecimal.ZERO; //Manejo de formatos no validos
         }
     }

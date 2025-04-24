@@ -63,10 +63,10 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         if (creposicion == null) {
             log.error("No se pudo crear el registro de creposicion");
             return;
-        }else {
+        } else {
             //Insertar Detalle de productos
-            int detalles =crearDetalles(pedido.getLine_items(), c, pedido.getCustomer_note());
-            if (detalles == 0){
+            int detalles = crearDetalles(pedido.getLine_items(), c, pedido.getCustomer_note());
+            if (detalles == 0) {
                 log.warn("Lista de detalles vacia");
             } else {
                 crearFormaPago(c, pedido);
@@ -75,10 +75,10 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private Long findOrCreateCliente(String cedRuc, Ing shiping) {
-        ClienteRecord cliente = clienteService.getByRucAndEmpresa(cedRuc,(short) 1, 2L);
+        ClienteRecord cliente = clienteService.getByRucAndEmpresa(cedRuc, (short) 1, 2L);
         if (cliente == null) {
             log.info("CLiente no ecnontrado agregando {}....", cedRuc);
-            Long tipClient= clienteService.verificarJuridico(cedRuc);
+            Long tipClient = clienteService.verificarJuridico(cedRuc);
             Cliente cliEcom = createClienteEcommerce(cedRuc, shiping, 2L, tipClient);
             Long empresa = cliEcom.getId().getEmpresa();
 
@@ -90,21 +90,21 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             cliEcom.setCliAgente(obtenerParametro(empresa, ParametroEnum.CXC_AGENTE_ECOMMERCE_CLIENTES));
             cliEcom.setCliListapre(obtenerParametro(empresa, ParametroEnum.CXC_LISTAPRE_CLIENTES));
 
-            Cliente c =clienteService.saveCliente(cliEcom);
+            Cliente c = clienteService.saveCliente(cliEcom);
             return c.getId().getCodigo();
         }
         return cliente.codigo();
     }
 
-    private BodegaDTO findBodegaSis(){
+    private BodegaDTO findBodegaSis() {
         BodegaDTO bodega = clienteService.getBodegaDTO(2L);
         if (bodega == null) {
-            throw new EntityNotFoundException("Bodega no encontrada" );
+            throw new EntityNotFoundException("Bodega no encontrada");
         }
         return bodega;
     }
 
-    private Long findAlmacen(Long codigo, Long empresa){
+    private Long findAlmacen(Long codigo, Long empresa) {
         AlmacenDTO almacen = clienteService.getAlmacenDTO(codigo, empresa);
         if (almacen == null) {
             throw new EntityNotFoundException("Almacén no encontrada en la empresa: " + empresa);
@@ -129,7 +129,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         );
     }
 
-    private String generarIdCliente(String nombre, Long empresa){
+    private String generarIdCliente(String nombre, Long empresa) {
 
         String nuevoIdBase = generarPrefix(nombre);
 
@@ -137,9 +137,9 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         List<String> ids = clienteService.getIdsClientes(nuevoIdBase, empresa);
 
         if (ids.isEmpty()) {
-            return nuevoIdBase+"001";
+            return nuevoIdBase + "001";
         } else {
-            int maxNum =0;
+            int maxNum = 0;
             for (String id : ids) {
                 String numStr = id.substring(nuevoIdBase.length());
                 int num = Integer.parseInt(numStr);
@@ -147,19 +147,20 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                     maxNum = num;
                 }
             }
-            return nuevoIdBase+String.format("%03d", maxNum + 1);
+            return nuevoIdBase + String.format("%03d", maxNum + 1);
         }
     }
 
     /**
      * Metodo para insertar los detalles con los valores de los productos;
+     *
      * @param items lista de items o productos desde WhooCommerce
-     * @param c la cabecera creada anteriormente en la base de datos.
-     * @param obs la observacion en caso de que exista.
+     * @param c     la cabecera creada anteriormente en la base de datos.
+     * @param obs   la observacion en caso de que exista.
      */
     private int crearDetalles(List<LineItem> items, Creposicion c, String obs) {
 
-        int count =0;
+        int count = 0;
         DreposicionId id = new DreposicionId();
         id.setEmpresa(c.getId().getEmpresa());
 
@@ -172,14 +173,14 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
             /* obtener el producto por sku */
             ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getSku(), c.getId().getEmpresa());
-            if (producto == null){
-                errores.add("Producto no existe en el sistema: "+ item.getSku());
+            if (producto == null) {
+                errores.add("Producto no existe en el sistema: " + item.getSku());
                 continue;
             }
 
             Dreposicion detalle = crearDreposicion(id, c, producto, item.getQuantity(), BigDecimal.valueOf(item.getPrice()), BigDecimal.valueOf(item.getTotal()), meta.observacion());
 
-            if (meta.hasDiscount()){
+            if (meta.hasDiscount()) {
                 detalle.setPorcDesc(meta.porcDesc());
                 detalle.setValDesc(meta.valDesc());
                 clienteService.saveDreposicion(detalle);
@@ -187,7 +188,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
             count++;
         }
-        if (c.getTipoRetiro() == 1){
+        if (c.getTipoRetiro() == 1) {
             ProductoDTO trans = productoService.getProductoByBarraAndEmpresa("TRANSIVA", c.getId().getEmpresa());
             crearDreposicion(id, c, trans, 1L, c.getTransporte(), c.getTransporte(), obs);
             count++;
@@ -195,7 +196,6 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         errores.forEach(log::error);
         return count;
     }
-
 
     private Dreposicion crearDreposicion(DreposicionId id, Creposicion c, ProductoDTO producto, Long cantidad, BigDecimal precio, BigDecimal total, String observacion) {
         Dreposicion dreposicion = new Dreposicion();

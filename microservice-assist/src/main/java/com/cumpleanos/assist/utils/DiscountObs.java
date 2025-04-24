@@ -11,27 +11,27 @@ public record DiscountObs(BigDecimal valDesc, BigDecimal porcDesc, String observ
         BigDecimal porcDesc = BigDecimal.ZERO;
         String observacion = null;
 
-        if (metaMap != null){
-            for (Map<String , Object> meta : metaMap){
+        if (metaMap != null) {
+            for (Map<String, Object> meta : metaMap) {
                 String key = Objects.toString(meta.get("key"), "");
                 Object value = meta.get("value");
 
                 /* --Descuento -- */
-                if ("_discount".equalsIgnoreCase(key) || "discount".equalsIgnoreCase(key)){
-                    if (value instanceof Map<?,?> d) {
+                if ("_discount".equalsIgnoreCase(key) || "discount".equalsIgnoreCase(key)) {
+                    if (value instanceof Map<?, ?> d) {
                         @SuppressWarnings("unchecked")
                         Map<String, Object> discountMap = (Map<String, Object>) d;
-                        Object amountObj     = discountMap.getOrDefault("amount", "0");
+                        Object amountObj = discountMap.getOrDefault("amount", "0");
                         Object percentageObj = discountMap.getOrDefault("percentage", "0");
 
-                        valDesc  = new BigDecimal(amountObj.toString());
+                        valDesc = new BigDecimal(amountObj.toString());
                         porcDesc = new BigDecimal(percentageObj.toString());
                     }
                 }
 
                 /* ---Observacion varios aliases ---*/
                 if (List.of("observacion", "observation", "nota", "comment", "note", "comentario")
-                .contains(key.toLowerCase())) {
+                        .contains(key.toLowerCase())) {
                     observacion = Objects.toString(value, "");
                 }
             }
@@ -40,7 +40,7 @@ public record DiscountObs(BigDecimal valDesc, BigDecimal porcDesc, String observ
     }
 
     /* Helper para saber si se encontro descuento */
-    public boolean hasDiscount(){
+    public boolean hasDiscount() {
         return valDesc.compareTo(BigDecimal.ZERO) != 0;
     }
 }
