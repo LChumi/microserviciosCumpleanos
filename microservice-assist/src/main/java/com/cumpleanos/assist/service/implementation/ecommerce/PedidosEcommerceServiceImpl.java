@@ -44,11 +44,11 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(today, yesterday);
-        validatePedido(pedidosWoo);
-        return null;
+        String response =validatePedido(pedidosWoo);
+        return new ServiceResponse(response, Boolean.TRUE);
     }
 
-    private void validatePedido(List<PedidoWoocommerce> pedidosWoo ){
+    private String validatePedido(List<PedidoWoocommerce> pedidosWoo ){
         int add =0;
         int count =0;
         for (PedidoWoocommerce pedido : pedidosWoo) {
@@ -63,6 +63,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                 add++;
             }
         }
+        return "Pedidos totales " + pedidosWoo.size() + "agregados al sistema: " + add + " existentes: " + count;
     }
 
     private void createCpedido(PedidoWoocommerce pedido) {
