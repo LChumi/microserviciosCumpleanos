@@ -35,6 +35,7 @@ public class ReposicionPagoServiceImpl extends GenericServiceImpl<ReposicionPago
         ReposicionPagoId id = new ReposicionPagoId();
         id.setCodigo(codigo);
         id.setEmpresa(entity.getId().getEmpresa());
+        entity.setId(id);
         return super.save(entity);
     }
 }
