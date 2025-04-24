@@ -101,6 +101,12 @@ public class ClientServiceImpl {
                 "Error al obtener la empresa: " + empresa);
     }
 
+    //UBICACION
+    public List<Ubicacion> getUbicaion(Long empr, String nombre){
+        return HttpResponseHandler.handle(() -> modelsClient.getUbicacionByNombre(empr, nombre),
+                "Error al obtener la ciudad por nombre: " + nombre + " empresa: " + empr);
+    }
+
     /* --- ECOMMERCE ---*/
     //CREPOSICION
     public Creposicion saveCreposicion(Creposicion c) {

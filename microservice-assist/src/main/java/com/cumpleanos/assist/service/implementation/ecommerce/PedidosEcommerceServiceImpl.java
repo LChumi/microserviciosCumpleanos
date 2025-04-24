@@ -16,6 +16,7 @@ import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.core.models.ids.ReposicionPagoId;
+import com.cumpleanos.core.models.ids.UbicacionId;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.cumpleanos.assist.utils.ClienteEcomUtil.*;
 import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.*;
@@ -111,15 +113,30 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             cliEcom.setCliId(generarIdCliente(cliEcom.getNombre(), cliEcom.getId().getEmpresa()));
             cliEcom.setCliCategoria(obtenerParametro(empresa, ParametroEnum.CXC_CATEGORIA_CLIENTE));
             cliEcom.setCliPolitica(obtenerParametro(empresa, ParametroEnum.CXC_POLITICA_CLIENTE));
-            cliEcom.setCliCiudad(obtenerParametro(empresa, ParametroEnum.CXC_CIUDADES_CLIENTES));
             cliEcom.setTipoCli(obtenerParametro(empresa, ParametroEnum.CXC_TIPOCLI_ECOOMERCE_CLIENTES));
             cliEcom.setCliAgente(obtenerParametro(empresa, ParametroEnum.CXC_AGENTE_ECOMMERCE_CLIENTES));
             cliEcom.setCliListapre(obtenerParametro(empresa, ParametroEnum.CXC_LISTAPRE_CLIENTES));
+
+            addedCity(cliEcom,shiping.getCity(), empresa);
 
             Cliente c = clienteService.saveCliente(cliEcom);
             return c.getId().getCodigo();
         }
         return cliente.codigo();
+    }
+
+    private void addedCity(Cliente c, String city, Long empresa) {
+        Long ciudad = Optional.ofNullable(city)
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(cy -> clienteService.getUbicaion(empresa, cy))
+                .filter(list -> !list.isEmpty())
+                .map(list -> list.get(0))
+                .map(Ubicacion::getId)
+                .map(UbicacionId::getCodigo)
+                .orElseGet(() -> obtenerParametro(empresa, ParametroEnum.CXC_CIUDADES_CLIENTES));
+
+        c.setCliCiudad(ciudad);
     }
 
     private BodegaDTO findBodegaSis() {

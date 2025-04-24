@@ -67,6 +67,10 @@ public interface IModelsClient {
     @GetMapping("/models/verificarJuridico/{ruc}")
     ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
 
+    //TODO servicio que viene del controlador UbicacionController
+    @GetMapping("/models/ubicacion/{emp}/{nombre}")
+    ResponseEntity<List<Ubicacion>> getUbicacionByNombre(@PathVariable Long emp, @PathVariable String nombre);
+
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController
     @PostMapping("/models/save/dreposicion")
