@@ -44,8 +44,12 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(today, yesterday);
-        String response =validatePedido(pedidosWoo);
-        return new ServiceResponse(response, Boolean.TRUE);
+        if (pedidosWoo == null || pedidosWoo.isEmpty()) {
+            return new ServiceResponse("No se encontraron pedidos en Whoocommerce", Boolean.TRUE);
+        }else{
+            String response =validatePedido(pedidosWoo);
+            return new ServiceResponse(response, Boolean.TRUE);
+        }
     }
 
     private String validatePedido(List<PedidoWoocommerce> pedidosWoo ){
