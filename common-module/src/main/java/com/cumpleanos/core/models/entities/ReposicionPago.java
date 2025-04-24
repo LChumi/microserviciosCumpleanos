@@ -40,7 +40,7 @@ public class ReposicionPago {
     private BigDecimal monto;
 
     @Column(name = "RPA_LOTE", precision = 17, scale = 4)
-    private BigDecimal lote;
+    private Integer lote;
 
     @Column(name = "RPA_BANCO", length = 20)
     private String banco;

@@ -21,8 +21,8 @@ public class CreposicionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
-    @GetMapping("/creposicion/find/{codigo}/{empresa}")
-    public ResponseEntity<Boolean> find(@PathVariable("codigo") Long codigo, @PathVariable("empresa") Long empresa) {
-        return ResponseEntity.ok(service.existCreposicion(empresa, codigo));
+    @GetMapping("/creposicion/find/{referencia}/{empresa}")
+    public ResponseEntity<Boolean> find(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa) {
+        return ResponseEntity.ok(service.existCreposicionByEmpresaAndReferencia(referencia, empresa));
     }
 }

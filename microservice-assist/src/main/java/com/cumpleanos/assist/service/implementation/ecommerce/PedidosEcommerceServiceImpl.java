@@ -44,7 +44,25 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(today, yesterday);
+        validatePedido(pedidosWoo);
         return null;
+    }
+
+    private void validatePedido(List<PedidoWoocommerce> pedidosWoo ){
+        int add =0;
+        int count =0;
+        for (PedidoWoocommerce pedido : pedidosWoo) {
+            Boolean exist = clienteService.findCreposicionByReferencia(String.valueOf(pedido.getId()), 2L);
+            if (exist){
+                count++;
+                log.info("Pedido ya registrado omitiendo: {}", pedido.getId());
+                continue;
+            } else {
+                log.info("Pedido no existe agregando al sistema idPedido: {} ...", pedido.getId());
+                createCpedido(pedido);
+                add++;
+            }
+        }
     }
 
     private void createCpedido(PedidoWoocommerce pedido) {
@@ -69,7 +87,8 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             if (detalles == 0) {
                 log.warn("Lista de detalles vacia");
             } else {
-                crearFormaPago(c, pedido);
+                ReposicionPago pagoCreado = crearFormaPago(c, pedido);
+                log.debug("Forma de pago registrada: {}", pagoCreado.getId());
             }
         }
     }
@@ -215,14 +234,21 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         return clienteService.saveDreposicion(dreposicion);
     }
 
-    private void crearFormaPago(Creposicion c, PedidoWoocommerce p) {
-        ReposicionPago pago = new ReposicionPago();
-        ReposicionPagoId id = new ReposicionPagoId();
+    private ReposicionPago crearFormaPago(Creposicion c, PedidoWoocommerce p) {
+
+        final ReposicionPagoId id = new ReposicionPagoId();
         id.setEmpresa(c.getId().getEmpresa());
 
+        final ReposicionPago pago = new ReposicionPago();
         pago.setId(id);
         pago.setCreposicionId(c.getId().getCodigo());
+        pago.setFecha(StringToLocalDate(p.getDate_created()));
+        pago.setMonto(safeParseBigDecimal(p.getTotal()));
+        pago.setTipopago(getTipoPago(p.getPayment_method()));
+        pago.setNroDocum(String.valueOf(p.getId()));
+        pago.setLote(formatDate(pago.getFecha()));
 
+        return clienteService.saveReposicionPago(pago);
     }
 
 }

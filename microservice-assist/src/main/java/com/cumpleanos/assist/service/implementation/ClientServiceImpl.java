@@ -104,8 +104,13 @@ public class ClientServiceImpl {
     /* --- ECOMMERCE ---*/
     //CREPOSICION
     public Creposicion saveCreposicion(Creposicion c) {
-        return HttpResponseHandler.handle(() -> modelsClient.saveCreposicionEc(c),
+        return HttpResponseHandler.handle(() -> modelsClient.saveCreposicion(c),
                 "Error al guardar el creposicion en la empresa: " + c.getId().getEmpresa());
+    }
+
+    public Boolean findCreposicionByReferencia(String referencia, Long empresa){
+        return  HttpResponseHandler.handle(() -> modelsClient.findCreposicionByReferencia(referencia, empresa),
+                "Error al obtener el creposicion por referencia: " + referencia + " empresa: " + empresa);
     }
 
     //DREPOSICION

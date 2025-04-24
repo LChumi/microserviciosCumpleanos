@@ -74,7 +74,10 @@ public interface IModelsClient {
 
     //TODO servicio que viene del controlador CreposicionController
     @PostMapping("/models/creposicion/save")
-    ResponseEntity<Creposicion> saveCreposicionEc(@RequestBody Creposicion creposicion);
+    ResponseEntity<Creposicion> saveCreposicion(@RequestBody Creposicion creposicion);
+
+    @GetMapping("/models/creposicion/find/{referencia}/{empresa}")
+    ResponseEntity<Boolean> findCreposicionByReferencia(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa);
 
     //TODO servicio que viene del controlador ReposicionController
     @PostMapping("/models/crear-pago")

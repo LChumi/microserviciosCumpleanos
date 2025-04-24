@@ -31,6 +31,12 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     }
 
     @Override
+    public Boolean existCreposicionByEmpresaAndReferencia(String referencia, Long empresa) {
+        Creposicion c = repository.findByReferenciaAndId_Empresa(referencia, empresa);
+        return c != null;
+    }
+
+    @Override
     public Creposicion save(Creposicion entity) {
         Long codigo = getNextSequenceValue(Sequence.CREPOSICIONCODIGO);
 

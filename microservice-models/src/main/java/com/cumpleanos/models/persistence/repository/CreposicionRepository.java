@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CreposicionRepository extends JpaRepository<Creposicion, CreposicionId> {
+
+    Creposicion findByReferenciaAndId_Empresa(String referencia, Long idEmpresa);
 }

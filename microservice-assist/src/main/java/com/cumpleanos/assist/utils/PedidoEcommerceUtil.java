@@ -9,6 +9,8 @@ import com.cumpleanos.core.models.ids.CreposicionId;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.*;
@@ -129,14 +131,47 @@ public class PedidoEcommerceUtil {
     }
 
     /**
+     * Metodo para validar la forma de pago de WhooCommerce y retornar su valor
+     * @param payment_method String con el metodo de pago
+     * @return String con la categoria
+     */
+    public static String getTipoPago(String payment_method) {
+        for (TipoPagoEnum tipoPago: TipoPagoEnum.values()){
+            if (tipoPago.getCategoria().equalsIgnoreCase(payment_method)){
+                return tipoPago.getTipo();
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param value Dato de valor String con formato de decimales 0.00
      * @return Bigdecimal convertiendo el string en decimal
      */
-    private static BigDecimal safeParseBigDecimal(String value) {
+    public static BigDecimal safeParseBigDecimal(String value) {
         try {
             return value != null ? new BigDecimal(value) : BigDecimal.ZERO;
         } catch (NumberFormatException e) {
             return BigDecimal.ZERO; //Manejo de formatos no validos
         }
+    }
+
+    /**
+     * @param date String definido por WhooCommerce 2025-04-12T10:16:06
+     * @return LocalDate con la fecha parseada
+     */
+    public static LocalDate StringToLocalDate(String date) {
+        LocalDateTime dateTime = LocalDateTime.parse(date);
+        return dateTime.toLocalDate();
+    }
+
+    /**
+     * Funcion que devuelve un int con el formato establecido Usado para Lote
+     *
+     * @param date localdate de la fecha
+     * @return Integer con la fecha convertida 20250412
+     */
+    public static Integer formatDate(LocalDate date) {
+        return Integer.parseInt(date.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
     }
 }
