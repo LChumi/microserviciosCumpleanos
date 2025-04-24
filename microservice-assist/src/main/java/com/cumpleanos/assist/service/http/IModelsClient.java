@@ -70,7 +70,7 @@ public interface IModelsClient {
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController
     @PostMapping("/models/save/dreposicion")
-    ResponseEntity<Dreposicion> saveDreposicion(Dreposicion dreposicion);
+    ResponseEntity<Dreposicion> saveDreposicion(@RequestBody Dreposicion dreposicion);
 
     //TODO servicio que viene del controlador CreposicionController
     @PostMapping("/models/creposicion/save")

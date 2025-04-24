@@ -19,7 +19,7 @@ public class DreposicionController {
     private final IDreposicionService service;
 
     @PostMapping("/save/dreposicion")
-    public ResponseEntity<Dreposicion> save(Dreposicion dreposicion) {
+    public ResponseEntity<Dreposicion> save(@RequestBody Dreposicion dreposicion) {
         Dreposicion dreposicionSave = service.save(dreposicion);
         return ResponseEntity.status(HttpStatus.CREATED).body(dreposicionSave);
     }
