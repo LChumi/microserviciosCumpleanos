@@ -29,6 +29,7 @@ import java.util.List;
 
 import static com.cumpleanos.assist.utils.ClienteEcomUtil.*;
 import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.*;
+import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.StringToLocalDate;
 
 @Slf4j
 @Service
@@ -43,9 +44,11 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     public ServiceResponse getPedidosAndUpdateSystem() {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
-        List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(today, yesterday);
+
+        LocalDate prueba = StringToLocalDate("2025-02-03T00:00:00");
+        List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(prueba, prueba);
         if (pedidosWoo == null || pedidosWoo.isEmpty()) {
-            return new ServiceResponse("No se encontraron pedidos en Whoocommerce", Boolean.TRUE);
+            return new ServiceResponse("No se encontraron pedidos en WhooCommerce", Boolean.TRUE);
         }else{
             String response =validatePedido(pedidosWoo);
             return new ServiceResponse(response, Boolean.TRUE);
@@ -67,7 +70,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                 add++;
             }
         }
-        return "Pedidos totales " + pedidosWoo.size() + "agregados al sistema: " + add + " existentes: " + count;
+        return "Pedidos totales:" + pedidosWoo.size() + " agregados al sistema:" + add + " existentes:" + count;
     }
 
     private void createCpedido(PedidoWoocommerce pedido) {
