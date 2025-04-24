@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.presentation.controller;
 
+import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IStockEcommerceVService;
 import com.cumpleanos.common.records.ServiceResponse;
@@ -23,6 +24,7 @@ public class EcommerceController {
 
     private final IProductosEcommerceService serviceProductsEcommerce;
     private final IStockEcommerceVService serviceStockEcommerce;
+    private final IPedidosEcommerceService servicePedidosEcommerce;
 
     @GetMapping("/ecommerce/producto-save/{id}/{empresa}")
     public ResponseEntity<ServiceResponse> getProducto(@PathVariable Long id, @PathVariable Long empresa) {
@@ -41,5 +43,11 @@ public class EcommerceController {
         List<StockEcommerceV> lista = serviceStockEcommerce.findAll();
         log.info(lista.toString());
         return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/ecommerce/orders-sync")
+    public ResponseEntity<ServiceResponse> syncOrders(){
+        ServiceResponse response = servicePedidosEcommerce.getPedidosAndUpdateSystem();
+        return ResponseEntity.ok(response);
     }
 }
