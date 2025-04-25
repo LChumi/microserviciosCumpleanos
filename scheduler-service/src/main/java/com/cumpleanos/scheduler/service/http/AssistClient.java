@@ -17,4 +17,8 @@ public interface AssistClient {
 
     @GetMapping("/assist/ecommerce/product-update/{id}/{empresa}/{sku}/{process}")
     ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku, @PathVariable Integer process);
+
+    //SINCRONIZACION PEDIDOS
+    @GetMapping("/assist/ecommerce/orders-sync")
+    ResponseEntity<ServiceResponse> syncOrders();
 }
