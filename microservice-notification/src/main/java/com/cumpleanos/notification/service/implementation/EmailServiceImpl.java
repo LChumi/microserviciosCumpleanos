@@ -5,15 +5,23 @@ import com.cumpleanos.notification.service.interfaces.IEmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class EmailServiceImpl implements IEmailService {
@@ -32,7 +40,10 @@ public class EmailServiceImpl implements IEmailService {
             helper.setFrom(emailUser);
             helper.setTo(email.toUser());
             helper.setSubject(email.subject());
-            helper.setText(email.message(), true); // true indica que el contenido es HTML
+
+            String cuerpoFinal = getHtmlTemplate(email.subject(), email.message());
+
+            helper.setText(cuerpoFinal, true);// true indica que el contenido es HTML
 
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
@@ -47,6 +58,7 @@ public class EmailServiceImpl implements IEmailService {
         mailMessage.setFrom(emailUser);
         mailMessage.setTo(email.toUser());
         mailMessage.setSubject(email.subject());
+
         mailMessage.setText(email.message());
 
         mailSender.send(mailMessage);
@@ -67,7 +79,10 @@ public class EmailServiceImpl implements IEmailService {
             helper.setFrom(emailUser);
             helper.setTo(email.toUser());
             helper.setSubject(email.subject());
-            helper.setText(email.message());
+
+            String cuerpoFinal = getHtmlTemplate(email.subject(), email.message());
+
+            helper.setText(cuerpoFinal, true);
 
             ByteArrayResource attach = new ByteArrayResource(fileAttach);
             helper.addAttachment(nameAttach, attach);
@@ -75,6 +90,17 @@ public class EmailServiceImpl implements IEmailService {
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new MailSendException("Error al enviar el correo con adjunto", e);
+        }
+    }
+
+    private String getHtmlTemplate(String titulo, String contenido){
+        try {
+            Resource resource = new ClassPathResource("templates/email-template.html");
+            String template = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            return template.replace("${titulo}", titulo).replace(" ${contenido}", contenido);
+        } catch (IOException e) {
+            log.error("No se pudo cargar la plantilla de correo", e);
+            throw new UncheckedIOException("No se pudo cargar la plantilla de correo", e);
         }
     }
 }
