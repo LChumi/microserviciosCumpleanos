@@ -204,7 +204,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     private int crearDetalles(List<LineItem> items, Creposicion c, String obs) {
 
         int count = 0;
-        DreposicionId id = new DreposicionId();
+        final DreposicionId id = new DreposicionId();
         id.setEmpresa(c.getId().getEmpresa());
 
         List<String> errores = new ArrayList<>();
@@ -241,7 +241,8 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private Dreposicion crearDreposicion(DreposicionId id, Creposicion c, ProductoDTO producto, Long cantidad, BigDecimal precio, BigDecimal total, String observacion) {
-        Dreposicion dreposicion = new Dreposicion();
+
+        final Dreposicion dreposicion = new Dreposicion();
         dreposicion.setId(id);
         dreposicion.setCreposicionId(c.getId().getCodigo());
         dreposicion.setProductoId(producto.codigo());

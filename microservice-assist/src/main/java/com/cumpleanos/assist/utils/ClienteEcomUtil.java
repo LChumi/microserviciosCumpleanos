@@ -41,8 +41,8 @@ public class ClienteEcomUtil {
         String telefono = billing.getPhone() != null ? billing.getPhone().trim() : "";
         String postal = billing.getPostcode() != null ? billing.getPostcode().trim() : "";
 
-        Cliente ecommerce = new Cliente();
-        ClienteId id = new ClienteId();
+        final Cliente ecommerce = new Cliente();
+        final ClienteId id = new ClienteId();
         id.setEmpresa(empresa);
 
         ecommerce.setId(id);
