@@ -32,26 +32,6 @@ public class EmailServiceImpl implements IEmailService {
     private String emailUser;
 
     @Override
-    public void sendMailHtml(EmailRecord email) {
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-
-            helper.setFrom(emailUser);
-            helper.setTo(email.toUser());
-            helper.setSubject(email.subject());
-
-            String cuerpoFinal = getHtmlTemplate(email.subject(), email.message());
-
-            helper.setText(cuerpoFinal, true);// true indica que el contenido es HTML
-
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void sendMail(EmailRecord email) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -65,6 +45,11 @@ public class EmailServiceImpl implements IEmailService {
     }
 
     @Override
+    public void sendMailHtml(EmailRecord email) {
+        sendHtmlEmail(email, null, null);
+    }
+
+    @Override
     public void sendMailAttach(EmailRecord email, String nameAttach, byte[] fileAttach) {
         if (nameAttach == null || nameAttach.isBlank()) {
             throw new IllegalArgumentException("El nombre del adjunto no puede ser nulo o vacío");
@@ -73,23 +58,28 @@ public class EmailServiceImpl implements IEmailService {
             throw new IllegalArgumentException("El archivo adjunto no puede ser nulo o vacío");
         }
 
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        sendHtmlEmail(email, nameAttach, fileAttach);
+    }
+
+    private void sendHtmlEmail(EmailRecord email, String nameAttach, byte[] fileAttach) {
         try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
             helper.setFrom(emailUser);
             helper.setTo(email.toUser());
             helper.setSubject(email.subject());
 
             String cuerpoFinal = getHtmlTemplate(email.subject(), email.message());
-
             helper.setText(cuerpoFinal, true);
 
-            ByteArrayResource attach = new ByteArrayResource(fileAttach);
-            helper.addAttachment(nameAttach, attach);
+            if (nameAttach != null && fileAttach != null){
+                helper.addAttachment(nameAttach, new ByteArrayResource(fileAttach));
+            }
 
             mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            throw new MailSendException("Error al enviar el correo con adjunto", e);
+        } catch (MessagingException e){
+            throw new MailSendException("Error al enviar el correo ", e);
         }
     }
 
