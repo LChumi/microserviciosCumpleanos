@@ -34,12 +34,23 @@ public class UsuarioServiceImpl {
             return new ServiceResponse("Empleado no tiene correo registrado.", false);
         }
         String asunto = "Recuperación de contraseña de acceso a la plataforma";
-        String mensaje = "Estimado/a " + usuario.getNombre() + ",\n\n" +
-                "Hemos recibido una solicitud para recuperar tu contraseña.\n\n" +
-                "Tu contraseña de acceso es la siguiente: \n\n" +
-                "Contraseña: " + usuario.getClave() + "\n\n" +
-                "Por razones de seguridad, te recomendamos cambiar tu contraseña tan pronto como accedas a la plataforma. Si no has solicitado esta recuperación, por favor contacta al soporte inmediatamente.\n\n" +
-                "Atentamente,\nEl equipo de soporte";
+        String mensaje = """
+                    <p>Estimado/a <strong>%s</strong>,</p>
+                
+                    <p>Hemos recibido una solicitud para <strong>recuperar tu contraseña</strong>.</p>
+                
+                    <div style="background-color: #f8f8f8; padding: 15px; border-left: 4px solid #007BFF; margin: 20px 0;">
+                        <p style="margin: 0;">Tu contraseña de acceso es la siguiente:</p>
+                        <p style="font-size: 18px; font-weight: bold; color: #333;">Contraseña: %s</p>
+                    </div>
+                
+                    <p>Por razones de seguridad, te recomendamos <strong>cambiar tu contraseña</strong> tan pronto como accedas a la plataforma.</p>
+                
+                    <p>Si no has solicitado esta recuperación, por favor contacta al soporte inmediatamente.</p>
+                
+                    <p>Atentamente,<br><strong>El equipo de soporte</strong></p>
+                """.formatted(usuario.getNombre(), usuario.getClave());
+
         try {
             EmailRecord email = new EmailRecord(
                     new String[]{empleado.getMailEmpresa()},

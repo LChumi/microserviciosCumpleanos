@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "notification-service")
 public interface IEmailClient {
 
-    @PostMapping("/email/enviar/text")
+    @PostMapping("/email/enviar/html")
     ResponseEntity<?> enviarEmail(@RequestBody EmailRecord email);
-
 }
