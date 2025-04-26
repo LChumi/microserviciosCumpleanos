@@ -35,6 +35,8 @@ public class UsuarioServiceImpl {
         }
         String asunto = "Recuperación de contraseña de acceso a la plataforma";
         String mensaje = """
+                <div style='font-family: Arial, sans-serif; background-color: #354edc; padding: 20px;'>
+                
                     <p>Estimado/a <strong>%s</strong>,</p>
                 
                     <p>Hemos recibido una solicitud para <strong>recuperar tu contraseña</strong>.</p>
@@ -49,6 +51,7 @@ public class UsuarioServiceImpl {
                     <p>Si no has solicitado esta recuperación, por favor contacta al soporte inmediatamente.</p>
                 
                     <p>Atentamente,<br><strong>El equipo de soporte</strong></p>
+                </div>
                 """.formatted(usuario.getNombre(), usuario.getClave());
 
         try {
