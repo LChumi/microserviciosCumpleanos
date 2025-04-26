@@ -5,13 +5,11 @@ import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.assist.utils.DiscountObs;
+import com.cumpleanos.assist.utils.MailTemplateLoader;
 import com.cumpleanos.common.builders.ecommerce.Ing;
 import com.cumpleanos.common.builders.ecommerce.LineItem;
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
-import com.cumpleanos.common.records.AlmacenDTO;
-import com.cumpleanos.common.records.BodegaDTO;
-import com.cumpleanos.common.records.ClienteRecord;
-import com.cumpleanos.common.records.ServiceResponse;
+import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
 import com.cumpleanos.core.models.enums.ParametroEnum;
 import com.cumpleanos.core.models.ids.DreposicionId;
@@ -21,13 +19,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.cumpleanos.assist.utils.ClienteEcomUtil.*;
 import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.*;
@@ -72,7 +69,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             }
         }
         if (add != 0){
-
+            enviarMailConfirmacion(add);
         }
         return "Pedidos totales:" + pedidosWoo.size() + " agregados al sistema:" + add + " existentes:" + count;
     }
@@ -277,6 +274,27 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         pago.setLote(formatDate(pago.getFecha()));
 
         return clienteService.saveReposicionPago(pago);
+    }
+
+    private void enviarMailConfirmacion(int cantidadPedidos) {
+
+        String asunto ="Pedidos Ecommerce";
+
+        Map<String , String> variables = new HashMap<>();
+        variables.put("cantidadPedidos", String.valueOf(cantidadPedidos));
+
+        String mensaje = MailTemplateLoader.loadAndFillTemplate("pedidos-ecommerce.html", variables);
+
+        try {
+            EmailRecord email = new EmailRecord(
+                    new String[]{"amunoz@cumpleanos.com.ec"},
+                    asunto,
+                    mensaje
+            );
+            clienteService.enviarEmail(email);
+        }catch (Exception e){
+            throw new MailSendException("No se pudo enviar el correo al usuario ");
+        }
     }
 
 }
