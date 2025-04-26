@@ -71,6 +71,9 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                 add++;
             }
         }
+        if (add != 0){
+
+        }
         return "Pedidos totales:" + pedidosWoo.size() + " agregados al sistema:" + add + " existentes:" + count;
     }
 
