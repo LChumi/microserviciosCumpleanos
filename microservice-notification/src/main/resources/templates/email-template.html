@@ -2,13 +2,146 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${titulo}</title>
+    <meta name="google" content="notranslate">
 </head>
-<body style="font-family: Arial, sans-serif; background: #f3f3f3; padding: 30px;">
-<div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px;">
-    <div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        background-color: #004c6d;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 30px;
+        position: relative;
+        overflow: hidden;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .logo h1 {
+        font-size: 24px;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .content {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .content h1 {
+        color: #333333;
+    }
+
+    .content p {
+        color: #666666;
+    }
+
+    .decorative-rombs {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        display: grid;
+        grid-template-columns: repeat(4, 20px);
+        grid-gap: 10px;
+        opacity: 0.5;
+    }
+
+    .romb {
+        width: 14px;
+        height: 14px;
+        background-color: #38bfe5;
+        transform: rotate(45deg);
+        /* Rotamos cada rombo individualmente */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .romb.color1 {
+        background-color: #38bfe5;
+    }
+
+    .romb.color2 {
+        background-color: #b7bfc8;
+    }
+
+    .romb.color3 {
+        background-color: #00aced;
+    }
+
+    .romb.color4 {
+        background-color: #78c0de;
+    }
+
+    .footer {
+        background-color: #1c1d24;
+        color: #cccccc;
+        font-size: 14px;
+        padding: 20px;
+        text-align: center;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .footer-links {
+        margin: 15px 0;
+    }
+
+    .footer-links a {
+        color: #cccccc;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+
+</style>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1>${titulo}</h1>
+        </div>
+
+        <div class="decorative-rombs">
+            <div class="romb color1"></div>
+            <div class="romb color2"></div>
+            <div class="romb color3"></div>
+            <div class="romb color4"></div>
+            <div class="romb color1"></div>
+            <div class="romb color2"></div>
+            <div class="romb color3"></div>
+            <div class="romb color4"></div>
+        </div>
+    </div>
+    <div class="content">
         ${contenido}
     </div>
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://assist.cumpleanos.com.ec/cumpleanos/politica-privacidad">Politicas de Privacidad</a>
+        </div>
+        <p>&copy;Importadora Cumpleaños</p>
+    </footer>
 </div>
 </body>
 </html>
