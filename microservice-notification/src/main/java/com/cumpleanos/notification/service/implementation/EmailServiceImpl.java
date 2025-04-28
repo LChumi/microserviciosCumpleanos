@@ -87,7 +87,7 @@ public class EmailServiceImpl implements IEmailService {
         try {
             Resource resource = new ClassPathResource("templates/email-template.html");
             String template = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-            return template.replace("${titulo}", titulo).replace(" ${contenido}", contenido);
+            return template.replace("${titulo}", titulo).replace("${contenido}", contenido);
         } catch (IOException e) {
             log.error("No se pudo cargar la plantilla de correo", e);
             throw new UncheckedIOException("No se pudo cargar la plantilla de correo", e);
