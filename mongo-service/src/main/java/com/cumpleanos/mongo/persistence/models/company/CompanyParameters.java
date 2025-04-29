@@ -23,6 +23,7 @@ public class CompanyParameters  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Setter(AccessLevel.NONE)
     private String id;
 
     private Long companyId;
