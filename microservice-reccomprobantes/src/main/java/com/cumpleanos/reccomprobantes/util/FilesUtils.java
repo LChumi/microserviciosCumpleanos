@@ -30,6 +30,7 @@ public class FilesUtils {
         clienteDatos.put("RUC/Cedula", c.getRucCedula());
         clienteDatos.put("Nombre", c.getNombre());
         clienteDatos.put("Empresa", sis.getNombre());
+        clienteDatos.put("EmpresaId", sis.getId().toString());
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonCliente = mapper.writeValueAsString(clienteDatos);

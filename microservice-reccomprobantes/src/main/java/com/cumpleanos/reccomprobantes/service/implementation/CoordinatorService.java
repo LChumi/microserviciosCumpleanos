@@ -1,11 +1,13 @@
 package com.cumpleanos.reccomprobantes.service.implementation;
 
+import com.cumpleanos.common.records.CompanyParametersRecord;
 import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.util.FilesUtils;
 import com.cumpleanos.reccomprobantes.util.MessagesUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CoordinatorService {
@@ -24,6 +27,7 @@ public class CoordinatorService {
     private final JsonReaderService jsonReaderService;
     private final ModelsServiceImpl modelsService;
     private final RutasConfig rutas;
+    private final MongoClientServiceImpl mongoClientService;
 
     public Object processFile(MultipartFile file,String email) throws IOException {
         String filename  = file.getOriginalFilename();
@@ -78,7 +82,9 @@ public class CoordinatorService {
         List<Map<String, String>> clientesCamposNull = files.leerClientes();
         if (clientesCamposNull != null && !clientesCamposNull.isEmpty()) {
             String empresa =  clientesCamposNull.get(0).get("Empresa");
-            String mensaje= MessagesUtils.mensajeHtmlCamposNulosClientes(clientesCamposNull,empresa);
+            String empresaId = clientesCamposNull.get(0).get("EmpresaId");
+            String logoB64 = getLogoBase64(empresaId);
+            String mensaje= MessagesUtils.mensajeHtmlCamposNulosClientes(clientesCamposNull,empresa, logoB64);
             String asunto = "Campos no registrados de Proveedores";
 
             EmailRecord email = new EmailRecord(
@@ -89,5 +95,23 @@ public class CoordinatorService {
             modelsService.enviarEmail(email);
             files.eliminarTodosLosArchivos();
         }
+    }
+
+    private String getLogoBase64(String empresa) {
+        Long companyId = Long.valueOf(empresa);
+        CompanyParametersRecord company = mongoClientService.getCompanyParameters(companyId);
+
+        if (company == null) {
+            log.warn("No se encontró información acerca de la empresa: {}", companyId);
+            return null;
+        }
+
+        String primaryLogo = company.primaryLogo();
+        if (primaryLogo == null) {
+            log.warn("No se encontró información de logo de la empresa id: {}", companyId);
+            return null;
+        }
+
+        return primaryLogo;
     }
 }
