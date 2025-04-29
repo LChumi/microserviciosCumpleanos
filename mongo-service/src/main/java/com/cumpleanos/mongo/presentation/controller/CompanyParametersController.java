@@ -2,7 +2,6 @@ package com.cumpleanos.mongo.presentation.controller;
 
 import com.cumpleanos.mongo.persistence.models.company.CompanyParameters;
 import com.cumpleanos.mongo.service.interfaces.ICompanyParametersService;
-import com.cumpleanos.mongo.utils.LogoType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
