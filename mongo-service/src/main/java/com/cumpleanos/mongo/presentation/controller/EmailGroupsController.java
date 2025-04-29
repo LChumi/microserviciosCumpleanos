@@ -1,4 +1,4 @@
-package com.cumpleanos.mongo.presentation;
+package com.cumpleanos.mongo.presentation.controller;
 
 import com.cumpleanos.mongo.persistence.models.mails.ContactAddress;
 import com.cumpleanos.mongo.persistence.models.mails.EmailGroups;
