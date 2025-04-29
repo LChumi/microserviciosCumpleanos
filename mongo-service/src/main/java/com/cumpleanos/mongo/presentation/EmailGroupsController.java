@@ -1,7 +1,7 @@
 package com.cumpleanos.mongo.presentation;
 
-import com.cumpleanos.mongo.persistence.models.ContactAddress;
-import com.cumpleanos.mongo.persistence.models.EmailGroups;
+import com.cumpleanos.mongo.persistence.models.mails.ContactAddress;
+import com.cumpleanos.mongo.persistence.models.mails.EmailGroups;
 import com.cumpleanos.mongo.service.interfaces.IEmailGroupsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

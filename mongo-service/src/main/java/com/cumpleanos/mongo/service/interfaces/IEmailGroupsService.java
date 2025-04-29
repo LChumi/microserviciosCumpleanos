@@ -1,7 +1,7 @@
 package com.cumpleanos.mongo.service.interfaces;
 
-import com.cumpleanos.mongo.persistence.models.ContactAddress;
-import com.cumpleanos.mongo.persistence.models.EmailGroups;
+import com.cumpleanos.mongo.persistence.models.mails.ContactAddress;
+import com.cumpleanos.mongo.persistence.models.mails.EmailGroups;
 
 public interface IEmailGroupsService extends IGenericService<EmailGroups, String> {
 

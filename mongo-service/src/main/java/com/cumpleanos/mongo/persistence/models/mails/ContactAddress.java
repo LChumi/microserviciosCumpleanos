@@ -1,4 +1,4 @@
-package com.cumpleanos.mongo.persistence.models;
+package com.cumpleanos.mongo.persistence.models.mails;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

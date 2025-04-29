@@ -1,6 +1,6 @@
 package com.cumpleanos.mongo.persistence.repository;
 
-import com.cumpleanos.mongo.persistence.models.EmailGroups;
+import com.cumpleanos.mongo.persistence.models.mails.EmailGroups;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

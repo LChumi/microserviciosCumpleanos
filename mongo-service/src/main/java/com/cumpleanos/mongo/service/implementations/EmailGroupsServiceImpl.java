@@ -1,7 +1,7 @@
 package com.cumpleanos.mongo.service.implementations;
 
-import com.cumpleanos.mongo.persistence.models.ContactAddress;
-import com.cumpleanos.mongo.persistence.models.EmailGroups;
+import com.cumpleanos.mongo.persistence.models.mails.ContactAddress;
+import com.cumpleanos.mongo.persistence.models.mails.EmailGroups;
 import com.cumpleanos.mongo.persistence.repository.EmailGroupsRepository;
 import com.cumpleanos.mongo.service.exceptions.DocumentNotFoundException;
 import com.cumpleanos.mongo.service.interfaces.IEmailGroupsService;
