@@ -1,5 +1,6 @@
 package com.cumpleanos.mongo.presentation.controller;
 
+import com.cumpleanos.common.records.CompanyParametersRecord;
 import com.cumpleanos.mongo.persistence.models.company.CompanyParameters;
 import com.cumpleanos.mongo.service.interfaces.ICompanyParametersService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class CompanyParametersController {
     }
 
     @PutMapping("/company/{companyId}/logo/{tipo}")
-    public ResponseEntity<CompanyParameters> uploadLogo(
+    public ResponseEntity<CompanyParametersRecord> uploadLogo(
             @PathVariable Long companyId,
             @PathVariable Long tipo,
             @RequestParam("file")MultipartFile file) {

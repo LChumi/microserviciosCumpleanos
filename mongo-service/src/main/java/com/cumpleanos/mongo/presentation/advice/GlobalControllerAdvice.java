@@ -1,5 +1,6 @@
 package com.cumpleanos.mongo.presentation.advice;
 
+import com.cumpleanos.common.exception.ErrorResponse;
 import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -13,23 +14,26 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGenericException(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         log.error("Error inesperado: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ha ocurrido un error inesperado.");
+        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<String> handleDuplicateKey(DuplicateKeyException ex) {
+    public ResponseEntity<ErrorResponse> handleDuplicateKey(DuplicateKeyException ex) {
         log.warn("Clave duplicada en MongoDB: {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body("Ya existe un registro con ese identificador único.");
+                .body(error);
     }
 
     @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<String> handleDatabaseError(DataAccessException ex) {
+    public ResponseEntity<ErrorResponse> handleDatabaseError(DataAccessException ex) {
         log.error("Error de acceso a datos: {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body("Error al acceder a la base de datos.");
+                .body(error);
     }
 
 }

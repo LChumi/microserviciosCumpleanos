@@ -1,5 +1,6 @@
 package com.cumpleanos.mongo.service.implementations;
 
+import com.cumpleanos.common.records.CompanyParametersRecord;
 import com.cumpleanos.mongo.persistence.models.company.CompanyParameters;
 import com.cumpleanos.mongo.persistence.repository.CompanyParametersRepository;
 import com.cumpleanos.mongo.service.exceptions.DocumentNotFoundException;
@@ -43,7 +44,7 @@ public class CompanyParametersServiceImpl extends GenericServiceImpl<CompanyPara
      * @return imagen en base64 ya agregada en mongo
      */
     @Override
-    public CompanyParameters updateLogoBase64(Long id, Long tipo, MultipartFile file) {
+    public CompanyParametersRecord updateLogoBase64(Long id, Long tipo, MultipartFile file) {
         CompanyParameters found = repository.findByCompanyId(id)
                 .orElseThrow(() -> new DocumentNotFoundException("No se encontró datos de la empresa"));
 
@@ -76,7 +77,21 @@ public class CompanyParametersServiceImpl extends GenericServiceImpl<CompanyPara
                 case SECONDARY -> found.setSecondaryLogo(base64);
             }
 
-            return repository.save(found);
+            CompanyParameters comp =  repository.save(found);
+            return new CompanyParametersRecord(
+                    comp.getCompanyId(),
+                    comp.getPrimaryColor(),
+                    comp.getSecondaryColor(),
+                    comp.getLightColor(),
+                    comp.getDarkColor(),
+                    comp.getPrimaryTextColor(),
+                    comp.getSecondaryTextColor(),
+                    comp.getTitleStyle(),
+                    comp.getSubtitleStyle(),
+                    comp.getPrimaryLogo(),
+                    comp.getSecondaryLogo(),
+                    comp.getPrivacyPolicy()
+            );
         } catch (Exception e) {
             throw new RuntimeException("Error al convertir el archivo a Base64", e);
         }
