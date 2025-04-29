@@ -31,7 +31,10 @@ public class CompanyParameters  implements Serializable {
     private String secondaryColor;
     private String lightColor;
     private String darkColor;
-    private String textColor;
+    private String primaryTextColor;
+    private String secondaryTextColor;
+    private String titleStyle;
+    private String subtitleStyle;
 
     private String primaryLogo;
     private String secondaryLogo;

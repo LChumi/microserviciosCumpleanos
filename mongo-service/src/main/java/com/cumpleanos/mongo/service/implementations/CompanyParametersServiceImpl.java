@@ -17,7 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 import java.util.Objects;
 
-import static com.cumpleanos.mongo.utils.ImageUtils.resizeImage;
+import static com.cumpleanos.mongo.utils.ImageUtils.resizeImagePreservingAspectRatio;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -35,6 +35,13 @@ public class CompanyParametersServiceImpl extends GenericServiceImpl<CompanyPara
         return repository.findByCompanyId(companyId).orElseThrow(() -> new DocumentNotFoundException("No se encontro datos de la empresa con id: " + companyId));
     }
 
+    /**
+     * Metodo para convertir la imagen a base64 ya agregar en mongo
+     * @param id id para buscar el objeto en mongo
+     * @param tipo cuando se sube el logo primario o secundario
+     * @param file archivo a convertir a base64
+     * @return imagen en base64 ya agregada en mongo
+     */
     @Override
     public CompanyParameters updateLogoBase64(Long id, Long tipo, MultipartFile file) {
         CompanyParameters found = repository.findByCompanyId(id)
@@ -45,23 +52,25 @@ public class CompanyParametersServiceImpl extends GenericServiceImpl<CompanyPara
                 throw new IllegalArgumentException("Archivo vacío");
             }
 
-            if (!Objects.requireNonNull(file.getContentType()).startsWith("image/")) {
+            if (!Objects.requireNonNull(file.getContentType()).toLowerCase().startsWith("image/")) {
                 throw new IllegalArgumentException("El archivo no es una imagen");
             }
 
+            long maxSize = 500 * 1024; // 500 KB
+            if (file.getSize() > maxSize) {
+                throw new IllegalArgumentException("El archivo excede el tamaño permitido (500 KB)");
+            }
+
             BufferedImage image = ImageIO.read(file.getInputStream());
-            BufferedImage resizedImage = resizeImage(image, 200, 200);
+            BufferedImage resizedImage = resizeImagePreservingAspectRatio(image, 120, 120);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            String format = file.getContentType().contains("png") ? "png" : "jpg";
-            ImageIO.write(resizedImage, format, baos); // Primero escribe
-            byte[] imageBytes = baos.toByteArray();    // Luego obtén los bytes
+            ImageIO.write(resizedImage, "png", baos); // SIEMPRE se guarda como PNG
+            byte[] imageBytes = baos.toByteArray();
 
-            String base64 = "data:" + file.getContentType() + ";base64," +
-                    Base64.getEncoder().encodeToString(imageBytes);
+            String base64 = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes);
 
             LogoType tipoEnum = LogoType.fromValue(tipo);
-
             switch (tipoEnum) {
                 case PRIMARY -> found.setPrimaryLogo(base64);
                 case SECONDARY -> found.setSecondaryLogo(base64);
