@@ -35,8 +35,8 @@ public class CompanyParametersController {
 
     @PutMapping("/company/{companyId}/logo/{tipo}")
     public ResponseEntity<CompanyParameters> uploadLogo(
-            @PathVariable String companyId,
-            @PathVariable LogoType tipo,
+            @PathVariable Long companyId,
+            @PathVariable Long tipo,
             @RequestParam("file")MultipartFile file) {
         return ResponseEntity.ok(service.updateLogoBase64(companyId, tipo, file));
     }
