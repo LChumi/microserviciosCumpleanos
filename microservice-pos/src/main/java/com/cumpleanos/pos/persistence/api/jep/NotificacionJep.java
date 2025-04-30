@@ -1,6 +1,6 @@
 package com.cumpleanos.pos.persistence.api.jep;
 
-public record Notificacion(
+public record NotificacionJep(
         String idtransaccion,
         String estado,
         String mensaje,

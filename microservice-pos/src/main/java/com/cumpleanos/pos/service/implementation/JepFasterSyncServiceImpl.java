@@ -2,6 +2,7 @@ package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
+import com.cumpleanos.pos.persistence.api.jep.NotificacionJep;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
 import com.cumpleanos.pos.service.interfaces.IJepFasterSyncService;
@@ -31,7 +32,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
     }
 
     @Override
-    public ServiceResponse procesarPago(Long usrLiquida, Long empresa) {
+    public ServiceResponse procesarPago(NotificacionJep notificacion) {
         return null;
     }
 }

@@ -1,8 +1,8 @@
 package com.cumpleanos.pos.service.interfaces;
 
-import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
+import com.cumpleanos.pos.persistence.api.jep.NotificacionJep;
 
 public interface IJepFasterSyncService {
 
@@ -10,5 +10,5 @@ public interface IJepFasterSyncService {
 
     ServiceResponse validarPago(Long usrLiquida, Long empresa);
 
-    ServiceResponse procesarPago(Long usrLiquida, Long empresa);
+    ServiceResponse procesarPago(NotificacionJep notificacionJep);
 }
