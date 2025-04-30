@@ -11,5 +11,4 @@ public record JepRequestQr(
         String direccionSucursal,
         String nombreSucursal,
         String identificadorsesion
-) {
-}
+) {}
