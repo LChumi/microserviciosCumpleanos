@@ -29,7 +29,7 @@ foreach ($folder in $foldersWithDockerfile) {
     # Verifica si la construcción fue exitosa y sube la imagen
     if ($LASTEXITCODE -eq 0) {
         Write-Host "Subiendo la imagen $imageName a Docker Hub ..."
-        #docker push $imageName
+        docker push $imageName
     } else {
         Write-Warning "Falló la construcción de $serviceName"
     }
