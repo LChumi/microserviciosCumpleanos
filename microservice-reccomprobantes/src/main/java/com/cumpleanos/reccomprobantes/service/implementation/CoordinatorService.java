@@ -85,7 +85,7 @@ public class CoordinatorService {
             String empresaId = clientesCamposNull.get(0).get("EmpresaId");
             String logoB64 = getLogoBase64(empresaId);
             String mensaje= MessagesUtils.mensajeHtmlCamposNulosClientes(clientesCamposNull,empresa, logoB64);
-            String asunto = "Campos no registrados de Proveedores";
+            String asunto = "Informe de nuevos proveedores registrados";
 
             EmailRecord email = new EmailRecord(
                     new String[]{correo},

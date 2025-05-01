@@ -8,13 +8,11 @@ public class MessagesUtils {
     public static String mensajeHtmlCamposNulosClientes(List<Map<String, String>> clientes, String empresa, String logoB64) {
         StringBuilder htmlBuilder = new StringBuilder();
 
-        if (logoB64 != null && logoB64.startsWith("data:image/")) {
-            htmlBuilder.append(String.format(
-                    "<div style='text-align: center;'>"
-                            + "<img src='%s' alt='Logo de la empresa' style='max-width: 120px; max-height: 120px; display: block; margin: auto;'>"
-                            + "</div>",
-                    logoB64
-            ));
+        if (logoB64 != null && logoB64.startsWith("data:image/") && logoB64.contains("base64,")) {
+            htmlBuilder.append("<div style='text-align: center;'>")
+                    .append("<img src='").append(logoB64)
+                    .append("' alt='Logo de la empresa' style='max-width: 120px; max-height: 120px; display: block; margin: auto;'>")
+                    .append("</div>");
         }
 
         // Comenzar la tabla HTML

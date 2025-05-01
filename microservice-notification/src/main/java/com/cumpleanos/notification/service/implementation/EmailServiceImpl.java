@@ -64,7 +64,7 @@ public class EmailServiceImpl implements IEmailService {
     private void sendHtmlEmail(EmailRecord email, String nameAttach, byte[] fileAttach) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
             helper.setFrom(emailUser);
             helper.setTo(email.toUser());
