@@ -3,25 +3,25 @@
 #Script para construir y subir las imagenes Docker de microservicios a Docker Hub
 
 #Usuario de Docker Hub
-DOCKER_USER=${DOCKER_USER:-"lchumi"}
+DOCKER_USER=${DOCKER_USER:-"user"}
 
 #Lista de carpetas donde estan los microservicios
 services=(
-  "microservices/common-module"
-  "microservices/ecommerce-service"
-  "microservices/meta-service"
-  "microservices/microservice-adminserver"
-  "microservices/microservice-assist"
-  "microservices/microservice-config"
-  "microservices/microservice-eureka"
-  "microservices/microservice-gateway"
-  "microservices/microservice-models"
-  "microservices/microservice-notificacion"
-  "microservices/microservice-pos"
-  "microservices/microservice-reccomprobantes"
-  "microservices/mongo-service"
-  "microservices/scheduler-service"
-  "microservices/utility-classes-module"
+  "common-module"
+  "ecommerce-service"
+  "meta-service"
+  "microservice-adiminserver"
+  "microservice-assist"
+  "microservice-config"
+  "microservice-eureka"
+  "microservice-gateway"
+  "microservice-models"
+  "microservice-notification"
+  "microservice-pos"
+  "microservice-reccomprobantes"
+  "mongo-service"
+  "scheduler-service"
+  "utility-classes-module"
 )
 
 echo "Usuario debe estar autenticado con docker login"
