@@ -5,12 +5,12 @@ import java.util.Map;
 
 public class MessagesUtils {
 
-    public static String mensajeHtmlCamposNulosClientes(List<Map<String, String>> clientes, String empresa, String logoB64) {
+    public static String mensajeHtmlCamposNulosClientes(List<Map<String, String>> clientes, String empresa, String logoSrc) {
         StringBuilder htmlBuilder = new StringBuilder();
 
-        if (logoB64 != null && logoB64.startsWith("data:image/") && logoB64.contains("base64,")) {
+        if (logoSrc != null) {
             htmlBuilder.append("<div style='text-align: center;'>")
-                    .append("<img src='").append(logoB64)
+                    .append("<img src='").append(logoSrc)
                     .append("' alt='Logo de la empresa' style='max-width: 120px; max-height: 120px; display: block; margin: auto;'>")
                     .append("</div>");
         }
