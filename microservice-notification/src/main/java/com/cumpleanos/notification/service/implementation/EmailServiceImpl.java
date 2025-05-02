@@ -2,8 +2,10 @@ package com.cumpleanos.notification.service.implementation;
 
 import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.notification.service.interfaces.IEmailService;
+import jakarta.activation.DataSource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,11 +66,24 @@ public class EmailServiceImpl implements IEmailService {
     private void sendHtmlEmail(EmailRecord email, String nameAttach, byte[] fileAttach) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+            MimeMessageHelper helper = new MimeMessageHelper(
+                    mimeMessage,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name()
+            );
 
             helper.setFrom(emailUser);
             helper.setTo(email.toUser());
             helper.setSubject(email.subject());
+
+            ClassPathResource logoImage = new ClassPathResource("images/logo.png");
+            if (!logoImage.exists()) {
+                throw new RuntimeException("La imagen logo.png no fue encontrada");
+            }
+
+            DataSource ds = new ByteArrayDataSource(logoImage.getInputStream(), "image/png");
+            helper.addInline("logoCid", ds);
+
 
             String cuerpoFinal = getHtmlTemplate(email.subject(), email.message());
             helper.setText(cuerpoFinal, true);
@@ -78,9 +93,13 @@ public class EmailServiceImpl implements IEmailService {
             }
 
             mailSender.send(mimeMessage);
+
         } catch (MessagingException e){
             throw new MailSendException("Error al enviar el correo ", e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     private String getHtmlTemplate(String titulo, String contenido){

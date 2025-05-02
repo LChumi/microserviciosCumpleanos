@@ -9,11 +9,12 @@
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">
 <div class="container" style="width: 100%; max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
     <div class="header" style="background-color: #004c6d; color: white; display: flex; justify-content: space-between; align-items: center; padding: 25px 30px; position: relative; overflow: hidden; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-        <div class="logo">
+
+        <div class="logo" style="order: -1;">
             <h1 style="font-size: 18px; margin: 0; letter-spacing: 1px;">${titulo}</h1>
         </div>
 
-        <div class="decorative-rombs" style="position: absolute; bottom: 10px; right: 10px; display: grid; grid-template-columns: repeat(4, 20px); grid-gap: 10px; opacity: 0.5;">
+        <div class="decorative-rombs" style="order: 1; position: relative; display: grid; grid-template-columns: repeat(4, 20px); grid-gap: 10px; opacity: 0.5;">
             <div class="romb color1" style="width: 14px; height: 14px; background-color: #3abee8; transform: rotate(45deg); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);"></div>
             <div class="romb color2" style="width: 14px; height: 14px; background-color: #b7bfc8; transform: rotate(45deg); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);"></div>
             <div class="romb color3" style="width: 14px; height: 14px; background-color: #c6e5fb; transform: rotate(45deg); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);"></div>
@@ -23,7 +24,9 @@
             <div class="romb color3" style="width: 14px; height: 14px; background-color: #00aced; transform: rotate(45deg); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);"></div>
             <div class="romb color4" style="width: 14px; height: 14px; background-color: #38bee8; transform: rotate(45deg); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);"></div>
         </div>
+
     </div>
+
     <div class="content" style="padding: 20px; text-align: center;">
         <p style="color: #666666;">${contenido}</p>
     </div>
@@ -34,7 +37,7 @@
 
         <div class="footer-info" style="margin-bottom: 10px;">
             <p style="font-size: 10px;">&copy; 2025 Importadora Cumpleaños</p>
-            <img src="https://apis.cumpleanos.com.ec/assist/images/logo/1" alt="Importadora Cumpleaños" style="width: 20px;">
+            <img src="cid:logoCid" alt="logo" style="width: 20px;">
             <p style="font-size: 10px;">&copy; Assist Web</p>
         </div>
 

@@ -58,8 +58,7 @@ public class ImagesController {
         return ResponseEntity.status(response.getStatusCode())
                 .contentType(Objects.requireNonNull(response.getHeaders().getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + defaultName + "." + getExtensionFromContentType(response.getHeaders().getContentType()) + "\"")
+                .header(HttpHeaders.CACHE_CONTROL, "public, max-age=86400")
                 .body(resource);
     }
-
-
 }
