@@ -2,16 +2,15 @@ package com.cumpleanos.notification.service.implementation;
 
 import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.notification.service.interfaces.IEmailService;
-import jakarta.activation.DataSource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.util.ByteArrayDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 @Slf4j
 @Service
@@ -66,9 +66,11 @@ public class EmailServiceImpl implements IEmailService {
     private void sendHtmlEmail(EmailRecord email, String nameAttach, byte[] fileAttach) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+            // true = multipart
             MimeMessageHelper helper = new MimeMessageHelper(
                     mimeMessage,
-                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    MimeMessageHelper.MULTIPART_MODE_RELATED,
                     StandardCharsets.UTF_8.name()
             );
 
@@ -76,18 +78,16 @@ public class EmailServiceImpl implements IEmailService {
             helper.setTo(email.toUser());
             helper.setSubject(email.subject());
 
-            ClassPathResource logoImage = new ClassPathResource("images/logo.png");
-            if (!logoImage.exists()) {
+            // Carga del logo
+            Resource logo = new ClassPathResource("images/logo.png");
+            if (!logo.exists()) {
                 throw new RuntimeException("La imagen logo.png no fue encontrada");
             }
 
-            DataSource ds = new ByteArrayDataSource(logoImage.getInputStream(), "image/png");
-            helper.addInline("logoCid", ds);
+            helper.setText(getHtmlTemplate(email.subject(), email.message()), true);
+            helper.addInline("logoCid", logo, "image/png");
 
-
-            String cuerpoFinal = getHtmlTemplate(email.subject(), email.message());
-            helper.setText(cuerpoFinal, true);
-
+            // Adjuntos normales
             if (nameAttach != null && fileAttach != null){
                 helper.addAttachment(nameAttach, new ByteArrayResource(fileAttach));
             }
@@ -96,11 +96,9 @@ public class EmailServiceImpl implements IEmailService {
 
         } catch (MessagingException e){
             throw new MailSendException("Error al enviar el correo ", e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-
     }
+
 
     private String getHtmlTemplate(String titulo, String contenido){
         try {
