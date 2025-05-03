@@ -1,0 +1,159 @@
+networks:
+  microservices-network:
+    driver: bridge
+
+services:
+  config-service:
+    image: luischumi/microservice-config
+    container_name: config-service
+    ports:
+      - "8888:8888"
+    networks:
+      - microservices-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=native
+      - EUREKA_SERVER_URL=http://eureka-service:8761/eureka
+
+  eureka-service:
+    image: luischumi/microservice-eureka
+    container_name: eureka-service
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  adminserver-service:
+    image: luischumi/microservice-adiminserver
+    container_name: adminserver-service
+    ports:
+      - "9090:9090"
+    depends_on:
+      - eureka-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  gateway-service:
+    image: luischumi/microservice-gateway
+    container_name: gateway-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  models-service:
+    image: luischumi/microservice-models
+    container_name: models-service
+    ports:
+      - "9091:9091"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  recep-service:
+    image: luischumi/microservice-reccomprobantes
+    container_name: recep-service
+    ports:
+      - "9093:9093"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  pos-service:
+    image: luischumi/microservice-pos
+    container_name: pos-service
+    ports:
+      - "9092:9092"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  notification-email-service:
+    image: luischumi/microservice-notification
+    container_name: notification-email-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  assist-service:
+    image: luischumi/microservice-assist
+    container_name: assist-service
+    ports:
+      - "9094:9094"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  meta-service:
+    image: luischumi/meta-service
+    container_name: meta-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  mongo-service:
+    image: luischumi/mongo-service
+    container_name: mongo-service
+    ports:
+      - "9095:9095"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  ecommerce-service:
+    image: luischumi/ecommerce-service
+    container_name: ecommerce-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
+
+  scheduler-service:
+    image: luischumi/scheduler-service
+    container_name: scheduler-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      - gateway-service
+    networks:
+      - microservices-network
+    environment:
+      - CONFIG_SERVER=http://config-service:8888
