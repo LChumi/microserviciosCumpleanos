@@ -41,15 +41,3 @@ info:
     name: pos-service
     description: Servicio de gestion de pagos por apis externas
     version: 1.0
-
-logging:
-  level:
-    root: info
-    com.cumple.pos: debug
-  file:
-    name: C:\\Proyectos\\Microserivicios\\logs\\pos.log
-    max-size: 10MB
-    max-history: 30
-  pattern:
-    file:
-      console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
