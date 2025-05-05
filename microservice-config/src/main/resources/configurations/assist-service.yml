@@ -27,8 +27,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
-        exclude: beans,env,threaddump,logfile
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
   endpoint:
     health:
       show-details: never
@@ -38,4 +38,6 @@ management:
 
 info:
   app:
-    name: ${spring.application.name}
+    name: assist-service
+    description: Assist service ERP
+    version: 1.0

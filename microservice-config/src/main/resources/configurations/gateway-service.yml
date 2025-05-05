@@ -70,13 +70,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,gateway
-      exclude: beans,env,threaddump,logfile
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,gateway
   endpoint:
     health:
-      show-details: never
+      show-details: always
     gateway:
       enabled: true
   info:
     env:
       enabled: false
+info:
+  app:
+    name: gateway-service
+    description: API Gateway
+    version: 1.0

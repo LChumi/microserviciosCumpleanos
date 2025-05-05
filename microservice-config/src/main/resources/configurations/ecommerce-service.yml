@@ -19,15 +19,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, logfile
-        exclude: beans, env, threaddump
-      endpoint:
-        health:
-          show-details: never
-        info:
-          env:
-            enable:false
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
+  endpoint:
+    health:
+      show-details: never
+  info:
+    env:
+      enabled: false
 
 info:
   app:
-    name: ${spring.application.name}
+    name: ecommerce-service
+    description: Servicio gestor de Wordpress, WooCommerce
+    version: 1.0

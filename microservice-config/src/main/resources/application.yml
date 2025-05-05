@@ -16,7 +16,9 @@ management:
     web:
       exposure:
         include: health,info
+  info:
+    env:
+      enabled: false
 
-logging:
-  level:
-    org.springframework.cloud.config.server: INFO
+info:
+  company: "Importadora Cumpleaños"

@@ -19,17 +19,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info,logfile
-        exclude: beans,threaddump
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
   endpoint:
-    logfile:
-      enabled: true
     health:
-      show-details: always
-    info:
-      env:
-        enabled: true
+      show-details: never
+  info:
+    env:
+      enabled: false
 
 info:
   app:
-    name: ${spring.application.name }:scheduler-service
+    name: scheduler-service
+    description: Servicio de Automatizacion de tareas
+    version: 1.0

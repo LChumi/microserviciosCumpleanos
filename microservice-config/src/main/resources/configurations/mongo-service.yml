@@ -22,15 +22,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
-        exclude: beans, env, threaddump
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
   endpoint:
     health:
       show-details: never
   info:
     env:
-      enable: false
+      enabled: false
 
 info:
   app:
-    name: ${spring.application.name}
+    name: mongo-service
+    description: Gestion de modelos registrados en mongoDB
+    version: 1.0

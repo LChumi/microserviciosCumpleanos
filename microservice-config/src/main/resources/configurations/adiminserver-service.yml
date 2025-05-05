@@ -17,8 +17,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
-        exclude: beans,env,threaddump,logfile
+        include: "*"
   endpoint:
     health:
       show-details: never
@@ -27,9 +26,6 @@ management:
       enabled: false
 info:
   app:
-    name: ${spring.application.name}
+    name: admin-service
+    description: Administrador de microservicios
     version: 1.0
-  security:
-    user:
-      name: admin
-      password: 1c3p.2024..

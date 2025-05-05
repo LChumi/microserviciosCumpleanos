@@ -19,15 +19,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info
-        exclude: beans,env,threaddump,logfile
-      endpoint:
-        health:
-          show-details: never
-        info:
-          env:
-            enabled:false
+        include: health,info,metrics,loggers,httptrace,scheduledtasks,mappings,logfile
+        exclude: beans,env,threaddump
+  endpoint:
+    health:
+      show-details: never
+  info:
+    env:
+      enabled: false
 
 info:
   app:
-    name: ${spring.application.name}
+    name: meta-service
+    description: Microservicios para integracion con Meta
+    version: 1.0
