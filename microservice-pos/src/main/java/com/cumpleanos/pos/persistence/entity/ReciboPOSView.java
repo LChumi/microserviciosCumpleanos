@@ -1,5 +1,6 @@
 package com.cumpleanos.pos.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,14 +15,15 @@ import java.math.BigInteger;
 @Data
 public class ReciboPOSView {
 
+    @Id
     @Column(name = "RPO_USR_LIQUIDA")
     private Long usrLiquida;
 
-    @Id
     @Column(name = "CAP_CODIGO")
     private Long codigo;
 
     @Column(name = "RPO_CCO_COMPROBA")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigInteger ccoComprobaId;
 
     @Column(name = "CAP_EMPRESA")
@@ -112,7 +114,8 @@ public class ReciboPOSView {
     private Long rpoPventa;
 
     @Column(name = "RPO_CCO_RECIBO")
-    private Long ccoRecibo;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private BigInteger ccoRecibo;
 
     @Column(name = "TCR_ID")
     private String tipoCredito;
