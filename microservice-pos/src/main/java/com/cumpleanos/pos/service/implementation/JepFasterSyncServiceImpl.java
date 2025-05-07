@@ -33,6 +33,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
 
     @Override
     public ServiceResponse procesarPago(NotificacionJep notificacion) {
+        log.info(notificacion.toString());
         return null;
     }
 }

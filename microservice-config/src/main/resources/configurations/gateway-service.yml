@@ -77,8 +77,12 @@ management:
     gateway:
       enabled: true
   info:
+    git:
+      enabled: true
+    build:
+      enabled: true
     env:
-      enabled: false
+      enabled: true
 info:
   app:
     name: gateway-service

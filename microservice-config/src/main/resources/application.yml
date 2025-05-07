@@ -18,7 +18,7 @@ management:
         include: health,info
   info:
     env:
-      enabled: false
+      enabled: true
 
 info:
   company: "Importadora Cumpleaños"
