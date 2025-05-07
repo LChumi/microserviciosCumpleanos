@@ -87,6 +87,8 @@ services:
     container_name: recep-service
     ports:
       - "9093:9093"
+    volumes:
+      - ./clientes:/app/data/clientes
     depends_on:
       - gateway-service
 
