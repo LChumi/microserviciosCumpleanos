@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "jepFfaster", url = "https://192.168.100.130:8685/serviciosenlineaBaseETH")
+@FeignClient(name = "jepFfaster", url = "https://157.100.17.30:8685/serviciosenlineaBaseETH/")
 public interface IJepFasterClient {
 
     @PostMapping("/integracioncomercial/qr-generation-process")
