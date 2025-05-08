@@ -1,5 +1,6 @@
 package com.cumpleanos.pos.service.http;
 
+import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.core.models.entities.Sistema;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -11,4 +12,7 @@ public interface IModelsClient {
 
     @GetMapping("/models/id-empresa/{id}")
     ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id);
+
+    @GetMapping("/models/almacen-get/{empresa}/{codigo}")
+    ResponseEntity<AlmacenDTO> getAlmacenByempresaAndAlmId(@PathVariable Long empresa, @PathVariable Long codigo);
 }
