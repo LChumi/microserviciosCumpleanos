@@ -1,6 +1,6 @@
 param (
-    [string]$githubUser = "lchumi",
-    [string]$repositoryName = "microservicioscumpleanos"
+    [string]$githubUser = "user",
+    [string]$repositoryName = "assistweb-backend"
 )
 
 Set-Location -Path $PSScriptRoot
