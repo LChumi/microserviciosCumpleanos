@@ -1,14 +1,15 @@
 package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.common.exception.ApiResponse;
+import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.common.records.ServiceResponse;
-import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.pos.persistence.api.jep.JepRequestQr;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
 import com.cumpleanos.pos.persistence.api.jep.NotificacionJep;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
+import com.cumpleanos.pos.service.exception.InfoPaymentException;
 import com.cumpleanos.pos.service.interfaces.IJepFasterSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+
+import static com.cumpleanos.pos.utils.DateUtils.obtenerFechaHora;
 
 @Slf4j
 @Service
@@ -40,7 +43,13 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
                 new RuntimeException("Recibo no encontrado")
         );
-        return null;
+        JepRequestQr request = createRequest(view);
+        ApiResponse<JepResponseQr> response = jepFasterClientService.getQR(request);
+        if (response.getError() != null) {
+            log.error("Error al generar QR: {}", response.getError());
+            throw new InfoPaymentException("No se pudo generar el QR: " + response.getError());
+        }
+        return response.getData();
     }
 
     @Override
@@ -58,22 +67,24 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
     }
 
     private JepRequestQr createRequest(ReciboPOSView v) {
-        ApiResponse<Sistema> empresa = modelsClientService.getEmpresa(v.getEmpresa());
-        if (empresa.getData() == null) {
-            throw new RuntimeException("Error al obtener la empresa");
+        ApiResponse<AlmacenDTO> almacen = modelsClientService.getAlmacen(v.getEmpresa(), v.getAlmacen());
+        if (almacen.getData() == null) {
+            throw new RuntimeException("Error al obtener la informacion de la sucursal");
         }
+
+        String codigoTransaccion = v.getEmpresa() + v.getAlmId() + v.getPventa() + obtenerFechaHora();
 
         return new JepRequestQr(
                 usuarioJep,
                 passwordJep,
                 String.valueOf(v.getTotal()),
+                codigoTransaccion,
                 codigoInstitucion,
                 null,
-                "Cuenca",
-                "0",
-                "",
-                "",
-                ""
+                almacen.getData().ciudad(),
+                almacen.getData().direccion(),
+                almacen.getData().nombre(),
+                null
         );
 
     }
