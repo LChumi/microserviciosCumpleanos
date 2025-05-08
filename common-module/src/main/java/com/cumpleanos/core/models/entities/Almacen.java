@@ -153,6 +153,13 @@ public class Almacen {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "ALM_CIUDAD", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "ALM_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
+    })
+    private Ubicacion ciudad;
 /*
     @JsonBackReference
     @OneToMany(mappedBy = "almacen", fetch = FetchType.LAZY)

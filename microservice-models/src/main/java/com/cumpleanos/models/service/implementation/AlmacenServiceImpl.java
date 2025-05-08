@@ -34,7 +34,8 @@ public class AlmacenServiceImpl extends GenericServiceImpl<Almacen, AlmacenId> i
                     almacen.getId().getCodigo(),
                     almacen.getAlmId(),
                     almacen.getNombre(),
-                    almacen.getDireccion()
+                    almacen.getDireccion(),
+                    almacen.getCiudad().getNombre()
                     ));
         }
         return almacenes;
@@ -47,7 +48,14 @@ public class AlmacenServiceImpl extends GenericServiceImpl<Almacen, AlmacenId> i
             return Optional.empty();
         }
         return Optional.of(
-                new AlmacenDTO(alm.getId().getEmpresa(), alm.getId().getCodigo(), alm.getAlmId(), alm.getNombre(), alm.getDireccion())
+                new AlmacenDTO(
+                        alm.getId().getEmpresa(),
+                        alm.getId().getCodigo(),
+                        alm.getAlmId(),
+                        alm.getNombre(),
+                        alm.getDireccion(),
+                        alm.getCiudad().getNombre()
+                )
         );
     }
 }

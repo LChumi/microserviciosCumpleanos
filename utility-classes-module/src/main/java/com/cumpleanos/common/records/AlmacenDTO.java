@@ -5,5 +5,6 @@ public record AlmacenDTO(
         Long codigo,
         String almId,
         String nombre,
-        String direccion) {
+        String direccion,
+        String ciudad) {
 }
