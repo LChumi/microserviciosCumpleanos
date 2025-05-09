@@ -19,7 +19,7 @@ x-common-config: &common-config
 services:
   config-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-config
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-config
     container_name: config-service
     ports:
       - "8888:8888"
@@ -40,7 +40,7 @@ services:
 
   eureka-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-eureka
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-eureka
     container_name: eureka-service
     ports:
       - "8761:8761"
@@ -55,7 +55,7 @@ services:
 
   gateway-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-gateway
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-gateway
     container_name: gateway-service
     ports:
       - "8081:8081"
@@ -65,7 +65,7 @@ services:
 
   adminserver-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-adiminserver
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-adiminserver
     container_name: adminserver-service
     ports:
       - "9090:9090"
@@ -74,7 +74,7 @@ services:
 
   models-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-models
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-models
     container_name: models-service
     ports:
       - "9091:9091"
@@ -83,7 +83,7 @@ services:
 
   recep-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-reccomprobantes
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-reccomprobantes
     container_name: recep-service
     ports:
       - "9093:9093"
@@ -94,7 +94,7 @@ services:
 
   pos-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-pos
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-pos
     container_name: pos-service
     ports:
       - "9092:9092"
@@ -103,7 +103,7 @@ services:
 
   notification-email-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-notification
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-notification
     container_name: notification-email-service
     ports:
       - "8083:8083"
@@ -112,7 +112,7 @@ services:
 
   assist-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/microservice-assist
+    image: ghcr.io/sistemasicep/assistweb-backend/microservice-assist
     container_name: assist-service
     ports:
       - "9094:9094"
@@ -121,7 +121,7 @@ services:
 
   meta-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/meta-service
+    image: ghcr.io/sistemasicep/assistweb-backend/meta-service
     container_name: meta-service
     ports:
       - "8084:8084"
@@ -130,7 +130,7 @@ services:
 
   mongo-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/mongo-service
+    image: ghcr.io/sistemasicep/assistweb-backend/mongo-service
     container_name: mongo-service
     ports:
       - "9095:9095"
@@ -139,7 +139,7 @@ services:
 
   ecommerce-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/ecommerce-service
+    image: ghcr.io/sistemasicep/assistweb-backend/ecommerce-service
     container_name: ecommerce-service
     ports:
       - "8085:8085"
@@ -148,7 +148,7 @@ services:
 
   scheduler-service:
     <<: *common-config
-    image: ghcr.io/lchumi/microservicioscumpleanos/scheduler-service
+    image: ghcr.io/sistemasicep/assistweb-backend/scheduler-service
     container_name: scheduler-service
     ports:
       - "8086:8086"
