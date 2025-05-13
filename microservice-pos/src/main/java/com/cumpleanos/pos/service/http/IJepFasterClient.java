@@ -12,5 +12,4 @@ public interface IJepFasterClient {
 
     @PostMapping("/integracioncomercial/qr-generation-process")
     ResponseEntity<JepResponseQr> getQR(@RequestBody JepRequestQr request);
-
 }

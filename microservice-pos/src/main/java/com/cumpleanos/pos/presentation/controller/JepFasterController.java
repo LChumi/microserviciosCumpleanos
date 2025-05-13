@@ -1,7 +1,6 @@
 package com.cumpleanos.pos.presentation.controller;
 
 import com.cumpleanos.common.records.ServiceResponse;
-import com.cumpleanos.pos.persistence.api.jep.JepRequestQr;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
 import com.cumpleanos.pos.persistence.api.jep.NotificacionJep;
 import com.cumpleanos.pos.service.interfaces.IJepFasterSyncService;
