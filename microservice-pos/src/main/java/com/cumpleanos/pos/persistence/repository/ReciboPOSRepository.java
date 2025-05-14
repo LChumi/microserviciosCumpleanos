@@ -8,5 +8,9 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 public interface ReciboPOSRepository extends JpaRepository<ReciboPOS, ReciboPOSId> {
+
     Optional<ReciboPOS> findByCcoComproba(BigInteger ccoComproba);
+
+    Optional<ReciboPOS> findByReferencia(String referencia);
+
 }

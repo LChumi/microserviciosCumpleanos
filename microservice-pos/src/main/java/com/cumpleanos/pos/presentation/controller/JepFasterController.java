@@ -17,14 +17,20 @@ public class JepFasterController {
     private final IJepFasterSyncService service;
 
     @PostMapping("/servicios/notificacioncomercio/notifyPayment")
-    public ResponseEntity<ServiceResponse> notifyPayment(NotificacionJep notificacion) {
-        service.procesarPago(notificacion);
+    public ResponseEntity<ServiceResponse> notifyPayment(NotificacionJep notification) {
+        service.procesarPago(notification);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/jep-faster/qr/{usrLiq}/{empresa}")
     public ResponseEntity<JepResponseQr> generarQR(@PathVariable Long usrLiq, @PathVariable Long empresa) {
         JepResponseQr response =service.generarQR(usrLiq, empresa);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/jep-faster/validar-pago/{usrLiq}/{empresa}")
+    public ResponseEntity<ServiceResponse> validarPago(@PathVariable Long usrLiq, @PathVariable Long empresa) {
+        ServiceResponse response = service.validarPago(usrLiq, empresa);
         return ResponseEntity.ok(response);
     }
 }

@@ -14,6 +14,7 @@ import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
 import com.cumpleanos.pos.service.exception.InfoPaymentException;
 import com.cumpleanos.pos.service.exception.ReciboNotFoundException;
 import com.cumpleanos.pos.service.interfaces.IJepFasterSyncService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +58,21 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
 
     @Override
     public ServiceResponse validarPago(Long usrLiquida, Long empresa) {
-        ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
-                new RuntimeException("Recibo no encontrado")
-        );
-        return null;
+        return esperarAprobacion(usrLiquida, empresa);
     }
 
     @Override
-    public ServiceResponse procesarPago(NotificacionJep notificacion) {
-        log.info(notificacion.toString());
-        return null;
+    public ServiceResponse procesarPago(NotificacionJep notification) {
+        log.info("----> Notificacion recibida: {}", notification.toString());
+
+        ReciboPOS pos = reciboPOSRepository.findByReferencia(notification.idtransaccion()).orElseThrow(() -> new EntityNotFoundException("No se encontraron datos en la vista Recibo"));
+
+        pos.setNumAprob(notification.nummensaje());
+        pos.setResultado(notification.estado());
+        pos.setAprobado(true);
+
+        reciboPOSRepository.save(pos);
+        return new ServiceResponse("Notificacion recibida",true);
     }
 
     private JepRequestQr createRequest(ReciboPOSView v) {
@@ -104,5 +110,33 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         recibo.setFecha(obtenerFecha());
 
         reciboPOSRepository.save(recibo);
+    }
+
+    private ServiceResponse esperarAprobacion(Long usrLiq, Long empresa){
+        int intentosMaximos = 150; //cinco minutos de espera
+        int intervaloEspera = 2000; // En milisegundos 2 segundos
+        int intentos = 0;
+
+        while (intentos < intentosMaximos){
+            try{
+                ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiq, empresa).orElseThrow(() ->
+                        new RuntimeException("Recibo no encontrado")
+                );
+                if (view.getResultado().equalsIgnoreCase("PAGADO")){
+                    return new ServiceResponse("PAGADO", Boolean.TRUE);
+                }
+
+                intentos++;
+                Thread.sleep(intervaloEspera);
+            }catch (InterruptedException e){
+                Thread.currentThread().interrupt(); // Restablecer el estado de interrupción del hilo
+                throw new InfoPaymentException("Interrupción mientras se esperaba aprobación", e);
+            } catch (Exception e){
+                log.error("Error inesperado: {}", e.getMessage());
+                throw new InfoPaymentException("Error esperandola aprobacion de JepFaster", e);
+            }
+        }
+        log.error("Tiempo de espera excedido después de {} intentos.", intentosMaximos);
+        throw new InfoPaymentException("No se pudo procesar su pago verifique su estado de cuenta");
     }
 }
