@@ -80,7 +80,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
                 new RuntimeException("Recibo no encontrado")
         );
-        if (view.getResultado().equalsIgnoreCase("PAGADO")){
+        if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")){
             return new ServiceResponse("PAGADO", Boolean.TRUE);
         }
         return new ServiceResponse("NO PAGADO", Boolean.FALSE);
@@ -133,7 +133,9 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
                 ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiq, empresa).orElseThrow(() ->
                         new RuntimeException("Recibo no encontrado")
                 );
-                if (view.getResultado().equalsIgnoreCase("PAGADO")){
+                log.info("Esperando respuesta - intento {}, Respuesta: {}", intentos, view.getResultado());
+
+                if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")){
                     return new ServiceResponse("PAGADO", Boolean.TRUE);
                 }
 
