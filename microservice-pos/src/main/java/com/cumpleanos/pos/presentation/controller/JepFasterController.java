@@ -33,4 +33,10 @@ public class JepFasterController {
         ServiceResponse response = service.validarPago(usrLiq, empresa);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/jep-faster/verificar-pago/{usrLiq}/{empresa}")
+    public ResponseEntity<ServiceResponse> verificarPagoExistente(@PathVariable Long usrLiq, @PathVariable Long empresa) {
+        ServiceResponse response = service.verificarPago(usrLiq, empresa);
+        return ResponseEntity.ok(response);
+    }
 }

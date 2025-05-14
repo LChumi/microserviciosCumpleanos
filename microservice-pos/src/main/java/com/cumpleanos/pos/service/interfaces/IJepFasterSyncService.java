@@ -11,4 +11,6 @@ public interface IJepFasterSyncService {
     ServiceResponse validarPago(Long usrLiquida, Long empresa);
 
     ServiceResponse procesarPago(NotificacionJep notificacionJep);
+
+    ServiceResponse verificarPago(Long usrLiquida, Long empresa);
 }

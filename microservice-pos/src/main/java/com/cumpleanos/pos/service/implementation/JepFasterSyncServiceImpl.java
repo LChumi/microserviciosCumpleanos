@@ -75,6 +75,17 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         return new ServiceResponse("Notificacion recibida",true);
     }
 
+    @Override
+    public ServiceResponse verificarPago(Long usrLiquida, Long empresa) {
+        ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
+                new RuntimeException("Recibo no encontrado")
+        );
+        if (view.getResultado().equalsIgnoreCase("PAGADO")){
+            return new ServiceResponse("PAGADO", Boolean.TRUE);
+        }
+        return new ServiceResponse("NO PAGADO", Boolean.FALSE);
+    }
+
     private JepRequestQr createRequest(ReciboPOSView v) {
         ApiResponse<AlmacenDTO> almacen = modelsClientService.getAlmacen(v.getEmpresa(), v.getAlmacen());
         if (almacen.getData() == null) {
