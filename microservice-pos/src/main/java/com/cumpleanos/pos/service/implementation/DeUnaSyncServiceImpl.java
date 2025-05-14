@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.cumpleanos.pos.utils.StringUtils.getTransactionReference;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
@@ -82,8 +84,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
             throw new RuntimeException("Error al obtener la empresa");
         }
         String detail = "Compra en " + empresa.getData().getNombrecorto();
-        String codigoPuntoVenta = v.getCodigo() + "" + v.getPventa();
-        String internalTransactionReference = DateUtils.obtenerFechaHora() + codigoPuntoVenta;
+        String internalTransactionReference = getTransactionReference(v);
         return new PaymentRequest(
                 v.getCapId(),
                 "dynamic",

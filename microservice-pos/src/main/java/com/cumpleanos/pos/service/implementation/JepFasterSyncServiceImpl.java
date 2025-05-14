@@ -6,10 +6,13 @@ import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.pos.persistence.api.jep.JepRequestQr;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
 import com.cumpleanos.pos.persistence.api.jep.NotificacionJep;
+import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
 import com.cumpleanos.pos.service.exception.InfoPaymentException;
+import com.cumpleanos.pos.service.exception.ReciboNotFoundException;
 import com.cumpleanos.pos.service.interfaces.IJepFasterSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +21,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import static com.cumpleanos.pos.utils.DateUtils.obtenerFechaHora;
+import static com.cumpleanos.pos.utils.DateUtils.*;
+import static com.cumpleanos.pos.utils.StringUtils.getTransactionReference;
 
 @Slf4j
 @Service
@@ -35,8 +39,6 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
     private String usuarioJep;
     @Value("${password-jep}")
     private String passwordJep;
-    @Value("${cod-institucion-jep}")
-    private String codigoInstitucion;
 
     @Override
     public JepResponseQr generarQR(Long usrLiquida, Long empresa) {
@@ -49,6 +51,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
             log.error("Error al generar QR: {}", response.getError());
             throw new InfoPaymentException("No se pudo generar el QR: " + response.getError());
         }
+        actualizarReciboPosInicial(view, request.codigoTransaccion());
         return response.getData();
     }
 
@@ -79,13 +82,27 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
                 passwordJep,
                 String.valueOf(v.getTotal()),
                 codigoTransaccion,
-                codigoInstitucion,
+                v.getCapId(),
                 null,
                 almacen.getData().ciudad(),
                 almacen.getData().direccion(),
                 almacen.getData().nombre(),
                 null
         );
+    }
 
+    private void actualizarReciboPosInicial(ReciboPOSView v, String codigoTransaccion){
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS recibo = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
+
+        String transactionReference = getTransactionReference(v);
+
+        recibo.setNroDoc(transactionReference);
+        recibo.setReferencia(codigoTransaccion);
+        recibo.setHora(obtenerHora());
+        recibo.setFecha(obtenerFecha());
+
+        reciboPOSRepository.save(recibo);
     }
 }

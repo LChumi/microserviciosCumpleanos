@@ -50,6 +50,9 @@ public class ReciboPOSView {
     @Column(name = "CAP_PUERTO")
     private String puertoCom;
 
+    @Column(name = "CAP_FINANCIERA")
+    private Long financiera;
+
     @Column(name = "RPO_CODIGO")
     private Long rpoCodigo;
 
