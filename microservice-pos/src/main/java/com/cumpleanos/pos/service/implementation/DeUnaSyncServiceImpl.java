@@ -82,7 +82,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
             throw new RuntimeException("Error al obtener la empresa");
         }
         String detail = "Compra en " + empresa.getData().getNombrecorto();
-        String codigoPuntoVenta = String.valueOf(v.getCodigo()) + String.valueOf(v.getPventa());
+        String codigoPuntoVenta = v.getCodigo() + "" + v.getPventa();
         String internalTransactionReference = DateUtils.obtenerFechaHora() + codigoPuntoVenta;
         return new PaymentRequest(
                 v.getCapId(),
