@@ -17,7 +17,7 @@ public class JepFasterController {
     private final IJepFasterSyncService service;
 
     @PostMapping("/servicios/notificacioncomercio/notifyPayment")
-    public ResponseEntity<?> notifyPayment(NotificacionJep notification) {
+    public ResponseEntity<ServiceResponse> notifyPayment(NotificacionJep notification) {
         service.procesarPago(notification);
         return ResponseEntity.ok().build();
     }
