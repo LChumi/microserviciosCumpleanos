@@ -6,7 +6,7 @@ import com.cumpleanos.pos.persistence.api.jep.NotificacionJep;
 
 public interface IJepFasterSyncService {
 
-    JepResponseQr generarQR(Long usrLiquida, Long empresa);
+    JepResponseQr generarQR(Long usrLiquida, Long empresa , boolean status);
 
     ServiceResponse validarPago(Long usrLiquida, Long empresa);
 

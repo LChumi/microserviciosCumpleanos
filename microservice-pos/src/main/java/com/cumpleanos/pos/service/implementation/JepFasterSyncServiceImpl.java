@@ -42,12 +42,18 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
     private String passwordJep;
 
     @Override
-    public JepResponseQr generarQR(Long usrLiquida, Long empresa) {
+    public JepResponseQr generarQR(Long usrLiquida, Long empresa, boolean status) {
+        ApiResponse<JepResponseQr> response;
         ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
                 new RuntimeException("Recibo no encontrado")
         );
         JepRequestQr request = createRequest(view);
-        ApiResponse<JepResponseQr> response = jepFasterClientService.getQR(request);
+        if (status) {
+            response = jepFasterClientService.getQR(request);
+        }else{
+            response = jepFasterClientService.getQRTest(request);
+        }
+
         if (response.getError() != null) {
             log.error("Error al generar QR: {}", response.getError());
             throw new InfoPaymentException("No se pudo generar el QR: " + response.getError());
