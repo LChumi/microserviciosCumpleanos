@@ -4,7 +4,7 @@ import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.pos.persistence.api.jep.JepRequestQr;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
 import com.cumpleanos.pos.service.exception.HttpResponseHandler;
-import com.cumpleanos.pos.service.http.IJepFasterClient;
+import com.cumpleanos.pos.service.http.IJepFasterClientTest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class JepFasterClientService {
 
-    private final IJepFasterClient jepClient;
+    private final IJepFasterClientTest jepClient;
 
     public ApiResponse<JepResponseQr> getQR(JepRequestQr request){
         return HttpResponseHandler.handle(() ->
