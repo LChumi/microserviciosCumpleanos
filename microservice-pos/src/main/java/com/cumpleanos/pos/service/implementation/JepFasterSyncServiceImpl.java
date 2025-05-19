@@ -23,6 +23,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import static com.cumpleanos.pos.utils.DateUtils.*;
+import static com.cumpleanos.pos.utils.StringUtils.getEmpresa;
 import static com.cumpleanos.pos.utils.StringUtils.getTransactionReference;
 
 @Slf4j
@@ -71,7 +72,9 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
     public ServiceResponse procesarPago(NotificacionJep notification) {
         log.info("----> Notificacion recibida: {}", notification.toString());
 
-        ReciboPOS pos = reciboPOSRepository.findByReferencia(notification.idtransaccion()).orElseThrow(() -> new EntityNotFoundException("No se encontraron datos en la vista Recibo"));
+        Long empresa = getEmpresa(notification.idtransaccion());
+
+        ReciboPOS pos = reciboPOSRepository.findByReferenciaAndId_Empresa(notification.idtransaccion(), empresa).orElseThrow(() -> new EntityNotFoundException("No se encontraron datos en la vista Recibo"));
 
         pos.setNumAprob(notification.nummensaje());
         pos.setResultado(notification.estado());
@@ -98,7 +101,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
             throw new RuntimeException("Error al obtener la informacion de la sucursal");
         }
 
-        String codigoTransaccion = v.getEmpresa() + v.getAlmId() + v.getPventa() + obtenerFechaHora();
+        String codigoTransaccion = v.getEmpresa() + "-" + v.getAlmId() + v.getPventa() + obtenerFechaHora();
 
         return new JepRequestQr(
                 usuarioJep,

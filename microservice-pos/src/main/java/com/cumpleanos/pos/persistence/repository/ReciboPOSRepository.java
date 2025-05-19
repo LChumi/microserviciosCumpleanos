@@ -11,6 +11,5 @@ public interface ReciboPOSRepository extends JpaRepository<ReciboPOS, ReciboPOSI
 
     Optional<ReciboPOS> findByCcoComproba(BigInteger ccoComproba);
 
-    Optional<ReciboPOS> findByReferencia(String referencia);
-
+    Optional<ReciboPOS> findByReferenciaAndId_Empresa(String referencia, Long idEmpresa);
 }
