@@ -4,6 +4,8 @@ import com.cumpleanos.pos.persistence.ids.CajaPOSId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -54,4 +56,12 @@ public class CajaPOS {
 
     @Column(name = "MOD_FECHA")
     private LocalDate modFecha;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "CAP_EMPRESA", referencedColumnName = "FIN_EMPRESA", insertable = false, updatable = false),
+            @JoinColumn(name = "CAP_FINANCIERA", referencedColumnName = "FIN_CODIGO", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Financiera financiera;
 }
