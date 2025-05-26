@@ -24,7 +24,7 @@ public class JepFasterController {
 
     @GetMapping("/jep-faster/qr/{usrLiq}/{empresa}")
     public ResponseEntity<JepResponseQr> generarQR(@PathVariable Long usrLiq, @PathVariable Long empresa) {
-        JepResponseQr response =service.generarQR(usrLiq, empresa, false);
+        JepResponseQr response =service.generarQR(usrLiq, empresa, true);
         return ResponseEntity.ok(response);
     }
 
