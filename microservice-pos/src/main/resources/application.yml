@@ -10,3 +10,12 @@ pos:
 
 file:
   path: "C:\\Proyectos\\Microserivicios\\data_not_saved"
+
+logging:
+  level:
+    root: info
+    com:
+      cumple:
+        pos: debug
+  file:
+    name: C:\\Pos\\logs\\pos.log
