@@ -17,33 +17,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-@PropertySource("classpath:api-keys.properties")
 @Slf4j
 public class DeunaPaymentClientService {
 
     private final IDeunaPaymentClientTest deunaPaymentClientTest;
     private final IDeunaPaymentClientProd deunaPaymentClientProd;
 
-    //Keys de pruebas
-    @Value("${x-api-key-test}")
-    String apiKeyTest;
-    @Value("${x-api-secret-test}")
-    String apiSecretTest;
-
-    //Keys de produccion
-    @Value("${x-api-key}")
-    String apiKeyProd;
-    @Value("${x-api-secret}")
-    String apiSecretProd;
-
-    public ApiResponse<PaymentResponse> getPaymentTest(PaymentRequest paymentRequest) {
+    public ApiResponse<PaymentResponse> getPaymentTest(String apiKeyTest,String apiSecretTest, PaymentRequest paymentRequest) {
         return HttpResponseHandler.handle(() ->
                         deunaPaymentClientTest.requestPaymet(apiKeyTest, apiSecretTest, paymentRequest),
                 "Error en la obtencion del pago"
         );
     }
 
-    public ApiResponse<InfoResponse> getInfoTest(InfoRequest infoRequest) {
+    public ApiResponse<InfoResponse> getInfoTest(String apiKeyTest,String apiSecretTest,InfoRequest infoRequest) {
         return HttpResponseHandler.handle(() ->
                 deunaPaymentClientTest.requestInfoPayment(apiKeyTest,apiSecretTest,infoRequest),
                 "Error en la obtencion de la info de pago"
@@ -51,14 +38,14 @@ public class DeunaPaymentClientService {
     }
 
     //metodos produccion
-    public ApiResponse<PaymentResponse> getPayment(PaymentRequest paymentRequest) {
+    public ApiResponse<PaymentResponse> getPayment(String apiKeyProd,String apiSecretProd,PaymentRequest paymentRequest) {
         return HttpResponseHandler.handle(() ->
                         deunaPaymentClientProd.requestPaymet(apiKeyProd, apiSecretProd, paymentRequest),
                 "Error en la obtencion del pago"
         );
     }
 
-    public ApiResponse<InfoResponse> getInfo(InfoRequest infoRequest) {
+    public ApiResponse<InfoResponse> getInfo(String apiKeyProd,String apiSecretProd,InfoRequest infoRequest) {
         return HttpResponseHandler.handle(() ->
                         deunaPaymentClientProd.requestInfoPayment(apiKeyProd, apiSecretProd,infoRequest),
                 "Error en la obtencion de la info de pago"

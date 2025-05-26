@@ -18,9 +18,9 @@ public class FinancieraId implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "FIN_CODIGO", nullable = false)
-    private Long codigo;
-
     @Column(name = "FIN_EMPRESA", nullable = false)
     private Long empresa;
+
+    @Column(name = "FIN_CODIGO", nullable = false)
+    private Long codigo;
 }

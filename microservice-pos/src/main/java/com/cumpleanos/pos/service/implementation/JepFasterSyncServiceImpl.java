@@ -6,9 +6,12 @@ import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.pos.persistence.api.jep.JepRequestQr;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
 import com.cumpleanos.pos.persistence.api.jep.NotificacionJep;
+import com.cumpleanos.pos.persistence.entity.Financiera;
 import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
+import com.cumpleanos.pos.persistence.ids.FinancieraId;
 import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
+import com.cumpleanos.pos.persistence.repository.FinancieraRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
 import com.cumpleanos.pos.service.exception.InfoPaymentException;
@@ -18,7 +21,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
@@ -28,19 +30,14 @@ import static com.cumpleanos.pos.utils.StringUtils.getTransactionReference;
 
 @Slf4j
 @Service
-@PropertySource("classpath:api-keys.properties")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
 
     private final ReciboPOSRepository reciboPOSRepository;
+    private final FinancieraRepository financieraRepository;
     private final ReciboPOSViewRepositorio viewRepositorio;
     private final ModelsClientServiceImpl modelsClientService;
     private final JepFasterClientService jepFasterClientService;
-
-    @Value("${usuario-jep}")
-    private String usuarioJep;
-    @Value("${password-jep}")
-    private String passwordJep;
 
     @Override
     public JepResponseQr generarQR(Long usrLiquida, Long empresa, boolean status) {
@@ -101,11 +98,15 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
             throw new RuntimeException("Error al obtener la informacion de la sucursal");
         }
 
+        FinancieraId idFin = new FinancieraId(v.getEmpresa(), v.getFinanciera());
+        Financiera fin = financieraRepository.findById(idFin).orElseThrow(() ->
+                new EntityNotFoundException("No se encontro informacion financiera"));
+
         String codigoTransaccion = v.getEmpresa() + "-" + v.getAlmId() + v.getPventa() + obtenerFechaHora();
 
         return new JepRequestQr(
-                usuarioJep,
-                passwordJep,
+                fin.getUsuario(),
+                fin.getPassword(),
                 String.valueOf(v.getTotal()),
                 codigoTransaccion,
                 v.getCapId(),
