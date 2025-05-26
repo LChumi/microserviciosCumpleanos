@@ -2,6 +2,7 @@ package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.common.records.ClienteRecord;
 import com.cumpleanos.core.models.entities.Cliente;
+import com.cumpleanos.core.models.ids.ClienteId;
 import com.cumpleanos.models.persistence.dto.ClienteDTO;
 import com.cumpleanos.models.service.interfaces.IClienteService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class ClienteController {
 
     @GetMapping("/cliente/ruc/{ruc}/{tipo}/{empresa}")
     public ResponseEntity<ClienteRecord> getCliente(@PathVariable String ruc, @PathVariable Short tipo, @PathVariable Long empresa) {
-        Cliente cliente = service.findByCedulaRucAndEmpresa(ruc,tipo ,empresa);
+        Cliente cliente = service.findByCedulaRucAndEmpresa(ruc, tipo, empresa);
         if (cliente == null) {
             return ResponseEntity.noContent().build();
         }
@@ -50,5 +51,17 @@ public class ClienteController {
     public ResponseEntity<Set<ClienteDTO>> getClientesXTipo(@PathVariable("empresa") Long empresa, @PathVariable("tipo") Short tipo) {
         Set<ClienteDTO> clientes = service.findByTipoAndEmpresa(tipo, empresa);
         return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping("/cliente/ced/{empresa}/{clicodigo}")
+    public ResponseEntity<String> getClienteCedById(@PathVariable("empresa") Long empresa, @PathVariable("clicodigo") Long codigo) {
+        ClienteId id = new ClienteId();
+        id.setCodigo(codigo);
+        id.setEmpresa(empresa);
+        Cliente cliente = service.findById(id);
+        if (cliente == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(cliente.getRucCedula());
     }
 }

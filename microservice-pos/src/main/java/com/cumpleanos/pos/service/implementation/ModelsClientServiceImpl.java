@@ -2,6 +2,7 @@ package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.common.records.AlmacenDTO;
+import com.cumpleanos.common.records.ClienteDTO;
 import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.pos.service.exception.HttpResponseHandler;
 import com.cumpleanos.pos.service.http.IModelsClient;
@@ -28,6 +29,13 @@ public class ModelsClientServiceImpl {
         return HttpResponseHandler.handle(() ->
                 modelsClient.getAlmacenByempresaAndAlmId(empresa, alm),
                 "Error al obtener almacen con id " + alm
+                );
+    }
+
+    public ApiResponse<String> getCliente(Long empresa, Long cliente) {
+        return HttpResponseHandler.handle(() ->
+                modelsClient.getClienteCedById(empresa, cliente),
+                "Error al obtener cliente con id " + cliente
                 );
     }
 }

@@ -15,4 +15,7 @@ public interface IModelsClient {
 
     @GetMapping("/models/almacen-get/{empresa}/{codigo}")
     ResponseEntity<AlmacenDTO> getAlmacenByempresaAndAlmId(@PathVariable Long empresa, @PathVariable Long codigo);
+
+    @GetMapping("/models/cliente/ced/{empresa}/{clicodigo}")
+    ResponseEntity<String> getClienteCedById(@PathVariable("empresa") Long empresa, @PathVariable("clicodigo") Long codigo) ;
 }

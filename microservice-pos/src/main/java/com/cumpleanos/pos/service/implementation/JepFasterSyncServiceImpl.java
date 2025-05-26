@@ -2,6 +2,7 @@ package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.common.records.AlmacenDTO;
+import com.cumpleanos.common.records.ClienteDTO;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.pos.persistence.api.jep.JepRequestQr;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;
@@ -96,6 +97,11 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         if (almacen.getData() == null) {
             throw new RuntimeException("Error al obtener la informacion de la sucursal");
         }
+        ApiResponse<String> cliente = modelsClientService.getCliente(v.getEmpresa(), v.getCliente());
+
+        if (cliente.getData() == null) {
+            throw new RuntimeException("Error al obtener la informacion del cliente");
+        }
 
         FinancieraId idFin = new FinancieraId(v.getEmpresa(), v.getFinanciera());
         Financiera fin = financieraRepository.findById(idFin).orElseThrow(() ->
@@ -109,7 +115,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
                 String.valueOf(v.getTotal()),
                 codigoTransaccion,
                 v.getCapId(),
-                null,
+                cliente.getData(),
                 almacen.getData().ciudad(),
                 almacen.getData().direccion(),
                 almacen.getData().nombre(),
