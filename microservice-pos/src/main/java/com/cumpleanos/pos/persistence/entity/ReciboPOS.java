@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = { "tipoCreditoPOS" })
+@ToString(exclude = {"tipoCreditoPOS"})
 public class ReciboPOS {
 
     @EmbeddedId

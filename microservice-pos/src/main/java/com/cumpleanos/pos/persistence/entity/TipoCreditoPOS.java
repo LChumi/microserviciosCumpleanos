@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = { "reciboPos" })
+@ToString(exclude = {"reciboPos"})
 public class TipoCreditoPOS {
 
     @EmbeddedId

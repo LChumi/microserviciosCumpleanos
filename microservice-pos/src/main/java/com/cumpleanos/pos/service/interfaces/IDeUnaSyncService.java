@@ -7,6 +7,8 @@ import com.cumpleanos.pos.persistence.api.deuna.payments.PaymentResponse;
 
 public interface IDeUnaSyncService {
     ApiResponse<PaymentResponse> procesarPago(Long usrLiquida, Long empresa);
+
     InfoResponse procesarInfoPayment(Long usrLiquida, Long empresa);
+
     ServiceResponse procesarInfoRecibo(Long usrLiquida, Long empresa);
 }

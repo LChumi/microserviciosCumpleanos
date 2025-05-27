@@ -47,7 +47,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         JepRequestQr request = createRequest(view);
         if (status) {
             response = jepFasterClientService.getQR(request);
-        }else{
+        } else {
             response = jepFasterClientService.getQRTest(request);
         }
 
@@ -77,7 +77,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         pos.setAprobado(true);
 
         reciboPOSRepository.save(pos);
-        return new ServiceResponse("Notificacion recibida",true);
+        return new ServiceResponse("Notificacion recibida", true);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
                 new RuntimeException("Recibo no encontrado")
         );
-        if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")){
+        if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")) {
             return new ServiceResponse("PAGADO", Boolean.TRUE);
         }
         return new ServiceResponse("NO PAGADO", Boolean.FALSE);
@@ -122,7 +122,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         );
     }
 
-    private void actualizarReciboPosInicial(ReciboPOSView v, String codigoTransaccion){
+    private void actualizarReciboPosInicial(ReciboPOSView v, String codigoTransaccion) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS recibo = reciboPOSRepository.findById(id)
                 .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
@@ -137,28 +137,28 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         reciboPOSRepository.save(recibo);
     }
 
-    private ServiceResponse esperarAprobacion(Long usrLiq, Long empresa){
+    private ServiceResponse esperarAprobacion(Long usrLiq, Long empresa) {
         int intentosMaximos = 150; //cinco minutos de espera
         int intervaloEspera = 2000; // En milisegundos 2 segundos
         int intentos = 0;
 
-        while (intentos < intentosMaximos){
-            try{
+        while (intentos < intentosMaximos) {
+            try {
                 ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiq, empresa).orElseThrow(() ->
                         new RuntimeException("Recibo no encontrado")
                 );
                 log.info("Esperando respuesta - intento {}, Respuesta: {}", intentos, view.getResultado());
 
-                if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")){
+                if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")) {
                     return new ServiceResponse("PAGADO", Boolean.TRUE);
                 }
 
                 intentos++;
                 Thread.sleep(intervaloEspera);
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); // Restablecer el estado de interrupción del hilo
                 throw new InfoPaymentException("Interrupción mientras se esperaba aprobación", e);
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.error("Error inesperado: {}", e.getMessage());
                 throw new InfoPaymentException("Error esperandola aprobacion de JepFaster", e);
             }

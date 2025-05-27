@@ -25,8 +25,8 @@ public class ReciboPOSSyncController {
     }
 
     @GetMapping("/listarPuertos/{usr}/{empresa}")
-    public ResponseEntity<Map<String,String>> listarPuertos(@PathVariable Long usr, @PathVariable Long empresa) {
-        Map<String,String> response = service.listarPuertos(usr, empresa);
+    public ResponseEntity<Map<String, String>> listarPuertos(@PathVariable Long usr, @PathVariable Long empresa) {
+        Map<String, String> response = service.listarPuertos(usr, empresa);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

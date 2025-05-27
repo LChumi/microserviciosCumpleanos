@@ -23,7 +23,7 @@ public class Financiera {
     private String finId;
 
     @Column(name = "FIN_NOMBRE", length = 100)
-        private String nombre;
+    private String nombre;
 
     @Column(name = "FIN_CLIENTE")
     private Long cliente;

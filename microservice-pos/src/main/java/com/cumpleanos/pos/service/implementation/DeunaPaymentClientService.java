@@ -21,31 +21,31 @@ public class DeunaPaymentClientService {
     private final IDeunaPaymentClientTest deunaPaymentClientTest;
     private final IDeunaPaymentClientProd deunaPaymentClientProd;
 
-    public ApiResponse<PaymentResponse> getPaymentTest(String apiKeyTest,String apiSecretTest, PaymentRequest paymentRequest) {
+    public ApiResponse<PaymentResponse> getPaymentTest(String apiKeyTest, String apiSecretTest, PaymentRequest paymentRequest) {
         return HttpResponseHandler.handle(() ->
                         deunaPaymentClientTest.requestPaymet(apiKeyTest, apiSecretTest, paymentRequest),
                 "Error en la obtencion del pago"
         );
     }
 
-    public ApiResponse<InfoResponse> getInfoTest(String apiKeyTest,String apiSecretTest,InfoRequest infoRequest) {
+    public ApiResponse<InfoResponse> getInfoTest(String apiKeyTest, String apiSecretTest, InfoRequest infoRequest) {
         return HttpResponseHandler.handle(() ->
-                deunaPaymentClientTest.requestInfoPayment(apiKeyTest,apiSecretTest,infoRequest),
+                        deunaPaymentClientTest.requestInfoPayment(apiKeyTest, apiSecretTest, infoRequest),
                 "Error en la obtencion de la info de pago"
-                );
+        );
     }
 
     //metodos produccion
-    public ApiResponse<PaymentResponse> getPayment(String apiKeyProd,String apiSecretProd,PaymentRequest paymentRequest) {
+    public ApiResponse<PaymentResponse> getPayment(String apiKeyProd, String apiSecretProd, PaymentRequest paymentRequest) {
         return HttpResponseHandler.handle(() ->
                         deunaPaymentClientProd.requestPaymet(apiKeyProd, apiSecretProd, paymentRequest),
                 "Error en la obtencion del pago"
         );
     }
 
-    public ApiResponse<InfoResponse> getInfo(String apiKeyProd,String apiSecretProd,InfoRequest infoRequest) {
+    public ApiResponse<InfoResponse> getInfo(String apiKeyProd, String apiSecretProd, InfoRequest infoRequest) {
         return HttpResponseHandler.handle(() ->
-                        deunaPaymentClientProd.requestInfoPayment(apiKeyProd, apiSecretProd,infoRequest),
+                        deunaPaymentClientProd.requestInfoPayment(apiKeyProd, apiSecretProd, infoRequest),
                 "Error en la obtencion de la info de pago"
         );
     }

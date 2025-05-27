@@ -19,22 +19,22 @@ public class ModelsClientServiceImpl {
 
     public ApiResponse<Sistema> getEmpresa(Long id) {
         return HttpResponseHandler.handle(() ->
-                modelsClient.getEmpresaById(id),
+                        modelsClient.getEmpresaById(id),
                 "Error al obtener empresa con id " + id
-                );
+        );
     }
 
     public ApiResponse<AlmacenDTO> getAlmacen(Long empresa, Long alm) {
         return HttpResponseHandler.handle(() ->
-                modelsClient.getAlmacenByempresaAndAlmId(empresa, alm),
+                        modelsClient.getAlmacenByempresaAndAlmId(empresa, alm),
                 "Error al obtener almacen con id " + alm
-                );
+        );
     }
 
     public ApiResponse<String> getCliente(Long empresa, Long cliente) {
         return HttpResponseHandler.handle(() ->
-                modelsClient.getClienteCedById(empresa, cliente),
+                        modelsClient.getClienteCedById(empresa, cliente),
                 "Error al obtener cliente con id " + cliente
-                );
+        );
     }
 }

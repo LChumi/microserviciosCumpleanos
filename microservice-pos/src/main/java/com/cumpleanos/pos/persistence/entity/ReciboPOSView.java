@@ -124,7 +124,7 @@ public class ReciboPOSView {
     private String tipoCredito;
 
     @Column(name = "RPO_CUOTAS")
-    private Long cuotas=0L;
+    private Long cuotas = 0L;
 
     @Column(name = "ALM_ID")
     private String almId;

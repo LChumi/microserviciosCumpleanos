@@ -19,13 +19,13 @@ public class JepFasterClientService {
     private final IJepFasterClientTest jepClient;
     private final IJepFasterClientProd jepClientProd;
 
-    public ApiResponse<JepResponseQr> getQRTest(JepRequestQr request){
+    public ApiResponse<JepResponseQr> getQRTest(JepRequestQr request) {
         return HttpResponseHandler.handle(() ->
-                jepClient.getQR(request),
+                        jepClient.getQR(request),
                 "Error en la obtencion de QR");
     }
 
-    public ApiResponse<JepResponseQr> getQR(JepRequestQr request){
+    public ApiResponse<JepResponseQr> getQR(JepRequestQr request) {
         return HttpResponseHandler.handle(() ->
                         jepClientProd.getQR(request),
                 "Error en la obtencion de QR");

@@ -20,23 +20,23 @@ public class DeUnaController {
 
     @GetMapping("/generar-pago/{usrLiq}/{empresa}")
     public ResponseEntity<?> test(@PathVariable Long usrLiq, @PathVariable Long empresa) {
-        ApiResponse<PaymentResponse> response = deunaSyncService.procesarPago(usrLiq,empresa);
+        ApiResponse<PaymentResponse> response = deunaSyncService.procesarPago(usrLiq, empresa);
         if (response.getError() != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getError());
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.CREATED).body(response.getData());
         }
     }
 
     @GetMapping("/validar-pago/{usrlLiq}/{empresa}")
     public ResponseEntity<InfoResponse> validarPago(@PathVariable Long usrlLiq, @PathVariable Long empresa) {
-        InfoResponse response = deunaSyncService.procesarInfoPayment(usrlLiq,empresa);
+        InfoResponse response = deunaSyncService.procesarInfoPayment(usrlLiq, empresa);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/verificar-pago-existente/{usrLiq}/{empresa}")
     public ResponseEntity<ServiceResponse> verificarPagoExistente(@PathVariable Long usrLiq, @PathVariable Long empresa) {
-        ServiceResponse response = deunaSyncService.procesarInfoRecibo(usrLiq,empresa);
+        ServiceResponse response = deunaSyncService.procesarInfoRecibo(usrLiq, empresa);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -39,12 +39,12 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
             DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
 
-            DatosRecepcionResponse response = apiService.procesarPago(reciboPOSView.getIp(),reciboPOSView.getPuertoCom(),dEnvio);
+            DatosRecepcionResponse response = apiService.procesarPago(reciboPOSView.getIp(), reciboPOSView.getPuertoCom(), dEnvio);
             if (response == null) {
                 throw new RuntimeException("No se pudo procesar el Recibo POS sin respuesta");
             }
 
-            actualizaGuardarReciboPOS(reciboPOSView,response);
+            actualizaGuardarReciboPOS(reciboPOSView, response);
 
             return "1";
         } catch (DataAccessException | PersistenceException e) {
@@ -93,7 +93,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
                 .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS para UsrLiquida y Empresa"));
     }
 
-    private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v){
+    private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
         DatosEnvioRequest dEnvio = new DatosEnvioRequest();
         dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
         dEnvio.setBase0(v.getSubtotal0().doubleValue());
@@ -103,16 +103,16 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         return dEnvio;
     }
 
-    private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response){
+    private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
                 .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
-        actualizarReciboPOS(reciboPOS,response);
+        actualizarReciboPOS(reciboPOS, response);
         try {
             reciboPOSRepository.save(reciboPOS);
-        } catch (DataAccessException | PersistenceException e){
+        } catch (DataAccessException | PersistenceException e) {
             log.error("ERROR de acceso a datos al actualizar el pago: {}", e.getMessage(), e);
-            filesUtils.crearArchivoDatosNoGuardado(v.getUsrLiquida(),v.getEmpresa(),response);
+            filesUtils.crearArchivoDatosNoGuardado(v.getUsrLiquida(), v.getEmpresa(), response);
         }
     }
 
