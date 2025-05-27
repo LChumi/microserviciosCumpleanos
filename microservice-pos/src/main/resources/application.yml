@@ -18,4 +18,4 @@ logging:
       cumple:
         pos: debug
   file:
-    name: C:\\Pos\\logs\\pos.log
+    name: C:\\Proyectos\\Microserivicios\\logs\\pos\\pos.log
