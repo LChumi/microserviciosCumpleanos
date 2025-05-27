@@ -2,7 +2,6 @@ package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.common.records.AlmacenDTO;
-import com.cumpleanos.common.records.ClienteDTO;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.pos.persistence.api.jep.JepRequestQr;
 import com.cumpleanos.pos.persistence.api.jep.JepResponseQr;

@@ -2,7 +2,6 @@ package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.common.exception.ApiResponse;
 import com.cumpleanos.common.records.AlmacenDTO;
-import com.cumpleanos.common.records.ClienteDTO;
 import com.cumpleanos.core.models.entities.Sistema;
 import com.cumpleanos.pos.service.exception.HttpResponseHandler;
 import com.cumpleanos.pos.service.http.IModelsClient;
