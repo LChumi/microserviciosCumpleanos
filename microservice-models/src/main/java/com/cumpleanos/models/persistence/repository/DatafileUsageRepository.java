@@ -1,6 +1,6 @@
 package com.cumpleanos.models.persistence.repository;
 
-import com.cumpleanos.core.models.dto.DatafileUsage;
+import com.cumpleanos.common.dtos.DatafileUsage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,15 +29,13 @@ public class DatafileUsageRepository {
                                    ) FREE
                                 ON DF.FILE_ID = FREE.FILE_ID
                 """;
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            DatafileUsage datafileUsage = new DatafileUsage();
-            datafileUsage.setTablespaceName(rs.getString("TABLESPACE_NAME"));
-            datafileUsage.setFileName(rs.getString("FILE_NAME"));
-            datafileUsage.setSizeGb(rs.getDouble("SIZE_GB"));
-            datafileUsage.setFreeGb(rs.getDouble("FREE_GB"));
-            datafileUsage.setFreePercent(rs.getDouble("FREE_PERCENT"));
-            return datafileUsage;
-        });
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new DatafileUsage(
+                rs.getString("TABLESPACE_NAME"),
+                rs.getString("FILE_NAME"),
+                rs.getDouble("SIZE_GB"),
+                rs.getDouble("FREE_GB"),
+                rs.getDouble("FREE_PERCENT")
+        ));
     }
 
 }

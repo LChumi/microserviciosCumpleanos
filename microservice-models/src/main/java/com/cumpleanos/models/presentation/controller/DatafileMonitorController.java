@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.core.models.dto.DatafileUsage;
+import com.cumpleanos.common.dtos.DatafileUsage;
 import com.cumpleanos.models.service.implementation.DataFileMonitorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
