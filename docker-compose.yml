@@ -6,8 +6,8 @@ x-common-config: &common-config
   networks:
     - microservices-network
   environment:
-    - CONFIG_SERVER=http://config-service:8888
-    - EUREKA_SERVER_URL=http://eureka-service:8761/eureka
+    - CONFIG_SERVER=${CONFIG_SERVER}
+    - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
   restart: always
   logging:
     driver: "json-file"
