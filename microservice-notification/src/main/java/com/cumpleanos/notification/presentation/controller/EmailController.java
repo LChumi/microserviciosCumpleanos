@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.*;
 
 @RestController
 @RequestMapping("email")
@@ -26,13 +27,7 @@ public class EmailController {
 
     @PostMapping("/enviar/html")
     public ResponseEntity<?> enviarMailHtml(@Valid  @RequestBody EmailRecord email){
-        emailService.sendMailHtml(email);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/enviar/text")
-    public ResponseEntity<?> enviarMail(@Valid @RequestBody EmailRecord email){
-        emailService.sendMail(email);
+        emailService.sendEmailWithHtmlAndAttachments(email, Collections.emptyMap());
         return ResponseEntity.ok().build();
     }
 
@@ -47,6 +42,28 @@ public class EmailController {
         }
 
         emailService.sendMailAttach(email, filename, file.getBytes());
+        return ResponseEntity.ok("Correo enviado correctamente");
+    }
+
+    @PostMapping(value = "/enviar/adjuntos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> enviarMailAdjuntos(
+            @RequestPart("email") MultipartFile emailFile,
+            @RequestPart("attachments") List<MultipartFile> files,
+            @RequestPart("filenames") List<String> filenames
+    ) throws IOException {
+        if (files.size() != filenames.size()) {
+            return ResponseEntity.badRequest().body("Cantidad de archivos y nombres no coinciden");
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        EmailRecord email = objectMapper.readValue(emailFile.getBytes(), EmailRecord.class);
+
+        Map<String, byte[]> attachments = new HashMap<>();
+        for(int i = 0; i < files.size(); i++) {
+            attachments.put(filenames.get(i), files.get(i).getBytes());
+        }
+
+        emailService.sendEmailWithHtmlAndAttachments(email, attachments);
         return ResponseEntity.ok("Correo enviado correctamente");
     }
 
