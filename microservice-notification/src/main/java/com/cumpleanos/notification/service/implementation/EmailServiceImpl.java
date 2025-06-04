@@ -14,12 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -40,54 +38,6 @@ public class EmailServiceImpl implements IEmailService {
 
     @Value("${email.sender}")
     private String emailUser;
-
-    @Override
-    public void sendMailAttach(EmailRecord email, String nameAttach, byte[] fileAttach) {
-        if (nameAttach == null || nameAttach.isBlank()) {
-            throw new IllegalArgumentException("El nombre del adjunto no puede ser nulo o vacío");
-        }
-        if (fileAttach == null || fileAttach.length == 0) {
-            throw new IllegalArgumentException("El archivo adjunto no puede ser nulo o vacío");
-        }
-
-        sendHtmlEmail(email, nameAttach, fileAttach);
-    }
-
-    private void sendHtmlEmail(EmailRecord email, String nameAttach, byte[] fileAttach) {
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-
-            // true = multipart
-            MimeMessageHelper helper = new MimeMessageHelper(
-                    mimeMessage,
-                    MimeMessageHelper.MULTIPART_MODE_RELATED,
-                    StandardCharsets.UTF_8.name()
-            );
-
-            helper.setFrom(emailUser);
-            helper.setTo(email.toUser());
-            helper.setSubject(email.subject());
-
-            // Carga del logo
-            Resource logo = new ClassPathResource("images/logo.png");
-            if (!logo.exists()) {
-                throw new RuntimeException("La imagen logo.png no fue encontrada");
-            }
-
-            helper.setText(getHtmlTemplate(email.subject(), email.message()), true);
-            helper.addInline("logoCid", logo, "image/png");
-
-            // Adjuntos normales
-            if (nameAttach != null && fileAttach != null){
-                helper.addAttachment(nameAttach, new ByteArrayResource(fileAttach));
-            }
-
-            mailSender.send(mimeMessage);
-
-        } catch (MessagingException e){
-            throw new MailSendException("Error al enviar el correo ", e);
-        }
-    }
 
     public void sendEmailWithHtmlAndAttachments(EmailRecord email, Map<String,byte[]> attachments) {
         try {

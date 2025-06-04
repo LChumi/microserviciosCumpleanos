@@ -2,6 +2,7 @@ package com.cumpleanos.notification.presentation.controller;
 
 import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.notification.service.interfaces.IEmailService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,32 +32,20 @@ public class EmailController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/enviar/adjunto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> enviarMailAdjunto(@RequestPart("file") MultipartFile file,
-                                                    @RequestPart("filename") String filename,
-                                                    @RequestPart("email") MultipartFile emailFile) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        EmailRecord email = objectMapper.readValue(emailFile.getBytes(), EmailRecord.class);
-        if (file.isEmpty() || filename == null || filename.isBlank()) {
-            throw new IllegalArgumentException("El archivo y su nombre son obligatorios.");
-        }
-
-        emailService.sendMailAttach(email, filename, file.getBytes());
-        return ResponseEntity.ok("Correo enviado correctamente");
-    }
-
     @PostMapping(value = "/enviar/adjuntos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> enviarMailAdjuntos(
-            @RequestPart("email") MultipartFile emailFile,
+            @RequestPart("email") MultipartFile emailJson,
             @RequestPart("attachments") List<MultipartFile> files,
-            @RequestPart("filenames") List<String> filenames
+            @RequestPart("filenames") MultipartFile filenamesJson
     ) throws IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        EmailRecord email = mapper.readValue(emailJson.getInputStream(), EmailRecord.class);
+        List<String> filenames = mapper.readValue(filenamesJson.getInputStream(), new TypeReference<>() {});
+
         if (files.size() != filenames.size()) {
             return ResponseEntity.badRequest().body("Cantidad de archivos y nombres no coinciden");
         }
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        EmailRecord email = objectMapper.readValue(emailFile.getBytes(), EmailRecord.class);
 
         Map<String, byte[]> attachments = new HashMap<>();
         for(int i = 0; i < files.size(); i++) {
