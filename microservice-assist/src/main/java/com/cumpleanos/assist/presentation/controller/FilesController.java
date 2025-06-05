@@ -25,14 +25,14 @@ public class FilesController {
     private final FilesServicesImpl filesServices;
     private final ISolicitudImportacionService solicitudImportacionService;
 
-    @PostMapping("/excel/solicitud")
+    @PostMapping("/importaciones/excel/solicitud")
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
                                                                       @RequestParam("empresa") Long empresa) throws IOException {
         List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
         return ResponseEntity.ok(items);
     }
 
-    @PostMapping("/confirmar/solicitud")
+    @PostMapping("/importaciones/confirmar/solicitud")
     public ResponseEntity<SciResponse> confirmarSolicitud(
             @RequestBody @Valid SolicitudRequestDTO solicitudRequestDTO) {
         log.info("Confirmar solicitud lista de items: {}", solicitudRequestDTO.getItems());
