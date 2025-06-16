@@ -41,7 +41,7 @@ public class ApiConsumoService {
     }
 
     public DatosRecepcionResponse procesarPago(String ip, String puertoCom, DatosEnvioRequest request){
-        String url = String.format("%s%s%s%s%s", baseUrl, ip, puerto, PROCESAR_PAGO, puertoCom);
+        String url = String.format("%s%s:%s%s%s", baseUrl, ip, puerto, PROCESAR_PAGO, puertoCom);
         HttpEntity<DatosEnvioRequest> entity = new HttpEntity<>(request, createHeaders());
 
         try {
@@ -59,7 +59,7 @@ public class ApiConsumoService {
     }
 
     public Map<String, String> listarPuertos(String ip) {
-        String url = String.format("%s%s%s%s", baseUrl, ip, puerto, LISTA_PUERTOS_COM);
+        String url = String.format("%s%s:%s%s", baseUrl, ip, puerto, LISTA_PUERTOS_COM);
 
         try {
             ResponseEntity<Map<String, String>> response = restTemplate.exchange(
@@ -77,7 +77,7 @@ public class ApiConsumoService {
     }
 
     public DatosRecepcionResponse anularPago(String ip, String puertoCom, String numReferencia) {
-        String url = String.format("%s%s%s%s%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO, puertoCom,numReferencia);
+        String url = String.format("%s%s:%s%s%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO, puertoCom,numReferencia);
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
 
         try {
@@ -95,7 +95,7 @@ public class ApiConsumoService {
     }
 
     public DatosRecepcionResponse obtenerUltimaTransaccion(String ip, String puertoCom) {
-        String url = String.format("%s%s%s%s%s", baseUrl, ip, puerto, ULTIMA_TRANSACCION, puertoCom);
+        String url = String.format("%s%s:%s%s%s", baseUrl, ip, puerto, ULTIMA_TRANSACCION, puertoCom);
 
         try {
             ResponseEntity<DatosRecepcionResponse> response = restTemplate.getForEntity(url, DatosRecepcionResponse.class);
