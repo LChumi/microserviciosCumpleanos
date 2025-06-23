@@ -46,7 +46,7 @@ public class FilesServicesImpl {
         return productosList;
     }
 
-    private List<ProductImportTransformer> mapRowsToProducts(Sheet sheet) throws IOException {
+    private List<ProductImportTransformer> mapRowsToProducts(Sheet sheet){
         List<ProductImportTransformer> productosList = new ArrayList<>();
         Iterator<Row> rowIterator = sheet.iterator();
 

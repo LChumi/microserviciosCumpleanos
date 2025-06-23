@@ -41,4 +41,10 @@ public class FilesController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/importaciones/excel/orden_compra")
+    public ResponseEntity<List<ProductImportTransformer>> transformOrdenCompra(@RequestParam("file") MultipartFile file,
+                                                                               @RequestParam("empresa") Long empresa) throws IOException {
+        return ResponseEntity.ok().build();
+    }
+
 }
