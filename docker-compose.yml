@@ -98,16 +98,11 @@ services:
     container_name: pos-service
     ports:
       - "9092:9092"
+    volumes:
+      - ./data_not_saved:/app/data_not_saved
+      - ./logs:/app/logs
     depends_on:
       - gateway-service
-    environment:
-      - BASE_URL=${BASE_URL}
-      - PUERTO_CLIENTE_POS=${PUERTO_CLIENTE_POS}
-      - DATA_SAVED_PATH=${DATA_SAVED_PATH}
-      - LOG_PATH=${LOG_PATH}
-      - LOG_DATEFORMAT_PATTERN=${LOG_DATEFORMAT_PATTERN}
-      - LOG_LEVEL_PATTERN=${LOG_LEVEL_PATTERN}
-      - LOG_EXCEPTION_CONVERSION_WORD=${LOG_EXCEPTION_CONVERSION_WORD}
 
   notification-email-service:
     <<: *common-config

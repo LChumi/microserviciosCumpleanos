@@ -10,6 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 @Getter
 public class RutasConfig {
 
-    @Value("${route.file.clientesW}")
+    @Value("${route.file.clientes}")
     private String rutaCliente;
 }

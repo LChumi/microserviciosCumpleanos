@@ -1,11 +1,16 @@
 FROM openjdk:17-jdk-slim
 
-# Instalar curl
-RUN apt-get update && apt-get install -y curl
-
 ARG JAR_FILE=target/*.jar
-VOLUME /tmp
-COPY ${JAR_FILE} app.jar
+
+#Usuario no root con UID fijo
+RUN useradd -m -u 1000 appuser \
+    && mkdir -p /app \
+    && chown -R appuser:appuser /app
+
+# Copiar jar
+COPY ${JAR_FILE} /app/app.jar
+RUN chown appuser:appuser /app/app.jar
+
+USER appuser
 
 ENTRYPOINT ["java", "-jar", "/app.jar"]
-
