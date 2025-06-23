@@ -5,5 +5,7 @@ import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.ProductoId;
 
 public interface IProductoService extends IGenericService<Producto, ProductoId> {
+
     ProductoDTO getProductoByBarraAndEmpresa(String barra, Long empresa);
+
 }

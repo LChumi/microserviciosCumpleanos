@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.assist.service.implementation.importaciones;
 
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
@@ -9,8 +9,8 @@ import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.exception.ProcedureNotCompletedException;
 import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
-import com.cumpleanos.assist.service.interfaces.IProductoTempService;
-import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
+import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
+import com.cumpleanos.assist.service.interfaces.importaciones.ISolicitudImportacionService;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.ProductoTemp;
 import com.cumpleanos.core.models.ids.DfacturaId;

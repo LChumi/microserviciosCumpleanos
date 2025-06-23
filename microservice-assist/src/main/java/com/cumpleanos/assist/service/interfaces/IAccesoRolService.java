@@ -8,5 +8,6 @@ import java.util.Set;
 
 public interface IAccesoRolService extends IGenericService<AccesoRol, Long> {
     Set<MenuTransformer> obtenerMenusYSubmenus(Long usuario, Long empresa);
+
     Set<Sistema> getEmpresas(Long usuario);
 }

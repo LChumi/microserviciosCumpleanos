@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProgramaWRepository extends JpaRepository<ProgramaW, Long> {
+
     Optional<ProgramaW> findByPath(String path);
+
 }

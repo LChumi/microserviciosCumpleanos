@@ -102,7 +102,7 @@ public class ClientServiceImpl {
     }
 
     //UBICACION
-    public List<Ubicacion> getUbicaion(Long empr, String nombre){
+    public List<Ubicacion> getUbicaion(Long empr, String nombre) {
         return HttpResponseHandler.handle(() -> modelsClient.getUbicacionByNombre(empr, nombre),
                 "Error al obtener la ciudad por nombre: " + nombre + " empresa: " + empr);
     }
@@ -114,8 +114,8 @@ public class ClientServiceImpl {
                 "Error al guardar el creposicion en la empresa: " + c.getId().getEmpresa());
     }
 
-    public Boolean findCreposicionByReferencia(String referencia, Long empresa){
-        return  HttpResponseHandler.handle(() -> modelsClient.findCreposicionByReferencia(referencia, empresa),
+    public Boolean findCreposicionByReferencia(String referencia, Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.findCreposicionByReferencia(referencia, empresa),
                 "Error al obtener el creposicion por referencia: " + referencia + " empresa: " + empresa);
     }
 

@@ -17,28 +17,28 @@ public class ImpProdTrancitoVwSpecification {
             Long proveedor,
             LocalDate fecha,
             String estado
-    ){
+    ) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (empresa != null) {
                 predicates.add(criteriaBuilder.equal(root.get("empresa"), empresa));
             }
-            if (nroComprobante != null){
+            if (nroComprobante != null) {
                 String pattern = "%" + nroComprobante + "%";
                 predicates.add(criteriaBuilder.like(root.get("nroComprobante"), pattern));
             }
-            if (observacion != null){
+            if (observacion != null) {
                 String pattern = "%" + observacion + "%";
                 predicates.add(criteriaBuilder.like(root.get("observacion"), pattern));
             }
-            if (proveedor != null){
+            if (proveedor != null) {
                 predicates.add(criteriaBuilder.equal(root.get("proveedor"), proveedor));
             }
             if (fecha != null) {
                 predicates.add(criteriaBuilder.equal(root.get("fecha"), fecha));
             }
-            if (estado != null){
+            if (estado != null) {
                 predicates.add(criteriaBuilder.equal(root.get("estado"), estado));
             }
 

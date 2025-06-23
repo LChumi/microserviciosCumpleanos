@@ -10,6 +10,8 @@ import java.util.Set;
 
 @Repository
 public interface UsuarioFavoritoRepository extends JpaRepository<UsuarioFavoritos, Long> {
+
     Set<UsuarioFavoritos> findByUsuario_IdAndEmpresa(Long id, Long empresa);
+
     Optional<UsuarioFavoritos> findByUsuario_IdAndEmpresaAndPrograma(Long usuario, Long empresa, ProgramaW programa);
 }

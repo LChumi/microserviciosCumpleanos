@@ -20,14 +20,14 @@ public class UsuarioController {
 
     @GetMapping("/forgot-password/{usrId}")
     public ResponseEntity<ServiceResponse> forgotPassword(@PathVariable String usrId) {
-        ServiceResponse sv=usuarioService.recoveryPassword(usrId);
+        ServiceResponse sv = usuarioService.recoveryPassword(usrId);
         return ResponseEntity.ok(sv);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(@RequestBody @Valid AuthenticationRequest request) {
         UserResponse user = usuarioService.login(request);
-        if(user==null) {
+        if (user == null) {
             throw new BadCredentialsException("Usuario no autenticado");
         }
         return ResponseEntity.accepted().body(user);

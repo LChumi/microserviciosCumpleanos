@@ -1,9 +1,10 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.assist.service.implementation.importaciones;
 
 import com.cumpleanos.assist.persistence.repository.views.ImpProdTrancitoVwRepository;
 import com.cumpleanos.assist.persistence.specification.ImpProdTrancitoVwSpecification;
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
-import com.cumpleanos.assist.service.interfaces.IImpProdTrancitoVwService;
+import com.cumpleanos.assist.service.implementation.GenericServiceImpl;
+import com.cumpleanos.assist.service.interfaces.importaciones.IImpProdTrancitoVwService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;

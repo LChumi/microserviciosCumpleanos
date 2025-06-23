@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RolWrepository extends JpaRepository<RolW, Long> {
+
     List<RolW> findByAccesosRol(List<AccesoRol> accesosRol);
 }

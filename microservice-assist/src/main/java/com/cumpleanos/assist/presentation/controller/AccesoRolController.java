@@ -19,7 +19,7 @@ public class AccesoRolController {
 
     @GetMapping("/menus/{usuario}/{empresa}")
     public ResponseEntity<Set<MenuTransformer>> getMenus(@PathVariable Long usuario, @PathVariable Long empresa) {
-        Set<MenuTransformer> menus =service.obtenerMenusYSubmenus(usuario, empresa);
+        Set<MenuTransformer> menus = service.obtenerMenusYSubmenus(usuario, empresa);
         return ResponseEntity.ok(menus);
     }
 

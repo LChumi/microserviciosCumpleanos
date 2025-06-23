@@ -46,7 +46,7 @@ public class EcommerceController {
     }
 
     @GetMapping("/ecommerce/orders-sync")
-    public ResponseEntity<ServiceResponse> syncOrders(){
+    public ResponseEntity<ServiceResponse> syncOrders() {
         ServiceResponse response = servicePedidosEcommerce.getPedidosAndUpdateSystem();
         return ResponseEntity.ok(response);
     }

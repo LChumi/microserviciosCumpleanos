@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RolMenuRepository extends JpaRepository<RolMenu, Long> {
+
     List<RolMenu> findByRolWIn(List<RolW> rolWS);
 }

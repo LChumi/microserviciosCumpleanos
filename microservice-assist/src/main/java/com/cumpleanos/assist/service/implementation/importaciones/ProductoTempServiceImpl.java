@@ -1,7 +1,8 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.assist.service.implementation.importaciones;
 
 import com.cumpleanos.assist.persistence.repository.ProductoTempRepository;
-import com.cumpleanos.assist.service.interfaces.IProductoTempService;
+import com.cumpleanos.assist.service.implementation.GenericServiceImpl;
+import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.core.models.entities.ProductoTemp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

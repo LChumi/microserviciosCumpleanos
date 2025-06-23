@@ -1,7 +1,7 @@
-package com.cumpleanos.assist.presentation.controller;
+package com.cumpleanos.assist.presentation.controller.importaciones;
 
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
-import com.cumpleanos.assist.service.interfaces.IImpProdTrancitoVwService;
+import com.cumpleanos.assist.service.interfaces.importaciones.IImpProdTrancitoVwService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

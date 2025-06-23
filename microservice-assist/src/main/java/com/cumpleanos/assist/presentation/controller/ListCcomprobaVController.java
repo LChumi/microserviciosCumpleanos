@@ -33,7 +33,7 @@ public class ListCcomprobaVController {
             @RequestParam(required = false) String referencia,
             @RequestParam(required = false) Long estado,
             @RequestParam(required = false) Long tipodoc
-            ) {
+    ) {
         return service.find(empresa, periodo, fecha, mes, sigla, almacen, serie, numero, concepto, referencia, estado, tipodoc);
     }
 }

@@ -10,7 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface ProductoTempRepository extends JpaRepository<ProductoTemp, Long> {
+
     Optional<ProductoTemp> findByProIdAndEmpresa(String proId, Long empresa);
+
     Optional<ProductoTemp> findByCodFabricaAndEmpresa(String proId, Long empresa);
 
     @Query("SELECT p FROM ProductoTemp p WHERE p.empresa = :empresa AND (p.codFabrica LIKE %:data% OR p.proId LIKE %:data%)")

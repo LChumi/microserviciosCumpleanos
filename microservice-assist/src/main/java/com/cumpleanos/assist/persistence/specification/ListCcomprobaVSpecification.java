@@ -23,7 +23,7 @@ public class ListCcomprobaVSpecification {
             String doctran,
             Long estado,
             Long tipodoc
-            ) {
+    ) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -35,16 +35,16 @@ public class ListCcomprobaVSpecification {
                 predicates.add(criteriaBuilder.equal(root.get("periodo"), periodo));
             }
             if (fecha != null) {
-                predicates.add(criteriaBuilder.equal(root.get("fecha"), fecha));  
+                predicates.add(criteriaBuilder.equal(root.get("fecha"), fecha));
             }
             if (mes != null) {
-                predicates.add(criteriaBuilder.equal(root.get("mes"), mes));  
+                predicates.add(criteriaBuilder.equal(root.get("mes"), mes));
             }
             if (sigla != null) {
                 predicates.add(criteriaBuilder.equal(root.get("sigla"), sigla));
             }
             if (almacen != null) {
-                predicates.add(criteriaBuilder.equal(root.get("almacen"), almacen));  
+                predicates.add(criteriaBuilder.equal(root.get("almacen"), almacen));
             }
             if (serie != null) {
                 predicates.add(criteriaBuilder.equal(root.get("serie"), serie));

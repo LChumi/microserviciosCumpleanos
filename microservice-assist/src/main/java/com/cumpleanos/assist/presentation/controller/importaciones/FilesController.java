@@ -1,10 +1,10 @@
-package com.cumpleanos.assist.presentation.controller;
+package com.cumpleanos.assist.presentation.controller.importaciones;
 
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
 import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.implementation.files.FilesServicesImpl;
-import com.cumpleanos.assist.service.interfaces.ISolicitudImportacionService;
+import com.cumpleanos.assist.service.interfaces.importaciones.ISolicitudImportacionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

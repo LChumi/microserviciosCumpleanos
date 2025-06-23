@@ -4,9 +4,9 @@ import com.cumpleanos.assist.persistence.transformers.ImpProdTrancitoTransformer
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
-import com.cumpleanos.assist.service.interfaces.IImpProdTrancitoVwService;
+import com.cumpleanos.assist.service.interfaces.importaciones.IImpProdTrancitoVwService;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
-import com.cumpleanos.assist.service.interfaces.IProductoTempService;
+import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.assist.utils.FileUtils;
 import com.cumpleanos.core.models.entities.ProductoTemp;
 import lombok.RequiredArgsConstructor;

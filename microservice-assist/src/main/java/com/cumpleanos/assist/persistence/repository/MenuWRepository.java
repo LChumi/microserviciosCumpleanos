@@ -8,6 +8,8 @@ import java.util.Set;
 
 @Repository
 public interface MenuWRepository extends JpaRepository<MenuW, Long> {
+
     Set<MenuW> findByReporta(Long reporta);
+
     Set<MenuW> findByReportaAndInactivoFalseOrderByOrden(Long reporta);
 }

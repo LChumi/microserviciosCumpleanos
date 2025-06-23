@@ -1,7 +1,8 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.assist.service.implementation.importaciones;
 
 import com.cumpleanos.assist.persistence.repository.DmovprodConRepository;
-import com.cumpleanos.assist.service.interfaces.IDmovprodConService;
+import com.cumpleanos.assist.service.implementation.GenericServiceImpl;
+import com.cumpleanos.assist.service.interfaces.importaciones.IDmovprodConService;
 import com.cumpleanos.core.models.entities.DmovprodCon;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

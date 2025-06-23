@@ -24,7 +24,7 @@ public class ImpProdTrancitoTransformer {
                 .nroComprobante(imp.getNroComprobante())
                 .fecha(imp.getFecha())
                 .observacion(imp.getObservacion())
-                .cantidadPedida(imp.getCantPedida() !=null ? imp.getCantPedida() : 0)
+                .cantidadPedida(imp.getCantPedida() != null ? imp.getCantPedida() : 0)
                 .fob(imp.getFob())
                 .fobTotalPedido(imp.getFobTotalPedido())
                 .fobTotalAprobado(imp.getFobTotalAprobado())
