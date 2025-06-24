@@ -25,18 +25,18 @@ public class ProductImportTransformer {
     private String codFabrica;
 
     @Setter(AccessLevel.NONE)
-    private int cantidadTotal = 0;
+    private int cantidadTotal;
 
     @Setter(AccessLevel.NONE)
-    private double cbmTotal = 0;
+    private double cbmTotal;
 
     @Setter(AccessLevel.NONE)
-    private double fobTotal = 0;
+    private double fobTotal;
 
     @Setter(AccessLevel.NONE)
-    private int cantidadTrancito = 0;
+    private int cantidadTrancito;
 
-    private Set<ImpProdTrancitoTransformer> trancitos = new HashSet<ImpProdTrancitoTransformer>();
+    private Set<ImpProdTrancitoTransformer> trancitos;
 
     /**
      * Calcula la cantidad total en tránsito sumando las cantidades pedidas de cada objeto en la lista `trancitos`.

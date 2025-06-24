@@ -1,11 +1,13 @@
 package com.cumpleanos.assist.utils;
 
+import com.cumpleanos.assist.persistence.transformers.ImpProdTrancitoTransformer;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.HashSet;
 
 @Slf4j
 public class FileUtils {
@@ -41,6 +43,11 @@ public class FileUtils {
                 .cbm(parseDoubleSafely(getCellValueSafely(row.getCell(5)))) // Valor predeterminado 0.0
                 .cxb(parseIntegerSafely(getCellValueSafely(row.getCell(6))))
                 .codFabrica(getCellValueSafely(row.getCell(7)))
+                .cantidadTotal(0)
+                .cbmTotal(0)
+                .fobTotal(0)
+                .cantidadTrancito(0)
+                .trancitos(new HashSet<ImpProdTrancitoTransformer>())
                 .build();
     }
 

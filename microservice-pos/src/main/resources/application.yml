@@ -16,7 +16,7 @@ logging:
     root: warn
     com.cumpleanos.pos: info
   file:
-    name: ${LOG_PATH:C:\\Proyectos\\Microserivicios\\logs\\pos\\pos.log}
+    name: ${LOG_PATH:C:\\Proyectos\\Microserivicios\\logs\\pos.log}
   logback:
     rollingpolicy:
       max-history: 7
