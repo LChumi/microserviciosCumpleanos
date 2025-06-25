@@ -13,4 +13,4 @@ RUN chown appuser:appuser /app/app.jar
 
 USER appuser
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

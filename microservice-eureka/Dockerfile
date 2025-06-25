@@ -1,5 +1,8 @@
 FROM openjdk:17-jdk-slim
 
+#Instalar Curl
+RUN apt-get update && apt-get install -y curl
+
 ARG JAR_FILE=target/*.jar
 
 #Usuario no root con UID fijo
@@ -13,4 +16,4 @@ RUN chown appuser:appuser /app/app.jar
 
 USER appuser
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
