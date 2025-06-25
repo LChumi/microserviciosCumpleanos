@@ -7,7 +7,7 @@ RUN useradd -m -u 1000 appuser \
 
 #Copiar el Jar
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+COPY ${JAR_FILE} /app/app.jar
 
 RUN chown appuser:appuser /app/app.jar
 
