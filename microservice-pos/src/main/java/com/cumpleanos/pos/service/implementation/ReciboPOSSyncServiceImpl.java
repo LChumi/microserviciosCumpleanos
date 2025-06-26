@@ -88,6 +88,54 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         }
     }
 
+    @Override
+    public String procesarPagoLan(Long usrLiquida, Long empresa) {
+        try {
+            ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
+
+            DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
+
+            DatosRecepcionResponse response = apiService.procesarPagoLan(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
+            if (response == null) {
+                throw new RuntimeException("No se pudo procesar el pago por via LAN");
+            }
+
+            actualizaGuardarReciboPOS(reciboPOSView, response);
+
+            return "1";
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al procesar el pago: {}", e.getMessage(), e);
+            return "Error de acceso a datos: " + e.getMessage();
+        } catch (Exception e) {
+            log.error("ERROR al procesar el pago: {}", e.getMessage(), e);
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String anularPagoLan(Long usrLiquida, Long empresa) {
+        try {
+            ReciboPOSView v = obtenerReciboPosView(usrLiquida, empresa);
+
+            DatosRecepcionResponse response = apiService.anularPagoLan(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), v.getReferencia());
+            if (response == null) {
+                return "No se pudo procesar la anulación, respuesta nula";
+            } else {
+                ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+                ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                        .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
+
+                actualizarReciboPOS(reciboPOS, response);
+                reciboPOS.setAnulado(true);
+                reciboPOSRepository.save(reciboPOS);
+                return "1";
+            }
+        } catch (Exception e) {
+            log.error("ERROR al anular el pago {}", e.getMessage(), e);
+            return e.getMessage();
+        }
+    }
+
     private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
         return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
                 .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS para UsrLiquida y Empresa"));

@@ -33,6 +33,10 @@ public class ApiConsumoService {
     private static final String ULTIMA_TRANSACCION="pos/ultima-transaccion/";
     private static final String LISTA_PUERTOS_COM="pos/listaPuertosCom";
 
+    private static final String PROCESAR_PAGO_LAN="pos/procesar_pago_lan/";
+    private static final String ANULAR_PAGO_LAN="pos/anular_pago_lan/";
+    private static final String ULTIMA_TRANSACCION_LAN="pos/ultima_transaccion_lan/";
+
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -107,6 +111,63 @@ public class ApiConsumoService {
             }
         } catch (HttpServerErrorException e) {
             log.error("Error al enviar la solicitud obtenerUltimaTransaccion al cliente ip:{} en el puerto COM:{} statusCode:{} ", ip, puertoCom, e.getStatusCode());
+            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente obtenerUltimaTransaccion ");
+        }
+    }
+
+    /*
+    Todo proceso que realiza la conexion LAN a Datafast
+     */
+
+    public DatosRecepcionResponse procesarPagoLan(String ip, String puertoDtf, String ipDtf, DatosEnvioRequest request){
+        String url = String.format("%s%s:%s%s%s/%s", baseUrl, ip, puerto, PROCESAR_PAGO_LAN, puertoDtf, ipDtf);
+        HttpEntity<DatosEnvioRequest> entity = new HttpEntity<>(request, createHeaders());
+
+        try {
+            ResponseEntity<DatosRecepcionResponse> response = restTemplate.postForEntity(url, entity, DatosRecepcionResponse.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                log.error("Respuesta no satisfactoria en el Cliente ip:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
+                throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio respuesta no satisfactoria");
+            }
+        } catch (HttpServerErrorException e) {
+            log.error("ERROR: al enviar la solicitud Procesar Pago ip:{} en Datafast {}:{} statusCode ", ip, ipDtf, puertoDtf, e);
+            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al Procesar el pago");
+        }
+    }
+
+    public DatosRecepcionResponse anularPagoLan(String ip, String puertoDtf,String ipDtf, String numReferencia) {
+        String url = String.format("%s%s:%s%s%s/%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO_LAN, puertoDtf, ipDtf ,numReferencia);
+        HttpEntity<?> entity = new HttpEntity<>(createHeaders());
+
+        try {
+            ResponseEntity<DatosRecepcionResponse> response = restTemplate.postForEntity(url, entity, DatosRecepcionResponse.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                log.error("Respuesta no satisfactoria al anular pago en cliente ip:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
+                throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio Cliente respuesta no satisfactoria");
+            }
+        } catch (HttpServerErrorException e) {
+            log.error("ERROR: al enviar la solicitud Anular Pago ip:{} en Datafast {}:{} statusCode ", ip, ipDtf, puertoDtf, e);
+            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al anular el pago ");
+        }
+    }
+
+    public DatosRecepcionResponse obtenerUltimaTransaccion(String ip, String puertoDtf, String ipDtf) {
+        String url = String.format("%s%s:%s%s%s%s", baseUrl, ip, puerto, ULTIMA_TRANSACCION_LAN, puertoDtf, ipDtf);
+
+        try {
+            ResponseEntity<DatosRecepcionResponse> response = restTemplate.getForEntity(url, DatosRecepcionResponse.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                log.error("Respuesta no satisfactoria al obtenerUltima transaccion en cliente ip:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
+                throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio Cliente respuesta no satisfactoria");
+            }
+        } catch (HttpServerErrorException e) {
+            log.error("ERROR: al enviar la solicitud Anular Pago ip:{} en Datafast {}:{} statusCode ", ip, ipDtf, puertoDtf, e);
             throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente obtenerUltimaTransaccion ");
         }
     }

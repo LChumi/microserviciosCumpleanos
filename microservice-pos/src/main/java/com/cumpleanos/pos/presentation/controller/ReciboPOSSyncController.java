@@ -35,4 +35,16 @@ public class ReciboPOSSyncController {
         String response = service.anularPago(usr, empresa);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/procesarPagoLan/{usr}/{empresa}")
+    public ResponseEntity<String> procesarPagoLan(@PathVariable Long usr, @PathVariable Long empresa) {
+        String response = service.procesarPagoLan(usr, empresa);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/anularPagoLan/{usr}/{empresa}")
+    public ResponseEntity<String> anularPagoLan(@PathVariable Long usr, @PathVariable Long empresa) {
+        String response = service.anularPagoLan(usr, empresa);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
