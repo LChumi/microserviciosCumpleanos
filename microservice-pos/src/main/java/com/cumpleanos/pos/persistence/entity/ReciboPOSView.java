@@ -41,6 +41,12 @@ public class ReciboPOSView {
     @Column(name = "CAP_IP")
     private String ip;
 
+    @Column(name = "CAP_IP_DTF")
+    private String ip_dtf;
+
+    @Column(name = "CAP_PUERTO_DTF")
+    private String puertoDtf;
+
     @Column(name = "CAP_ID")
     private String capId;
 

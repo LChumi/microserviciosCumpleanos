@@ -64,4 +64,10 @@ public class CajaPOS {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Financiera financiera;
+
+    @Column(name = "CAP_IP_DTF")
+    private String ipDtf;
+
+    @Column(name = "CAP_PUERTO_DTF")
+    private String puertoDtf;
 }
