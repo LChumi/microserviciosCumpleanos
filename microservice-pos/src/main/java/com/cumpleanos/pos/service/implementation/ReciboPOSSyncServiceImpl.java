@@ -7,6 +7,7 @@ import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSRepository;
 import com.cumpleanos.pos.persistence.repository.ReciboPOSViewRepositorio;
+import com.cumpleanos.pos.service.exception.InfoPaymentException;
 import com.cumpleanos.pos.service.exception.ReciboNotFoundException;
 import com.cumpleanos.pos.service.interfaces.IReciboPOSSyncService;
 import com.cumpleanos.pos.service.http.ApiConsumoService;
@@ -40,9 +41,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
 
             DatosRecepcionResponse response = apiService.procesarPago(reciboPOSView.getIp(), reciboPOSView.getPuertoCom(), dEnvio);
-            if (response == null) {
-                throw new RuntimeException("No se pudo procesar el Recibo POS sin respuesta");
-            }
+
+            validateDatosRecepcion(response);
 
             actualizaGuardarReciboPOS(reciboPOSView, response);
 
@@ -70,18 +70,11 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             ReciboPOSView v = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosRecepcionResponse response = apiService.anularPago(v.getIp(), v.getPuertoCom(), v.getReferencia());
-            if (response == null) {
-                return "No se pudo procesar la anulación, respuesta nula";
-            } else {
-                ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
-                ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
-                        .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
 
-                actualizarReciboPOS(reciboPOS, response);
-                reciboPOS.setAnulado(true);
-                reciboPOSRepository.save(reciboPOS);
-                return "1";
-            }
+            validateDatosRecepcion(response);
+
+            return getRecibo(v, response);
+
         } catch (Exception e) {
             log.error("ERROR al anular el pago {}", e.getMessage(), e);
             return e.getMessage();
@@ -96,9 +89,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
 
             DatosRecepcionResponse response = apiService.procesarPagoLan(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
-            if (response == null) {
-                throw new RuntimeException("No se pudo procesar el pago por via LAN");
-            }
+
+            validateDatosRecepcion(response);
 
             actualizaGuardarReciboPOS(reciboPOSView, response);
 
@@ -118,22 +110,25 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             ReciboPOSView v = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosRecepcionResponse response = apiService.anularPagoLan(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), v.getReferencia());
-            if (response == null) {
-                return "No se pudo procesar la anulación, respuesta nula";
-            } else {
-                ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
-                ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
-                        .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
 
-                actualizarReciboPOS(reciboPOS, response);
-                reciboPOS.setAnulado(true);
-                reciboPOSRepository.save(reciboPOS);
-                return "1";
-            }
+            validateDatosRecepcion(response);
+
+            return getRecibo(v, response);
         } catch (Exception e) {
             log.error("ERROR al anular el pago {}", e.getMessage(), e);
             return e.getMessage();
         }
+    }
+
+    private String getRecibo(ReciboPOSView v, DatosRecepcionResponse response) {
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
+
+        actualizarReciboPOS(reciboPOS, response);
+        reciboPOS.setAnulado(true);
+        reciboPOSRepository.save(reciboPOS);
+        return "1";
     }
 
     private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
@@ -177,6 +172,27 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         reciboPOS.setFecha(response.getFecha());
         reciboPOS.setHora(response.getHora());
         reciboPOS.setAprobado(true);
+    }
+
+    private void validateDatosRecepcion(DatosRecepcionResponse response) {
+        if (response == null) {
+            throw new InfoPaymentException("No se recibió respuesta de la entidad.");
+        }
+
+        if (!"Transacción Aprobada".equalsIgnoreCase(response.getMensajeResultado())) {
+            throw new InfoPaymentException(response.getMensajeResultado());
+        }
+
+        if (isBlank(response.getNumeroAprobacion()) ||
+                isBlank(response.getCodigoAdquiriente()) ||
+                isBlank(response.getNombreAdquiriente()) ||
+                isBlank(response.getNombreEmisor())) {
+            throw new InfoPaymentException("Transacción no aprobada por la entidad ...");
+        }
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
 }
