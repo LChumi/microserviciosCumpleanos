@@ -124,6 +124,7 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
                         log.info("Proveedor no existe agregando {}.....", info.getRuc());
                         Long tipClient= modelsService.verificarJuridico(info.getRuc());
                         Cliente proveedorNuevo = generarProveedorNuevo(info, empresa.getId(), tipClient);
+                        System.out.println(rutasConfig.getRutaCliente());
 
                         FilesUtils utils = new FilesUtils(rutasConfig.getRutaCliente());
                         try {

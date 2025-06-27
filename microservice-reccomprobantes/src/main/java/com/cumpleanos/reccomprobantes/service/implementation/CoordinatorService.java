@@ -57,7 +57,7 @@ public class CoordinatorService {
 
     private List<Comprobante> processCsv(String csvContent, String email){
         try {
-            List<Comprobante> lista= csvReaderService.parseCsvString(csvContent, email);
+            List<Comprobante> lista= csvReaderService.parseCsvString(csvContent);
             verificarArchivos(email);
             return lista;
         } catch (IOException e){

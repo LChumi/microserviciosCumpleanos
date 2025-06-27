@@ -28,12 +28,14 @@ public class CSVReaderService {
     private final ModelsServiceImpl modelsService;
     private final XMLConversionService xmlService;
 
-    public List<Comprobante> parseCsvString(String csvContent, String email) throws IOException {
+    public List<Comprobante> parseCsvString(String csvContent) throws IOException {
         List<Comprobante> comprobantes = new ArrayList<>();
         List<ComprobanteCsv> comprobantesCsv = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                new ByteArrayInputStream(csvContent.getBytes(StandardCharsets.UTF_8)),
-                StandardCharsets.UTF_8))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        new ByteArrayInputStream(csvContent.getBytes(StandardCharsets.UTF_8)),
+                        StandardCharsets.UTF_8))
+        ) {
             String line;
             // Leer la cabecera del CSV (opcional si no necesitas los nombres de columna)
             br.readLine();
@@ -46,6 +48,8 @@ public class CSVReaderService {
                 comprobantes.add(comprobante);
                 comprobantesCsv.add(comprobante);
             }
+        } catch (IOException ie){
+            log.error("Error al procesar el archivo",ie);
         }
         try {
             log.info("Inicializacion proceso en for:{}", comprobantes.size());
