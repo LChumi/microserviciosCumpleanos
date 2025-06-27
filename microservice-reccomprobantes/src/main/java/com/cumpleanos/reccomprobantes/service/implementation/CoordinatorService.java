@@ -2,6 +2,7 @@ package com.cumpleanos.reccomprobantes.service.implementation;
 
 import com.cumpleanos.common.records.CompanyParametersRecord;
 import com.cumpleanos.common.records.EmailRecord;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.reccomprobantes.configuration.RutasConfig;
 import com.cumpleanos.reccomprobantes.persistence.models.entity.Comprobante;
 import com.cumpleanos.reccomprobantes.util.FilesUtils;
@@ -9,6 +10,7 @@ import com.cumpleanos.reccomprobantes.util.MessagesUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,6 +55,24 @@ public class CoordinatorService {
         } else {
             return processCsv(inputString, email);
         }
+    }
+
+    public ResponseEntity<ServiceResponse> getServiceResponseResponseEntity(Object result) {
+        String message;
+        boolean success;
+
+        if (result instanceof List<?>) {
+            int cant = ((List<?>) result).size();
+            message = "Se agregaron " + cant + " comprobantes";
+            success = true;
+        } else if (result instanceof Comprobante) {
+            message = "Se agrego 1 comprobante";
+            success = true;
+        } else {
+            message = "No se pudo procesar el archivo.";
+            success = false;
+        }
+        return ResponseEntity.ok(new ServiceResponse(message, success));
     }
 
     private List<Comprobante> processCsv(String csvContent, String email){
