@@ -36,6 +36,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Transactional
     public String procesarPago(Long usrLiquida, Long empresa) {
         try {
+            log.info("Iniciar Transaccion pago POS via COM");
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
@@ -67,6 +68,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Transactional
     public String anularPago(Long usrLiquida, Long empresa) {
         try {
+            log.info("Iniciar Transaccion anulacion POS via COM");
             ReciboPOSView v = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosRecepcionResponse response = apiService.anularPago(v.getIp(), v.getPuertoCom(), v.getReferencia());
@@ -84,6 +86,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public String procesarPagoLan(Long usrLiquida, Long empresa) {
         try {
+            log.info("Inicializar Proceso POS via LAN en empresa:{}", empresa);
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
@@ -107,6 +110,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public String anularPagoLan(Long usrLiquida, Long empresa) {
         try {
+            log.info("Inicializar Anulacion POS via LAN en empresa:{}", empresa);
             ReciboPOSView v = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosRecepcionResponse response = apiService.anularPagoLan(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), v.getReferencia());
@@ -189,6 +193,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
                 isBlank(response.getNombreEmisor())) {
             throw new InfoPaymentException("Transacción no aprobada por la entidad ...");
         }
+        log.info("Transaccion Aprobada por la entidad respuesta {}, aprobacion #:{} referencia#: {}", response.getNombreEmisor(), response.getNumeroAprobacion(), response.getReferencia());
     }
 
     private boolean isBlank(String value) {
