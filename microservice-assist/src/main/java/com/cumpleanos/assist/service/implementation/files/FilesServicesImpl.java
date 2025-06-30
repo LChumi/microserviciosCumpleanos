@@ -1,17 +1,15 @@
 package com.cumpleanos.assist.service.implementation.files;
 
-import com.cumpleanos.assist.persistence.transformers.ImpProdTrancitoTransformer;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
+import com.cumpleanos.assist.service.interfaces.importaciones.IFileService;
 import com.cumpleanos.assist.service.interfaces.importaciones.IImpProdTrancitoVwService;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
-import com.cumpleanos.assist.utils.FileUtils;
 import com.cumpleanos.core.models.entities.ProductoTemp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -21,75 +19,50 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static com.cumpleanos.assist.utils.FileUtils.mapRowsToProducts;
+import static com.cumpleanos.assist.utils.ProductImportDTOUtils.calcularTotales;
+import static com.cumpleanos.assist.utils.ProductImportDTOUtils.chekImports;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class FilesServicesImpl {
+public class FilesServicesImpl implements IFileService {
 
     private final IProductoService productoService;
     private final IProductoTempService productoTempService;
     private final IImpProdTrancitoVwService impProdTrancitoVwService;
 
-    public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) throws IOException {
-        List<ProductImportTransformer> productosList;
+    @Override
+    public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) {
+        List<ProductImportTransformer> productosList = extractProductsFromExcel(file);
+        productsFlow(productosList, empresa); // Lógica adicional específica de este método
+        return productosList;
+    }
+
+    @Override
+    public List<ProductImportTransformer> getInfoFromExcel(MultipartFile file, Long empresa) {
+        return extractProductsFromExcel(file);
+    }
+
+    /**
+     * Metodo para extraer la data del archivo de excel
+     * @param file -> archivo de excel
+     * @return lista de productos transformados
+     */
+    private List<ProductImportTransformer> extractProductsFromExcel(MultipartFile file) {
         try (InputStream inputStream = file.getInputStream()) {
             Workbook workbook = WorkbookFactory.create(inputStream);
             Sheet sheet = workbook.getSheetAt(0);
-            productosList = mapRowsToProducts(sheet);
+            return mapRowsToProducts(sheet);
+        } catch (IOException e) {
+            log.error("Error al leer el archivo Excel");
+            throw new RuntimeException(e);
         }
-        // Procesar flujo de productos
-        productsFlow(productosList, empresa);
-        return productosList;
     }
 
-    public List<ProductImportTransformer> getInfoFromExcel(MultipartFile file, Long empresa) throws IOException {
-        List<ProductImportTransformer> productosList;
-        try (InputStream inputStream = file.getInputStream()) {
-            Workbook workbook = WorkbookFactory.create(inputStream);
-            Sheet sheet = workbook.getSheetAt(0);
-            productosList = mapRowsToProducts(sheet);
-        }
-        return productosList;
-    }
 
-    private List<ProductImportTransformer> mapRowsToProducts(Sheet sheet){
-        List<ProductImportTransformer> productosList = new ArrayList<>();
-        Iterator<Row> rowIterator = sheet.iterator();
-
-        // Leer encabezado
-        Row headerRow = rowIterator.next();
-        /*if (!FileUtils.isValidHeaderImpor(headerRow)) {
-            throw new IOException("El formato del archivo Excel no es válido");
-        }*/
-
-        int count = 0;
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next(); // Obtén la siguiente fila
-
-            // Verifica si la fila está vacía
-            if (FileUtils.isRowEmpty(row)) break;
-
-            try {
-                // Mapea la fila a un objeto ProductImportTransformer
-                ProductImportTransformer item = FileUtils.mapRowToProductImport(row);
-                // Incrementa el contador solo si la fila no está vacía
-                count++;
-                // Asigna el contador de secuencia
-                item.setSecuencia(count);
-                // Agrega el objeto a la lista de productos
-                productosList.add(item);
-            } catch (ParseException e) {
-                // Registra un error si ocurre una excepción de tipo ParseException
-                log.error("Error al procesar la fila: {}", e.getMessage());
-            }
-        }
-
-        return productosList;
-    }
 
     private void productsFlow(List<ProductImportTransformer> productosList, Long empresa) {
         productosList.forEach(product -> {
@@ -141,18 +114,6 @@ public class FilesServicesImpl {
             temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(codFabrica, empresa);
         }
         return temp;
-    }
-
-    private Set<ImpProdTrancitoTransformer> chekImports(Set<ImpProdTrancitoVw> items) {
-        return items.stream()
-                .map(ImpProdTrancitoTransformer::mapToImpProdTrancitoVw)
-                .collect(Collectors.toSet());
-    }
-
-    private void calcularTotales(ProductImportTransformer item) {
-        item.calcularCantidadTotal();
-        item.calcularCbmTotal();
-        item.calcularFobTotal();
     }
 
     private void saveOrUpdateProduct(Optional<ProductoTemp> prod, ProductImportTransformer item, Long empresa) {

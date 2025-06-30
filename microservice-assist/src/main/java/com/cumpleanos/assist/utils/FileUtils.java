@@ -7,13 +7,16 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 @Slf4j
 public class FileUtils {
 
     private static final String[] HeadersImport = {"ID", "ITEM", "NOMBRE", "CANTIDAD", "FOB", "CBM", "CXB"};
-
+    
     // Validación del encabezado del archivo
     public static boolean isValidHeaderImpor(Row headerRow) {
         if (headerRow.getLastCellNum() != HeadersImport.length) {
@@ -32,8 +35,44 @@ public class FileUtils {
         return true;
     }
 
+    // Conversion de archivos a DTO
+    public static List<ProductImportTransformer> mapRowsToProducts(Sheet sheet){
+        List<ProductImportTransformer> productosList = new ArrayList<>();
+        Iterator<Row> rowIterator = sheet.iterator();
+
+        // Leer encabezado
+        Row headerRow = rowIterator.next();
+        /*if (!isValidHeaderImpor(headerRow)) {
+            throw new IOException("El formato del archivo Excel no es válido");
+        }*/
+
+        int count = 0;
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next(); // Obtén la siguiente fila
+
+            // Verifica si la fila está vacía
+            if (isRowEmpty(row)) break;
+
+            try {
+                // Mapea la fila a un objeto ProductImportTransformer
+                ProductImportTransformer item = mapRowToProductImport(row);
+                // Incrementa el contador solo si la fila no está vacía
+                count++;
+                // Asigna el contador de secuencia
+                item.setSecuencia(count);
+                // Agrega el objeto a la lista de productos
+                productosList.add(item);
+            } catch (ParseException e) {
+                // Registra un error si ocurre una excepción de tipo ParseException
+                log.error("Error al procesar la fila: {}", e.getMessage());
+            }
+        }
+
+        return productosList;
+    }
+
     // Mapeo de una fila a un objeto ProductImportTransformer
-    public static ProductImportTransformer mapRowToProductImport(Row row) throws ParseException {
+    private static ProductImportTransformer mapRowToProductImport(Row row) throws ParseException {
         return ProductImportTransformer.builder()
                 .id(getCellValueSafely(row.getCell(0)))
                 .item(getCellValueSafely(row.getCell(1)))
@@ -52,7 +91,7 @@ public class FileUtils {
     }
 
     // Validación de fila vacía
-    public static boolean isRowEmpty(Row row) {
+    private static boolean isRowEmpty(Row row) {
         if (row == null) {
             return true;
         }
