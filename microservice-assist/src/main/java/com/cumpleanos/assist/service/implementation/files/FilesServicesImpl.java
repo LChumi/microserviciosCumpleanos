@@ -3,6 +3,7 @@ package com.cumpleanos.assist.service.implementation.files;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.persistence.dto.ProductoDTO;
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
+import com.cumpleanos.assist.service.exception.FileProcessingException;
 import com.cumpleanos.assist.service.interfaces.importaciones.IFileService;
 import com.cumpleanos.assist.service.interfaces.importaciones.IImpProdTrancitoVwService;
 import com.cumpleanos.assist.service.interfaces.IProductoService;
@@ -47,9 +48,10 @@ public class FilesServicesImpl implements IFileService {
     }
 
     /**
-     * Metodo para extraer la data del archivo de excel
-     * @param file -> archivo de excel
+     * Extrae la data del archivo de Excel y la transforma en una lista de productos.
+     * @param file archivo Excel a procesar
      * @return lista de productos transformados
+     * @throws FileProcessingException si ocurre un error de lectura
      */
     private List<ProductImportTransformer> extractProductsFromExcel(MultipartFile file) {
         try (InputStream inputStream = file.getInputStream()) {
@@ -58,12 +60,15 @@ public class FilesServicesImpl implements IFileService {
             return mapRowsToProducts(sheet);
         } catch (IOException e) {
             log.error("Error al leer el archivo Excel");
-            throw new RuntimeException(e);
+            throw new FileProcessingException("Error al procesar el Archivo en el sistema", e);
         }
     }
 
-
-
+    /**
+     * Itera sobre los productos y analiza uno por uno en búsqueda de información relacionada.
+     * @param productosList lista de productos transformados
+     * @param empresa empresa donde se realizó la conversión
+     */
     private void productsFlow(List<ProductImportTransformer> productosList, Long empresa) {
         productosList.forEach(product -> {
             if (product.getId() == null || product.getId().isEmpty()) {
@@ -74,6 +79,10 @@ public class FilesServicesImpl implements IFileService {
         });
     }
 
+    /**
+     * Valida si un producto es nuevo o reposición basado en sus datos.
+     * * @param product producto convertido por Spring desde excel
+     */
     private void handleNewOrRepositionedProduct(ProductImportTransformer product, Long empresa) {
         ProductoTemp temp = productoTempService.getProductoTempByCodFabricaAndEmpresa(product.getCodFabrica(), empresa);
         if (temp == null) {
@@ -88,6 +97,9 @@ public class FilesServicesImpl implements IFileService {
         }
     }
 
+    /**
+     * Valida si un producto es nuevo, reposición o registrado temporalmente.
+     */
     private void checkProduct(ProductImportTransformer item, Long empresa) {
         ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), empresa);
         if (producto == null) {
@@ -108,6 +120,10 @@ public class FilesServicesImpl implements IFileService {
         }
     }
 
+    /**
+     * Busca un producto temporal por código de barra o código de fábrica.
+     * @return el producto temporal encontrado, o null si no existe
+     */
     private ProductoTemp findProductoTemp(String id, String codFabrica, Long empresa) {
         ProductoTemp temp = productoTempService.getProductoTempByBarraAndEmpresa(id, empresa);
         if (temp == null) {
@@ -116,6 +132,12 @@ public class FilesServicesImpl implements IFileService {
         return temp;
     }
 
+    /**
+     * Guarda o actualiza los productos Temporales
+     * @param prod ProductoTemporal
+     * @param item producto Transformado del excel
+     * @param empresa empresa donde se va a realizar la carga
+     */
     private void saveOrUpdateProduct(Optional<ProductoTemp> prod, ProductImportTransformer item, Long empresa) {
         ProductoTemp productoTemp = prod.orElseGet(ProductoTemp::new);
         productoTemp.setNombre(item.getNombre().toUpperCase());
@@ -128,6 +150,12 @@ public class FilesServicesImpl implements IFileService {
         calcularTotales(item);
     }
 
+    /**
+     * Obtiene los productos que se encuentran en trancitos en el registro
+     * @param item producto transformado
+     * @param proCodigo el codigo del producto
+     * @param empresa empresa donde se va a buscar los trancitos
+     */
     private void getTrancitos(ProductImportTransformer item, Long proCodigo, Long empresa) {
         Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(proCodigo, empresa);
         if (importaciones.isEmpty()) {
