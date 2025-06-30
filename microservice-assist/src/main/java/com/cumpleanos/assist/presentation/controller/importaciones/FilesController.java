@@ -28,7 +28,7 @@ public class FilesController {
 
     @PostMapping(value ="/importaciones/excel/solicitud", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
-                                                                      @RequestPart("empresa") Long empresa) throws IOException {
+                                                                      @RequestParam("empresa") Long empresa) {
         List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
         return ResponseEntity.ok(items);
     }
@@ -44,7 +44,7 @@ public class FilesController {
 
     @PostMapping(value = "/importaciones/excel/orden_compra", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<ProductImportTransformer>> transformOrdenCompra(@RequestParam("file") MultipartFile file,
-                                                                               @RequestPart("empresa") Long empresa) throws IOException {
+                                                                               @RequestParam("empresa") Long empresa) {
 
         List<ProductImportTransformer> items = filesServices.getInfoFromExcel(file, empresa);
 
