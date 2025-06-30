@@ -101,6 +101,11 @@ public class ClientServiceImpl {
                 "Error al obtener la empresa: " + empresa);
     }
 
+    public List<Sistema> ListEmpresasByGroupAndExcludeId(Long groupId, Long excludeId) {
+        return HttpResponseHandler.handle(() -> modelsClient.listByEmpresaGrupoExcludeId(groupId, excludeId),
+                "Error al obtener las empresas del grupo : "+ groupId);
+    }
+
     //UBICACION
     public List<Ubicacion> getUbicaion(Long empr, String nombre) {
         return HttpResponseHandler.handle(() -> modelsClient.getUbicacionByNombre(empr, nombre),
