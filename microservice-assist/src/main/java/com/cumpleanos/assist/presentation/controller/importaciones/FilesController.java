@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,9 +26,9 @@ public class FilesController {
     private final FilesServicesImpl filesServices;
     private final ISolicitudImportacionService solicitudImportacionService;
 
-    @PostMapping("/importaciones/excel/solicitud")
+    @PostMapping(value ="/importaciones/excel/solicitud", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
-                                                                      @RequestParam("empresa") Long empresa) throws IOException {
+                                                                      @RequestPart("empresa") Long empresa) throws IOException {
         List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
         return ResponseEntity.ok(items);
     }
@@ -41,10 +42,13 @@ public class FilesController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/importaciones/excel/orden_compra")
+    @PostMapping(value = "/importaciones/excel/orden_compra", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<ProductImportTransformer>> transformOrdenCompra(@RequestParam("file") MultipartFile file,
-                                                                               @RequestParam("empresa") Long empresa) throws IOException {
-        return ResponseEntity.ok().build();
+                                                                               @RequestPart("empresa") Long empresa) throws IOException {
+
+        List<ProductImportTransformer> items = filesServices.getInfoFromExcel(file, empresa);
+
+        return ResponseEntity.ok(items);
     }
 
 }

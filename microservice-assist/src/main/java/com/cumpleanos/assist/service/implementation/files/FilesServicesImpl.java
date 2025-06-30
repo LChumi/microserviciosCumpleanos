@@ -46,6 +46,16 @@ public class FilesServicesImpl {
         return productosList;
     }
 
+    public List<ProductImportTransformer> getInfoFromExcel(MultipartFile file, Long empresa) throws IOException {
+        List<ProductImportTransformer> productosList;
+        try (InputStream inputStream = file.getInputStream()) {
+            Workbook workbook = WorkbookFactory.create(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+            productosList = mapRowsToProducts(sheet);
+        }
+        return productosList;
+    }
+
     private List<ProductImportTransformer> mapRowsToProducts(Sheet sheet){
         List<ProductImportTransformer> productosList = new ArrayList<>();
         Iterator<Row> rowIterator = sheet.iterator();
