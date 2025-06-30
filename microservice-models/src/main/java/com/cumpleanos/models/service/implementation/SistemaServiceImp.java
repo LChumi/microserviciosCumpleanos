@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class SistemaServiceImp extends GenericServiceImpl<Sistema,Long> implements ISistemaService {
@@ -22,5 +24,10 @@ public class SistemaServiceImp extends GenericServiceImpl<Sistema,Long> implemen
     @Override
     public Sistema findByRuc(String ruc) {
         return repository.findByRuc(ruc).orElse(null);
+    }
+
+    @Override
+    public List<Sistema> findByIdEmpresaGrupoAndNotId(Long idEmpresaGrupo, Long notId) {
+        return repository.findByEmpresaGrupo_IdAndIdNot(idEmpresaGrupo, notId);
     }
 }

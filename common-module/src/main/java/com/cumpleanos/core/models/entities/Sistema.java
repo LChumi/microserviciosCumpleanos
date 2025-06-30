@@ -158,7 +158,9 @@ public class Sistema {
     @Column(name = "SIS_FECHA_FIN")
     private LocalDate fechaFin;
 
-    @Size(max = 13)
+    /**
+     * RUC del representante legal de la empresa asociada al sistema.
+     */
     @Column(name = "SIS_RUC_REPLEGAL", length = 13)
     private String rucReplegal;
 
