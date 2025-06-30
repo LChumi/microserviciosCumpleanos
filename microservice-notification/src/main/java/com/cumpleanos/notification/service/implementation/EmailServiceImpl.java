@@ -73,26 +73,7 @@ public class EmailServiceImpl implements IEmailService {
 
         String htmlContent = getHtmlTemplate(email.subject(), email.message());
 
-        // 1. Insertar el HTML PRIMERO
-        MimeBodyPart htmlBody = new MimeBodyPart();
-        htmlBody.setContent(htmlContent, "text/html; charset=utf-8");
-        relatedMultipart.addBodyPart(htmlBody); // <-- ¡Esto va primero!
-
-        // 2. Insertar logo fijo con cid:logoCid
-        Resource favicon = new ClassPathResource("images/logo.png");
-        if (favicon.exists()) {
-            MimeBodyPart logoPart = new MimeBodyPart();
-            logoPart.setDataHandler(new DataHandler(
-                    new ByteArrayDataSource(favicon.getInputStream(), "image/png")
-            ));
-            logoPart.setHeader("Content-ID", "<logoCid>");
-            logoPart.setDisposition(MimeBodyPart.INLINE);
-            relatedMultipart.addBodyPart(logoPart);
-        } else {
-            log.warn("Favicon no encontrado en classpath: images/logo.png");
-        }
-
-        // 3. Reemplazar y adjuntar imágenes externas
+        // 1. Reemplazar y adjuntar imágenes externas
         Pattern pattern = Pattern.compile("<img[^>]+src=[\"'](https://[^\"']+)[\"'][^>]*>");
         Matcher matcher = pattern.matcher(htmlContent);
         int cidCounter = 0;
@@ -118,10 +99,24 @@ public class EmailServiceImpl implements IEmailService {
             }
         }
 
-        // Finalmente, actualizar el contenido del HTML si fue modificado (opcional)
-        // Si reemplazaste imágenes, podrías reescribir htmlBody.setContent(...) aquí
-        // pero en general basta con colocarlo antes.
+        // 2. Insertar el HTML ya modificado, después de reemplazar imágenes
+        MimeBodyPart htmlBody = new MimeBodyPart();
+        htmlBody.setContent(htmlContent, "text/html; charset=utf-8");
+        relatedMultipart.addBodyPart(htmlBody); // <-- ¡Esto va primero!
 
+        // 3. Insertar logo fijo con cid:logoCid
+        Resource favicon = new ClassPathResource("images/logo.png");
+        if (favicon.exists()) {
+            MimeBodyPart logoPart = new MimeBodyPart();
+            logoPart.setDataHandler(new DataHandler(
+                    new ByteArrayDataSource(favicon.getInputStream(), "image/png")
+            ));
+            logoPart.setHeader("Content-ID", "<logoCid>");
+            logoPart.setDisposition(MimeBodyPart.INLINE);
+            relatedMultipart.addBodyPart(logoPart);
+        } else {
+            log.warn("Favicon no encontrado en classpath: images/logo.png");
+        }
         relatedPart.setContent(relatedMultipart);
         return relatedPart;
     }
