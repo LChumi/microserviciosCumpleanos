@@ -1,10 +1,10 @@
-package com.cumpleanos.assist.service.implementation;
+package com.cumpleanos.models.service.implementation;
 
-import com.cumpleanos.assist.persistence.dto.ProductoDTO;
-import com.cumpleanos.assist.persistence.repository.ProductoRepository;
-import com.cumpleanos.assist.service.interfaces.IProductoService;
+import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.ProductoId;
+import com.cumpleanos.models.persistence.repository.ProductoRepository;
+import com.cumpleanos.models.service.interfaces.IProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -42,3 +42,4 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
         }
     }
 }
+

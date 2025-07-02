@@ -1,8 +1,7 @@
 package com.cumpleanos.assist.service.implementation.ecommerce;
 
-import com.cumpleanos.assist.persistence.dto.ProductoDTO;
+import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
-import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.assist.utils.DiscountObs;
 import com.cumpleanos.assist.utils.MailTemplateLoader;
@@ -37,7 +36,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
     private final EcommerceClientServiceImpl ecommerceClient;
     private final ClientServiceImpl clienteService;
-    private final IProductoService productoService;
+    private final ClientServiceImpl productoService;
 
     @Override
     public ServiceResponse getPedidosAndUpdateSystem() {

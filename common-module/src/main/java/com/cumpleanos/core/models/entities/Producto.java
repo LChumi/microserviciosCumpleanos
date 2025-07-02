@@ -74,7 +74,7 @@ public class Producto {
     private Integer stockMaximo;
 
     @Column(name = "PRO_IMPUESTO")
-    private Boolean impuesto;
+    private Long impuesto;
 
     @Column(name = "PRO_FECHA_LANZAM")
     private LocalDate fechaLanzam;
@@ -365,6 +365,10 @@ public class Producto {
     @Column(name = "PRO_CARGA_EXTERNO")
     private Boolean cargaExterno;
 
+
+    @Column(name = "PRO_PROVEEDOR")
+    private Long proveedorId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name ="PRO_PROVEEDOR", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
@@ -372,6 +376,9 @@ public class Producto {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Cliente proveedor;
+
+    @Column(name = "PRO_GPRODUCTO")
+    private Long gProductoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({

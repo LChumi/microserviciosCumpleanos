@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "image-service", url = "${images.server.url}")
 public interface ImagesClient {
 
-    @GetMapping("/{imageName}")
+    @GetMapping("producto/{imageName}")
     ResponseEntity<Resource> getImage(@PathVariable String imageName);
 }

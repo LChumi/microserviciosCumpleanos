@@ -5,6 +5,7 @@ import com.cumpleanos.ecommerce.service.exceptions.ResourceImageNotFound;
 import com.cumpleanos.ecommerce.service.exceptions.WoocommerceDataNotFound;
 import com.cumpleanos.ecommerce.service.http.ImagesClient;
 import com.cumpleanos.ecommerce.service.http.WooCommerceMediaClient;
+import com.cumpleanos.ecommerce.service.http.WordpressAuthClient;
 import com.cumpleanos.ecommerce.utils.CustomMultipartFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +25,16 @@ import java.util.Map;
 public class WooCommerceMediaServiceImpl {
 
     private final WooCommerceMediaClient wooCommerceMediaClient;
+    private final WordpressAuthClient wordpressAuthClient;
     private final ImagesClient imagesClient;
     private final WooCommerceProperties properties;
 
+    private String _token;
+    private long _tokenExpiryTime;
+
     public Integer uploadImage(String id) throws IOException {
+
+        ensureValidToken();
 
         ResponseEntity<Resource> response = imagesClient.getImage(id);
 
@@ -39,7 +46,7 @@ public class WooCommerceMediaServiceImpl {
 
         if (response.getStatusCode().is2xxSuccessful() && imageResource.exists()) {
             MultipartFile imageFile = convertResourceToMultipartFile(imageResource, id);
-            String token = "Bearer " + properties.getToken();
+            String token = "Bearer " + _token;
             Map<String, Object> responseWoocommerce = wooCommerceMediaClient.uploadImage(
                     token,
                     imageFile
@@ -50,6 +57,21 @@ public class WooCommerceMediaServiceImpl {
             return (Integer) responseWoocommerce.get("id");
         }
         return null;
+    }
+
+    private void ensureValidToken() {
+        if (_token == null || System.currentTimeMillis() > _tokenExpiryTime) {
+            Map<String, Object> authResponse = wordpressAuthClient.authenticate(
+                    properties.getUsername(),
+                    properties.getPassword()
+            );
+
+            _token =authResponse.get("token").toString();
+
+            // Calcula la expiracion con base en la respuesta
+            _tokenExpiryTime = System.currentTimeMillis() + (60 * 60 * 1000);
+            log.info("Nuevo token JWT obtenido de Wordpress con valides de:{}", _tokenExpiryTime );
+        }
     }
 
     private MultipartFile convertResourceToMultipartFile(Resource resource, String id) throws IOException {

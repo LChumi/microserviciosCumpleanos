@@ -1,5 +1,7 @@
 package com.cumpleanos.assist.service.implementation;
 
+import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEmailClient;
 import com.cumpleanos.assist.service.http.IModelsClient;
@@ -134,6 +136,22 @@ public class ClientServiceImpl {
     public ReposicionPago saveReposicionPago(ReposicionPago pago) {
         return HttpResponseHandler.handle(() -> modelsClient.createPago(pago),
                 "Error al crar el pago en la empresa: " + pago.getId().getEmpresa());
+    }
+
+    //PRODUCTO
+    public ProductoDTO getProductoByBarraAndEmpresa(String barra, Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.getProductoByBarra(barra, empresa),
+                "Error al buscar un producto en la empresa: " + empresa);
+    }
+
+    public ProductoBuilder findById(Long codigo,  Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.getProductoById(codigo, empresa),
+                "Error al obtener el Producto por Id: " + codigo + " empresa: " + empresa);
+    }
+
+    public ProductoDTO update(ProductoBuilder p ){
+        return HttpResponseHandler.handle(() -> modelsClient.updateProducto(p),
+                "Error al actualizar el producto en la empresa: " + p.getEmpresa());
     }
 
     //TODO servicio que viene de FunctionOracleController

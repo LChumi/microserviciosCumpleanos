@@ -1,12 +1,11 @@
 package com.cumpleanos.assist.service.implementation.ecommerce;
 
 import com.cumpleanos.assist.service.exception.ProductNotCreatedException;
-import com.cumpleanos.assist.service.interfaces.IProductoService;
+import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;
+import com.cumpleanos.common.builders.ProductoBuilder;
 import com.cumpleanos.common.records.ProductEcomRequest;
 import com.cumpleanos.common.records.ServiceResponse;
-import com.cumpleanos.core.models.entities.Producto;
-import com.cumpleanos.core.models.ids.ProductoId;
 import com.cumpleanos.core.models.views.CargaProductoEcomV;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ import static com.cumpleanos.assist.utils.StringUtils.*;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ProductosEcommerceServiceImpl implements IProductosEcommerceService {
 
-    private final IProductoService productoService;
+    private final ClientServiceImpl productoService;
     private final EcommerceClientServiceImpl ecomerceClient;
     private final CargaProductoEcomVServiceImpl cargaProductoEcomV;
 
@@ -45,15 +44,12 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
             throw new ProductNotCreatedException("Error al crear el producto en el Ecommerce: " + pv.getProducto());
         }
 
-        ProductoId proId = new ProductoId();
-        proId.setCodigo(pv.getProducto());
-        proId.setEmpresa(empresa);
-        Producto prod = productoService.findById(proId);
+        ProductoBuilder prod = productoService.findById(pv.getProducto(), empresa);
         if (prod == null) {
-            throw new EntityNotFoundException("Producto no encontrado");
+            throw new EntityNotFoundException("Producto no encontrado "+ pv.getProducto());
         }
         prod.setCargaWeb((short) 2);
-        productoService.save(prod);
+        productoService.update(prod);
         return new ServiceResponse("Producto creado " + p.sku() + "En Ecommerce y actualizado en BD", Boolean.TRUE);
     }
 

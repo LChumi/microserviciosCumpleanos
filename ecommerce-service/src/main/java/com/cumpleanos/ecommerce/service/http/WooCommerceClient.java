@@ -7,34 +7,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@FeignClient(name = "wooCommerceClient", url = "${woocommerce.url}/wp-json/wc/v3")
+@FeignClient(name = "wooCommerceClient", url = "${wordpress.url}")
 public interface WooCommerceClient {
 
     //CATEGORÍAS
 
-    @GetMapping("/products/categories")
+    @GetMapping("/wp-json/wc/v3/products/categories")
     List<Map<String, Object>> getAllCategories(@RequestParam("consumer_key") String consumerKey,
                                                @RequestParam("consumer_secret") String consumerSecret,
                                                @RequestParam("search") String search);
 
-    @PostMapping("/products/categories")
+    @PostMapping("/wp-json/wc/v3/products/categories")
     Map<String, Object> createCategory(@RequestBody Map<String, Object> categoryData,
                                        @RequestParam("consumer_key") String consumerKey,
                                        @RequestParam("consumer_secret") String consumerSecret);
 
     //PRODUCTOS
 
-    @GetMapping("/products")
+    @GetMapping("/wp-json/wc/v3/products")
     List<Map<String, Object>> getAllProducts(@RequestParam("consumer_key") String consumerKey,
                                              @RequestParam("consumer_secret") String consumerSecret,
                                              @RequestParam("sku") String sku);
 
-    @PostMapping("/products")
+    @PostMapping("/wp-json/wc/v3/products")
     Map<String, Object> createProduct(@RequestBody Map<String, Object> productData,
                                       @RequestParam("consumer_key") String consumerKey,
                                       @RequestParam("consumer_secret") String consumerSecret);
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/wp-json/wc/v3/products/{id}")
     Map<String, Object> updateProduct(@PathVariable("id") int id,
                                       @RequestBody Map<String, Object> productData,
                                       @RequestParam("consumer_key") String consumerKey,
@@ -42,11 +42,11 @@ public interface WooCommerceClient {
 
 
     //ORDERS
-    @GetMapping("/orders")
+    @GetMapping("/wp-json/wc/v3/orders")
     List<Map<String, Object>> getOrders(@RequestParam("consumer_key") String consumerKey,
                                         @RequestParam("consumer_secret") String consumerSecret);
 
-    @GetMapping("/orders")
+    @GetMapping("/wp-json/wc/v3/orders")
     List<PedidoWoocommerce> getOrdersByDate(
             @RequestParam("consumer_key") String consumerKey,
             @RequestParam("consumer_secret") String consumerSecret,

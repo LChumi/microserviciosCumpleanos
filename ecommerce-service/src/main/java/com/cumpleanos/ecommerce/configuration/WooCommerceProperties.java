@@ -13,5 +13,6 @@ public class WooCommerceProperties {
     private String url;
     private String client;
     private String secretClient;
-    private String token;
+    private String username;
+    private String password;
 }

@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.service.implementation.importaciones;
 
-import com.cumpleanos.assist.persistence.dto.ProductoDTO;
+import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
 import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 import com.cumpleanos.assist.persistence.repository.functions.FunctionOracleRepository;
@@ -8,7 +8,7 @@ import com.cumpleanos.assist.persistence.repository.functions.ProcedureOracleRep
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.exception.ProcedureNotCompletedException;
 import com.cumpleanos.assist.service.http.IModelsClient;
-import com.cumpleanos.assist.service.interfaces.IProductoService;
+import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.importaciones.ISolicitudImportacionService;
 import com.cumpleanos.core.models.entities.Dfactura;
@@ -32,7 +32,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final FunctionOracleRepository functionRepository;
     private final IModelsClient modelsClient;
     private final IProductoTempService productoTempService;
-    private final IProductoService productoService;
+    private final ClientServiceImpl productoService;
 
 
     @Override

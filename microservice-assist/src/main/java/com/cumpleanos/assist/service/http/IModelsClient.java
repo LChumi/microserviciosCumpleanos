@@ -1,5 +1,7 @@
 package com.cumpleanos.assist.service.http;
 
+import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -73,6 +75,16 @@ public interface IModelsClient {
     //TODO servicio que viene del controlador UbicacionController
     @GetMapping("/models/ubicacion/{emp}/{nombre}")
     ResponseEntity<List<Ubicacion>> getUbicacionByNombre(@PathVariable Long emp, @PathVariable String nombre);
+
+    //TODO servicio que viene del controlador ProductoController
+    @GetMapping("/models/producto/barra/{barra}/empresa/{empresa}")
+    ResponseEntity<ProductoDTO> getProductoByBarra(@PathVariable("barra") String barra, @PathVariable("empresa") Long empresa);
+
+    @GetMapping("models/producto/id/{codigo}/{empresa}")
+    ResponseEntity<ProductoBuilder> getProductoById(@PathVariable("codigo") Long codigo, @PathVariable("empresa") Long empresa);
+
+    @PutMapping("models/producto/update")
+    ResponseEntity<ProductoDTO> updateProducto(@RequestBody ProductoBuilder producto);
 
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController

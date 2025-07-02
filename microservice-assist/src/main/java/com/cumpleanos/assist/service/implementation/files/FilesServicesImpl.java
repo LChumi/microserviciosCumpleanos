@@ -1,14 +1,16 @@
 package com.cumpleanos.assist.service.implementation.files;
 
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
-import com.cumpleanos.assist.persistence.dto.ProductoDTO;
+import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
 import com.cumpleanos.assist.service.exception.FileProcessingException;
+import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.importaciones.IFileService;
 import com.cumpleanos.assist.service.interfaces.importaciones.IImpProdTrancitoVwService;
-import com.cumpleanos.assist.service.interfaces.IProductoService;
 import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.core.models.entities.ProductoTemp;
+import com.cumpleanos.core.models.entities.Sistema;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -31,9 +33,10 @@ import static com.cumpleanos.assist.utils.ProductImportDTOUtils.chekImports;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class FilesServicesImpl implements IFileService {
 
-    private final IProductoService productoService;
+    private final ClientServiceImpl productoService;
     private final IProductoTempService productoTempService;
     private final IImpProdTrancitoVwService impProdTrancitoVwService;
+    private final ClientServiceImpl modelClient;
 
     @Override
     public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) {
@@ -165,5 +168,19 @@ public class FilesServicesImpl implements IFileService {
             item.setTrancitos(chekImports(importaciones));
             item.calcularCantidadEnTrancito();
         }
+    }
+
+    //Metodos para Orden Compra
+    private void processProducts(List<ProductImportTransformer> productosList, Long empresa){
+
+        Sistema found = modelClient.getEmpresa(empresa);
+
+        if (found == null) {
+            throw new EntityNotFoundException("No se encontro informacion de la empresa: " + empresa);
+        }else if (found.getEmpresaGrupo() == null) {
+            throw new EntityNotFoundException("No se encontro informacion del grupo de empresa: " + empresa);
+        }
+
+        List<Sistema> empresasByGroup = modelClient.ListEmpresasByGroupAndExcludeId(found.getEmpresaGrupo().getId(), empresa);
     }
 }
