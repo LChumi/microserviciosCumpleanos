@@ -20,5 +20,6 @@ public class DatosEnvioRequest {
     private double adicional1 = 0.0;
     private double adicional2 = 0.0;
     private double base0;
+    private String tipoTransaccion="0";
     private String fin = "";
 }

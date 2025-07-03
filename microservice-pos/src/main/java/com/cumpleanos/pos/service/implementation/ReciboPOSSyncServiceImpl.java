@@ -142,13 +142,24 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
         DatosEnvioRequest dEnvio = new DatosEnvioRequest();
+
         dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
         dEnvio.setBase0(v.getSubtotal0().doubleValue());
         dEnvio.setIva(v.getValImpuesto().doubleValue());
-        dEnvio.setCuotas(Math.toIntExact(v.getCuotas()));
+
+        Long cuotasValor = v.getCuotas();
+        int cuotas = (cuotasValor != null && cuotasValor > 0) ? Math.toIntExact(cuotasValor) : 1;
+        dEnvio.setCuotas(cuotas);
+
         dEnvio.setTipoCredito(v.getTipoCredito());
+
+        if (cuotas > 0) {
+            dEnvio.setTipoTransaccion("1");
+        }
+
         return dEnvio;
     }
+
 
     private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
