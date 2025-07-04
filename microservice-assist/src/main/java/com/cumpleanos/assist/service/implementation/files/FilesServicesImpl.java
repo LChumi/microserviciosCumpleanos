@@ -182,5 +182,11 @@ public class FilesServicesImpl implements IFileService {
         }
 
         List<Sistema> empresasByGroup = modelClient.ListEmpresasByGroupAndExcludeId(found.getEmpresaGrupo().getId(), empresa);
+
+        if (empresasByGroup.isEmpty()) {
+            throw new RuntimeException("Lista de grupo de empresas vacias ");
+        }
+
+
     }
 }

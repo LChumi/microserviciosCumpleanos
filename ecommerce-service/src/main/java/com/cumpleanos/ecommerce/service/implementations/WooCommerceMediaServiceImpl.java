@@ -66,11 +66,11 @@ public class WooCommerceMediaServiceImpl {
                     properties.getPassword()
             );
 
-            _token =authResponse.get("token").toString();
+            _token = authResponse.get("token").toString();
 
             // Calcula la expiracion con base en la respuesta
             _tokenExpiryTime = System.currentTimeMillis() + (60 * 60 * 1000);
-            log.info("Nuevo token JWT obtenido de Wordpress con valides de:{}", _tokenExpiryTime );
+            log.info("Nuevo token JWT obtenido de Wordpress con valides de:{}", _tokenExpiryTime);
         }
     }
 

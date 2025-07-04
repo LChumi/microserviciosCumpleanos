@@ -46,10 +46,10 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
 
         ProductoBuilder prod = productoService.findById(pv.getProducto(), empresa);
         if (prod == null) {
-            throw new EntityNotFoundException("Producto no encontrado "+ pv.getProducto());
+            throw new EntityNotFoundException("Producto no encontrado " + pv.getProducto());
         }
         prod.setCargaWeb((short) 2);
-        productoService.update(prod);
+        productoService.updateProducto(prod);
         return new ServiceResponse("Producto creado " + p.sku() + "En Ecommerce y actualizado en BD", Boolean.TRUE);
     }
 

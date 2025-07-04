@@ -105,7 +105,7 @@ public class ClientServiceImpl {
 
     public List<Sistema> ListEmpresasByGroupAndExcludeId(Long groupId, Long excludeId) {
         return HttpResponseHandler.handle(() -> modelsClient.listByEmpresaGrupoExcludeId(groupId, excludeId),
-                "Error al obtener las empresas del grupo : "+ groupId);
+                "Error al obtener las empresas del grupo : " + groupId);
     }
 
     //UBICACION
@@ -144,12 +144,12 @@ public class ClientServiceImpl {
                 "Error al buscar un producto en la empresa: " + empresa);
     }
 
-    public ProductoBuilder findById(Long codigo,  Long empresa) {
+    public ProductoBuilder findById(Long codigo, Long empresa) {
         return HttpResponseHandler.handle(() -> modelsClient.getProductoById(codigo, empresa),
                 "Error al obtener el Producto por Id: " + codigo + " empresa: " + empresa);
     }
 
-    public ProductoDTO update(ProductoBuilder p ){
+    public ProductoDTO updateProducto(ProductoBuilder p) {
         return HttpResponseHandler.handle(() -> modelsClient.updateProducto(p),
                 "Error al actualizar el producto en la empresa: " + p.getEmpresa());
     }

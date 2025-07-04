@@ -25,7 +25,7 @@ public class FilesController {
     private final FilesServicesImpl filesServices;
     private final ISolicitudImportacionService solicitudImportacionService;
 
-    @PostMapping(value ="/importaciones/excel/solicitud", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/importaciones/excel/solicitud", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,
                                                                       @RequestParam("empresa") Long empresa) {
         List<ProductImportTransformer> items = filesServices.readExcelFile(file, empresa);
