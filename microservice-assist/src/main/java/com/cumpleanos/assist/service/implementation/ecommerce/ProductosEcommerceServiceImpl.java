@@ -4,6 +4,7 @@ import com.cumpleanos.assist.service.exception.ProductNotCreatedException;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;
 import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.common.records.ProductEcomRequest;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.views.CargaProductoEcomV;
@@ -49,7 +50,11 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
             throw new EntityNotFoundException("Producto no encontrado " + pv.getProducto());
         }
         prod.setCargaWeb((short) 2);
-        productoService.updateProducto(prod);
+        ProductoDTO updated = productoService.updateProducto(prod);
+        if (updated == null || updated.codigo() == null) {
+            log.info("Producto no se actualizo en la base de datos");
+        }
+        log.info("Producto Creado en ecommerce:{} y actualizado en Base de datos {} de la empresa {}", p.sku(), updated.codigo(), updated.empresa());
         return new ServiceResponse("Producto creado " + p.sku() + "En Ecommerce y actualizado en BD", Boolean.TRUE);
     }
 
