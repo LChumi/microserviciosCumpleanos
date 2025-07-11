@@ -18,6 +18,6 @@ logging:
   file:
     name: ${LOG_PATH:C:\\Proyectos\\Microserivicios\\logs\\pos.log}
   logback:
-    rollingpolicy:
+    rolling policy:
       max-history: 7
       max-file-size: 10MB
