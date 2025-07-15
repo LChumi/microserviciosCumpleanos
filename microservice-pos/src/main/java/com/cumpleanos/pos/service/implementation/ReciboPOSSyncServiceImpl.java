@@ -86,7 +86,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public String procesarPagoLan(Long usrLiquida, Long empresa) {
         try {
-            log.info("Inicializar Proceso POS via LAN en empresa:{}", empresa);
+            log.info("Inicializar Proceso POS Pago via LAN en empresa:{}", empresa);
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
             DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
@@ -137,7 +137,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
         return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
-                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS para UsrLiquida y Empresa"));
+                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa ));
     }
 
     private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
