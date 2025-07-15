@@ -60,7 +60,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public Map<String, String> listarPuertos(Long usrLiquida, Long empresa) {
         ReciboPOSView v = repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
-                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS por UsrLiquida"));
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo POS por UsrLiquida"));
         return apiService.listarPuertos(v.getIp());
     }
 
@@ -137,7 +137,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
         return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
-                .orElseThrow(() -> new RuntimeException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa ));
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa ));
     }
 
     private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
