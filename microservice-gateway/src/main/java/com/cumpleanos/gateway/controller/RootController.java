@@ -35,4 +35,14 @@ public class RootController {
         );
     }
 
+    @GetMapping(value = "/googleee09e174774f9a59.html", produces = MediaType.TEXT_HTML_VALUE)
+    public Mono<ResponseEntity<Resource>> getGoogleSiteVerification() {
+        Resource resource = new ClassPathResource("static/googleee09e174774f9a59.html");
+        return Mono.just(ResponseEntity
+                .ok()
+                .cacheControl(CacheControl.maxAge(Duration.ofDays(30)).cachePublic())
+                .body(resource)
+        );
+    }
+
 }
