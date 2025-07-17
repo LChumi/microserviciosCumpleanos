@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,25 +80,14 @@ public class EmailServiceImpl implements IEmailService {
         Matcher matcher = pattern.matcher(htmlContent);
         int cidCounter = 0;
 
+        //Map de url con su respectivo cid
+        Map<String, String> cidMap = new HashMap<>();
+
         while (matcher.find()) {
             String imageUrl = matcher.group(1);
             String cid = "cidImage" + (++cidCounter);
-
-            try (InputStream in = new URL(imageUrl).openStream()) {
-                byte[] imagesBytes = in.readAllBytes();
-
-                MimeBodyPart imagePart = new MimeBodyPart();
-                imagePart.setDataHandler(new DataHandler(new ByteArrayDataSource(imagesBytes, guessMimeType(imageUrl))));
-                imagePart.setHeader("Content-ID", "<" + cid + ">");
-                imagePart.setDisposition(MimeBodyPart.INLINE);
-
-                relatedMultipart.addBodyPart(imagePart);
-
-                // Reemplazo en HTML
-                htmlContent = htmlContent.replace(imageUrl, "cid:" + cid);
-            } catch (IOException e) {
-                log.error("No se pudo descargar imagen externa: {}", imageUrl, e);
-            }
+            cidMap.put(imageUrl, cid);
+            htmlContent = htmlContent.replace(imageUrl, "cid:" + cid);
         }
 
         // 2. Insertar el HTML ya modificado, después de reemplazar imágenes
@@ -112,11 +103,48 @@ public class EmailServiceImpl implements IEmailService {
                     new ByteArrayDataSource(favicon.getInputStream(), "image/png")
             ));
             logoPart.setHeader("Content-ID", "<logoCid>");
+            logoPart.setHeader("Content-Type", "image/png");
+            logoPart.setFileName(favicon.getFilename());
             logoPart.setDisposition(MimeBodyPart.INLINE);
             relatedMultipart.addBodyPart(logoPart);
         } else {
             log.warn("Favicon no encontrado en classpath: images/logo.png");
         }
+
+        // 4. Insertar imagenes endebidas
+        for (Map.Entry<String, String> entry : cidMap.entrySet()) {
+            String imageUrl = entry.getKey();
+            String cid = entry.getValue();
+
+            try {
+                URL url = new URL(imageUrl);
+                URLConnection conn = url.openConnection();
+                String mimeType = conn.getContentType();
+
+                if (mimeType == null || !mimeType.startsWith("image/")) {
+                    mimeType = "image/png";
+                }
+
+                byte[] imageByte;
+
+                try (InputStream in = conn.getInputStream()) {
+                    imageByte = in.readAllBytes();
+                }
+
+                MimeBodyPart imagePart = new MimeBodyPart();
+                imagePart.setDataHandler(new DataHandler(
+                        new ByteArrayDataSource(imageByte, mimeType)
+                ));
+                imagePart.setHeader("Content-ID", "<" + cid + ">");
+                imagePart.setFileName(cid + ".png");
+                imagePart.setDisposition(MimeBodyPart.INLINE);
+
+                relatedMultipart.addBodyPart(imagePart);
+            } catch (IOException e) {
+                log.error("No se pudo descargar imagen externa: {}", imageUrl, e);
+            }
+        }
+
         relatedPart.setContent(relatedMultipart);
         return relatedPart;
     }
