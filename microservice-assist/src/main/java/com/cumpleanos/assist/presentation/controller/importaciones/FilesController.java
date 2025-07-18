@@ -46,7 +46,6 @@ public class FilesController {
                                                                                @RequestParam("empresa") Long empresa) {
 
         List<ProductImportTransformer> items = filesServices.getInfoFromExcel(file, empresa);
-
         return ResponseEntity.ok(items);
     }
 

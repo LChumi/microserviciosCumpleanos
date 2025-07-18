@@ -186,7 +186,5 @@ public class FilesServicesImpl implements IFileService {
         if (empresasByGroup.isEmpty()) {
             throw new RuntimeException("Lista de grupo de empresas vacias ");
         }
-
-
     }
 }
