@@ -1,7 +1,7 @@
 package com.cumpleanos.models.service.implementation;
 
 import com.cumpleanos.common.dtos.DatafileUsage;
-import com.cumpleanos.models.persistence.repository.DatafileUsageRepository;
+import com.cumpleanos.models.persistence.repository.functions.DatafileUsageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

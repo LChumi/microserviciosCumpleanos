@@ -82,4 +82,15 @@ public class ProductoController {
         ));
     }
 
+    @GetMapping("/producto/matches/{empresa}")
+    public ResponseEntity<String> getMatches(@PathVariable("empresa") Long empresa,
+                                             @RequestParam("barcode") String barcode,
+                                             @RequestParam("item") String item) {
+        String novedad = service.getMatches(empresa, barcode, item);
+
+        if (novedad == null ||  novedad.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(novedad);
+    }
 }

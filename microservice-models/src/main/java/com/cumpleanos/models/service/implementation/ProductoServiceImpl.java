@@ -10,6 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
+import static com.cumpleanos.models.persistence.repository.specification.ProductoSpecifications.matchByEmpresaAndProIdOrProId1;
+import static com.cumpleanos.models.utils.stringsUtils.normalizedItemsPrefix;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId> implements IProductoService {
@@ -40,6 +46,44 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
                     prod.getUnidad().getId().getCodigo()
             );
         }
+    }
+
+    @Override
+    public String getMatches(Long empresa, String barcode, String item) {
+        String novedad = "";
+
+        List<Producto> coincidences = repository.findAll(
+                matchByEmpresaAndProIdOrProId1(empresa, barcode, item)
+        );
+
+        Optional<Producto> productProId = coincidences.stream()
+                .filter(p -> p.getProId().equals(barcode))
+                .findFirst();
+
+        Optional<Producto> productProId1 = coincidences.stream()
+                .filter(p -> p.getProId1().equals(item))
+                .findFirst();
+
+        boolean barcodeExists = productProId.isPresent();
+        boolean itemExists = productProId1.isPresent();
+        boolean itemExistDiferetnPrefix = coincidences.stream()
+                .anyMatch( p -> normalizedItemsPrefix(p.getProId1()).equals(normalizedItemsPrefix(item)));
+        if (barcodeExists && itemExists){
+            novedad = "REPOSICION";
+        } else if (itemExistDiferetnPrefix){
+            novedad = "ITEM CAMBIA DE PREFIJO (REPOSICION)";
+        } else if (!barcodeExists && itemExists){
+            String productName = productProId1.map(Producto::getNombre).orElse("NOMBRE NO DISPONIBLE");
+            novedad = "ITEM EXISTE CON OTRA BARRA: "+productName;
+        } else if (barcodeExists && !itemExists) {
+            String productName = productProId.map(Producto::getNombre).orElse("NOMBRE NO DISPONIBLE");
+            novedad = "LA BARRA SE ENCUETRA REGISTRADA EN OTRO ITEM: " + productName;
+        } else {
+            novedad = "PRODUCTO NUEVO";
+        }
+
+        return novedad;
+
     }
 }
 

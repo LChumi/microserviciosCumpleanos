@@ -1,4 +1,4 @@
-package com.cumpleanos.models.persistence.repository;
+package com.cumpleanos.models.persistence.repository.functions;
 
 import com.cumpleanos.common.dtos.DatafileUsage;
 import lombok.RequiredArgsConstructor;

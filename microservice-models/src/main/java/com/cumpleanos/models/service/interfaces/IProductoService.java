@@ -8,4 +8,6 @@ public interface IProductoService  extends GenericService<Producto, ProductoId>{
 
     ProductoDTO getProductoByBarraAndEmpresa(String barra, Long empresa);
 
+    String getMatches(Long empresa, String barra, String item);
+
 }
