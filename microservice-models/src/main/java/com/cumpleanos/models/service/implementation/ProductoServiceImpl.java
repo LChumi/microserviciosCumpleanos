@@ -48,18 +48,25 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
         }
     }
 
+    /**
+     * Metodo para poder coicidencias de un producto de una empresa por su barra e item
+     * @return la novedad del producto si tuvo coincidencias del mismo y en donde
+     */
     @Override
     public String getMatches(Long empresa, String barcode, String item) {
         String novedad = "";
 
+        //Lista de coincidencias muestra los productos por la barra o el item
         List<Producto> coincidences = repository.findAll(
                 matchByEmpresaAndProIdOrProId1(empresa, barcode, item)
         );
 
+        //Obtengo la coincidencia de producto que tenga el mismo barcode
         Optional<Producto> productProId = coincidences.stream()
                 .filter(p -> p.getProId().equals(barcode))
                 .findFirst();
 
+        //Obtengo la coincidencia del producto q tenga el mismo item
         Optional<Producto> productProId1 = coincidences.stream()
                 .filter(p -> p.getProId1().equals(item))
                 .findFirst();
@@ -68,6 +75,8 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
         boolean itemExists = productProId1.isPresent();
         boolean itemExistDiferetnPrefix = coincidences.stream()
                 .anyMatch(p -> normalizedItemsPrefix(p.getProId1()).equals(normalizedItemsPrefix(item)));
+
+        //If anidado con la informacion de las novedades encontradas por las coincidencias
         if (barcodeExists && itemExists) {
             novedad = "REPOSICION";
         } else if (itemExistDiferetnPrefix) {
