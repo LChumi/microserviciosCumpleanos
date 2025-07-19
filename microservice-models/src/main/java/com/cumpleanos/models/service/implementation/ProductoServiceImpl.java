@@ -67,14 +67,14 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
         boolean barcodeExists = productProId.isPresent();
         boolean itemExists = productProId1.isPresent();
         boolean itemExistDiferetnPrefix = coincidences.stream()
-                .anyMatch( p -> normalizedItemsPrefix(p.getProId1()).equals(normalizedItemsPrefix(item)));
-        if (barcodeExists && itemExists){
+                .anyMatch(p -> normalizedItemsPrefix(p.getProId1()).equals(normalizedItemsPrefix(item)));
+        if (barcodeExists && itemExists) {
             novedad = "REPOSICION";
-        } else if (itemExistDiferetnPrefix){
+        } else if (itemExistDiferetnPrefix) {
             novedad = "ITEM CAMBIA DE PREFIJO (REPOSICION)";
-        } else if (!barcodeExists && itemExists){
+        } else if (!barcodeExists && itemExists) {
             String productName = productProId1.map(Producto::getNombre).orElse("NOMBRE NO DISPONIBLE");
-            novedad = "ITEM EXISTE CON OTRA BARRA: "+productName;
+            novedad = "ITEM EXISTE CON OTRA BARRA: " + productName;
         } else if (barcodeExists && !itemExists) {
             String productName = productProId.map(Producto::getNombre).orElse("NOMBRE NO DISPONIBLE");
             novedad = "LA BARRA SE ENCUETRA REGISTRADA EN OTRO ITEM: " + productName;

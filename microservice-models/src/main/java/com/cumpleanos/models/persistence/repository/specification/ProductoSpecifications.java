@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class ProductoSpecifications {
 
-    public static Specification<Producto> matchByEmpresaAndProIdOrProId1(Long empresa, String barra, String item){
+    public static Specification<Producto> matchByEmpresaAndProIdOrProId1(Long empresa, String barra, String item) {
         return (root, query, cb) -> {
             Predicate predEmpresa = cb.equal(root.get("empresa"), empresa);
 
