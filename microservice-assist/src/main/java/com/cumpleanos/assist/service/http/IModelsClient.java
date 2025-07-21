@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.service.http;
 
 import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;

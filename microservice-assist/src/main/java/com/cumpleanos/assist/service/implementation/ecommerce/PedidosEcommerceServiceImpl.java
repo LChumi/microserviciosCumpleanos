@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.service.implementation.ecommerce;
 
+import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;

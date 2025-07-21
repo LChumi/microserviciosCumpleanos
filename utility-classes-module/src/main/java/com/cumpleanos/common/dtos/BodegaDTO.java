@@ -1,4 +1,4 @@
-package com.cumpleanos.common.records;
+package com.cumpleanos.common.dtos;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.common.records.BodegaDTO;
+import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.models.service.interfaces.IBodegaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

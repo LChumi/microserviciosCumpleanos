@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.service.implementation;
 
 import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
 import com.cumpleanos.assist.service.http.IEmailClient;
