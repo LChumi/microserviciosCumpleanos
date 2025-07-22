@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.service.implementation.files;
 
+import com.cumpleanos.assist.persistence.dto.OrdenComrpaListDTO;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
@@ -46,8 +47,28 @@ public class FilesServicesImpl implements IFileService {
     }
 
     @Override
-    public List<ProductImportTransformer> getInfoFromExcel(MultipartFile file, Long empresa) {
-        return extractProductsFromExcel(file);
+    public OrdenComrpaListDTO getListSCi(MultipartFile file, Long empresa) {
+        List<ProductImportTransformer> withSCI = new ArrayList<>();
+        List<ProductImportTransformer> notSCI = new ArrayList<>();
+
+        List<ProductImportTransformer> productsList = extractProductsFromExcel(file);
+
+        if (productsList.isEmpty() ) {
+            throw new FileProcessingException("No se pudo procesar la infomacion revise el documento de excel ");
+        }
+
+        for (ProductImportTransformer product : productsList) {
+            Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.findByProdIdAndEmpresa(product.getId(), empresa);
+            if (importaciones.isEmpty()) {
+                notSCI.add(product);
+            }else{
+                withSCI.add(product);
+            }
+        }
+        return OrdenComrpaListDTO.builder()
+                .listWhitSci(withSCI)
+                .listNotSci(notSCI)
+                .build();
     }
 
     /**

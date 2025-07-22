@@ -12,4 +12,6 @@ public interface IImpProdTrancitoVwService extends IGenericService<ImpProdTranci
     Set<ImpProdTrancitoVw> getImpProdTrancitoVwsByProdAndEmpresa(Long producto, Long empresa);
 
     Set<ImpProdTrancitoVw> find(Long empresa, String nroComprobante, String observacion, Long proveedor, LocalDate fecha, String estado);
+
+    Set<ImpProdTrancitoVw> findByProdIdAndEmpresa(String barcode, Long empresa);
 }

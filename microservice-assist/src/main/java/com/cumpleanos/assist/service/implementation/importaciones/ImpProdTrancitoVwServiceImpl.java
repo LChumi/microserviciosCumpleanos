@@ -38,4 +38,9 @@ public class ImpProdTrancitoVwServiceImpl extends GenericServiceImpl<ImpProdTran
 
         return new HashSet<>(repository.findAll(spec));
     }
+
+    @Override
+    public Set<ImpProdTrancitoVw> findByProdIdAndEmpresa(String barcode, Long empresa) {
+        return repository.findByProIdAndEmpresa(barcode, empresa);
+    }
 }

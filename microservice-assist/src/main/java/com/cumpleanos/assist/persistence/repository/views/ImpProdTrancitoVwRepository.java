@@ -9,7 +9,10 @@ import java.math.BigInteger;
 import java.util.Set;
 
 @Repository
-public interface ImpProdTrancitoVwRepository
-        extends JpaRepository<ImpProdTrancitoVw, BigInteger>, JpaSpecificationExecutor<ImpProdTrancitoVw> {
+public interface ImpProdTrancitoVwRepository extends JpaRepository<ImpProdTrancitoVw, BigInteger>, JpaSpecificationExecutor<ImpProdTrancitoVw> {
+
     Set<ImpProdTrancitoVw> findByProCodigoAndEmpresa(Long proCodigo, Long empresa);
+
+    Set<ImpProdTrancitoVw> findByProIdAndEmpresa(String proId1, Long empresa);
+
 }
