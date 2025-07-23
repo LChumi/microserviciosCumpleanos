@@ -10,8 +10,7 @@ import com.cumpleanos.assist.service.interfaces.importaciones.IFileService;
 import com.cumpleanos.assist.service.interfaces.importaciones.IImpProdTrancitoVwService;
 import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.core.models.entities.ProductoTemp;
-import com.cumpleanos.core.models.entities.Sistema;
-import jakarta.persistence.EntityNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -65,6 +64,18 @@ public class FilesServicesImpl implements IFileService {
                 withSCI.add(product);
             }
         }
+
+        if (!withSCI.isEmpty()) {
+            if (notSCI.isEmpty()) {
+                log.info("Todos los trámites con registro");
+            } else {
+                log.info("Trámites mixtos con y sin registros");
+            }
+        } else {
+            log.info("Trámites sin registros, crear SCI");
+        }
+
+
         return OrdenComrpaListDTO.builder()
                 .listWhitSci(withSCI)
                 .listNotSci(notSCI)
@@ -191,21 +202,7 @@ public class FilesServicesImpl implements IFileService {
         }
     }
 
-    //Metodos para Orden Compra
-    private void processProducts(List<ProductImportTransformer> productosList, Long empresa){
+    private void validateOrders(List<ProductImportTransformer> items) {
 
-        Sistema found = modelClient.getEmpresa(empresa);
-
-        if (found == null) {
-            throw new EntityNotFoundException("No se encontro informacion de la empresa: " + empresa);
-        }else if (found.getEmpresaGrupo() == null) {
-            throw new EntityNotFoundException("No se encontro informacion del grupo de empresa: " + empresa);
-        }
-
-        List<Sistema> empresasByGroup = modelClient.ListEmpresasByGroupAndExcludeId(found.getEmpresaGrupo().getId(), empresa);
-
-        if (empresasByGroup.isEmpty()) {
-            throw new RuntimeException("Lista de grupo de empresas vacias ");
-        }
     }
 }
