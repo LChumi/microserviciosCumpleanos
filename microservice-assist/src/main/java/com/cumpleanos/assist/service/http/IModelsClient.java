@@ -87,6 +87,9 @@ public interface IModelsClient {
     @PutMapping("models/producto/update")
     ResponseEntity<ProductoDTO> updateProducto(@RequestBody ProductoBuilder producto);
 
+    @GetMapping("models/producto/matches/{empresa}")
+    ResponseEntity<String> getMatches(@PathVariable("empresa") Long empresa, @RequestParam("barcode") String barcode, @RequestParam("item") String item);
+
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController
     @PostMapping("/models/save/dreposicion")

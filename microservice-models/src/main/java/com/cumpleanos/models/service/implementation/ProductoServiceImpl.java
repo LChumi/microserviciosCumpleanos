@@ -54,6 +54,7 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
      */
     @Override
     public String getMatches(Long empresa, String barcode, String item) {
+
         String novedad = "";
 
         //Lista de coincidencias muestra los productos por la barra o el item

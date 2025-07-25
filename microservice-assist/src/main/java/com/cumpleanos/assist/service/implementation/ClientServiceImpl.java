@@ -155,6 +155,11 @@ public class ClientServiceImpl {
                 "Error al actualizar el producto en la empresa: " + p.getEmpresa());
     }
 
+    public String getMatches(Long empresa, String barcode, String item){
+        return HttpResponseHandler.handle(() -> modelsClient.getMatches(empresa, barcode, item),
+                "Error al obtener las coincidencias");
+    }
+
     //TODO servicio que viene de FunctionOracleController
     public Long verificarJuridico(String ruc) {
         return HttpResponseHandler.handle(() -> modelsClient.verificarJuridico(ruc),

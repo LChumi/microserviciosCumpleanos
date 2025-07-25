@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 public class ProductImportDTOUtils {
 
     /**
-     * Mapea un conjunto de entidades {@code ImpProdTrancitoVw} a sus correspondientes DTOs
-     * mediante el método {@code mapToImpProdTrancitoVw}.
+     * Mapea un conjunto de entidades {@code ImpProdTrancitoVw} a sus correspondientes DTO
+     * mediante el metodo {@code mapToImpProdTrancitoVw}.
      *
      * @param items conjunto de entidades provenientes de la base de datos
      * @return conjunto de objetos {@code ImpProdTrancitoTransformer} convertidos
@@ -22,9 +22,8 @@ public class ProductImportDTOUtils {
                 .collect(Collectors.toSet());
     }
 
-
     /**
-     * Funcion que calula los totales del intem
+     * Funcion que calcula los totales del item
      */
     public static void calcularTotales(ProductImportTransformer item) {
         item.calcularCantidadTotal();

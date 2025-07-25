@@ -59,15 +59,19 @@ public class FilesServicesImpl implements IFileService {
         for (ProductImportTransformer product : productsList) {
             Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.findByProdIdAndEmpresa(product.getId(), empresa);
             if (importaciones.isEmpty()) {
+                product.setTrancitos(new HashSet<>());
                 notSCI.add(product);
             }else{
+                product.setTrancitos(chekImports(importaciones));
+                product.calcularCantidadEnTrancito();
                 withSCI.add(product);
             }
         }
 
         if (!withSCI.isEmpty()) {
             if (notSCI.isEmpty()) {
-                log.info("Todos los trámites con registro");
+                log.info("Todos los trámites con registro se validaran los estados ");
+                validateOrders(withSCI, empresa);
             } else {
                 log.info("Trámites mixtos con y sin registros");
             }
@@ -202,7 +206,12 @@ public class FilesServicesImpl implements IFileService {
         }
     }
 
-    private void validateOrders(List<ProductImportTransformer> items) {
+    private void validateOrders(List<ProductImportTransformer> items, Long empresa) {
 
+        for (ProductImportTransformer item : items) {
+            String novedad = "";
+            novedad = modelClient.getMatches(empresa, item.getId(), item.getItem());
+            item.setNovedad(novedad);
+        }
     }
 }
