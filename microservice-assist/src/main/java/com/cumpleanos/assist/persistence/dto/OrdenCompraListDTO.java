@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class OrdenComrpaListDTO {
+public class OrdenCompraListDTO {
     private List<ProductImportTransformer> listWhitSci;
     private List<ProductImportTransformer> listNotSci;
 }

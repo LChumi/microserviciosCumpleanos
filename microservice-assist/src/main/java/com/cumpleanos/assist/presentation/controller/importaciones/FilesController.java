@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.presentation.controller.importaciones;
 
-import com.cumpleanos.assist.persistence.dto.OrdenComrpaListDTO;
+import com.cumpleanos.assist.persistence.dto.OrdenCompraListDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
 import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
@@ -43,10 +43,10 @@ public class FilesController {
     }
 
     @PostMapping(value = "/importaciones/excel/orden_compra", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<OrdenComrpaListDTO> transformOrdenCompra(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<OrdenCompraListDTO> transformOrdenCompra(@RequestParam("file") MultipartFile file,
                                                                    @RequestParam("empresa") Long empresa) {
 
-        OrdenComrpaListDTO items = filesServices.getListSCi(file, empresa);
+        OrdenCompraListDTO items = filesServices.getListSCi(file, empresa);
         return ResponseEntity.ok(items);
     }
 

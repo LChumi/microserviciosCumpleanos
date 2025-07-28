@@ -1,6 +1,6 @@
 package com.cumpleanos.assist.service.implementation.files;
 
-import com.cumpleanos.assist.persistence.dto.OrdenComrpaListDTO;
+import com.cumpleanos.assist.persistence.dto.OrdenCompraListDTO;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
@@ -46,7 +46,7 @@ public class FilesServicesImpl implements IFileService {
     }
 
     @Override
-    public OrdenComrpaListDTO getListSCi(MultipartFile file, Long empresa) {
+    public OrdenCompraListDTO getListSCi(MultipartFile file, Long empresa) {
         List<ProductImportTransformer> withSCI = new ArrayList<>();
         List<ProductImportTransformer> notSCI = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class FilesServicesImpl implements IFileService {
         }
 
 
-        return OrdenComrpaListDTO.builder()
+        return OrdenCompraListDTO.builder()
                 .listWhitSci(withSCI)
                 .listNotSci(notSCI)
                 .build();
@@ -207,7 +207,6 @@ public class FilesServicesImpl implements IFileService {
     }
 
     private void validateOrders(List<ProductImportTransformer> items, Long empresa) {
-
         for (ProductImportTransformer item : items) {
             String novedad = "";
             novedad = modelClient.getMatches(empresa, item.getId(), item.getItem());
