@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.persistence.views;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,6 +23,7 @@ public class ImpProdTrancitoVw {
     @Column(name = "IPT_EMPRESA")
     private Long empresa;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "IPT_CCO_COMPROBA")
     private BigInteger ccoComproba;
 

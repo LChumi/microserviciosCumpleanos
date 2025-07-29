@@ -10,5 +10,5 @@ public interface IFileService {
 
     List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa);
 
-    OrdenCompraListDTO getListSCi(MultipartFile file, Long empresa);
+    OrdenCompraListDTO getListSCi(MultipartFile file, Long empresa, Long proveedor);
 }

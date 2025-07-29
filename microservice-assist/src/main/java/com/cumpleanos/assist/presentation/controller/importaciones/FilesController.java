@@ -44,9 +44,10 @@ public class FilesController {
 
     @PostMapping(value = "/importaciones/excel/orden_compra", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<OrdenCompraListDTO> transformOrdenCompra(@RequestParam("file") MultipartFile file,
-                                                                   @RequestParam("empresa") Long empresa) {
+                                                                   @RequestParam("empresa") Long empresa,
+                                                                   @RequestParam("prov") Long prov) {
 
-        OrdenCompraListDTO items = filesServices.getListSCi(file, empresa);
+        OrdenCompraListDTO items = filesServices.getListSCi(file, empresa, prov);
         return ResponseEntity.ok(items);
     }
 

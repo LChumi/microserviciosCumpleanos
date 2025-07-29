@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class ImpProdTrancitoTransformer {
     private String nroComprobante;
+    private String ccomproba;
     private LocalDate fecha;
     private String observacion;
     private Long cantidadPedida;
@@ -22,6 +23,7 @@ public class ImpProdTrancitoTransformer {
     public static ImpProdTrancitoTransformer mapToImpProdTrancitoVw(ImpProdTrancitoVw imp) {
         return ImpProdTrancitoTransformer.builder()
                 .nroComprobante(imp.getNroComprobante())
+                .ccomproba(String.valueOf(imp.getCcoComproba()))
                 .fecha(imp.getFecha())
                 .observacion(imp.getObservacion())
                 .cantidadPedida(imp.getCantPedida() != null ? imp.getCantPedida() : 0)

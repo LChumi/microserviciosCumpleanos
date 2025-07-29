@@ -46,7 +46,7 @@ public class FilesServicesImpl implements IFileService {
     }
 
     @Override
-    public OrdenCompraListDTO getListSCi(MultipartFile file, Long empresa) {
+    public OrdenCompraListDTO getListSCi(MultipartFile file, Long empresa, Long proveedor) {
         List<ProductImportTransformer> withSCI = new ArrayList<>();
         List<ProductImportTransformer> notSCI = new ArrayList<>();
 
