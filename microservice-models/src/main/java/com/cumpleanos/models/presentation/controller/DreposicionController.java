@@ -18,13 +18,13 @@ public class DreposicionController {
 
     private final IDreposicionService service;
 
-    @PostMapping("/save/dreposicion")
+    @PostMapping("/dreposicion/save")
     public ResponseEntity<Dreposicion> save(@RequestBody Dreposicion dreposicion) {
         Dreposicion dreposicionSave = service.save(dreposicion);
         return ResponseEntity.status(HttpStatus.CREATED).body(dreposicionSave);
     }
 
-    @GetMapping("/get-creposicion/{codigo}/{empresa}")
+    @GetMapping("/dreposicion/get/{codigo}/{empresa}")
     public ResponseEntity<Dreposicion> getDreposicion(@PathVariable Long codigo, @PathVariable Long empresa) {
         DreposicionId id = new DreposicionId();
         id.setCodigo(codigo);

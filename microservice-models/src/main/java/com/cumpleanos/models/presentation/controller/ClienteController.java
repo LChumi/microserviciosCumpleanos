@@ -31,13 +31,13 @@ public class ClienteController {
         return ResponseEntity.ok(new ClienteRecord(cliente.getId().getEmpresa(), cliente.getId().getCodigo(), cliente.getTipo(), cliente.getNombre(), cliente.getRucCedula(), cliente.getDireccion()));
     }
 
-    @PostMapping("cliente/new")
+    @PostMapping("/cliente/new")
     public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
         Cliente clienteNew = service.save(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteNew);
     }
 
-    @GetMapping("clientesid/{cliId}/{empresa}")
+    @GetMapping("/cliente/id/{cliId}/{empresa}")
     public ResponseEntity<List<String>> getClientes(@PathVariable String cliId, @PathVariable Long empresa) {
         List<String> ids = new ArrayList<>();
         List<Cliente> clientes = service.findByCliId(cliId, empresa);
@@ -47,7 +47,7 @@ public class ClienteController {
         return ResponseEntity.ok(ids);
     }
 
-    @GetMapping("/clientes/{empresa}/{tipo}")
+    @GetMapping("/cliente/{empresa}/{tipo}")
     public ResponseEntity<Set<ClienteDTO>> getClientesXTipo(@PathVariable("empresa") Long empresa, @PathVariable("tipo") Short tipo) {
         Set<ClienteDTO> clientes = service.findByTipoAndEmpresa(tipo, empresa);
         return ResponseEntity.ok(clientes);

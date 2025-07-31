@@ -18,7 +18,7 @@ import java.util.Set;
 public class CatClienteController {
     private final ICatClienteService catClienteService;
 
-    @GetMapping("categorias/{empresa}")
+    @GetMapping("/catcliente/{empresa}")
     public ResponseEntity<Set<CatCliente>> listByEmpresa(@PathVariable("empresa") Long empresa) {
         Set<CatCliente> categorias = catClienteService.listByEmpresa(empresa);
         return ResponseEntity.ok(categorias);

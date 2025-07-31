@@ -15,7 +15,7 @@ import java.util.Set;
 @FeignClient(name = "models-service")
 public interface IModelsClient {
 
-    //TODO servicio que viene del controlador UsuarioController
+    //TODO servicio que viene del controlador AuthController
     @GetMapping("/models/usuario/{userId}")
     ResponseEntity<Usuario> findByUsrId(@PathVariable String userId);
 
@@ -30,7 +30,7 @@ public interface IModelsClient {
     ResponseEntity<Empleado> getEmpleadoByUsuarioId(@PathVariable Long usuarioId);
 
     //TODO servicio que viene del controlador PuntoVentaController
-    @GetMapping("/models/pve/listar/{empresa}/{almacen}")
+    @GetMapping("/models/punto-venta/listar/{empresa}/{almacen}")
     ResponseEntity<Set<PuntoVentaDTO>> listarPve(@PathVariable Long empresa, @PathVariable Long almacen);
 
     //TODO servicio que viene del controlador DtipoDocController
@@ -38,14 +38,14 @@ public interface IModelsClient {
     ResponseEntity<DTipoDocDTO> getDtipoDoc(@PathVariable Long empresa, @PathVariable Long tpdCodigo);
 
     //TODO servicio que viene del controlador AlmacenController
-    @GetMapping("/models/almacenes/{empresa}")
+    @GetMapping("/models/almacen/{empresa}")
     ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable("empresa") Long empresa);
 
-    @GetMapping("/models/almacen-get/{empresa}/{codigo}")
+    @GetMapping("/models/almacen/get/{empresa}/{codigo}")
     ResponseEntity<AlmacenDTO> getById(@PathVariable Long empresa, @PathVariable Long codigo);
 
     //TODO servicio que viene del controlador DfacturaController
-    @PostMapping("/models/dfac/new")
+    @PostMapping("/models/dfactura/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
 
     //Todo servicio que viene del controlador ClienteController
@@ -55,7 +55,7 @@ public interface IModelsClient {
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente);
 
-    @GetMapping("/models/clientesid/{cliId}/{empresa}")
+    @GetMapping("/models/cliente/id/{cliId}/{empresa}")
     ResponseEntity<List<String>> getClientes(@PathVariable("cliId") String cliId, @PathVariable("empresa") Long empresa);
 
     //TODO servicio que viene del controlador BodegaController
@@ -63,15 +63,21 @@ public interface IModelsClient {
     ResponseEntity<BodegaDTO> getBodegaWeb(@PathVariable Long empresa);
 
     //TODO servicio que viene del controlador SistemaController
-    @GetMapping("models/id-empresa/{id}")
+    @GetMapping("models/sistema/id-empresa/{id}")
     ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id);
 
-    @GetMapping("models/list/empresa-grupo/{empresa}/{excludeId}")
+    @GetMapping("models/sistema/list/empresa-grupo/{empresa}/{excludeId}")
     ResponseEntity<List<Sistema>> listByEmpresaGrupoExcludeId(@PathVariable Long empresa, @PathVariable Long excludeId);
 
     //TODO servicio que viene del controlador FuctionOracleController
-    @GetMapping("/models/verificarJuridico/{ruc}")
+    @GetMapping("/models/function-oralce/verificarJuridico/{ruc}")
     ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
+
+    @GetMapping("/models/function-oracle/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
+    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") Long empresa,
+                                            @PathVariable("sigla") String sigla,
+                                            @PathVariable("secuencia") String secuencia,
+                                            @PathVariable("tipo") int tipo);
 
     //TODO servicio que viene del controlador UbicacionController
     @GetMapping("/models/ubicacion/{emp}/{nombre}")
@@ -92,7 +98,7 @@ public interface IModelsClient {
 
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController
-    @PostMapping("/models/save/dreposicion")
+    @PostMapping("/models/dreposicion/save")
     ResponseEntity<Dreposicion> saveDreposicion(@RequestBody Dreposicion dreposicion);
 
     //TODO servicio que viene del controlador CreposicionController
@@ -103,12 +109,6 @@ public interface IModelsClient {
     ResponseEntity<Boolean> findCreposicionByReferencia(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa);
 
     //TODO servicio que viene del controlador ReposicionController
-    @PostMapping("/models/crear-pago")
+    @PostMapping("/models/reposicion/crear-pago")
     ResponseEntity<ReposicionPago> createPago(@RequestBody ReposicionPago reposicionPago);
-
-    @GetMapping("/models/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
-    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") Long empresa,
-                                            @PathVariable("sigla") String sigla,
-                                            @PathVariable("secuencia") String secuencia,
-                                            @PathVariable("tipo") int tipo);
 }

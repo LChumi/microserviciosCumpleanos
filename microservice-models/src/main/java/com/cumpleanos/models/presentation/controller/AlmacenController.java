@@ -18,13 +18,13 @@ public class AlmacenController {
 
     private final IAlmacenService service;
 
-    @GetMapping("/almacenes/{empresa}")
+    @GetMapping("/almacen/{empresa}")
     public ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable("empresa") Long empresa) {
         Set<AlmacenDTO> almacenes = service.listByEmpresa(empresa);
         return ResponseEntity.ok(almacenes);
     }
 
-    @GetMapping("/almacen-get/{empresa}/{codigo}")
+    @GetMapping("/almacen/get/{empresa}/{codigo}")
     public ResponseEntity<AlmacenDTO> getById(@PathVariable Long empresa, @PathVariable Long codigo){
         AlmacenId id = new AlmacenId();
         id.setEmpresa(empresa);

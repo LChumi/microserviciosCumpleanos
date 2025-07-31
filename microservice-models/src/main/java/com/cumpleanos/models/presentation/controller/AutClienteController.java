@@ -15,7 +15,7 @@ public class AutClienteController {
 
     private final IAutClienteService service;
 
-    @GetMapping("/get-autcliente/{nroAut}/{empresa}")
+    @GetMapping("/autcliente/get/{nroAut}/{empresa}")
     public ResponseEntity<Autcliente> getAutCliente(@PathVariable String nroAut, @PathVariable Long empresa) {
         Autcliente aut= service.findByNroAutorizacion(nroAut, empresa);
         if (aut==null) {
@@ -24,7 +24,7 @@ public class AutClienteController {
         return ResponseEntity.ok(aut);
     }
 
-    @PostMapping("save-autcliente")
+    @PostMapping("/autcliente/save")
     public ResponseEntity<Autcliente> saveAutCliente(@RequestBody Autcliente aut) {
         Autcliente autSave = service.save(aut);
         return ResponseEntity.status(HttpStatus.CREATED).body(autSave);

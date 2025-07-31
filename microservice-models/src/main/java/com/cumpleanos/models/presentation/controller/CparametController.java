@@ -18,7 +18,7 @@ public class CparametController {
 
     private final ICparametService icparametService;
 
-    @GetMapping("/get-paramet/{empresa}/{codigo}")
+    @GetMapping("/cparamet/get/{empresa}/{codigo}")
     public ResponseEntity<Cparamet> getParamet(@PathVariable Long empresa, @PathVariable Long codigo) {
         Cparamet cparamet = icparametService.findByValor(codigo, empresa);
         if (cparamet == null) {

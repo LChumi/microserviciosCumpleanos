@@ -17,13 +17,13 @@ public class AccesoRolController {
 
     private final IAccesoRolService service;
 
-    @GetMapping("/menus/{usuario}/{empresa}")
+    @GetMapping("/acceso-rol/menus/{usuario}/{empresa}")
     public ResponseEntity<Set<MenuTransformer>> getMenus(@PathVariable Long usuario, @PathVariable Long empresa) {
         Set<MenuTransformer> menus = service.obtenerMenusYSubmenus(usuario, empresa);
         return ResponseEntity.ok(menus);
     }
 
-    @GetMapping("/empresas/{usuario}")
+    @GetMapping("/acceso-rol/empresas/{usuario}")
     public ResponseEntity<Set<Sistema>> getEmpresas(@PathVariable Long usuario) {
         Set<Sistema> sistemas = service.getEmpresas(usuario);
         return ResponseEntity.ok(sistemas);

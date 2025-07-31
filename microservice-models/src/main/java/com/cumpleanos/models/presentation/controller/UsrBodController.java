@@ -18,7 +18,7 @@ import java.util.Set;
 public class UsrBodController {
     private final IUsrBodService service;
 
-    @GetMapping("bodegas/usuario/{usrId}/{empresa}")
+    @GetMapping("/usrbod/bodegas/{usrId}/{empresa}")
     public ResponseEntity<Set<UsrBodDTO>> listBodegasByUsr(@PathVariable Long usrId, @PathVariable Long empresa) {
         Set<UsrBodDTO> bodegas = service.listBodByUser(usrId, empresa);
         return ResponseEntity.ok(bodegas);

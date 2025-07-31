@@ -17,7 +17,7 @@ import java.util.Set;
 public class TipoDocController {
     private final ITipoDocService service;
 
-    @GetMapping("listar/tipodoc")
+    @GetMapping("/tipodoc/listar")
     public ResponseEntity<Set<TipoDoc>> listarTipoDoc() {
         Set<TipoDoc> docs= service.listAllOrder();
         return ResponseEntity.ok(docs);

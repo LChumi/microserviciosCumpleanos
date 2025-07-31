@@ -12,17 +12,17 @@ import java.util.List;
 public interface ModelsClient {
 
     //TODO servicio que viene del controlador SistemaController
-    @GetMapping("/models/empresa/{ruc}")
+    @GetMapping("/sistema/empresa/{ruc}")
     ResponseEntity<Sistema> findByRuc(@PathVariable("ruc") String ruc);
 
     //TODO servicio que viene del controlador SriDocEleEmiServiceController
-    @PostMapping("/models/sri/crear")
+    @PostMapping("/models/sistema/empresa/{ruc}")
     ResponseEntity<SriDocEleEmi> save(@RequestBody SriDocEleEmi sriDocEleEmi);
 
-    @GetMapping("/models/sri-emitido/{claveAcceso}")
+    @GetMapping("/models/sri-doc/{claveAcceso}")
     ResponseEntity<SriDocEleEmi> findByClaveAcceso(@PathVariable("claveAcceso") String claveAcceso);
 
-    @PutMapping("/models/sri/actualizado/")
+    @PutMapping("/models/sri-doc/actualizado/")
     ResponseEntity<SriDocEleEmi> updateDocument(@RequestBody SriDocEleEmi sriDocEleEmi);
 
     //TODO servicio que viene del controlador ClienteController
@@ -32,28 +32,28 @@ public interface ModelsClient {
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> save(@RequestBody Cliente cliente);
 
-    @GetMapping("/models/clientesid/{cliId}/{empresa}")
+    @GetMapping("/models/cliente/id/{cliId}/{empresa}")
     ResponseEntity<List<String>> getClientes(@PathVariable("cliId") String cliId, @PathVariable("empresa") Long empresa);
 
     //TODO servicio que viene del controlador FuctionOracleController
-    @GetMapping("/models/verificarJuridico/{ruc}")
+    @GetMapping("/models/function-oralce/verificarJuridico/{ruc}")
     ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
 
-    @GetMapping("/models/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
+    @GetMapping("/models/function-oracle/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
     ResponseEntity<Long> verificarParametro(@PathVariable("empresa") Long empresa,
                                             @PathVariable("sigla") String sigla,
                                             @PathVariable("secuencia") String secuencia,
                                             @PathVariable("tipo") int tipo );
 
     //TODO servicio que viene del controlador AutClienteController
-    @GetMapping("/models/get-autcliente/{nroAut}/{empresa}")
+    @GetMapping("/models/autcliente/get/{nroAut}/{empresa}")
     ResponseEntity<Autcliente> getAutCliente(@PathVariable("nroAut") String nroAut, @PathVariable("empresa") Long empresa);
 
-    @PostMapping("/models/save-autcliente")
+    @PostMapping("/models/autcliente/save")
     ResponseEntity<Autcliente> saveAutCliente(@RequestBody Autcliente autcliente);
 
     //TODO servicio que viene del controlador CparametController
-    @GetMapping("/models/get-paramet/{empresa}/{codigo}")
+    @GetMapping("/models/cparamet/get/{empresa}/{codigo}")
     ResponseEntity<Cparamet> getParamet(@PathVariable("empresa") Long empresa, @PathVariable("codigo") Long codigo);
 
 

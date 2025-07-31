@@ -19,7 +19,7 @@ public class ListCcomprobaVController {
 
     private final ListCcomprobaServiceImpl service;
 
-    @GetMapping("/buscar/ccocomproba-v")
+    @GetMapping("/list-ccomprobav/buscar")
     public Set<ListCcomprobaV> buscar(
             @RequestParam(required = false) Long empresa,
             @RequestParam(required = false) Short periodo,

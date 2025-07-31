@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("assist")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
-public class FilesController {
+public class ImportacionesController {
 
     private final FilesServicesImpl filesServices;
     private final ISolicitudImportacionService solicitudImportacionService;

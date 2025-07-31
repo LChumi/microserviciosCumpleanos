@@ -22,7 +22,7 @@ public class SistemaController {
 
     private final ISistemaService sistemaService;
 
-    @GetMapping("/empresa/{ruc}")
+    @GetMapping("/sistema/empresa/{ruc}")
     public ResponseEntity<Sistema> getEmpresa(@PathVariable String ruc) {
         Sistema sistema = sistemaService.findByRuc(ruc);
         log.info("RUC: {}", sistema);
@@ -32,13 +32,13 @@ public class SistemaController {
         return ResponseEntity.ok(sistema);
     }
 
-    @GetMapping("/id-empresa/{id}")
+    @GetMapping("/sistema/id-empresa/{id}")
     public ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id) {
         Sistema sistema = sistemaService.findById(id);
         return ResponseEntity.ok(sistema);
     }
 
-    @GetMapping("/list/empresa-grupo/{empresa}/{excludeId}")
+    @GetMapping("/sistema/list/empresa-grupo/{empresa}/{excludeId}")
     public ResponseEntity<List<Sistema>> getListEmpresaGrupo(@PathVariable Long empresa, @PathVariable Long excludeId) {
         List<Sistema> empresas = sistemaService.findByIdEmpresaGrupoAndNotId(empresa,excludeId);
         return ResponseEntity.ok(empresas);

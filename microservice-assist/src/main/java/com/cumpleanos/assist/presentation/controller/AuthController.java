@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("assist")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class UsuarioController {
+public class AuthController {
 
     private final UsuarioServiceImpl usuarioService;
 
-    @GetMapping("/forgot-password/{usrId}")
+    @GetMapping("/auth/forgot-password/{usrId}")
     public ResponseEntity<ServiceResponse> forgotPassword(@PathVariable String usrId) {
         ServiceResponse sv = usuarioService.recoveryPassword(usrId);
         return ResponseEntity.ok(sv);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<UserResponse> login(@RequestBody @Valid AuthenticationRequest request) {
         UserResponse user = usuarioService.login(request);
         if (user == null) {

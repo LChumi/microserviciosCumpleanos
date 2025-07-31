@@ -21,13 +21,13 @@ public class PuntoVentaController {
 
     private final IPuntoVentaService service;
 
-    @GetMapping("/pve/listar/{empresa}/{almacen}")
+    @GetMapping("/punto-venta/listar/{empresa}/{almacen}")
     public ResponseEntity<Set<PuntoVentaDTO>> listarPve(@PathVariable("empresa") Long empresa, @PathVariable("almacen") Long almacen) {
         Set<PuntoVentaDTO> puntoVentas = service.listPuntoVentaByEmpresaAndAlmacen(empresa, almacen);
         return ResponseEntity.ok(puntoVentas);
     }
 
-    @GetMapping("/pve/get/{empresa}/{almacen}/{secuencia}")
+    @GetMapping("/punto-venta/get/{empresa}/{almacen}/{secuencia}")
     public ResponseEntity<PuntoVentaDTO> getPuntoVenta(@PathVariable Long empresa, @PathVariable Long almacen, @PathVariable Long secuencia) {
         PuntoVentaId id = new PuntoVentaId();
         id.setEmpresa(empresa);

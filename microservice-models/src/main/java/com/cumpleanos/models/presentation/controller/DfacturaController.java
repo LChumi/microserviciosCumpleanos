@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DfacturaController {
     private final IDfacturaService service;
 
-    @PostMapping("/dfac/new")
+    @PostMapping("/dfactura/new")
     public ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura) {
         Dfactura nuevoDetalle = service.save(dfactura);
         return ResponseEntity.ok(nuevoDetalle != null);

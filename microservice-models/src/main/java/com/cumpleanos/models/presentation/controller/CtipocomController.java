@@ -19,7 +19,7 @@ public class CtipocomController {
 
     private final ICtipocomService service;
 
-    @GetMapping("listar/ctipocom/{empresa}")
+    @GetMapping("/ctipocom/listar/{empresa}")
     public ResponseEntity<Set<CtipocomDTO>> listar(@PathVariable Long empresa) {
         Set<CtipocomDTO> lista = service.listCtipocomByEmpresa(empresa);
         return ResponseEntity.ok(lista);

@@ -14,11 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("models")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class DatafileMonitorController {
+public class DatabaseMonitorController {
 
     private final DataFileMonitorService datafileMonitorService;
 
-    @GetMapping("/monitor/database")
+    @GetMapping("/database/monitor/database")
     public ResponseEntity<List<DatafileUsage>> listDatafileUsage() {
         List<DatafileUsage> datafileUsages = datafileMonitorService.listDatafileUsage();
         return ResponseEntity.ok(datafileUsages);

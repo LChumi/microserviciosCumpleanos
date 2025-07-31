@@ -17,7 +17,7 @@ public class SriDocEleEmiServiceController {
 
     private final ISriDocEleEmiService sriDocEleEmiService;
 
-    @GetMapping("/sri-emitido/{claveAcceso}")
+    @GetMapping("/sri-doc/{claveAcceso}")
     public ResponseEntity<SriDocEleEmi> getDocumento(@PathVariable String claveAcceso) {
         SriDocEleEmi existingDoc  = sriDocEleEmiService.findByClaveAcceso(claveAcceso);
         if (existingDoc == null) {
@@ -27,7 +27,7 @@ public class SriDocEleEmiServiceController {
         return ResponseEntity.ok(existingDoc);
     }
 
-    @PostMapping("/sri/crear")
+    @PostMapping("/sri-doc/crear")
     public ResponseEntity<SriDocEleEmi> getDocumento(@RequestBody SriDocEleEmi sriDocEleEmi) {
         SriDocEleEmi existingDoc  = sriDocEleEmiService.findById(sriDocEleEmi.getId());
         if (existingDoc  != null) {
@@ -38,7 +38,7 @@ public class SriDocEleEmiServiceController {
         }
     }
 
-    @PutMapping("/sri/actualizado/")
+    @PutMapping("/sri-doc/actualizado/")
     public ResponseEntity<SriDocEleEmi> updateDocumento(@RequestBody SriDocEleEmi sriDocEleEmi) {
         SriDocEleEmi existe = sriDocEleEmiService.findById(sriDocEleEmi.getId());
         if (existe != null) {
