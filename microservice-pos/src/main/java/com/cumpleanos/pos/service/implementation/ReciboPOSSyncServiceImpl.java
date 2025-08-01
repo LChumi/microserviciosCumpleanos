@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+import static com.cumpleanos.pos.utils.DateUtils.obtenerFecha;
+import static com.cumpleanos.pos.utils.DateUtils.obtenerHora;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
@@ -184,8 +187,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         reciboPOS.setNomAdquiriente(response.getNombreAdquiriente());
         reciboPOS.setNumTarjeta(response.getNumeroTarjeta());
         reciboPOS.setResultado(response.getMensajeResultado());
-        reciboPOS.setFecha(response.getFecha());
-        reciboPOS.setHora(response.getHora());
+        reciboPOS.setFecha(obtenerFecha());
+        reciboPOS.setHora(obtenerHora());
         reciboPOS.setAprobado(true);
     }
 
