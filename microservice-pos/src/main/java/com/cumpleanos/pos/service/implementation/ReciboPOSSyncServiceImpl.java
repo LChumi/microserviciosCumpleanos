@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import static com.cumpleanos.pos.utils.DateUtils.obtenerFecha;
@@ -146,7 +147,13 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
         DatosEnvioRequest dEnvio = new DatosEnvioRequest();
 
-        dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
+        if (v.getDescuento() == null || BigDecimal.ZERO.compareTo(v.getDescuento()) == 0) {
+            dEnvio.setBaseImponible(v.getSubtotal().doubleValue());
+        } else {
+            BigDecimal subtotal = v.getSubtotal().subtract(v.getDescuento());
+            dEnvio.setBaseImponible(subtotal.doubleValue());
+        }
+
         dEnvio.setBase0(v.getSubtotal0().doubleValue());
         dEnvio.setIva(v.getValImpuesto().doubleValue());
 
