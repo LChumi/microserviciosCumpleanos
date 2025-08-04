@@ -12,11 +12,11 @@ import java.util.List;
 public interface ModelsClient {
 
     //TODO servicio que viene del controlador SistemaController
-    @GetMapping("/sistema/empresa/{ruc}")
+    @GetMapping("/models/sistema/empresa/{ruc}")
     ResponseEntity<Sistema> findByRuc(@PathVariable("ruc") String ruc);
 
     //TODO servicio que viene del controlador SriDocEleEmiServiceController
-    @PostMapping("/models/sistema/empresa/{ruc}")
+    @PostMapping("/models/sri-doc/crear")
     ResponseEntity<SriDocEleEmi> save(@RequestBody SriDocEleEmi sriDocEleEmi);
 
     @GetMapping("/models/sri-doc/{claveAcceso}")

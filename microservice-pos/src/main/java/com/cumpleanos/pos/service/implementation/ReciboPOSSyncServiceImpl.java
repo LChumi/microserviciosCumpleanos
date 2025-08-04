@@ -170,7 +170,6 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         return dEnvio;
     }
 
-
     private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
