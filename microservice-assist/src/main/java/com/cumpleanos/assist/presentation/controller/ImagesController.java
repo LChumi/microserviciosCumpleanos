@@ -26,18 +26,22 @@ public class ImagesController {
 
     private final Images36Client service;
 
-    @Operation(summary = "Imagenes de logos de la empresa")
-    //
+    @Operation(summary = "Obtener imagenes logos de la empresa")
+    @Parameter(name = "empresa", description = "Codigo de Empresa")
     @GetMapping("/images/logo/{empresaId}")
     public ResponseEntity<Resource> getImageLogo(@PathVariable String empresaId) {
         return buildImageResponse(service.getImageLogo(empresaId), "logo");
     }
 
+    @Operation(summary = "Obtener imagenes de usuarios")
+    @Parameter(name = "usrId", description = "Codigo de usuario")
     @GetMapping("/images/usuario/{usrid}")
     public ResponseEntity<Resource> getImageUser(@PathVariable String usrid) {
         return buildImageResponse(service.getImageUser(usrid), "usuario");
     }
 
+    @Operation(summary = "Obtener imagenes de productos")
+    @Parameter(name = "sku", description = "Barra de Producto")
     @GetMapping("/images/producto/{imageName}")
     public ResponseEntity<Resource> getImageProduct(@PathVariable String imageName) {
         return buildImageResponse(service.getImageProduct(imageName), "producto");
