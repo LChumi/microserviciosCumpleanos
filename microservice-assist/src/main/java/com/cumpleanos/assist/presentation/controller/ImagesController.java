@@ -1,6 +1,9 @@
 package com.cumpleanos.assist.presentation.controller;
 
 import com.cumpleanos.assist.service.http.Images36Client;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,10 +21,13 @@ import java.util.Objects;
 @RestController
 @RequestMapping("assist")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Tag(name = "Imagenes", description = "Documentacion API para obtener imagenes ")
 public class ImagesController {
 
     private final Images36Client service;
 
+    @Operation(summary = "Imagenes de logos de la empresa")
+    //
     @GetMapping("/images/logo/{empresaId}")
     public ResponseEntity<Resource> getImageLogo(@PathVariable String empresaId) {
         return buildImageResponse(service.getImageLogo(empresaId), "logo");

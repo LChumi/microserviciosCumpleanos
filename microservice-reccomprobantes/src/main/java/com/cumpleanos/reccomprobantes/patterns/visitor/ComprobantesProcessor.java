@@ -142,30 +142,49 @@ public class ComprobantesProcessor implements ComprobanteVisitor {
     }
 
     /**
-     * Metodo para generar el CliId de la tabla genera por secuencia dependiendo si existen valores en la base de datos
-     * @param nombre -> nombre del cliente/proveedor le asigna PN- seguido de las tres primeras letras
-     * @param empresa -> la empresa donde se asigna
-     * @return -> se retorna la secuencia generada o si no existe la secuencia con 001
+     * Genera un nuevo ID secuencial basado en un prefijo calculado según el nombre del proveedor.
+     *
+     * El formato esperado es PREFIX + número secuencial, por ejemplo: "PN-LA001", "PN-LA002", etc.
+     * Se verifica la lista de IDs existentes y se calcula el siguiente número disponible.
+     *
+     * @param nombre Nombre del proveedor, utilizado para generar el prefijo.
+     * @param empresa Empresa asociada a los clientes.
+     * @return ID nuevo en formato <prefijo><número>, con relleno de ceros (ej. PN-LA005).
      */
     private String generarIdCliente(String nombre, Long empresa){
 
+        // Prefijo generado a partir del nombre del proveedor (ej. "PN-LA")
         String nuevoIdBase = ProveedorIdGeneratorUtils.generarPrefix(nombre);
 
-        //Lista de Ids existentes
+        // Lista de IDs existentes para clientes con ese prefijo
         List<String> ids = modelsService.getIdsClientes(nuevoIdBase, empresa);
 
+        // Si no hay IDs existentes, comenzamos con el primer ID
         if (ids.isEmpty()) {
             return nuevoIdBase+"001";
         } else {
             int maxNum =0;
+
+            // Recorremos cada ID existente para encontrar el valor numérico más alto
             for (String id : ids) {
-                String numStr = id.substring(nuevoIdBase.length());
-                int num = Integer.parseInt(numStr);
-                if (num > maxNum) {
-                    maxNum = num;
+                // Extraemos la parte numérica del ID, eliminando espacios innecesarios
+                String numStr = id.substring(nuevoIdBase.length()).trim();
+
+                try {
+                    // Intentamos convertir la parte numérica a entero
+                    int num = Integer.parseInt(numStr);
+
+                    // Actualizamos el máximo si encontramos un número mayor
+                    if (num > maxNum) {
+                        maxNum = num;
+                    }
+                } catch (NumberFormatException e) {
+                    // Ignoramos silenciosamente cualquier ID mal formado
                 }
             }
-            return nuevoIdBase+String.format("%03d", maxNum + 1);
+
+            // Generamos el siguiente ID numérico, con formato de tres dígitos
+            return nuevoIdBase + String.format("%03d", maxNum + 1);
         }
     }
 

@@ -64,6 +64,7 @@ public class CSVReaderService {
 
     private void procesoDoc(ComprobanteCsv csv) throws Exception {
         log.info("INICIANDO PROCESO CSV..............................");
+        log.info("Proceso inicado en {} ", csv.getClaveAcceso());
         SriDocEleEmi docuemnto = modelsService.getSriDocByClaveAcceso(csv.getClaveAcceso());
         if (docuemnto == null) {
             Sistema empresa = modelsService.getEmpresaByRuc(csv.getIdentificacionReceptor());
