@@ -52,8 +52,11 @@ public class ListCcomprobaVSpecification {
             if (numero != null) {
                 predicates.add(criteriaBuilder.equal(root.get("numero"), numero));
             }
-            if (concepto != null) {
-                predicates.add(criteriaBuilder.equal(root.get("concepto"), concepto));
+            if (concepto != null && !concepto.isBlank()) {
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("concepto")),
+                        "%" + concepto.toLowerCase() + "%"
+                ));
             }
             if (doctran != null) {
                 predicates.add(criteriaBuilder.equal(root.get("doctran"), doctran));
