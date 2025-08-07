@@ -11,10 +11,4 @@ public class RootController {
     public RedirectView info() {
         return new RedirectView("/actuator/info");
     }
-
-    @GetMapping("/docs")
-    public RedirectView swaggerUi() {
-        return new RedirectView("/swagger-ui.html");
-    }
-
 }

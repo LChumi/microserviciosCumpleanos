@@ -4,6 +4,7 @@ import com.cumpleanos.common.records.EmailRecord;
 import com.cumpleanos.notification.service.interfaces.IEmailService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
 @Validated
+@Tag(name = "Notificacion", description = "Documentacion API Notificaciones")
 public class EmailController {
 
     private final IEmailService emailService;

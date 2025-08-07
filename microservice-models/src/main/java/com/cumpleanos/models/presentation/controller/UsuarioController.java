@@ -2,6 +2,7 @@ package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.core.models.entities.Usuario;
 import com.cumpleanos.models.service.interfaces.IUsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("models")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
+@Tag(name = "Usuario", description = "Documentacion API de usuarios")
 public class UsuarioController {
 
     private final IUsuarioService usuarioService;
