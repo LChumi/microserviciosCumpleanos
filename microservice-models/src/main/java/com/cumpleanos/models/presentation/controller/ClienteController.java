@@ -65,7 +65,7 @@ public class ClienteController {
     }
 
     @Operation(summary = "Lista clientes",tags = {"Cliente"}, description = "Lista de clientes por empresa y tipo")
-    @GetMapping("/cliente/{empresa}/{tipo}")
+    @GetMapping("/cliente/list/{empresa}/{tipo}")
     public ResponseEntity<Set<ClienteDTO>> getClientesXTipo(@PathVariable("empresa") Long empresa, @PathVariable("tipo") Short tipo) {
         Set<ClienteDTO> clientes = service.findByTipoAndEmpresa(tipo, empresa);
         return ResponseEntity.ok(clientes);
@@ -86,5 +86,19 @@ public class ClienteController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(cliente.getRucCedula());
+    }
+
+    @Operation(summary = "Obtener Cliente Id",tags = {"Cliente"}, description = "Obtiene un cliente por su codigo y empresa")
+    @Parameters({
+            @Parameter(name = "empresa", description = "Codigo de la empresa"),
+            @Parameter(name = "codigo", description = "Codigo de cliente")
+    })
+    @GetMapping("/cliente/get/{codigo}/{empresa}")
+    public ResponseEntity<ClienteRecord> getById(@PathVariable("empresa") Long empresa, @PathVariable("codigo") Long codigo) {
+        ClienteId id = new ClienteId();
+        id.setCodigo(codigo);
+        id.setEmpresa(empresa);
+        Cliente cliente = service.findById(id);
+        return ResponseEntity.ok(new ClienteRecord(cliente.getId().getEmpresa(), cliente.getId().getCodigo(), cliente.getTipo(), cliente.getNombre(), cliente.getRucCedula(), cliente.getDireccion()));
     }
 }
