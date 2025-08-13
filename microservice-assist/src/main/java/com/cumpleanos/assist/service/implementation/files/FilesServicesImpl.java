@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.*;
 
 import static com.cumpleanos.assist.utils.FileUtils.mapRowsToProducts;
@@ -41,30 +42,51 @@ public class FilesServicesImpl implements IFileService {
     @Override
     public List<ProductImportTransformer> readExcelFile(MultipartFile file, Long empresa) {
         List<ProductImportTransformer> productosList = extractProductsFromExcel(file);
-        productsFlow(productosList, empresa); // Lógica adicional específica de este método
+        productsFlow(productosList, empresa); // Lógica adicional específica de este metodo
         return productosList;
     }
 
     @Override
-    public OrdenCompraListDTO getListSCi(MultipartFile file, Long empresa, Long proveedor) {
+    public OrdenCompraListDTO getListSCi(MultipartFile file, Long empresa, BigInteger cco) {
         List<ProductImportTransformer> withSCI = new ArrayList<>();
         List<ProductImportTransformer> notSCI = new ArrayList<>();
 
         List<ProductImportTransformer> productsList = extractProductsFromExcel(file);
 
         if (productsList.isEmpty() ) {
-            throw new FileProcessingException("No se pudo procesar la infomacion revise el documento de excel ");
+            throw new FileProcessingException("No se pudo procesar la informacion revise el documento de excel ");
         }
 
         for (ProductImportTransformer product : productsList) {
-            Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.findByProdIdAndEmpresa(product.getId(), empresa);
-            if (importaciones.isEmpty()) {
-                product.setTrancitos(new HashSet<>());
+            boolean verify = validateExistingProduct(product, empresa);
+            if (!verify) {
                 notSCI.add(product);
             }else{
-                product.setTrancitos(chekImports(importaciones));
-                product.calcularCantidadEnTrancito();
-                withSCI.add(product);
+                Set<ImpProdTrancitoVw> imporExist = impProdTrancitoVwService.findByCcoAndProducto(cco, product.getId());
+                if (imporExist == null) {
+                    log.warn("No se encontraron registros CCO del producto dentro del primer documento buscando globalmente .......");
+                    Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.findByProdIdAndEmpresa(product.getId(), empresa);
+                    if (importaciones.isEmpty()) {
+                        log.warn("No se encontro ningun registro del producto dentro del sistema no contiene CCO");
+                        product.setTrancitos(new HashSet<>());
+                        notSCI.add(product);
+                    }else{
+                        log.info("Se encontraron varios registros diferentes al cco principal");
+                        product.setTrancitos(chekImports(importaciones));
+                        product.calcularCantidadEnTrancito();
+                        notSCI.add(product);
+                    }
+                } else if (imporExist.size() == 1) {
+                    log.info("Se encontro un solo registro CCO");
+                    product.setTrancitos(chekImports(imporExist));
+                    ImpProdTrancitoVw unico = imporExist.iterator().next();
+                    product.setCcoOrigen(unico.getCcoComproba());
+                    withSCI.add(product);
+                } else {
+                    log.warn("Se encontraron miltiples registros para CCO {} y producto={}", cco, product.getId());
+                    product.setTrancitos(chekImports(imporExist));
+                    notSCI.add(product);
+                }
             }
         }
 
@@ -156,6 +178,31 @@ public class FilesServicesImpl implements IFileService {
             item.setStatus("REPOSICION");
             calcularTotales(item);
             getTrancitos(item, producto.codigo(), empresa);
+        }
+    }
+
+    /**
+     * Valida si el producto tiene registro en la tabla Producto o Producto temporal
+     * crea el producto en el caso de no existir y retorna False
+     */
+    private boolean validateExistingProduct(ProductImportTransformer item,Long empresa){
+        ProductoDTO productoSis = productoService.getProductoByBarraAndEmpresa(item.getId(), empresa);
+        if (productoSis == null) {
+            //Si no existe el producto busca en registro temporal
+            ProductoTemp temp = findProductoTemp(item.getId(), item.getCodFabrica(), empresa);
+            if (temp == null) {
+                log.warn("Producto no encontrado agregando a producto temporal .....");
+                item.setStatus("SIN REGISTRO");
+                saveOrUpdateProduct(Optional.empty(), item, empresa);
+                return false;
+            } else {
+                log.info("Producto encontrado en Registro temporal");
+                saveOrUpdateProduct(Optional.of(temp), item, empresa);
+                return true;
+            }
+        }else {
+            log.info("Producto existente en BD");
+            return true;
         }
     }
 

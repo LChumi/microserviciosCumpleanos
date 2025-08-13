@@ -43,4 +43,9 @@ public class ImpProdTrancitoVwServiceImpl extends GenericServiceImpl<ImpProdTran
     public Set<ImpProdTrancitoVw> findByProdIdAndEmpresa(String barcode, Long empresa) {
         return repository.findByProIdAndEmpresa(barcode, empresa);
     }
+
+    @Override
+    public Set<ImpProdTrancitoVw> findByCcoAndProducto(BigInteger cco, String barcode) {
+        return repository.findByCcoComprobaAndProId(cco, barcode);
+    }
 }

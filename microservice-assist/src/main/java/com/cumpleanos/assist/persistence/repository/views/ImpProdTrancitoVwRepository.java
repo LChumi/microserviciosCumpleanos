@@ -15,4 +15,6 @@ public interface ImpProdTrancitoVwRepository extends JpaRepository<ImpProdTranci
 
     Set<ImpProdTrancitoVw> findByProIdAndEmpresa(String proId1, Long empresa);
 
+    Set<ImpProdTrancitoVw> findByCcoComprobaAndProId(BigInteger cco, String proId);
+
 }

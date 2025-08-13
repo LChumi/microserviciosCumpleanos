@@ -1,11 +1,13 @@
 package com.cumpleanos.assist.persistence.transformers;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
 
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +26,10 @@ public class ProductImportTransformer {
     private String status;
     private String codFabrica;
     private String novedad;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private BigInteger ccoOrigen;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private BigInteger ccoDestino;
 
     @Setter(AccessLevel.NONE)
     private int cantidadTotal;

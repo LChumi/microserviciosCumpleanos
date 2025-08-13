@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Slf4j
@@ -52,14 +53,13 @@ public class ImportacionesController {
     }
 
     @Operation(summary = "Carga de archivos Orden de compra")
-    @Parameter(name = "file", description = "Archivo excel orden compra", required = true)
     @Parameter(name = "empresa", description = "Codigo de empresa", required = true)
-    @Parameter(name = "prov", description = "Codigo proveedor", required = true)
+    @Parameter(name = "cco", description = "Codigo de documento", required = true)
     @PostMapping(value = "/importaciones/excel/orden_compra", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<OrdenCompraListDTO> transformOrdenCompra(@RequestParam("file") MultipartFile file,
                                                                    @RequestParam("empresa") Long empresa,
-                                                                   @RequestParam("prov") Long prov) {
-        OrdenCompraListDTO items = filesServices.getListSCi(file, empresa, prov);
+                                                                   @RequestParam("cco")BigInteger cco) {
+        OrdenCompraListDTO items = filesServices.getListSCi(file, empresa, cco);
         return ResponseEntity.ok(items);
     }
 
