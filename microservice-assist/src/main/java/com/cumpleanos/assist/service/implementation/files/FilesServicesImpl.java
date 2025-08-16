@@ -62,8 +62,8 @@ public class FilesServicesImpl implements IFileService {
             if (!verify) {
                 notSCI.add(product);
             }else{
-                Set<ImpProdTrancitoVw> imporExist = impProdTrancitoVwService.findByCcoAndProducto(cco, product.getId());
-                if (imporExist == null) {
+                Set<ImpProdTrancitoVw> ssiOrigen = impProdTrancitoVwService.findByCcoAndProducto(cco, product.getId());
+                if (ssiOrigen == null) {
                     log.warn("No se encontraron registros CCO del producto dentro del primer documento buscando globalmente .......");
                     Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.findByProdIdAndEmpresa(product.getId(), empresa);
                     if (importaciones.isEmpty()) {
@@ -76,15 +76,15 @@ public class FilesServicesImpl implements IFileService {
                         product.calcularCantidadEnTrancito();
                         notSCI.add(product);
                     }
-                } else if (imporExist.size() == 1) {
+                } else if (ssiOrigen.size() == 1) {
                     log.info("Se encontro un solo registro CCO");
-                    product.setTrancitos(chekImports(imporExist));
-                    ImpProdTrancitoVw unico = imporExist.iterator().next();
+                    product.setTrancitos(chekImports(ssiOrigen));
+                    ImpProdTrancitoVw unico = ssiOrigen.iterator().next();
                     product.setCcoOrigen(unico.getCcoComproba());
                     withSCI.add(product);
                 } else {
-                    log.warn("Se encontraron miltiples registros para CCO {} y producto={}", cco, product.getId());
-                    product.setTrancitos(chekImports(imporExist));
+                    log.warn("Se encontraron multiples registros para CCO {} y producto={}", cco, product.getId());
+                    product.setTrancitos(chekImports(ssiOrigen));
                     notSCI.add(product);
                 }
             }
@@ -96,9 +96,12 @@ public class FilesServicesImpl implements IFileService {
                 validateOrders(withSCI, empresa);
             } else {
                 log.info("Trámites mixtos con y sin registros");
+                validateOrders(notSCI, empresa);
+                validateOrders(withSCI, empresa);
             }
         } else {
             log.info("Trámites sin registros, crear SCI");
+            validateOrders(notSCI, empresa);
         }
 
 
@@ -253,6 +256,9 @@ public class FilesServicesImpl implements IFileService {
         }
     }
 
+    /**
+     * Funcion que busca coincidencias de productos en el sistema por su barra o item devuelve estado string
+     */
     private void validateOrders(List<ProductImportTransformer> items, Long empresa) {
         for (ProductImportTransformer item : items) {
             String novedad = "";
