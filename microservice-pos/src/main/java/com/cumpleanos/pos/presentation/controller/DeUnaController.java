@@ -25,7 +25,7 @@ public class DeUnaController {
 
     @Operation(summary = "Generar QR", description = "Genera el Qr para poder realizar el pago con la Api en el punto de venta que se realiza la transaccion", tags = {"DeUna"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usrLiq", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/generar-pago/{usrLiq}/{empresa}")
@@ -40,7 +40,7 @@ public class DeUnaController {
 
     @Operation(summary = "Validar Pago", description = "Valida si el pago con el Qr ya fue procesado actualiza en el sistema", tags = {"DeUna"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usrLiq", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/validar-pago/{usrlLiq}/{empresa}")
@@ -51,7 +51,7 @@ public class DeUnaController {
 
     @Operation(summary = "Validar Pago", description = "Valida si el pago con el Qr ya fue procesado actualiza en el sistema", tags = {"DeUna"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usrLiq", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/verificar-pago-existente/{usrLiq}/{empresa}")

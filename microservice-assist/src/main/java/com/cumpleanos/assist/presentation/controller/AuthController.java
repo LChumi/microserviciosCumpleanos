@@ -32,7 +32,6 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     @Operation(summary = "Login")
-    @Parameter(name = "Request", description = "Dto de autenticacion")
     public ResponseEntity<UserResponse> login(@RequestBody @Valid AuthenticationRequest request) {
         UserResponse user = usuarioService.login(request);
         if (user == null) {

@@ -31,8 +31,8 @@ public class PuntoVentaController {
                 @ApiResponse(responseCode = "200", description = "Lista de Punto Venta")
     })
     @Parameters({
-            @Parameter(name = "Empresa", description = "Codigo empresa"),
-            @Parameter(name = "Almacen", description = "Codigo almacen")
+            @Parameter(name = "empresa", description = "Codigo empresa"),
+            @Parameter(name = "almacen", description = "Codigo almacen")
     })
     @GetMapping("/punto-venta/listar/{empresa}/{almacen}")
     public ResponseEntity<Set<PuntoVentaDTO>> listarPve(@PathVariable("empresa") Long empresa, @PathVariable("almacen") Long almacen) {
@@ -44,9 +44,9 @@ public class PuntoVentaController {
             @ApiResponse(responseCode = "200", description = "DTO Punto de Venta")
     })
     @Parameters({
-            @Parameter(name = "Empresa", description = "Codigo empresa"),
-            @Parameter(name = "Almacen", description = "Codigo almacen"),
-            @Parameter(name = "Secuencia", description = "Secuencia del Punto de Venta")
+            @Parameter(name = "empresa", description = "Codigo empresa"),
+            @Parameter(name = "almacen", description = "Codigo almacen"),
+            @Parameter(name = "secuencia", description = "Secuencia del Punto de Venta")
     })
     @GetMapping("/punto-venta/get/{empresa}/{almacen}/{secuencia}")
     public ResponseEntity<PuntoVentaDTO> getPuntoVenta(@PathVariable Long empresa, @PathVariable Long almacen, @PathVariable Long secuencia) {

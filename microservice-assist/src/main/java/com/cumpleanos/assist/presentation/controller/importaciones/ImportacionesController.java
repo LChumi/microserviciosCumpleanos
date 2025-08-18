@@ -32,7 +32,6 @@ public class ImportacionesController {
     private final ISolicitudImportacionService solicitudImportacionService;
 
     @Operation(summary = "Carga de archivos para Solicitud de importaciones")
-    @Parameter(name = "file", description = "Archivo excel", required = true)
     @Parameter(name = "empresa", description = "Codigo empresa", required = true)
     @PostMapping(value = "/importaciones/excel/solicitud", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<ProductImportTransformer>> importExcel(@RequestParam("file") MultipartFile file,

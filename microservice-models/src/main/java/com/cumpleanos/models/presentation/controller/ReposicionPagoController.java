@@ -31,7 +31,7 @@ public class ReposicionPagoController {
     @Operation(summary = "Verifica si existe", description = "Verifica si existe informacion o no se encuentra registrado por id creposicion y empresa", tags = {"Reposicion Pago"})
     @Parameters({
             @Parameter(name = "id", description = "Codigo Creposicion", in = ParameterIn.PATH, required = true),
-            @Parameter(name = "empresa", description = "Codigo empresa", in = ParameterIn.PATH, required = true)
+            @Parameter(name = "emp", description = "Codigo empresa", in = ParameterIn.PATH, required = true)
     })
     @GetMapping("/reposicion/{id}/empresa/{emp}")
     public ResponseEntity<Boolean> getReposicionPago(@PathVariable Long id, @PathVariable Long emp){

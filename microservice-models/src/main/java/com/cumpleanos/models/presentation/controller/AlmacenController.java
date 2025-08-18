@@ -33,8 +33,8 @@ public class AlmacenController {
 
     @Operation(summary = "Obtener Almacen", description = "Obtener informacion de almacen por codigo y empresa")
     @Parameters({
-            @Parameter(name = "Empresa", description = "Codigo de empresa"),
-            @Parameter(name = "Codigo", description = "Codigo de almacen")
+            @Parameter(name = "empresa", description = "Codigo de empresa"),
+            @Parameter(name = "codigo", description = "Codigo de almacen")
     })
     @GetMapping("/almacen/get/{empresa}/{codigo}")
     public ResponseEntity<AlmacenDTO> getById(@PathVariable Long empresa, @PathVariable Long codigo){

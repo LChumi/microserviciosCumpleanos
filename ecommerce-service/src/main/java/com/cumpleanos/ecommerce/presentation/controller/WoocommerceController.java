@@ -36,6 +36,10 @@ public class WoocommerceController {
     }
 
     @Operation(summary = "Actualizacion de productos", description = "Actualiza el producto en Woocommerce")
+    @Parameters({
+            @Parameter(name = "sku", description = "Barra anterior del producto"),
+            @Parameter(name = "process", description = "Proceso 0 actualizar info producto, 1 actualizar el producto y la imagen de el")
+    })
     @PutMapping("/woocommerce/products/{sku}/{process}")
     public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductRequest request) {
         Map<String, Object> result = service.actualizarProducto(sku, process, request);
@@ -44,8 +48,8 @@ public class WoocommerceController {
 
     @Operation(summary = "Obtener Pedidos", description = "Obtener los pedidos generados en Woocommerce")
     @Parameters({
-            @Parameter(name = "date", description = "Fecha de inicio", in = ParameterIn.PATH),
-            @Parameter(name = "date2", description = "Fecha de fin ", in = ParameterIn.PATH)
+            @Parameter(name = "d1", description = "Fecha de inicio", in = ParameterIn.PATH),
+            @Parameter(name = "d2", description = "Fecha de fin ", in = ParameterIn.PATH)
     })
     @GetMapping("/woocommerce/orders-date/{d1}/{d2}")
     public ResponseEntity<List<PedidoWoocommerce>> getOrdersDate(@PathVariable LocalDate d1, @PathVariable LocalDate d2) {

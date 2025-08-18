@@ -22,9 +22,8 @@ public class FilesProcessingController {
 
     private final CoordinatorService service;
 
-    @Operation(summary = "Carga archivo", description = "Carga el archivo excel y procesa la informacion en el sistema", tags = {"Recepcion Comprobantes"})
+    @Operation(summary = "Carga archivo", description = "Carga el archivo xsl, csv, txt, json con informacion de Documentos emitidos del SRI y procesa la informacion en el sistema", tags = {"Recepcion Comprobantes"})
     @Parameters({
-            @Parameter(name = "Archivo", description = "Archivo xsl, csv, txt, json con informacion de Documentos emitidos del SRI"),
             @Parameter(name = "email", description = "Correo del usuario que realiza el proceso")
     })
     @PostMapping("/file")
@@ -37,7 +36,6 @@ public class FilesProcessingController {
     }
     @Operation(summary = "Carga data", description = "Se sube la informacion en texto", tags = {"Recepcion Comprobantes"})
     @Parameters({
-            @Parameter(name = "Data", description = "Texto xsl, csv, txt, json con informacion de Documentos emitidos del SRI"),
             @Parameter(name = "email", description = "Correo del usuario que realiza el proceso")
     })
     @PostMapping("/string")

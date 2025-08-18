@@ -33,7 +33,7 @@ public class JepFasterController {
 
     @Operation(summary = "Generar QR", description = "Genera un Qr con la informacion del pago del sistema a JepFaster", tags = {"JepFaster"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usrLiq", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/jep-faster/qr/{usrLiq}/{empresa}")
@@ -44,7 +44,7 @@ public class JepFasterController {
 
     @Operation(summary = "Validar Pago", description = "Loop que verifica si el webhook actualizo la informacion en el sistema", tags = {"JepFaster"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usrLiq", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/jep-faster/validar-pago/{usrLiq}/{empresa}")
@@ -55,7 +55,7 @@ public class JepFasterController {
 
     @Operation(summary = "Verifica Pago", description = "Consulta en el sistema si el Recibo fue aprobado")
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usrLiq", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/jep-faster/verificar-pago/{usrLiq}/{empresa}")

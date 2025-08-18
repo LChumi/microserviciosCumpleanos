@@ -25,7 +25,7 @@ public class ReciboPOSSyncController {
 
     @Operation(summary = "Procesar Pago COM", description = "Conecta y procesa el Pago via puerto COM", tags = {"DataPos"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/procesarPago/{usr}/{empresa}")
@@ -36,7 +36,7 @@ public class ReciboPOSSyncController {
 
     @Operation(summary = "Lista Puertos COM", description = "Lista los puertos COM del cliente", tags = {"DataPos"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/listarPuertos/{usr}/{empresa}")
@@ -47,7 +47,7 @@ public class ReciboPOSSyncController {
 
     @Operation(summary = "Anular Pago COM", description = "Anula los pagos a Datapos", tags = {"DataPos"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/anularPago/{usr}/{empresa}")
@@ -58,7 +58,7 @@ public class ReciboPOSSyncController {
 
     @Operation(summary = "Procesar Pago LAN", description = "Conecta y procesa el Pago via LAN", tags = {"DataPos"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/procesarPagoLan/{usr}/{empresa}")
@@ -69,7 +69,7 @@ public class ReciboPOSSyncController {
 
     @Operation(summary = "Anular Pago LAN", description = "Anula los pagos a Datapos vian LAN", tags = {"DataPos"})
     @Parameters({
-            @Parameter(name = "UsrLiq", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/anularPagoLan/{usr}/{empresa}")

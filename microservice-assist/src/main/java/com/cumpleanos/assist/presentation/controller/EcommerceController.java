@@ -43,7 +43,7 @@ public class EcommerceController {
     @Parameter(name = "id", description = "Codigo de producto")
     @Parameter(name = "empresa", description = "Codigo empresa")
     @Parameter(name = "sku", description = "Barra anterior del producto")
-    @Parameter(name = "process", description = "Proceso actualizacion de imagen o detalles")
+    @Parameter(name = "process", description = "Proceso actualizacion 0 actualiza producto , 1 actualiza producto e imagen ")
     @GetMapping("/ecommerce/product-update/{id}/{empresa}/{sku}/{process}")
     public ResponseEntity<ServiceResponse> getProductoUpdate(@PathVariable Long id, @PathVariable Long empresa, @PathVariable String sku, @PathVariable Integer process) {
         ServiceResponse response = serviceProductsEcommerce.updateProductEcommerce(id, sku, empresa, process);

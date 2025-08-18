@@ -27,7 +27,7 @@ public class UbicacionController {
 
     @Operation(summary = "Obtener ubicacaion ", description = "Obtiene la ubicacion por Nombre y empresa", tags = {"Ubicacion"})
     @Parameters({
-            @Parameter(name = "empresa", description = "Codigo de la empresa", in = ParameterIn.PATH),
+            @Parameter(name = "emp", description = "Codigo de la empresa", in = ParameterIn.PATH),
             @Parameter(name = "nombre", description = "Nombre de la ubicacion ", in = ParameterIn.PATH)
     })
     @GetMapping("/ubicacion/{emp}/{nombre}")
