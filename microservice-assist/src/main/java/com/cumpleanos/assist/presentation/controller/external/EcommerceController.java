@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.presentation.controller;
+package com.cumpleanos.assist.presentation.controller.external;
 
 import com.cumpleanos.assist.service.interfaces.ecommerce.IPedidosEcommerceService;
 import com.cumpleanos.assist.service.interfaces.ecommerce.IProductosEcommerceService;

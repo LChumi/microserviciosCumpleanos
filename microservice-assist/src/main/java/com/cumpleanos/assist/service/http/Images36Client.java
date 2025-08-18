@@ -17,4 +17,7 @@ public interface Images36Client {
 
     @GetMapping(value = "/logo/{empresaId}", produces = MediaType.ALL_VALUE)
     ResponseEntity<byte[]> getImageLogo(@PathVariable String empresaId);
+
+    @GetMapping("/producto/exist/{imageName}")
+    ResponseEntity<Short> getImageProductExist(@PathVariable String imageName);
 }

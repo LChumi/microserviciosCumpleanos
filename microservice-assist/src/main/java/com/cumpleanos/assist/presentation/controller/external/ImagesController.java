@@ -1,4 +1,4 @@
-package com.cumpleanos.assist.presentation.controller;
+package com.cumpleanos.assist.presentation.controller.external;
 
 import com.cumpleanos.assist.service.http.Images36Client;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +45,13 @@ public class ImagesController {
     @GetMapping("/images/producto/{imageName}")
     public ResponseEntity<Resource> getImageProduct(@PathVariable String imageName) {
         return buildImageResponse(service.getImageProduct(imageName), "producto");
+    }
+
+    @Operation(summary = "Valida si existe imagen en el producto")
+    @Parameter(name = "imageName", description = "Barra de Producto")
+    @GetMapping("/images/producto/exist/{imageName}")
+    public ResponseEntity<Short> imageExist(@PathVariable String imageName) {
+        return service.getImageProductExist(imageName);
     }
 
 
