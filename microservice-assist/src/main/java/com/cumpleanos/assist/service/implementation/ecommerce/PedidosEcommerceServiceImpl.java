@@ -44,7 +44,9 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
 
-        List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(today, yesterday);
+        log.info("Sincronizando los pedidos del Ecommerce con las siguientes fechas: fecha inicio: {} , fecha fin: {}",  today, yesterday);
+
+        List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(yesterday, today);
         if (pedidosWoo == null || pedidosWoo.isEmpty()) {
             return new ServiceResponse("No se encontraron pedidos en WhooCommerce", Boolean.TRUE);
         }else{

@@ -146,7 +146,10 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     @Override
     public List<PedidoWoocommerce> getOrdesrByDate(LocalDate fecha, LocalDate fechaFin) {
-        return wooCommerce.getOrdersByDate(properties.getClient(), properties.getSecretClient(), startOfDay(fecha), endOfDay(fechaFin));
+        String startOfDay = startOfDay(fecha);
+        String endOfDay = endOfDay(fechaFin);
+        log.info("Obteniendo los pedidos entre las siguientes fechas: fecha inicio: {} , fecha fin:{}", startOfDay, endOfDay);
+        return wooCommerce.getOrdersByDate(properties.getClient(), properties.getSecretClient(), startOfDay, endOfDay);
     }
 
     private Optional<Integer> uploadImage(ProcessType process, String sku) {

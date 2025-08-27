@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -60,10 +62,70 @@ public class ProcedureOracleRepository {
             query.setParameter("PN_BODEGA", bodega);
             query.setParameter("PN_CONCEPTO", concepto);
 
+            query.execute();
+
             return (BigInteger) query.getOutputParameterValue("PN_COMPROBANTE");
         } catch (Exception e) {
             log.error("Error al crear la cabecera :{}", e.getMessage(), e);
             throw new ProcedureNotCompletedException("Error al crear cabecera." + e.getMessage());
         }
     }
+
+    public Map<String, Long> generaUsrLiquidaWeb(Long empresa, Long codigo, Long liquida) {
+        Map<String, Long> resultado = new HashMap<>();
+
+        try {
+            StoredProcedureQuery query = em.createStoredProcedureQuery("PRG_USR.AST_WEB.ASIGNA_USR_LIQUIDA");
+
+            query.registerStoredProcedureParameter("PN_EMPRESA", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_CODIGO", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_LIQUIDA", Long.class, ParameterMode.IN);
+
+            query.registerStoredProcedureParameter("PN_USR_LIQUIDA", Long.class, ParameterMode.OUT);
+            query.registerStoredProcedureParameter("PN_ERROR", Long.class, ParameterMode.OUT);
+
+            query.setParameter("PN_EMPRESA", empresa);
+            query.setParameter("PN_CODIGO", codigo);
+            query.setParameter("PN_LIQUIDA", liquida);
+
+            query.execute();
+
+            resultado.put("usrLiquida", (Long) query.getOutputParameterValue("PN_USR_LIQUIDA"));
+            resultado.put("error", (Long) query.getOutputParameterValue("PN_ERROR"));
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error ejecutando procedimiento generar UsrLiquida", e);
+        }
+
+        return resultado;
+    }
+
+    public String generarReposicion(Long empresa, Long bodega, Long almacen, Long usrLiquida, String usr){
+        try{
+            StoredProcedureQuery query = em.createStoredProcedureQuery("PRG_USR.AST_WEB.GENERAR_REPOSICION_GENERAL");
+
+            query.registerStoredProcedureParameter("PN_EMPRESA", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_BODEGA", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_ALMACEN", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_USR_LIQUIDA", Long.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("PN_USUARIO", String.class, ParameterMode.IN);
+
+            query.registerStoredProcedureParameter("PN_CODIGO", BigInteger.class, ParameterMode.OUT);
+            query.registerStoredProcedureParameter("PN_VALOR", String.class, ParameterMode.OUT);
+
+            query.setParameter("PN_EMPRESA", empresa);
+            query.setParameter("PN_BODEGA", bodega);
+            query.setParameter("PN_ALMACEN", almacen);
+            query.setParameter("PN_USR_LIQUIDA", usrLiquida);
+            query.setParameter("PN_USUARIO", usr);
+
+            query.execute();
+
+            return (String)query.getOutputParameterValue("PN_VALOR");
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error ejecutando procedimiento generar Reposicion", e);
+        }
+    }
+
 }
