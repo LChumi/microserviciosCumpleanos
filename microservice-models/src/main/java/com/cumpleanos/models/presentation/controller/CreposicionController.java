@@ -1,5 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.models.service.interfaces.ICreposicionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,5 +39,17 @@ public class CreposicionController {
     @GetMapping("/creposicion/find/{referencia}/{empresa}")
     public ResponseEntity<Boolean> find(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa) {
         return ResponseEntity.ok(service.existCreposicionByEmpresaAndReferencia(referencia, empresa));
+    }
+
+    @Operation(summary = "Actualiza creposicion", description = "Finalizacion de un pedido generado por la web o reposicion")
+    @Parameters({
+            @Parameter(name = "empresa", description = "Codigo empresa"),
+            @Parameter(name = "codigo", description = "Codigo de Creposicion"),
+            @Parameter(name = "usrliq", description = "Usr liquida 0")
+    })
+    @GetMapping("/creposicion/update/{empresa}/{codigo}/{usrliq}")
+    public ResponseEntity<ServiceResponse> finalizarPedido (@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq) {
+        ServiceResponse result = service.finalizarPedido(empresa,codigo,usrliq);
+        return ResponseEntity.ok(result);
     }
 }

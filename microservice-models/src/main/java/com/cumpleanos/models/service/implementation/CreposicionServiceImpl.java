@@ -50,14 +50,15 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
         if (c != null && c.getTipo() != null && Arrays.asList(3, 4, 5).contains(c.getTipo())) {
             c.setEstado(1);
             c.setUsrLiquida(usrLiquida);
-
+            repository.save(c);
+            return new ServiceResponse("Pedido Actualizado", true);
         }
+        return new  ServiceResponse("No se encontro ningun resultado", false);
     }
 
     @Override
     public Creposicion save(Creposicion entity) {
         Long codigo = getNextSequenceValue(Sequence.CREPOSICIONCODIGO);
-1
         CreposicionId id = new CreposicionId();
         id.setCodigo(codigo);
         id.setEmpresa(entity.getId().getEmpresa());

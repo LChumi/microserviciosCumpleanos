@@ -278,6 +278,10 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         return clienteService.saveReposicionPago(pago);
     }
 
+    private void finalizarPedido(Creposicion c){
+
+    }
+
     private void enviarMailConfirmacion(int cantidadPedidos) {
 
         String asunto ="Pedidos Ecommerce";
