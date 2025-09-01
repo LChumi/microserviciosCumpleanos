@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Set;
@@ -125,6 +127,11 @@ public class ClientServiceImpl {
     public Boolean findCreposicionByReferencia(String referencia, Long empresa) {
         return HttpResponseHandler.handle(() -> modelsClient.findCreposicionByReferencia(referencia, empresa),
                 "Error al obtener el creposicion por referencia: " + referencia + " empresa: " + empresa);
+    }
+
+    public ServiceResponse finalizarPedido (Long empresa, Long codigo, Long usrliq){
+        return HttpResponseHandler.handle(() -> modelsClient.finalizarPedido(empresa, codigo, usrliq),
+                "Error al finalizar el pedido en la empresa: " + empresa);
     }
 
     //DREPOSICION

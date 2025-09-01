@@ -1,5 +1,7 @@
 package com.cumpleanos.assist.service.implementation.ecommerce;
 
+import com.cumpleanos.assist.persistence.repository.functions.ProcedureOracleRepository;
+import com.cumpleanos.assist.service.exception.ProcedureNotCompletedException;
 import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
@@ -36,8 +38,8 @@ import static com.cumpleanos.assist.utils.PedidoEcommerceUtil.StringToLocalDate;
 public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
     private final EcommerceClientServiceImpl ecommerceClient;
-    private final ClientServiceImpl clienteService;
-    private final ClientServiceImpl productoService;
+    private final ClientServiceImpl modelsService;
+    private final ProcedureOracleRepository procedureRepository;
 
     @Override
     public ServiceResponse getPedidosAndUpdateSystem() {
@@ -59,17 +61,17 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         int add =0;
         int count =0;
         for (PedidoWoocommerce pedido : pedidosWoo) {
-            Boolean exist = clienteService.findCreposicionByReferencia(String.valueOf(pedido.getId()), 2L);
+            Boolean exist = modelsService.findCreposicionByReferencia(String.valueOf(pedido.getId()), 2L);
             if (exist){
                 count++;
                 log.info("Pedido ya registrado omitiendo: {}", pedido.getId());
-                continue;
             } else {
                 log.info("Pedido no existe agregando al sistema idPedido: {} ...", pedido.getId());
                 createCpedido(pedido);
                 add++;
             }
         }
+
         if (add != 0){
             enviarMailConfirmacion(add);
         }
@@ -88,10 +90,10 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         Sistema sis = getSistema(bod.getEmpresa());
 
         Creposicion cabecera = generarCabecera(pedido, sis, alm, bod.getId(), cliId);
-        Creposicion c = clienteService.saveCreposicion(cabecera);
+        Creposicion c = modelsService.saveCreposicion(cabecera);
         if (c == null) {
             log.error("No se pudo crear el registro de creposicion");
-            return;
+            throw new EntityNotFoundException("No se pudo crear el registro de creposicion");
         } else {
             //Insertar Detalle de productos
             int detalles = crearDetalles(pedido.getLine_items(), c, pedido.getCustomer_note());
@@ -100,15 +102,17 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             } else {
                 ReposicionPago pagoCreado = crearFormaPago(c, pedido);
                 log.debug("Forma de pago registrada: {}", pagoCreado.getId());
+
             }
         }
+        finalizarPedido(c);
     }
 
     private Long findOrCreateCliente(String cedRuc, Ing shiping) {
-        ClienteRecord cliente = clienteService.getByRucAndEmpresa(cedRuc, (short) 1, 2L);
+        ClienteRecord cliente = modelsService.getByRucAndEmpresa(cedRuc, (short) 1, 2L);
         if (cliente == null) {
             log.info("CLiente no ecnontrado agregando {}....", cedRuc);
-            Long tipClient = clienteService.verificarJuridico(cedRuc);
+            Long tipClient = modelsService.verificarJuridico(cedRuc);
             Cliente cliEcom = createClienteEcommerce(cedRuc, shiping, 2L, tipClient);
             Long empresa = cliEcom.getId().getEmpresa();
 
@@ -121,7 +125,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
             addedCity(cliEcom,shiping.getCity(), empresa);
 
-            Cliente c = clienteService.saveCliente(cliEcom);
+            Cliente c = modelsService.saveCliente(cliEcom);
             return c.getId().getCodigo();
         }
         return cliente.codigo();
@@ -131,7 +135,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         Long ciudad = Optional.ofNullable(city)
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
-                .map(cy -> clienteService.getUbicaion(empresa, cy))
+                .map(cy -> modelsService.getUbicaion(empresa, cy))
                 .filter(list -> !list.isEmpty())
                 .map(list -> list.get(0))
                 .map(Ubicacion::getId)
@@ -142,7 +146,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private BodegaDTO findBodegaSis() {
-        BodegaDTO bodega = clienteService.getBodegaDTO(2L);
+        BodegaDTO bodega = modelsService.getBodegaDTO(2L);
         if (bodega == null) {
             throw new EntityNotFoundException("Bodega no encontrada");
         }
@@ -150,7 +154,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private Long findAlmacen(Long codigo, Long empresa) {
-        AlmacenDTO almacen = clienteService.getAlmacenDTO(codigo, empresa);
+        AlmacenDTO almacen = modelsService.getAlmacenDTO(codigo, empresa);
         if (almacen == null) {
             throw new EntityNotFoundException("Almacén no encontrada en la empresa: " + empresa);
         }
@@ -158,7 +162,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private Sistema getSistema(Long empresa) {
-        Sistema sis = clienteService.getEmpresa(empresa);
+        Sistema sis = modelsService.getEmpresa(empresa);
         if (sis == null) {
             throw new EntityNotFoundException("Empresa no encontrada");
         }
@@ -166,7 +170,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private Long obtenerParametro(Long empresa, ParametroEnum parametro) {
-        return clienteService.verificarParametro(
+        return modelsService.verificarParametro(
                 empresa,
                 parametro.getSigla(),
                 parametro.getSecuencia(),
@@ -179,7 +183,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         String nuevoIdBase = generarPrefix(nombre);
 
         //Lista de Ids existentes
-        List<String> ids = clienteService.getIdsClientes(nuevoIdBase, empresa);
+        List<String> ids = modelsService.getIdsClientes(nuevoIdBase, empresa);
 
         if (ids.isEmpty()) {
             return nuevoIdBase + "001";
@@ -217,7 +221,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             DiscountObs meta = DiscountObs.of(item.getMeta_data());
 
             /* obtener el producto por sku */
-            ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getSku(), c.getId().getEmpresa());
+            ProductoDTO producto = modelsService.getProductoByBarraAndEmpresa(item.getSku(), c.getId().getEmpresa());
             if (producto == null) {
                 errores.add("Producto no existe en el sistema: " + item.getSku());
                 continue;
@@ -228,13 +232,13 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             if (meta.hasDiscount()) {
                 detalle.setPorcDesc(meta.porcDesc());
                 detalle.setValDesc(meta.valDesc());
-                clienteService.saveDreposicion(detalle);
+                modelsService.saveDreposicion(detalle);
             }
 
             count++;
         }
         if (c.getTipoRetiro() == 1) {
-            ProductoDTO trans = productoService.getProductoByBarraAndEmpresa("TRANSIVA", c.getId().getEmpresa());
+            ProductoDTO trans = modelsService.getProductoByBarraAndEmpresa("TRANSIVA", c.getId().getEmpresa());
             crearDreposicion(id, c, trans, 1L, c.getTransporte(), c.getTransporte(), obs);
             count++;
         }
@@ -258,7 +262,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             dreposicion.setObservacion(observacion);
         }
 
-        return clienteService.saveDreposicion(dreposicion);
+        return modelsService.saveDreposicion(dreposicion);
     }
 
     private ReposicionPago crearFormaPago(Creposicion c, PedidoWoocommerce p) {
@@ -275,11 +279,32 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         pago.setNroDocum(String.valueOf(p.getId()));
         pago.setLote(formatDate(pago.getFecha()));
 
-        return clienteService.saveReposicionPago(pago);
+        return modelsService.saveReposicionPago(pago);
     }
 
     private void finalizarPedido(Creposicion c){
+        try{
+            log.info("Iniciando proceso de finalizacion de pedido");
+            Map<String, Long> response = procedureRepository.generaUsrLiquidaWeb(c.getId().getEmpresa(),c.getId().getCodigo(), 0L);
+            Long usrLiquida = response.get("usrLiquida");
+            Long error = response.get("error");
+            if (error == 1L){
+                throw new ProcedureNotCompletedException("Se econtro un error al generar la UsrLiquida");
+            }
 
+            String pedidoGenerado = procedureRepository.generarReposicion(c.getId().getEmpresa(), c.getBodegaId(),c.getAlmacenId(),usrLiquida, "WEB_USR");
+            if (pedidoGenerado == null){
+                throw new ProcedureNotCompletedException("NO se pudo finalizar el pedido ene l proceso ");
+            }
+
+            ServiceResponse creposicionResponse = modelsService.finalizarPedido(c.getId().getEmpresa(), c.getId().getCodigo(), usrLiquida);
+            if (!creposicionResponse.success()){
+                throw new EntityNotFoundException("No se pudo Actualizar el pedido");
+            }
+            log.info("Pedido finalizado : {}", pedidoGenerado);
+        } catch (Exception e){
+            log.error("Error al finalizar el pedido en empresa: {} codigo:{} ", c.getId().getEmpresa(), c.getId().getCodigo(), e);
+        }
     }
 
     private void enviarMailConfirmacion(int cantidadPedidos) {
@@ -297,7 +322,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                     asunto,
                     mensaje
             );
-            clienteService.enviarEmail(email);
+            modelsService.enviarEmail(email);
         }catch (Exception e){
             throw new MailSendException("No se pudo enviar el correo al usuario ");
         }
