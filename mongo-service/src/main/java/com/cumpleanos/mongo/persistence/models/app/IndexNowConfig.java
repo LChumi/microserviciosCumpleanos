@@ -1,17 +1,18 @@
 package com.cumpleanos.mongo.persistence.models.app;
 
+import lombok.AccessLevel;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Document(collection = "indexnow_configs")
 public class IndexNowConfig {
 
+    @Setter(AccessLevel.NONE)
     @Id
     private String Id;
 
@@ -21,8 +22,4 @@ public class IndexNowConfig {
     private String keyLocation;
 
     private List<String> urlList;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
