@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/mongo")
+@RequestMapping("mongo")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Tag(name = "Grupo Correos", description = "Documentacion API Gestor Grupo correos")
 public class EmailGroupsController {

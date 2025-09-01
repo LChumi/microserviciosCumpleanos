@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mongo")
+@RequestMapping("mongo")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Tag(name = "company", description = "Documentacion API Parametros empresa")
 public class CompanyParametersController {
