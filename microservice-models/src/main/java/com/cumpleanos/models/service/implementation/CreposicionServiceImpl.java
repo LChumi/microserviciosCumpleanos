@@ -8,12 +8,14 @@ import com.cumpleanos.models.service.interfaces.ICreposicionService;
 import com.cumpleanos.models.utils.enums.Sequence;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, CreposicionId> implements ICreposicionService {
@@ -41,19 +43,23 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     }
 
     @Override
-    public ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrLiquida) {
+    public ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrLiquida,Integer estado) {
         CreposicionId id = new CreposicionId();
         id.setEmpresa(empresa);
         id.setCodigo(codigo);
-        Creposicion c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro ningun resultado"));
+        Creposicion c = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado: empresa=" + empresa + ", código=" + codigo));
 
-        if (c != null && c.getTipo() != null && Arrays.asList(3, 4, 5).contains(c.getTipo())) {
-            c.setEstado(1);
-            c.setUsrLiquida(usrLiquida);
-            repository.save(c);
-            return new ServiceResponse("Pedido Actualizado", true);
+        if (estado == 0) {
+            return actualizarEstadoBasico(c, estado);
         }
-        return new  ServiceResponse("No se encontro ningun resultado", false);
+
+        if (tipoPermitido(c.getTipo())) {
+            return actualizarEstadoLiquida(c, estado, usrLiquida);
+        }
+
+        log.warn("Tipo de pedido no permitido para actualización - Tipo: {}", c.getTipo());
+        return new ServiceResponse("El tipo de pedido no permite esta operación", false);
     }
 
     @Override
@@ -66,4 +72,24 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
 
         return super.save(entity);
     }
+
+    private boolean tipoPermitido(Integer tipo) {
+        return tipo != null && Arrays.asList(3, 4, 5).contains(tipo);
+    }
+
+    private ServiceResponse actualizarEstadoBasico(Creposicion c, Integer estado) {
+        c.setEstado(estado);
+        repository.save(c);
+        log.info("Estado actualizado a 0 para pedido: {}", c.getId().getCodigo());
+        return new ServiceResponse("Estado del pedido actualizado a 0", true);
+    }
+
+    private ServiceResponse actualizarEstadoLiquida(Creposicion c, Integer estado, Long usrLiquida) {
+        c.setEstado(estado);
+        c.setUsrLiquida(usrLiquida);
+        repository.save(c);
+        log.info("Pedido actualizado con estado={} y usrLiquida={}", estado, usrLiquida);
+        return new ServiceResponse("Pedido actualizado correctamente", true);
+    }
+
 }

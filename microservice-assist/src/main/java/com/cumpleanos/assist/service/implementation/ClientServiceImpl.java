@@ -129,8 +129,8 @@ public class ClientServiceImpl {
                 "Error al obtener el creposicion por referencia: " + referencia + " empresa: " + empresa);
     }
 
-    public ServiceResponse finalizarPedido (Long empresa, Long codigo, Long usrliq){
-        return HttpResponseHandler.handle(() -> modelsClient.finalizarPedido(empresa, codigo, usrliq),
+    public ServiceResponse finalizarPedido (Long empresa, Long codigo, Long usrliq, Integer estado){
+        return HttpResponseHandler.handle(() -> modelsClient.finalizarPedido(empresa, codigo, usrliq, estado),
                 "Error al finalizar el pedido en la empresa: " + empresa);
     }
 

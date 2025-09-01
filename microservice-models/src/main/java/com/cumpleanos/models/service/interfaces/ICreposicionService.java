@@ -10,5 +10,5 @@ public interface ICreposicionService extends GenericService<Creposicion, Creposi
 
     Boolean existCreposicionByEmpresaAndReferencia(String referencia, Long empresa);
 
-    ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrLiquida);
+    ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrLiquida,Integer estado);
 }

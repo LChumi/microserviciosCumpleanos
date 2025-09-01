@@ -121,7 +121,13 @@ public class ProcedureOracleRepository {
 
             query.execute();
 
-            return (String)query.getOutputParameterValue("PN_VALOR");
+            Object codigoObj = query.getOutputParameterValue("PN_CODIGO");
+            log.info("Código generado: {}", codigoObj);
+
+            if (codigoObj == null){
+                log.error("Error al generar reposicion");
+            }
+            return (String) query.getOutputParameterValue("PN_VALOR");
 
         } catch (Exception e) {
             throw new RuntimeException("Error ejecutando procedimiento generar Reposicion", e);

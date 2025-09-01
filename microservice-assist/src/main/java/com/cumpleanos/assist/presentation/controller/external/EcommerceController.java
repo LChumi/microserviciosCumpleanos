@@ -50,11 +50,10 @@ public class EcommerceController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Sincronizacion de Stocks del sistema a ecommerce")
+    @Operation(summary = "Lista de productos a actualizar stocks")
     @GetMapping("/ecommerce/stock/view")
     public ResponseEntity<List<StockEcommerceV>> findAll() {
         List<StockEcommerceV> lista = serviceStockEcommerce.findAll();
-        log.info(lista.toString());
         return ResponseEntity.ok(lista);
     }
 

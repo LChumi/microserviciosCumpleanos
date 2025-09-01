@@ -108,8 +108,8 @@ public interface IModelsClient {
     @GetMapping("/models/creposicion/find/{referencia}/{empresa}")
     ResponseEntity<Boolean> findCreposicionByReferencia(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa);
 
-    @GetMapping("/creposicion/update/{empresa}/{codigo}/{usrliq}")
-    ResponseEntity<ServiceResponse> finalizarPedido (@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq);
+    @GetMapping("/models/creposicion/update/{empresa}/{codigo}/{usrliq}/{estado}")
+    ResponseEntity<ServiceResponse> finalizarPedido (@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado);
 
     //TODO servicio que viene del controlador ReposicionController
     @PostMapping("/models/reposicion/crear-pago")

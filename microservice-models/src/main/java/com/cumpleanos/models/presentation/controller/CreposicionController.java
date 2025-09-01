@@ -45,11 +45,12 @@ public class CreposicionController {
     @Parameters({
             @Parameter(name = "empresa", description = "Codigo empresa"),
             @Parameter(name = "codigo", description = "Codigo de Creposicion"),
-            @Parameter(name = "usrliq", description = "Usr liquida 0")
+            @Parameter(name = "usrliq", description = "Usr liquida"),
+            @Parameter(name = "estado", description = "Estado de creposicion")
     })
-    @GetMapping("/creposicion/update/{empresa}/{codigo}/{usrliq}")
-    public ResponseEntity<ServiceResponse> finalizarPedido (@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq) {
-        ServiceResponse result = service.finalizarPedido(empresa,codigo,usrliq);
+    @GetMapping("/creposicion/update/{empresa}/{codigo}/{usrliq}/{estado}")
+    public ResponseEntity<ServiceResponse> finalizarPedido (@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado) {
+        ServiceResponse result = service.finalizarPedido(empresa,codigo,usrliq, estado);
         return ResponseEntity.ok(result);
     }
 }

@@ -288,21 +288,23 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             Map<String, Long> response = procedureRepository.generaUsrLiquidaWeb(c.getId().getEmpresa(),c.getId().getCodigo(), 0L);
             Long usrLiquida = response.get("usrLiquida");
             Long error = response.get("error");
-            if (error == 1L){
+            if (error != null && error == 1L){
                 throw new ProcedureNotCompletedException("Se econtro un error al generar la UsrLiquida");
+            }
+
+            ServiceResponse creposicionResponse = modelsService.finalizarPedido(c.getId().getEmpresa(), c.getId().getCodigo(), usrLiquida, 1);
+            if (!creposicionResponse.success()){
+                throw new EntityNotFoundException("No se pudo Actualizar el pedido en la base de datos ");
             }
 
             String pedidoGenerado = procedureRepository.generarReposicion(c.getId().getEmpresa(), c.getBodegaId(),c.getAlmacenId(),usrLiquida, "WEB_USR");
             if (pedidoGenerado == null){
-                throw new ProcedureNotCompletedException("NO se pudo finalizar el pedido ene l proceso ");
+                throw new ProcedureNotCompletedException("No se pudo finalizar el pedido en el proceso generar Reposicion ");
             }
 
-            ServiceResponse creposicionResponse = modelsService.finalizarPedido(c.getId().getEmpresa(), c.getId().getCodigo(), usrLiquida);
-            if (!creposicionResponse.success()){
-                throw new EntityNotFoundException("No se pudo Actualizar el pedido");
-            }
             log.info("Pedido finalizado : {}", pedidoGenerado);
         } catch (Exception e){
+            ServiceResponse creposicionResponse = modelsService.finalizarPedido(c.getId().getEmpresa(), c.getId().getCodigo(), null, 0);
             log.error("Error al finalizar el pedido en empresa: {} codigo:{} ", c.getId().getEmpresa(), c.getId().getCodigo(), e);
         }
     }
@@ -318,7 +320,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
         try {
             EmailRecord email = new EmailRecord(
-                    new String[]{"amunoz@cumpleanos.com.ec"},
+                    new String[]{"amunoz@cumpleanos.com.ec", "iullauri@cumpleanos.com.ec"},
                     asunto,
                     mensaje
             );
