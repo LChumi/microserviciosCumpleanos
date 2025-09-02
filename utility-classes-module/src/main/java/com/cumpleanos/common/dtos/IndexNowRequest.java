@@ -8,8 +8,6 @@ import java.util.List;
 @Data
 @Builder
 public class IndexNowRequest {
-
-    private String appName;
     private String host;
     private String key;
     private String keyLocation;
