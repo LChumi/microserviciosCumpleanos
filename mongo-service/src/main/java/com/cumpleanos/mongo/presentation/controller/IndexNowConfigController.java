@@ -1,5 +1,6 @@
 package com.cumpleanos.mongo.presentation.controller;
 
+import com.cumpleanos.common.dtos.IndexNowRequest;
 import com.cumpleanos.mongo.persistence.models.app.IndexNowConfig;
 import com.cumpleanos.mongo.service.interfaces.IIndexNowConfigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +21,7 @@ public class IndexNowConfigController {
     private final IIndexNowConfigService service;
 
     @Operation(summary = "Crear app", description = "Crear app para indexacion")
-    @PostMapping("/save/index-now")
+    @PostMapping("/index/save/index-now")
     public ResponseEntity<IndexNowConfig>  saveIndexNowConfig(@RequestBody IndexNowConfig indexNowConfig) {
         return ResponseEntity.ok(service.save(indexNowConfig));
     }
@@ -30,8 +31,8 @@ public class IndexNowConfigController {
             @Parameter(name = "name", description = "Nombre de la app"),
             @Parameter(name = "route", description = "Nueva ruta a agregar")
     })
-    @PutMapping("/add/route/{name}/{route}")
-    public ResponseEntity<IndexNowConfig>  addRoute(@PathVariable String name, @PathVariable String route) {
+    @PutMapping("/index/add/route/{name}/{route}")
+    public ResponseEntity<IndexNowRequest>  addRoute(@PathVariable String name, @PathVariable String route) {
         return ResponseEntity.ok(service.addRoute(name, route));
     }
 
@@ -40,8 +41,15 @@ public class IndexNowConfigController {
             @Parameter(name = "name", description = "Nombre de la app"),
             @Parameter(name = "route", description = "Nueva ruta a quitar")
     })
-    @DeleteMapping("/remove/route/{name}/{route}")
-    public ResponseEntity<IndexNowConfig>  removeRoute(@PathVariable String name, @PathVariable String route) {
+    @DeleteMapping("/index/remove/route/{name}/{route}")
+    public ResponseEntity<IndexNowRequest>  removeRoute(@PathVariable String name, @PathVariable String route) {
         return ResponseEntity.ok(service.removeRoute(name, route));
+    }
+
+    @Operation(summary = "Buscar por nombre", description = "Buscar por nombre de App")
+    @Parameter(name = "name", description = "Nombre de la app")
+    @GetMapping("/index/get/{name}")
+    public ResponseEntity<IndexNowRequest>  get(@PathVariable String name) {
+        return ResponseEntity.ok(service.getByAppName(name));
     }
 }

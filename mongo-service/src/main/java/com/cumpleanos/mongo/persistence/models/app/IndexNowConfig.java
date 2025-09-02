@@ -17,7 +17,7 @@ public class IndexNowConfig {
     private String Id;
 
     private String appName;
-    private String domain;
+    private String host;
     private String key;
     private String keyLocation;
 

@@ -1,5 +1,6 @@
 package com.cumpleanos.mongo.service.implementations;
 
+import com.cumpleanos.common.dtos.IndexNowRequest;
 import com.cumpleanos.mongo.persistence.models.app.IndexNowConfig;
 import com.cumpleanos.mongo.persistence.repository.IndexNowConfigRepository;
 import com.cumpleanos.mongo.service.exceptions.DocumentNotFoundException;
@@ -26,13 +27,15 @@ public class IndexNowCongServiceImpl extends GenericServiceImpl<IndexNowConfig, 
     }
 
     @Override
-    public IndexNowConfig getByAppName(String appName) {
-        return repository.getByAppName(appName)
+    public IndexNowRequest getByAppName(String appName) {
+        IndexNowConfig response = repository.getByAppName(appName)
                 .orElseThrow(() -> new DocumentNotFoundException("App Not Found"));
+
+        return buildResponse(response);
     }
 
     @Override
-    public IndexNowConfig addRoute(String appName, String route) {
+    public IndexNowRequest addRoute(String appName, String route) {
         IndexNowConfig app = repository.getByAppName(appName).orElseThrow(() -> new DocumentNotFoundException("App Not Found"));
 
         Set<String> existingRoutes = new HashSet<>(app.getUrlList());
@@ -42,11 +45,12 @@ public class IndexNowCongServiceImpl extends GenericServiceImpl<IndexNowConfig, 
         }
 
         app.getUrlList().add(route);
-        return repository.save(app);
+        IndexNowConfig response = repository.save(app);
+        return buildResponse(response);
     }
 
     @Override
-    public IndexNowConfig removeRoute(String appName, String route) {
+    public IndexNowRequest removeRoute(String appName, String route) {
         IndexNowConfig app = repository.getByAppName(appName).orElseThrow(() -> new DocumentNotFoundException("App Not Found"));
 
         boolean removed = app.getUrlList().removeIf(url -> url.equals(route));
@@ -55,6 +59,18 @@ public class IndexNowCongServiceImpl extends GenericServiceImpl<IndexNowConfig, 
             throw new IllegalArgumentException("Route Not Found:" + route);
         }
 
-        return repository.save(app);
+        IndexNowConfig response = repository.save(app);
+
+        return buildResponse(response);
+    }
+
+    private IndexNowRequest buildResponse(IndexNowConfig config) {
+        return IndexNowRequest.builder()
+                .appName(config.getAppName())
+                .host(config.getHost())
+                .key(config.getKey())
+                .keyLocation(config.getKeyLocation())
+                .urlList(config.getUrlList())
+                .build();
     }
 }

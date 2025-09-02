@@ -40,7 +40,8 @@ public class OpenAPIConfiguration {
                         "ecommerce",
                         "images",
                         "list-ccomprobav",
-                        "favoritos"
+                        "favoritos",
+                        "index"
                 );
         return modules.stream()
                 .map(module -> GroupedOpenApi.builder()
