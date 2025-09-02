@@ -25,7 +25,7 @@ public class IndexNowService {
         String responseIndex = HttpResponseHandler.handle(() -> indexNowClient.indexNow(response),
                 "Error al enviar la indexacion" +  appName);
 
-        if (response == null) {
+        if (responseIndex == null) {
             log.warn("No se pudo obtener el index para la app: {}", appName);
             return new ServiceResponse("No se pudo obtener el index para la app "+ appName, false);
         }
