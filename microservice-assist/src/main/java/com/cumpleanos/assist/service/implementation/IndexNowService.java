@@ -8,6 +8,7 @@ import com.cumpleanos.common.records.ServiceResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -19,19 +20,20 @@ public class IndexNowService {
     private final MongoClient  mongoClient;
 
     public ServiceResponse indexNow(String appName){
-        IndexNowRequest response = HttpResponseHandler.handle(() -> mongoClient.getIndex(appName),
+        IndexNowRequest request = HttpResponseHandler.handle(() -> mongoClient.getIndex(appName),
                 "Error al obtener el index por App: " + appName);
 
-        String responseIndex = HttpResponseHandler.handle(() -> indexNowClient.indexNow(response),
-                "Error al enviar la indexacion" +  appName);
+        ResponseEntity<String> response = indexNowClient.indexNow(request);
+        log.info("Status: {}", response.getStatusCode());
+        log.info("Body: {}", response.getBody());
 
-        if (responseIndex == null) {
-            log.warn("No se pudo obtener el index para la app: {}", appName);
-            return new ServiceResponse("No se pudo obtener el index para la app "+ appName, false);
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            log.warn("No se pudo obtener el indexar para la app: {}", appName);
+            return new ServiceResponse("No se pudo obtener el index para la app "+ appName + " codigo: " + response.getStatusCode(), false);
         }
 
         return new ServiceResponse(
-                responseIndex, true
+                "Index estado "+ response.getStatusCode(), true
         );
     }
 }
