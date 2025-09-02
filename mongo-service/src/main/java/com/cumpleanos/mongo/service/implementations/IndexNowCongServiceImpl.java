@@ -66,7 +66,6 @@ public class IndexNowCongServiceImpl extends GenericServiceImpl<IndexNowConfig, 
 
     private IndexNowRequest buildResponse(IndexNowConfig config) {
         return IndexNowRequest.builder()
-                .appName(config.getAppName())
                 .host(config.getHost())
                 .key(config.getKey())
                 .keyLocation(config.getKeyLocation())
