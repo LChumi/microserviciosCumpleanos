@@ -1,17 +1,19 @@
 package com.cumpleanos.models.presentation.controller;
 
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.models.service.interfaces.IDfacturaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
 
 @RestController
 @RequestMapping("models")
@@ -27,5 +29,16 @@ public class DfacturaController {
     public ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura) {
         Dfactura nuevoDetalle = service.save(dfactura);
         return ResponseEntity.ok(nuevoDetalle != null);
+    }
+
+    @Operation(summary = "Obtener Dfactura ", description = "Obtiene el detalle de la factura si existe el producto y el comprobante cco")
+    @Parameters({
+            @Parameter(name = "cco", description = "Codigo del comprobante"),
+            @Parameter(name = "producto", description = "Codigo del producto")
+    })
+    @GetMapping("/dfactura/get/{cco}/{producto}/")
+    public ResponseEntity<ServiceResponse> getDetalle(@PathVariable BigInteger cco, @PathVariable Long producto) {
+        ServiceResponse response = service.validateQuantities(cco, producto);
+        return ResponseEntity.ok(response);
     }
 }

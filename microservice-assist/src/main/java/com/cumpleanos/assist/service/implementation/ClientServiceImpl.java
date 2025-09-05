@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
 
@@ -70,6 +71,11 @@ public class ClientServiceImpl {
     public Boolean newDfactura(Dfactura d) {
         return HttpResponseHandler.handle(() -> modelsClient.create(d),
                 "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
+    }
+
+    public ServiceResponse getDetalleProducto(BigInteger cco, Long producto){
+        return HttpResponseHandler.handle(() -> modelsClient.getDetalle(cco, producto),
+                "Error al consultar el detalle de la factura ");
     }
 
     //CLIENTE

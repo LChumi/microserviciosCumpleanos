@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
@@ -273,6 +274,7 @@ public class Dfactura {
 
     @Column(name = "DFAC_PRODUCTO")
     private Long dfacProducto;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DFAC_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
@@ -298,6 +300,9 @@ public class Dfactura {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
+
+    @Column(name = "DFAC_CFAC_COMPROBA")
+    private BigInteger facComproba;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({

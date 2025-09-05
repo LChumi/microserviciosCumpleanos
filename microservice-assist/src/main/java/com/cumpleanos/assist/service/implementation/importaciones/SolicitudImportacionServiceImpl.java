@@ -37,7 +37,6 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final IProductoTempService productoTempService;
     private final ClientServiceImpl productoService;
 
-
     @Override
     public SciResponse procesarSolicitud(SolicitudRequestDTO request) {
 

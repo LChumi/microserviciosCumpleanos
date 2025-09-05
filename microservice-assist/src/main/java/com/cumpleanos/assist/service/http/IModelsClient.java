@@ -9,6 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
 
@@ -47,6 +48,9 @@ public interface IModelsClient {
     //TODO servicio que viene del controlador DfacturaController
     @PostMapping("/models/dfactura/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
+
+    @GetMapping("/models/dfactura/get/{cco}/{producto}/")
+    ResponseEntity<ServiceResponse> getDetalle(@PathVariable BigInteger cco, @PathVariable Long producto);
 
     //Todo servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
