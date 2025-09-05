@@ -28,7 +28,7 @@ public class CcomprobaController {
     })
     @GetMapping("/cco/update/referencia/{cco}/{ref}/{empresa}")
     public ResponseEntity<Boolean> updateReferencia(@PathVariable BigInteger cco, @PathVariable BigInteger ref, @PathVariable Long empresa) {
-        Boolean  response = service.addReference(cco, ref, empresa);
+        Boolean response = service.addReference(cco, ref, empresa);
         return ResponseEntity.ok(response);
     }
 }

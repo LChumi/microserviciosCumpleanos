@@ -46,23 +46,23 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
 
-        log.info("Sincronizando los pedidos del Ecommerce con las siguientes fechas: fecha inicio: {} , fecha fin: {}",  today, yesterday);
+        log.info("Sincronizando los pedidos del Ecommerce con las siguientes fechas: fecha inicio: {} , fecha fin: {}", today, yesterday);
 
         List<PedidoWoocommerce> pedidosWoo = ecommerceClient.getOrdesrByDate(yesterday, today);
         if (pedidosWoo == null || pedidosWoo.isEmpty()) {
             return new ServiceResponse("No se encontraron pedidos en WhooCommerce", Boolean.TRUE);
-        }else{
-            String response =validatePedido(pedidosWoo);
+        } else {
+            String response = validatePedido(pedidosWoo);
             return new ServiceResponse(response, Boolean.TRUE);
         }
     }
 
-    private String validatePedido(List<PedidoWoocommerce> pedidosWoo ){
-        int add =0;
-        int count =0;
+    private String validatePedido(List<PedidoWoocommerce> pedidosWoo) {
+        int add = 0;
+        int count = 0;
         for (PedidoWoocommerce pedido : pedidosWoo) {
             Boolean exist = modelsService.findCreposicionByReferencia(String.valueOf(pedido.getId()), 2L);
-            if (exist){
+            if (exist) {
                 count++;
                 log.info("Pedido ya registrado omitiendo: {}", pedido.getId());
             } else {
@@ -72,7 +72,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             }
         }
 
-        if (add != 0){
+        if (add != 0) {
             enviarMailConfirmacion(add);
         }
         return "Pedidos totales:" + pedidosWoo.size() + " agregados al sistema:" + add + " existentes:" + count;
@@ -123,7 +123,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
             cliEcom.setCliAgente(obtenerParametro(empresa, ParametroEnum.CXC_AGENTE_ECOMMERCE_CLIENTES));
             cliEcom.setCliListapre(obtenerParametro(empresa, ParametroEnum.CXC_LISTAPRE_CLIENTES));
 
-            addedCity(cliEcom,shiping.getCity(), empresa);
+            addedCity(cliEcom, shiping.getCity(), empresa);
 
             Cliente c = modelsService.saveCliente(cliEcom);
             return c.getId().getCodigo();
@@ -282,28 +282,28 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
         return modelsService.saveReposicionPago(pago);
     }
 
-    private void finalizarPedido(Creposicion c){
-        try{
+    private void finalizarPedido(Creposicion c) {
+        try {
             log.info("Iniciando proceso de finalizacion de pedido");
-            Map<String, Long> response = procedureRepository.generaUsrLiquidaWeb(c.getId().getEmpresa(),c.getId().getCodigo(), 0L);
+            Map<String, Long> response = procedureRepository.generaUsrLiquidaWeb(c.getId().getEmpresa(), c.getId().getCodigo(), 0L);
             Long usrLiquida = response.get("usrLiquida");
             Long error = response.get("error");
-            if (error != null && error == 1L){
+            if (error != null && error == 1L) {
                 throw new ProcedureNotCompletedException("Se econtro un error al generar la UsrLiquida");
             }
 
             ServiceResponse creposicionResponse = modelsService.finalizarPedido(c.getId().getEmpresa(), c.getId().getCodigo(), usrLiquida, 1);
-            if (!creposicionResponse.success()){
+            if (!creposicionResponse.success()) {
                 throw new EntityNotFoundException("No se pudo Actualizar el pedido en la base de datos ");
             }
 
-            String pedidoGenerado = procedureRepository.generarReposicion(c.getId().getEmpresa(), c.getBodegaId(),c.getAlmacenId(),usrLiquida, "WEB_USR");
-            if (pedidoGenerado == null){
+            String pedidoGenerado = procedureRepository.generarReposicion(c.getId().getEmpresa(), c.getBodegaId(), c.getAlmacenId(), usrLiquida, "WEB_USR");
+            if (pedidoGenerado == null) {
                 throw new ProcedureNotCompletedException("No se pudo finalizar el pedido en el proceso generar Reposicion ");
             }
 
             log.info("Pedido finalizado : {}", pedidoGenerado);
-        } catch (Exception e){
+        } catch (Exception e) {
             ServiceResponse creposicionResponse = modelsService.finalizarPedido(c.getId().getEmpresa(), c.getId().getCodigo(), null, 0);
             log.error("Error al finalizar el pedido en empresa: {} codigo:{} ", c.getId().getEmpresa(), c.getId().getCodigo(), e);
         }
@@ -311,9 +311,9 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
     private void enviarMailConfirmacion(int cantidadPedidos) {
 
-        String asunto ="Pedidos Ecommerce";
+        String asunto = "Pedidos Ecommerce";
 
-        Map<String , String> variables = new HashMap<>();
+        Map<String, String> variables = new HashMap<>();
         variables.put("cantidadPedidos", String.valueOf(cantidadPedidos));
 
         String mensaje = MailTemplateLoader.loadAndFillTemplate("pedidos-ecommerce.html", variables);
@@ -325,7 +325,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                     mensaje
             );
             modelsService.enviarEmail(email);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new MailSendException("No se pudo enviar el correo al usuario ");
         }
     }

@@ -31,7 +31,7 @@ public class ClientServiceImpl {
     //TODO servicio de micorservicio models
 
     //Ccomproba
-    public Boolean updateReferencia(BigInteger cco ,BigInteger ccoRef , @PathVariable Long empresa) {
+    public Boolean updateReferencia(BigInteger cco, BigInteger ccoRef, @PathVariable Long empresa) {
         return HttpResponseHandler.handle(() -> modelsClient.updateReferencia(cco, ccoRef, empresa),
                 "Error al agregar la referencia del comprobante");
     }
@@ -80,7 +80,7 @@ public class ClientServiceImpl {
                 "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
     }
 
-    public ServiceResponse getDetalleProducto(BigInteger cco, Long producto){
+    public ServiceResponse getDetalleProducto(BigInteger cco, Long producto) {
         return HttpResponseHandler.handle(() -> modelsClient.getDetalle(cco, producto),
                 "Error al consultar el detalle de la factura ");
     }
@@ -142,7 +142,7 @@ public class ClientServiceImpl {
                 "Error al obtener el creposicion por referencia: " + referencia + " empresa: " + empresa);
     }
 
-    public ServiceResponse finalizarPedido (Long empresa, Long codigo, Long usrliq, Integer estado){
+    public ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrliq, Integer estado) {
         return HttpResponseHandler.handle(() -> modelsClient.finalizarPedido(empresa, codigo, usrliq, estado),
                 "Error al finalizar el pedido en la empresa: " + empresa);
     }
@@ -175,7 +175,7 @@ public class ClientServiceImpl {
                 "Error al actualizar el producto en la empresa: " + p.getEmpresa());
     }
 
-    public String getMatches(Long empresa, String barcode, String item){
+    public String getMatches(Long empresa, String barcode, String item) {
         return HttpResponseHandler.handle(() -> modelsClient.getMatches(empresa, barcode, item),
                 "Error al obtener las coincidencias");
     }

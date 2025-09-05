@@ -56,7 +56,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
             //Ingresar datos tabla Intermediaria
 
-            for (ProductImportTransformer item: request.getItems()) {
+            for (ProductImportTransformer item : request.getItems()) {
                 ServiceResponse response = new ServiceResponse(null, false);
 
                 log.info("Buscando informacion del Producto en el sistema ");
@@ -64,7 +64,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                     ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
                     if (temporal != null) {
                         response = productoService.getDetalleProducto(request.getCcoRef(), temporal.getCodigo());
-                    }else{
+                    } else {
                         log.error("Error el producto no existe con el codigo de fabrica {} y no dispone de barra producto {}", item.getCodFabrica(), item.getNombre());
                     }
 
@@ -72,15 +72,15 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                     ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), request.getEmpresa());
                     if (producto != null) {
                         response = productoService.getDetalleProducto(request.getCcoRef(), producto.codigo());
-                    }else{
-                        log.error("Error el producto no existe {} con el id {}", item.getNombre() , item.getId());
+                    } else {
+                        log.error("Error el producto no existe {} con el id {}", item.getNombre(), item.getId());
                     }
                 }
 
-                if (response.success()){
+                if (response.success()) {
                     log.info("El producto se encuentra regisrtado en el detalle del SCI {}", response.message());
                     Boolean updateRef = productoService.updateReferencia(cabecera.cco(), request.getCcoRef(), request.getEmpresa());
-                    if (updateRef){
+                    if (updateRef) {
                         log.info("Detalle actualizado con la referencia");
                     }
                 }
@@ -129,10 +129,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         Map<String, ProductImportTransformer> agrupados = new HashMap<>();
 
         log.info("Validando duplicidad de productos y sumando sus valores.....");
-        for (ProductImportTransformer item: items){
+        for (ProductImportTransformer item : items) {
             String clave = item.getItem();
 
-            if (agrupados.containsKey(clave)){
+            if (agrupados.containsKey(clave)) {
                 log.warn("Producto duplicado sumando sus cantidades ");
                 ProductImportTransformer existente = agrupados.get(clave);
                 existente.setCantidad(existente.getCantidad() + item.getCantidad());

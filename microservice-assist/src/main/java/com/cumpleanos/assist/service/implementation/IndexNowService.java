@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class IndexNowService {
 
-    private final IndexNowClient  indexNowClient;
-    private final MongoClient  mongoClient;
+    private final IndexNowClient indexNowClient;
+    private final MongoClient mongoClient;
 
-    public ServiceResponse indexNow(String appName){
+    public ServiceResponse indexNow(String appName) {
         IndexNowRequest request = HttpResponseHandler.handle(() -> mongoClient.getIndex(appName),
                 "Error al obtener el index por App: " + appName);
 
@@ -29,11 +29,11 @@ public class IndexNowService {
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             log.warn("No se pudo obtener el indexar para la app: {}", appName);
-            return new ServiceResponse("No se pudo obtener el index para la app "+ appName + " codigo: " + response.getStatusCode(), false);
+            return new ServiceResponse("No se pudo obtener el index para la app " + appName + " codigo: " + response.getStatusCode(), false);
         }
 
         return new ServiceResponse(
-                "Index estado "+ response.getStatusCode(), true
+                "Index estado " + response.getStatusCode(), true
         );
     }
 }

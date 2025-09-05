@@ -100,8 +100,8 @@ public class ProcedureOracleRepository {
         return resultado;
     }
 
-    public String generarReposicion(Long empresa, Long bodega, Long almacen, Long usrLiquida, String usr){
-        try{
+    public String generarReposicion(Long empresa, Long bodega, Long almacen, Long usrLiquida, String usr) {
+        try {
             StoredProcedureQuery query = em.createStoredProcedureQuery("PRG_USR.AST_WEB.GENERAR_REPOSICION_GENERAL");
 
             query.registerStoredProcedureParameter("PN_EMPRESA", Long.class, ParameterMode.IN);
@@ -124,7 +124,7 @@ public class ProcedureOracleRepository {
             Object codigoObj = query.getOutputParameterValue("PN_CODIGO");
             log.info("Código generado: {}", codigoObj);
 
-            if (codigoObj == null){
+            if (codigoObj == null) {
                 log.error("Error al generar reposicion");
             }
             return (String) query.getOutputParameterValue("PN_VALOR");
