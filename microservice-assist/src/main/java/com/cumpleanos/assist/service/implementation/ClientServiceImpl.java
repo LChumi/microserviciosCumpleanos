@@ -29,6 +29,13 @@ public class ClientServiceImpl {
     private final IEmailClient emailClient;
 
     //TODO servicio de micorservicio models
+
+    //Ccomproba
+    public Boolean updateReferencia(BigInteger cco ,BigInteger ccoRef , @PathVariable Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.updateReferencia(cco, ccoRef, empresa),
+                "Error al agregar la referencia del comprobante");
+    }
+
     //USUARIOS
     public Usuario getUsuario(String usrId) {
         return HttpResponseHandler.handle(() -> modelsClient.findByUsrId(usrId),

@@ -59,6 +59,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             for (ProductImportTransformer item: request.getItems()) {
                 ServiceResponse response = new ServiceResponse(null, false);
 
+                log.info("Buscando informacion del Producto en el sistema ");
                 if (item.getId() == null) {
                     ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
                     if (temporal != null) {
@@ -78,6 +79,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
                 if (response.success()){
                     log.info("El producto se encuentra regisrtado en el detalle del SCI {}", response.message());
+                    Boolean updateRef = productoService.updateReferencia(cabecera.cco(), request.getCcoRef(), request.getEmpresa());
+                    if (updateRef){
+                        log.info("Detalle actualizado con la referencia");
+                    }
                 }
 
             }

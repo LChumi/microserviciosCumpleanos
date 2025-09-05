@@ -16,6 +16,10 @@ import java.util.Set;
 @FeignClient(name = "models-service")
 public interface IModelsClient {
 
+    //TODO servicio que viene del controlador Ccomproba
+    @GetMapping("/models/cco/update/referencia/{cco}/{ref}/{empresa}")
+    ResponseEntity<Boolean> updateReferencia(@PathVariable BigInteger cco, @PathVariable BigInteger ref, @PathVariable Long empresa);
+
     //TODO servicio que viene del controlador AuthController
     @GetMapping("/models/usuario/{userId}")
     ResponseEntity<Usuario> findByUsrId(@PathVariable String userId);
