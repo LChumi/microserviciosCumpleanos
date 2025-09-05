@@ -33,6 +33,7 @@ public class OpenAPIConfiguration {
         List<String> modules = List
                 .of(
                         "dmovprod",
+                        "cco",
                         "importaciones",
                         "improd-trancito",
                         "acceso-rol",

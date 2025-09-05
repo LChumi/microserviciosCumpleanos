@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
@@ -202,6 +203,9 @@ public class Ccomproba {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ccomproba cierre;
+
+    @Column(name = "CCO_REF_COMPROBA")
+    private BigInteger refComproba;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({

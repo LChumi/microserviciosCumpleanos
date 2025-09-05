@@ -34,4 +34,16 @@ public class CcomprobaServiceImpl extends GenericServiceImpl<Ccomproba, Ccomprob
         repository.save(c);
         return true;
     }
+
+    @Override
+    public Boolean addReference(BigInteger cco, BigInteger ccoRef, Long empresa) {
+        CcomprobaId id = new CcomprobaId();
+        id.setCodigo(cco);
+        id.setEmpresa(empresa);
+
+        Ccomproba c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el comprobante "));
+        c.setRefComproba(ccoRef);
+        repository.save(c);
+        return true;
+    }
 }
