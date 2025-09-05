@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,4 +38,6 @@ public class SolicitudRequestDTO {
 
     @NotEmpty
     private List<ProductImportTransformer> items;
+
+    private BigInteger ccoRef;
 }

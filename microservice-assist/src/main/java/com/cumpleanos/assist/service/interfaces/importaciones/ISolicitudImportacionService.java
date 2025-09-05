@@ -7,4 +7,6 @@ public interface ISolicitudImportacionService {
 
     SciResponse procesarSolicitud(SolicitudRequestDTO solicitudRequestDTO);
 
+    SciResponse procesarOrden(SolicitudRequestDTO solicitudRequestDTO);
+
 }

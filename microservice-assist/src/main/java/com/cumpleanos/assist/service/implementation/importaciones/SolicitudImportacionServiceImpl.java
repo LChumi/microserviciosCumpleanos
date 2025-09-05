@@ -12,6 +12,7 @@ import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.importaciones.ISolicitudImportacionService;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.ProductoTemp;
 import com.cumpleanos.core.models.ids.DfacturaId;
@@ -41,27 +42,73 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     public SciResponse procesarSolicitud(SolicitudRequestDTO request) {
 
         try {
-            BigInteger cco = procedureRepository.getCabeceraIdByProcedure(
-                    request.getEmpresa(),
-                    request.getTipodoc(),
-                    request.getAlmacen(),
-                    request.getPventa(),
-                    request.getSigla(),
-                    request.getProveedor(),
-                    request.getUsuario(),
-                    request.getFecha(),
-                    request.getModulo(),
-                    request.getBodega(),
-                    request.getObservacion()
-            );
-            createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
-            String comprobante = getComprobanteCreado(request.getEmpresa(), cco);
-            return new SciResponse(cco, comprobante);
+            return generarCabeceraYComprobante(request);
         } catch (ProcedureNotCompletedException e) {
             log.error("Error al generar la cabecera SCI: {}", e.getMessage(), e);
             throw e;
         }
     }
+
+    @Override
+    public SciResponse procesarOrden(SolicitudRequestDTO request) {
+        try {
+            SciResponse cabecera = generarCabeceraYComprobante(request);
+
+            //Ingresar datos tabla Intermediaria
+
+            for (ProductImportTransformer item: request.getItems()) {
+                ServiceResponse response = new ServiceResponse(null, false);
+
+                if (item.getId() == null) {
+                    ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
+                    if (temporal != null) {
+                        response = productoService.getDetalleProducto(request.getCcoRef(), temporal.getCodigo());
+                    }else{
+                        log.error("Error el producto no existe con el codigo de fabrica {} y no dispone de barra producto {}", item.getCodFabrica(), item.getNombre());
+                    }
+
+                } else {
+                    ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), request.getEmpresa());
+                    if (producto != null) {
+                        response = productoService.getDetalleProducto(request.getCcoRef(), producto.codigo());
+                    }else{
+                        log.error("Error el producto no existe {} con el id {}", item.getNombre() , item.getId());
+                    }
+                }
+
+                if (response.success()){
+                    log.info("El producto se encuentra regisrtado en el detalle del SCI {}", response.message());
+                }
+
+            }
+
+
+            return new SciResponse(cabecera.cco(), cabecera.comprobante());
+        } catch (ProcedureNotCompletedException e) {
+            log.error("Error al generar la cabecera SCI: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    private SciResponse generarCabeceraYComprobante(SolicitudRequestDTO request) {
+        BigInteger cco = procedureRepository.getCabeceraIdByProcedure(
+                request.getEmpresa(),
+                request.getTipodoc(),
+                request.getAlmacen(),
+                request.getPventa(),
+                request.getSigla(),
+                request.getProveedor(),
+                request.getUsuario(),
+                request.getFecha(),
+                request.getModulo(),
+                request.getBodega(),
+                request.getObservacion()
+        );
+        createDfacturas(request.getEmpresa(), request.getBodega(), cco, request.getItems());
+        String comprobante = getComprobanteCreado(request.getEmpresa(), cco);
+        return new SciResponse(cco, comprobante);
+    }
+
 
     private String getComprobanteCreado(Long empresa, BigInteger coo) {
         try {

@@ -62,4 +62,13 @@ public class ImportacionesController {
         return ResponseEntity.ok(items);
     }
 
+    @Operation(summary = "Confirmacion de Orden de compra al sistema")
+    @Parameter(name = "requestDTO", description = "Dto de solicitud", required = true)
+    @PostMapping("/importaciones/confirmar/orden")
+    public ResponseEntity<SciResponse> confirmarOrdenCompra(@RequestBody @Valid SolicitudRequestDTO solicitudRequestDTO) {
+
+        SciResponse result = solicitudImportacionService.procesarOrden(solicitudRequestDTO);
+        return ResponseEntity.ok(result);
+    }
+
 }
