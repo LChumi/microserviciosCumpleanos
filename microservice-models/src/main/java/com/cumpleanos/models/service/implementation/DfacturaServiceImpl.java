@@ -5,7 +5,6 @@ import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.ids.DfacturaId;
 import com.cumpleanos.models.persistence.repository.DfacturaRepository;
 import com.cumpleanos.models.service.interfaces.IDfacturaService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
