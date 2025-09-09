@@ -13,11 +13,9 @@ file:
 
 logging:
   level:
-    root: warn
-    com.cumpleanos.pos: info
+    root: info
+    com:
+      cumpleanos:
+        pos: debug
   file:
     name: ${LOG_PATH:C:\\Proyectos\\Microserivicios\\logs\\pos.log}
-  logback:
-    rolling policy:
-      max-history: 7
-      max-file-size: 10MB

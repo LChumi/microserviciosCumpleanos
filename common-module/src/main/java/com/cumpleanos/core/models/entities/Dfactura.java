@@ -301,7 +301,7 @@ public class Dfactura {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
-    @Column(name = "DFAC_CFAC_COMPROBA")
+    @Column(name = "DFAC_CFAC_COMPROBA", insertable = false, updatable = false)
     private BigInteger facComproba;
 
     @ManyToOne(fetch = FetchType.LAZY)
