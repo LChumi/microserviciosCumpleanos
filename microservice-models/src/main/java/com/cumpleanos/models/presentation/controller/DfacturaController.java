@@ -44,7 +44,12 @@ public class DfacturaController {
     }
 
     @Operation(summary = "Obtener Dfactura", description = "Obtiene el DTO de Dfactura ")
-    public ResponseEntity<DfacturaDTO> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto){
+    @Parameters({
+            @Parameter(name = "cco", description = "Codigo del comprobante"),
+            @Parameter(name = "producto", description = "Codigo del producto")
+    })
+    @GetMapping("/dfactura/getBy/{cco}/{producto}")
+    public ResponseEntity<DfacturaDTO> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto) {
         DfacturaDTO fac = service.getDfactura(cco, producto);
         return ResponseEntity.ok(fac);
     }
