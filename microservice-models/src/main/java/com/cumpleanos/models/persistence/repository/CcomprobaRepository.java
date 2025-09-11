@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface CcomprobaRepository extends JpaRepository<Ccomproba, CcomprobaId> {
+
     Optional<Ccomproba> findById_Codigo(BigInteger cco);
 
     @Query(value = "SELECT PRG_USR.AST_GEN.NUMERO_COMPROBANTE(:empresa, :coo) FROM DUAL", nativeQuery = true)

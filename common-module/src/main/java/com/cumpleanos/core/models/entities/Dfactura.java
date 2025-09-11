@@ -55,7 +55,7 @@ public class Dfactura {
 
     @NotNull
     @Column(name = "DFAC_CANAPR", nullable = false, precision = 17, scale = 4)
-    private BigDecimal canapr;
+    private Integer canapr;
 
     @NotNull
     @Column(name = "DFAC_PRECIO", nullable = false, precision = 20, scale = 7)
@@ -70,15 +70,15 @@ public class Dfactura {
 
     @NotNull
     @Column(name = "DFAC_CANENT", nullable = false, precision = 17, scale = 4)
-    private BigDecimal canent;
+    private Integer canent;
 
     @NotNull
     @Column(name = "DFAC_CANDEV", nullable = false, precision = 17, scale = 4)
-    private BigDecimal candev;
+    private Integer candev;
 
     @NotNull
     @Column(name = "DFAC_CANRES", nullable = false, precision = 17, scale = 4)
-    private BigDecimal canres;
+    private Integer canres;
 
     @NotNull
     @Column(name = "DFAC_DSCITEM", nullable = false, precision = 17, scale = 4)

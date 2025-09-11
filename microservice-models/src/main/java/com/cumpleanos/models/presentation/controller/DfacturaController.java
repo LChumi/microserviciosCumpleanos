@@ -1,5 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
+import com.cumpleanos.common.records.DfacturaDTO;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.models.service.interfaces.IDfacturaService;
@@ -31,7 +32,7 @@ public class DfacturaController {
         return ResponseEntity.ok(nuevoDetalle != null);
     }
 
-    @Operation(summary = "Obtener Dfactura ", description = "Obtiene el detalle de la factura si existe el producto y el comprobante cco")
+    @Operation(summary = "Validar existencia Dfactura ", description = "Obtiene el detalle de la factura si existe el producto y el comprobante cco")
     @Parameters({
             @Parameter(name = "cco", description = "Codigo del comprobante"),
             @Parameter(name = "producto", description = "Codigo del producto")
@@ -40,5 +41,11 @@ public class DfacturaController {
     public ResponseEntity<ServiceResponse> getDetalle(@PathVariable BigInteger cco, @PathVariable Long producto) {
         ServiceResponse response = service.validateQuantities(cco, producto);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Obtener Dfactura", description = "Obtiene el DTO de Dfactura ")
+    public ResponseEntity<DfacturaDTO> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto){
+        DfacturaDTO fac = service.getDfactura(cco, producto);
+        return ResponseEntity.ok(fac);
     }
 }

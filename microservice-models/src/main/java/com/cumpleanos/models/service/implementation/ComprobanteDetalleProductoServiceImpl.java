@@ -10,6 +10,7 @@ import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.ids.CtipocomId;
 import com.cumpleanos.models.persistence.repository.*;
 import com.cumpleanos.models.service.interfaces.IComprobanteDetalleProductoService;
+import com.cumpleanos.models.utils.DtoUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -48,21 +49,30 @@ public class ComprobanteDetalleProductoServiceImpl implements IComprobanteDetall
         // Detalle del comprobante
         Set<Dfactura> listaItems = dfacturaRepository.findById_CcoOrderById_Secuencia(cco);
         Set<DfacturaDTO> itemsDTO = listaItems.stream()
-                .map(item -> new DfacturaDTO(
-                        item.getId().getEmpresa(),
-                        item.getId().getCco(),
-                        item.getId().getSecuencia(),
-                        item.getProducto() != null ? item.getProducto().getProId() : item.getProductoTemp().getProId(),
-                        item.getProducto() != null ? item.getProducto().getNombre() : item.getProductoTemp().getNombre(),
-                        item.getProducto() != null ? item.getProducto().getProId1() : item.getProductoTemp().getProId(),
-                        item.getCantidad(),
-                        item.getPrecio(),
-                        item.getTotal()))
+                .map(DtoUtils::getDfacturaDTO)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         String comprobante = ccoRepository.getComprobante(empresa, cco);
 
         // Uso de Optional para evitar múltiples llamadas a getCliente()
+        ClienteDTO clienteDTO = getClienteDTO(ccomproba);
+
+        return ComprobanteDetalleProductoDTO.builder()
+                .cco(cco)
+                .almacen(Optional.ofNullable(ccomproba.getAlmacen().getNombre()).orElse("Sin almacén"))
+                .almacenId(Optional.ofNullable(ccomproba.getAlmacen().getAlmId()).orElse("00"))
+                .fecha(ccomproba.getCcoFecha())
+                .sigla(sigla.getCtiId())
+                .documento(sigla.getNombre())
+                .concepto(ccomproba.getCcoConcepto())
+                .comprobante(comprobante)
+                .items(itemsDTO)
+                .cliente(clienteDTO)
+                .build();
+
+    }
+
+    private static ClienteDTO getClienteDTO(Ccomproba ccomproba) {
         Cliente cliente = ccomproba.getCliente();
         String telefono = null;
         ClienteDTO clienteDTO = null;
@@ -82,19 +92,6 @@ public class ComprobanteDetalleProductoServiceImpl implements IComprobanteDetall
                     cliente.getMail()
             );
         }
-
-        return ComprobanteDetalleProductoDTO.builder()
-                .cco(cco)
-                .almacen(Optional.ofNullable(ccomproba.getAlmacen().getNombre()).orElse("Sin almacén"))
-                .almacenId(Optional.ofNullable(ccomproba.getAlmacen().getAlmId()).orElse("00"))
-                .fecha(ccomproba.getCcoFecha())
-                .sigla(sigla.getCtiId())
-                .documento(sigla.getNombre())
-                .concepto(ccomproba.getCcoConcepto())
-                .comprobante(comprobante)
-                .items(itemsDTO)
-                .cliente(clienteDTO)
-                .build();
-
+        return clienteDTO;
     }
 }
