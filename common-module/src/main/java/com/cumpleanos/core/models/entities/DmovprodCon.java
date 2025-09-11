@@ -61,7 +61,7 @@ public class DmovprodCon {
     private LocalDate preFecha;
 
     @Column(name = "DPP_PRE_SEC")
-    private Long preSec;
+    private Long preSecuencia;
 
     @ColumnDefault("0")
     @Column(name = "DPP_PRE_CANT")
@@ -76,7 +76,7 @@ public class DmovprodCon {
     private Long preStockD;
 
     @Column(name = "DPP_PED_EMP")
-    private Long pedEmp;
+    private Long pedEmpresa;
 
     @Column(name = "DPP_PEDIDO")
     private BigInteger pedido;
@@ -85,7 +85,7 @@ public class DmovprodCon {
     private LocalDate pedFecha;
 
     @Column(name = "DPP_PED_SEC")
-    private Long pedSec;
+    private Long pedSecuencia;
 
     @ColumnDefault("0")
     @Column(name = "DPP_PED_CANT")

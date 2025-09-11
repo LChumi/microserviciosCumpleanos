@@ -84,7 +84,8 @@ public class FilesServicesImpl implements IFileService {
                     withSCI.add(product);
                 } else {
                     log.warn("Se encontraron multiples registros para CCO {} y producto={}", cco, product.getId());
-                    product.setTrancitos(chekImports(ssiOrigen));
+                    Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.findByProdIdAndEmpresa(product.getId(), empresa);
+                    product.setTrancitos(chekImports(importaciones));
                     notSCI.add(product);
                 }
             }
