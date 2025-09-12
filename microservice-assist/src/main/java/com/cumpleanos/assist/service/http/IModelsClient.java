@@ -17,8 +17,8 @@ import java.util.Set;
 public interface IModelsClient {
 
     //TODO servicio que viene del controlador Ccomproba
-    @GetMapping("/models/cco/update/cantapr/{cco}/{cant}/{empresa}")
-    ResponseEntity<Boolean> updateReferencia(@PathVariable BigInteger cco, @PathVariable Integer cant, @PathVariable Long empresa);
+    @GetMapping("/models/cco/update/cantapr{cco}/{ref}/{empresa}")
+    ResponseEntity<Boolean> updateReferencia(@PathVariable BigInteger cco, @PathVariable BigInteger ref, @PathVariable Long empresa);
 
     //TODO servicio que viene del controlador AuthController
     @GetMapping("/models/usuario/{userId}")
@@ -55,6 +55,9 @@ public interface IModelsClient {
 
     @GetMapping("/models/dfactura/get/{cco}/{producto}/")
     ResponseEntity<ServiceResponse> getDetalle(@PathVariable BigInteger cco, @PathVariable Long producto);
+
+    @GetMapping("/models/dfactura/added-cant/{cco}/{producto}/{cantidad}")
+    ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto,@PathVariable Integer cantidad);
 
     //Todo servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")

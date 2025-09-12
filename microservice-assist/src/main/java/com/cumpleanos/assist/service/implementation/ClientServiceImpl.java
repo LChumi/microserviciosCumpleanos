@@ -31,7 +31,7 @@ public class ClientServiceImpl {
     //TODO servicio de micorservicio models
 
     //Ccomproba
-    public Boolean updateReferencia(BigInteger cco, BigInteger ccoRef, @PathVariable Long empresa) {
+    public Boolean updateReferencia(BigInteger cco, BigInteger ccoRef, Long empresa) {
         return HttpResponseHandler.handle(() -> modelsClient.updateReferencia(cco, ccoRef, empresa),
                 "Error al agregar la referencia del comprobante");
     }

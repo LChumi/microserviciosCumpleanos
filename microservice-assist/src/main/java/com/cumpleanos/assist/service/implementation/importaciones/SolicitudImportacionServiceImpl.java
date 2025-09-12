@@ -151,16 +151,16 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
             detalle.setId(id);
             detalle.setCantidad((long) item.getCantidadTotal());
-            detalle.setCanapr(BigDecimal.ZERO);
+            detalle.setCanapr(0);
             detalle.setPrecio(BigDecimal.valueOf(item.getFob()));
 
             detalle.setDfacBodega(bodega);
             detalle.setTotal(BigDecimal.valueOf(item.getFobTotal()));
-            detalle.setCanent(BigDecimal.ZERO);
-            detalle.setCandev(BigDecimal.ZERO);
-            detalle.setCanres(BigDecimal.ZERO);
-            detalle.setDscitem(BigDecimal.ZERO);
-            detalle.setTraitem(BigDecimal.ZERO);
+            detalle.setCanent(0);
+            detalle.setCandev(0);
+            detalle.setCanres(0);
+            detalle.setDscitem(0);
+            detalle.setTraitem(0);
 
             detalle.setIvaitem(BigDecimal.ZERO);
 

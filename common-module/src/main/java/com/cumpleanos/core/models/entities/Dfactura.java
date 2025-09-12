@@ -82,11 +82,11 @@ public class Dfactura {
 
     @NotNull
     @Column(name = "DFAC_DSCITEM", nullable = false, precision = 17, scale = 4)
-    private BigDecimal dscitem;
+    private Integer dscitem;
 
     @NotNull
     @Column(name = "DFAC_TRAITEM", nullable = false, precision = 17, scale = 4)
-    private BigDecimal traitem;
+    private Integer traitem;
 
     @Column(name = "DFAC_COMBO")
     private Boolean combo;
