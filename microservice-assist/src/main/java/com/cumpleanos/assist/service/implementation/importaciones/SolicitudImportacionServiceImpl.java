@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.service.implementation.importaciones;
 
+import com.cumpleanos.assist.service.interfaces.importaciones.IDmovprodConService;
 import com.cumpleanos.assist.utils.ProductImportDTOUtils;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
@@ -37,6 +38,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final IModelsClient modelsClient;
     private final IProductoTempService productoTempService;
     private final ClientServiceImpl productoService;
+    private final IDmovprodConService dmovprodConService;
 
     @Override
     public SciResponse procesarSolicitud(SolicitudRequestDTO request) {
@@ -59,7 +61,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             for (ProductImportTransformer item : request.getItems()) {
                 ServiceResponse response = new ServiceResponse(null, false);
 
-                log.info("Buscando informacion del Producto en el sistema ");
+                log.info("Buscando informacion del Producto en el detalle Dfactura ");
                 if (item.getId() == null) {
                     ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
                     if (temporal != null) {
@@ -79,10 +81,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
                 if (response.success()) {
                     log.info("El producto se encuentra regisrtado en el detalle del SCI {}", response.message());
-                    Boolean updateRef = productoService.updateReferencia(cabecera.cco(), request.getCcoRef(), request.getEmpresa());
-                    if (updateRef) {
-                        log.info("Detalle actualizado con la referencia");
-                    }
+                    //ServiceResponse addedCanApr = productoService.addedCanApr()
                 }
 
             }
@@ -186,6 +185,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 }
             }
         }
+    }
+
+    private void getDetalleAndAddCant(BigInteger ccoAnt, BigInteger cabecera, ProductImportTransformer item){
+
     }
 
 }

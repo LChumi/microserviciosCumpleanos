@@ -85,6 +85,16 @@ public class ClientServiceImpl {
                 "Error al consultar el detalle de la factura ");
     }
 
+    public DfacturaDTO getDfactura(BigInteger cco, Long producto) {
+        return HttpResponseHandler.handle(() -> modelsClient.getDfactura(cco, producto),
+                "Error al consultar el producto en el detalle ");
+    }
+
+    public ServiceResponse addedCanApr(BigInteger cco, Long producto,Integer cantidad){
+        return HttpResponseHandler.handle(() -> modelsClient.addedCanApr(cco, producto, cantidad),
+                "Error al agregar la cantidad del producto: " + producto);
+    }
+
     //CLIENTE
     public Cliente saveCliente(Cliente cliente) {
         return HttpResponseHandler.handle(() -> modelsClient.saveCliente(cliente),
