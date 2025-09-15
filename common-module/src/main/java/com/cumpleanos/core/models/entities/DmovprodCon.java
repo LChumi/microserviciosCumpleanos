@@ -1,11 +1,13 @@
 package com.cumpleanos.core.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(name = "DMOVPROD_CON", schema = "DATA_USR", indexes = {
         @Index(name = "DMOVPROD_CON_IDX03", columnList = "DPP_PRODUCTO, DPP_PRE_SEC, DPP_PREPEDIDO, DPP_EMPRESA", unique = true),

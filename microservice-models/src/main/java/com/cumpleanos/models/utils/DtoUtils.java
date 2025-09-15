@@ -10,6 +10,8 @@ public class DtoUtils {
                 item.getId().getEmpresa(),
                 item.getId().getCco(),
                 item.getId().getSecuencia(),
+                item.getCcoFecha(),
+                item.getDfacProducto(),
                 item.getProducto() != null ? item.getProducto().getProId() : item.getProductoTemp().getProId(),
                 item.getProducto() != null ? item.getProducto().getNombre() : item.getProductoTemp().getNombre(),
                 item.getProducto() != null ? item.getProducto().getProId1() : item.getProductoTemp().getProId(),

@@ -13,10 +13,13 @@ import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.importaciones.ISolicitudImportacionService;
+import com.cumpleanos.common.records.DfacturaDTO;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Dfactura;
+import com.cumpleanos.core.models.entities.DmovprodCon;
 import com.cumpleanos.core.models.entities.ProductoTemp;
 import com.cumpleanos.core.models.ids.DfacturaId;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,8 +190,52 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         }
     }
 
-    private void getDetalleAndAddCant(BigInteger ccoAnt, BigInteger cabecera, ProductImportTransformer item){
+    private void getDetalleAndAddCant(BigInteger ccoAnt, BigInteger cabecera, Long producto){
 
+        DfacturaDTO sci = productoService.getDfactura(ccoAnt, producto);
+        DfacturaDTO ord = productoService.getDfactura(cabecera, producto);
+
+        if (sci == null){
+            log.info("El producto no tiene origen de datos en detalle.");
+        }else{
+            if (ord == null){
+                log.info("Detalle no existente revise la informacion cco: {} , ccoAnt: {} del producto {}", cabecera, ccoAnt, producto);
+                throw new IllegalArgumentException("Detalle no existente revise la informacion" );
+            }
+            ServiceResponse response = productoService.addedCanApr(sci.cco(),producto, Math.toIntExact(ord.cantidad()));
+            if (response.success()){
+                log.info("Detalle de producto actualizado correctamente cantidad Apr.");
+
+            }
+        }
+
+    }
+
+    private DmovprodCon create (DfacturaDTO orden, DfacturaDTO sci, Long producto){
+        if (sci == null){
+            DmovprodCon relacion = new DmovprodCon();
+            relacion.setEmpresa(orden.empresa());
+            relacion.setProducto(producto);
+            relacion.setPrepedido(orden.cco());
+            relacion.setPreSecuencia(orden.secuencia());
+            relacion.setPreCant(orden.cantidad());
+            relacion.setPreFecha(orden.fecha());
+            DmovprodCon intermedia = dmovprodConService.save(relacion);
+            if (intermedia == null){
+                log.error("Error no se pudo ingresar el detalle a la tabla intermedia cco{}", orden.cco());
+                throw new EntityNotFoundException("La entidad no fue creada correctamente");
+            }
+        } else {
+            DmovprodCon relacion = new DmovprodCon();
+            relacion.setEmpresa(orden.empresa());
+            relacion.setProducto(producto);
+            relacion.setPrepedido(orden.cco());
+            relacion.setPreSecuencia(orden.secuencia());
+            relacion.setPreCant(orden.cantidad());
+            relacion.setPreFecha(orden.fecha());
+            //SCI
+            relacion.
+        }
     }
 
 }
