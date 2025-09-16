@@ -59,36 +59,26 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         try {
             SciResponse cabecera = generarCabeceraYComprobante(request);
 
-            //Ingresar datos tabla Intermediaria
-
             for (ProductImportTransformer item : request.getItems()) {
-                ServiceResponse response = new ServiceResponse(null, false);
 
-                log.info("Buscando informacion del Producto en el detalle Dfactura ");
+                log.info("Buscando informacion del Producto por su id ");
                 if (item.getId() == null) {
                     ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
                     if (temporal != null) {
-                        response = productoService.getDetalleProducto(request.getCcoRef(), temporal.getCodigo());
+                        getDetalleAndAddCant(request.getCcoRef(), cabecera.cco(), temporal.getCodigo());
                     } else {
                         log.error("Error el producto no existe con el codigo de fabrica {} y no dispone de barra producto {}", item.getCodFabrica(), item.getNombre());
                     }
-
                 } else {
                     ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), request.getEmpresa());
                     if (producto != null) {
-                        response = productoService.getDetalleProducto(request.getCcoRef(), producto.codigo());
+                        getDetalleAndAddCant(request.getCcoRef(), cabecera.cco(), producto.codigo());
                     } else {
                         log.error("Error el producto no existe {} con el id {}", item.getNombre(), item.getId());
                     }
                 }
 
-                if (response.success()) {
-                    log.info("El producto se encuentra regisrtado en el detalle del SCI {}", response.message());
-                    //ServiceResponse addedCanApr = productoService.addedCanApr()
-                }
-
             }
-
 
             return new SciResponse(cabecera.cco(), cabecera.comprobante());
         } catch (ProcedureNotCompletedException e) {
@@ -190,52 +180,85 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         }
     }
 
-    private void getDetalleAndAddCant(BigInteger ccoAnt, BigInteger cabecera, Long producto){
-
+    /**
+     * Realiza la creación de una relación en la tabla intermedia entre una orden principal y su posible orden SCI.
+     * <p>
+     * Si ambas órdenes existen, actualiza la cantidad Apr en el detalle de la orden SCI.
+     * Si solo existe la orden principal, se crea la relación sin actualización.
+     * <p>
+     * Lanza una excepción si no se encuentra información en ninguna de las órdenes.
+     *
+     * @param ccoAnt     Código de la orden SCI (puede ser nulo)
+     * @param cabecera   Código de la orden principal
+     * @param producto   ID del producto a relacionar
+     * @throws IllegalArgumentException si no se encuentra información en ninguna orden
+     */
+    private void getDetalleAndAddCant(BigInteger ccoAnt, BigInteger cabecera, Long producto) {
         DfacturaDTO sci = productoService.getDfactura(ccoAnt, producto);
         DfacturaDTO ord = productoService.getDfactura(cabecera, producto);
 
-        if (sci == null){
-            log.info("El producto no tiene origen de datos en detalle.");
-        }else{
-            if (ord == null){
-                log.info("Detalle no existente revise la informacion cco: {} , ccoAnt: {} del producto {}", cabecera, ccoAnt, producto);
-                throw new IllegalArgumentException("Detalle no existente revise la informacion" );
-            }
-            ServiceResponse response = productoService.addedCanApr(sci.cco(),producto, Math.toIntExact(ord.cantidad()));
-            if (response.success()){
-                log.info("Detalle de producto actualizado correctamente cantidad Apr.");
-
-            }
+        if (sci == null && ord == null) {
+            log.warn("Detalle orden no existente. cco: {}, ccoAnt: {}, producto: {}", cabecera, ccoAnt, producto);
+            throw new IllegalArgumentException("No se encontró detalle para el producto en ninguna orden.");
         }
 
-    }
-
-    private DmovprodCon create (DfacturaDTO orden, DfacturaDTO sci, Long producto){
-        if (sci == null){
-            DmovprodCon relacion = new DmovprodCon();
-            relacion.setEmpresa(orden.empresa());
-            relacion.setProducto(producto);
-            relacion.setPrepedido(orden.cco());
-            relacion.setPreSecuencia(orden.secuencia());
-            relacion.setPreCant(orden.cantidad());
-            relacion.setPreFecha(orden.fecha());
-            DmovprodCon intermedia = dmovprodConService.save(relacion);
-            if (intermedia == null){
-                log.error("Error no se pudo ingresar el detalle a la tabla intermedia cco{}", orden.cco());
-                throw new EntityNotFoundException("La entidad no fue creada correctamente");
+        if (ord != null) {
+            if (sci == null) {
+                createIntermediate(ord, null, producto);
+            } else {
+                ServiceResponse response = productoService.addedCanApr(sci.cco(), producto, Math.toIntExact(ord.cantidad()));
+                if (response.success()) {
+                    log.info("Cantidad Apr actualizada correctamente.");
+                    createIntermediate(ord, sci, producto);
+                } else {
+                    log.error("No se pudo actualizar la cantidad Apr para producto {} en orden SCI {}", producto, sci.cco());
+                    throw new IllegalStateException("Error al actualizar cantidad Apr.");
+                }
             }
-        } else {
-            DmovprodCon relacion = new DmovprodCon();
-            relacion.setEmpresa(orden.empresa());
-            relacion.setProducto(producto);
-            relacion.setPrepedido(orden.cco());
-            relacion.setPreSecuencia(orden.secuencia());
-            relacion.setPreCant(orden.cantidad());
-            relacion.setPreFecha(orden.fecha());
-            //SCI
-            relacion.
         }
     }
+
+    /**
+     Crea una relación intermedia entre una orden (orden) y opcionalmente una orden SCI (sci) para el producto especificado.
+     <p>
+     Si sci es nulo, se crea una relación simple con los datos de orden.
+     Si sci no es nulo, se incluye la información adicional de la orden SCI.
+     @param orden DTO que representa la orden principal
+     @param sci DTO que representa la orden SCI (puede ser nulo)
+     @param producto ID del producto a relacionar
+     @return Entidad DmovprodCon persistida en la base de dato
+     @throws EntityNotFoundException si la entidad no pudo ser creada correctamente */
+    private void createIntermediate (DfacturaDTO orden, DfacturaDTO sci, Long producto){
+
+        DmovprodCon relacion = new DmovprodCon();
+
+        asignarDatosBase(relacion, orden, producto);
+
+        if (sci != null) {
+            relacion.setPedEmpresa(sci.empresa());
+            relacion.setPedido(sci.cco());
+            relacion.setPedFecha(sci.fecha());
+            relacion.setPedSecuencia(sci.secuencia());
+            relacion.setPedCant(sci.cantidad());
+        }
+
+        DmovprodCon intermedia = dmovprodConService.save(relacion);
+        if (intermedia == null){
+            log.error("Los datos de la entidasd");
+            throw new EntityNotFoundException("La entidad no fue creada correctamente en el sistema");
+        }
+
+        log.info("Creacion de datos en tabla Intermediaria en relacion sci orden creada satisfactoriamente");
+    }
+
+    private void asignarDatosBase(DmovprodCon relacion, DfacturaDTO orden, Long producto) {
+        relacion.setEmpresa(orden.empresa());
+        relacion.setProducto(producto);
+        relacion.setPrepedido(orden.cco());
+        relacion.setPreSecuencia(orden.secuencia());
+        relacion.setPreCant(orden.cantidad());
+        relacion.setPreFecha(orden.fecha());
+    }
+
 
 }
