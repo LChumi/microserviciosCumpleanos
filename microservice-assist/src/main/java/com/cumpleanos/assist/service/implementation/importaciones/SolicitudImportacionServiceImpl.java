@@ -226,7 +226,6 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
      @param orden DTO que representa la orden principal
      @param sci DTO que representa la orden SCI (puede ser nulo)
      @param producto ID del producto a relacionar
-     @return Entidad DmovprodCon persistida en la base de dato
      @throws EntityNotFoundException si la entidad no pudo ser creada correctamente */
     private void createIntermediate (DfacturaDTO orden, DfacturaDTO sci, Long producto){
 
@@ -259,6 +258,5 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         relacion.setPreCant(orden.cantidad());
         relacion.setPreFecha(orden.fecha());
     }
-
 
 }

@@ -31,10 +31,14 @@ import java.time.LocalDate;
         @Index(name = "DMOVPROD_CON_IDX19", columnList = "DPP_CARRITO, DPP_EMPRESA")
 })
 public class DmovprodCon {
+
+    @Id
+    @Column(name = "DPP_CODIGO")
+    private Long id;
+
     @Column(name = "DPP_EMPRESA", nullable = false)
     private Long empresa;
 
-    @Id
     @Column(name = "DPP_PRODUCTO", nullable = false)
     private Long producto;
 
