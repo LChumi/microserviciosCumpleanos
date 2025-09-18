@@ -65,19 +65,18 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 if (item.getId() == null) {
                     ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
                     if (temporal != null) {
-                        getDetalleAndAddCant(request.getCcoRef(), cabecera.cco(), temporal.getCodigo());
+                        getDetalleAndAddCant(item.getCcoOrigen(), cabecera.cco(), temporal.getCodigo());
                     } else {
                         log.error("Error el producto no existe con el codigo de fabrica {} y no dispone de barra producto {}", item.getCodFabrica(), item.getNombre());
                     }
                 } else {
                     ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), request.getEmpresa());
                     if (producto != null) {
-                        getDetalleAndAddCant(request.getCcoRef(), cabecera.cco(), producto.codigo());
+                        getDetalleAndAddCant(item.getCcoOrigen(), cabecera.cco(), producto.codigo());
                     } else {
                         log.error("Error el producto no existe {} con el id {}", item.getNombre(), item.getId());
                     }
                 }
-
             }
 
             return new SciResponse(cabecera.cco(), cabecera.comprobante());
@@ -142,7 +141,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             id.setCco(cco);
 
             detalle.setId(id);
-            detalle.setCantidad((long) item.getCantidadTotal());
+            detalle.setCantidad(item.getCantidadTotal());
             detalle.setCanapr(0);
             detalle.setPrecio(BigDecimal.valueOf(item.getFob()));
 
@@ -206,7 +205,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             if (sci == null) {
                 createIntermediate(ord, null, producto);
             } else {
-                ServiceResponse response = productoService.addedCanApr(sci.cco(), producto, Math.toIntExact(ord.cantidad()));
+                ServiceResponse response = productoService.addedCanApr(sci.cco(), producto,ord.cantidad());
                 if (response.success()) {
                     log.info("Cantidad Apr actualizada correctamente.");
                     createIntermediate(ord, sci, producto);

@@ -58,6 +58,7 @@ public class FilesServicesImpl implements IFileService {
         }
 
         for (ProductImportTransformer product : productsList) {
+            calcularTotales(product);
             boolean verify = validateExistingProduct(product, empresa);
             if (!verify) {
                 notSCI.add(product);

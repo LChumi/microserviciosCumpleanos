@@ -30,9 +30,11 @@ import java.time.LocalDate;
         @Index(name = "DMOVPROD_CON_IDX16", columnList = "DPP_PROFORMA, DPP_PRO_EMP"),
         @Index(name = "DMOVPROD_CON_IDX19", columnList = "DPP_CARRITO, DPP_EMPRESA")
 })
+@SequenceGenerator(name = "DMOVPROD_CON_S_CODIGO", sequenceName = "DMOVPROD_CON_S_CODIGO", allocationSize = 1)
 public class DmovprodCon {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DMOVPROD_CON_S_CODIGO")
     @Column(name = "DPP_CODIGO")
     private Long id;
 
@@ -71,7 +73,7 @@ public class DmovprodCon {
 
     @ColumnDefault("0")
     @Column(name = "DPP_PRE_CANT")
-    private Long preCant;
+    private Integer preCant;
 
     @ColumnDefault("0")
     @Column(name = "DPP_PRE_STOCK_R")
@@ -95,7 +97,7 @@ public class DmovprodCon {
 
     @ColumnDefault("0")
     @Column(name = "DPP_PED_CANT")
-    private Long pedCant;
+    private Integer pedCant;
 
     @ColumnDefault("0")
     @Column(name = "DPP_PED_STOCK_R")

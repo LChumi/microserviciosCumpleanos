@@ -51,7 +51,7 @@ public class Dfactura {
 
     @NotNull
     @Column(name = "DFAC_CANTIDAD", nullable = false, precision = 17, scale = 4)
-    private Long cantidad;
+    private Integer cantidad;
 
     @NotNull
     @Column(name = "DFAC_CANAPR", nullable = false, precision = 17, scale = 4)
