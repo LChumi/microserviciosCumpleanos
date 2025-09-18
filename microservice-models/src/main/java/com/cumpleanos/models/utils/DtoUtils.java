@@ -5,7 +5,7 @@ import com.cumpleanos.core.models.entities.Dfactura;
 
 public class DtoUtils {
 
-    public static DfacturaDTO getDfacturaDTO (Dfactura item){
+    public static DfacturaDTO getDfacturaDTO(Dfactura item) {
         return new DfacturaDTO(
                 item.getId().getEmpresa(),
                 item.getId().getCco(),

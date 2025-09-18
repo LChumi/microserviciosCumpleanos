@@ -7,7 +7,7 @@ import com.cumpleanos.core.models.ids.DfacturaId;
 
 import java.math.BigInteger;
 
-public interface IDfacturaService  extends GenericService<Dfactura, DfacturaId>{
+public interface IDfacturaService extends GenericService<Dfactura, DfacturaId> {
 
     ServiceResponse validateQuantities(BigInteger cco, Long producto);
 

@@ -61,7 +61,7 @@ public class DfacturaController {
             @Parameter(name = "cantidad", description = "Cantidad aprovada")
     })
     @GetMapping("/dfactura/added-cant/{cco}/{producto}/{cantidad}")
-    public ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto,@PathVariable Integer cantidad) {
+    public ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad) {
         ServiceResponse reponse = service.addCantApr(cco, producto, cantidad);
         return ResponseEntity.ok(reponse);
     }

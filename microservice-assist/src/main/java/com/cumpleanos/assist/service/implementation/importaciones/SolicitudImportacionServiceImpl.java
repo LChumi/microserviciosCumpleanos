@@ -187,9 +187,9 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
      * <p>
      * Lanza una excepción si no se encuentra información en ninguna de las órdenes.
      *
-     * @param ccoAnt     Código de la orden SCI (puede ser nulo)
-     * @param cabecera   Código de la orden principal
-     * @param producto   ID del producto a relacionar
+     * @param ccoAnt   Código de la orden SCI (puede ser nulo)
+     * @param cabecera Código de la orden principal
+     * @param producto ID del producto a relacionar
      * @throws IllegalArgumentException si no se encuentra información en ninguna orden
      */
     private void getDetalleAndAddCant(BigInteger ccoAnt, BigInteger cabecera, Long producto) {
@@ -205,7 +205,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             if (sci == null) {
                 createIntermediate(ord, null, producto);
             } else {
-                ServiceResponse response = productoService.addedCanApr(sci.cco(), producto,ord.cantidad());
+                ServiceResponse response = productoService.addedCanApr(sci.cco(), producto, ord.cantidad());
                 if (response.success()) {
                     log.info("Cantidad Apr actualizada correctamente.");
                     createIntermediate(ord, sci, producto);
@@ -218,15 +218,17 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     }
 
     /**
-     Crea una relación intermedia entre una orden (orden) y opcionalmente una orden SCI (sci) para el producto especificado.
-     <p>
-     Si sci es nulo, se crea una relación simple con los datos de orden.
-     Si sci no es nulo, se incluye la información adicional de la orden SCI.
-     @param orden DTO que representa la orden principal
-     @param sci DTO que representa la orden SCI (puede ser nulo)
-     @param producto ID del producto a relacionar
-     @throws EntityNotFoundException si la entidad no pudo ser creada correctamente */
-    private void createIntermediate (DfacturaDTO orden, DfacturaDTO sci, Long producto){
+     * Crea una relación intermedia entre una orden (orden) y opcionalmente una orden SCI (sci) para el producto especificado.
+     * <p>
+     * Si sci es nulo, se crea una relación simple con los datos de orden.
+     * Si sci no es nulo, se incluye la información adicional de la orden SCI.
+     *
+     * @param orden    DTO que representa la orden principal
+     * @param sci      DTO que representa la orden SCI (puede ser nulo)
+     * @param producto ID del producto a relacionar
+     * @throws EntityNotFoundException si la entidad no pudo ser creada correctamente
+     */
+    private void createIntermediate(DfacturaDTO orden, DfacturaDTO sci, Long producto) {
 
         DmovprodCon relacion = new DmovprodCon();
 
@@ -241,7 +243,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         }
 
         DmovprodCon intermedia = dmovprodConService.save(relacion);
-        if (intermedia == null){
+        if (intermedia == null) {
             log.error("Los datos de la entidasd");
             throw new EntityNotFoundException("La entidad no fue creada correctamente en el sistema");
         }

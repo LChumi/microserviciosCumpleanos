@@ -60,7 +60,7 @@ public interface IModelsClient {
     ResponseEntity<DfacturaDTO> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto);
 
     @GetMapping("/models/dfactura/added-cant/{cco}/{producto}/{cantidad}")
-    ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto,@PathVariable Integer cantidad);
+    ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad);
 
     //Todo servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
@@ -123,7 +123,7 @@ public interface IModelsClient {
     ResponseEntity<Boolean> findCreposicionByReferencia(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa);
 
     @GetMapping("/models/creposicion/update/{empresa}/{codigo}/{usrliq}/{estado}")
-    ResponseEntity<ServiceResponse> finalizarPedido (@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado);
+    ResponseEntity<ServiceResponse> finalizarPedido(@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado);
 
     //TODO servicio que viene del controlador ReposicionController
     @PostMapping("/models/reposicion/crear-pago")

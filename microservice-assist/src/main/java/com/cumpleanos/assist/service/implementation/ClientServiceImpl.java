@@ -90,7 +90,7 @@ public class ClientServiceImpl {
                 "Error al consultar el producto en el detalle ");
     }
 
-    public ServiceResponse addedCanApr(BigInteger cco, Long producto,Integer cantidad){
+    public ServiceResponse addedCanApr(BigInteger cco, Long producto, Integer cantidad) {
         return HttpResponseHandler.handle(() -> modelsClient.addedCanApr(cco, producto, cantidad),
                 "Error al agregar la cantidad del producto: " + producto);
     }
