@@ -147,7 +147,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
             detalle.setDfacBodega(bodega);
             detalle.setTotal(BigDecimal.valueOf(item.getFobTotal()));
-            detalle.setCanent(0);
+            detalle.setCanent(item.getCxb());
             detalle.setCandev(0);
             detalle.setCanres(0);
             detalle.setDscitem(0);
@@ -155,6 +155,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
             detalle.setIvaitem(BigDecimal.ZERO);
 
+            detalle.setPdigitado(BigDecimal.valueOf(item.getFob()));
             detalle.setCantini(BigDecimal.valueOf(item.getCantidadTotal()));
             detalle.setCdigitada(BigDecimal.valueOf(item.getCantidadTotal()));
             if (item.getId() == null) {

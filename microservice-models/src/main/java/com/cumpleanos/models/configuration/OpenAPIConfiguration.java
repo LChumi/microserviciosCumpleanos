@@ -58,7 +58,8 @@ public class OpenAPIConfiguration {
                 "tipodoc",
                 "ubicacion",
                 "usrbod",
-                "usuario");
+                "usuario",
+                "imppartida");
         return modules.stream()
                 .map(module -> GroupedOpenApi.builder()
                         .group(module)
