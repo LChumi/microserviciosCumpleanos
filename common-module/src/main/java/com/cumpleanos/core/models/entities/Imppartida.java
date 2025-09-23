@@ -29,7 +29,7 @@ public class Imppartida {
     private String referencia;
 
     @Column(name = "IPR_PORCENTAJE", precision = 5, scale = 2)
-    private BigDecimal porcentaje;
+    private Integer porcentaje;
 
     @Column(name = "CREA_USR", length = 10)
     private String creaUsr;
