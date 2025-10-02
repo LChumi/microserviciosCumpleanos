@@ -17,20 +17,31 @@ public class StringUtils {
         return decimalFormat.format(bigDecimal);
     }
 
+    /**
+     * Metodo para sanatizar un string y subir un texto limpio a la pagina web
+     * @param valor texto a verificar si tiene caracteres especiales
+     * @return el texto limpio de caracteres
+     */
     public static String stringCleaner(String valor) {
         if (valor == null || valor.isEmpty()) {
             return "";
         }
 
-        // Normalizar el texto y eliminar acentos
+        // Normalizar y quitar acentos
         String limpio = Normalizer.normalize(valor, Normalizer.Form.NFD)
-                .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+                .replaceAll("\\p{InCombiningDiacriticalMarks}", "");
 
-        // Reemplazar la "ñ" por "n"
+        // Reemplazar ñ por n
         limpio = limpio.replaceAll("ñ", "n").replaceAll("Ñ", "N");
 
-        // Eliminar caracteres especiales, dejando solo letras, números y espacios
+        // Reemplazar / sin espacio por espacio
+        limpio = limpio.replaceAll("/(?! )", " ");
+
+        // Eliminar caracteres especiales excepto letras, números y espacios
         limpio = limpio.replaceAll("[^a-zA-Z0-9 ]", "").trim();
+
+        // Eliminar códigos al inicio (alfanuméricos sin espacios)
+        limpio = limpio.replaceFirst("^[A-Z0-9\\-]{5,}\\s+", "");
 
         return limpio;
     }
