@@ -359,4 +359,15 @@ public class Dfactura {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ProductoTemp productoTemp;
+
+    @Column(name = "DFAC_IMPPARTIDA")
+    private Long partida;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "DFAC_IMPARTIDA", referencedColumnName = "IPR_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "IPR_CODIGO", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Imppartida imppartida;
 }

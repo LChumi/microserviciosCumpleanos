@@ -173,4 +173,15 @@ public class Imporitem {
 
     @Column(name = "IIT_BODEGA")
     private Long iitBodega;
+
+    @Column(name = "IIT_PRODUCTO_TEMP")
+    private Long iitProductoTemp;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "IIT_PRODUCTO_TEMP", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "IIT_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private ProductoTemp productoTemp;
 }
