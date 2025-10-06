@@ -365,8 +365,8 @@ public class Dfactura {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
-            @JoinColumn(name = "DFAC_IMPARTIDA", referencedColumnName = "IPR_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "IPR_CODIGO", insertable = false, updatable = false)
+            @JoinColumn(name = "DFAC_IMPPARTIDA", referencedColumnName = "IPR_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "DFAC_EMPRESA", referencedColumnName = "IPR_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Imppartida imppartida;

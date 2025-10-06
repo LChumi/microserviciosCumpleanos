@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.Normalizer;
-import java.util.Locale;
+import java.util.*;
 
 public class StringUtils {
 
@@ -23,9 +23,7 @@ public class StringUtils {
      * @return el texto limpio de caracteres
      */
     public static String stringCleaner(String valor) {
-        if (valor == null || valor.isEmpty()) {
-            return "";
-        }
+        if (valor == null || valor.isEmpty()) return "";
 
         // Normalizar y quitar acentos
         String limpio = Normalizer.normalize(valor, Normalizer.Form.NFD)
@@ -34,16 +32,30 @@ public class StringUtils {
         // Reemplazar ñ por n
         limpio = limpio.replaceAll("ñ", "n").replaceAll("Ñ", "N");
 
-        // Reemplazar / sin espacio por espacio
-        limpio = limpio.replaceAll("/(?! )", " ");
+        // Reemplazar cualquier forma de / por espacio
+        limpio = limpio.replaceAll("\\s*/\\s*", " ");
 
-        // Eliminar caracteres especiales excepto letras, números y espacios
-        limpio = limpio.replaceAll("[^a-zA-Z0-9 ]", "").trim();
+        // Eliminar caracteres especiales excepto letras, números, guiones y espacios
+        limpio = limpio.replaceAll("[^a-zA-Z0-9\\- ]", " ").trim();
 
-        // Eliminar códigos al inicio (alfanuméricos sin espacios)
-        limpio = limpio.replaceFirst("^[A-Z0-9\\-]{5,}\\s+", "");
+        // Eliminar códigos al inicio (más flexible)
+        limpio = limpio.replaceFirst("^(?i)[A-Z0-9\\-/]+\\s+", "");
 
-        return limpio;
+        // Tokenizar y filtrar
+        String[] tokens = limpio.split("\\s+");
+
+        Set<String> descartables = new HashSet<>(Arrays.asList(
+                "ART", "ART.", "DEC", "DEC.", "NAV", "NAV.", "FIESTA", "NAVIDAD", "DECORACION"
+        ));
+
+        List<String> resultado = new ArrayList<>();
+        for (String token : tokens) {
+            if (!descartables.contains(token.toUpperCase())) {
+                resultado.add(token);
+            }
+        }
+
+        return String.join(" ", resultado).replaceAll("\\s{2,}", " ").trim();
     }
 
     public static Integer longToInteger(Long valor) {

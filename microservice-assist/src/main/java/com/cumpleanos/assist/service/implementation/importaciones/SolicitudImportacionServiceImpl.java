@@ -1,7 +1,6 @@
 package com.cumpleanos.assist.service.implementation.importaciones;
 
 import com.cumpleanos.assist.service.interfaces.importaciones.IDmovprodConService;
-import com.cumpleanos.assist.utils.ProductImportDTOUtils;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
 import com.cumpleanos.assist.persistence.inmutables.SciResponse;
@@ -27,9 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -117,24 +114,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private void createDfacturas(Long empresa, Long bodega, BigInteger cco, List<ProductImportTransformer> items) {
         long cont = 1L;
 
-        Map<String, ProductImportTransformer> agrupados = new HashMap<>();
-
-        log.info("Validando duplicidad de productos y sumando sus valores.....");
         for (ProductImportTransformer item : items) {
-            String clave = item.getItem();
-
-            if (agrupados.containsKey(clave)) {
-                log.warn("Producto duplicado sumando sus cantidades ");
-                ProductImportTransformer existente = agrupados.get(clave);
-                existente.setCantidad(existente.getCantidad() + item.getCantidad());
-                existente.setCxb(existente.getCxb() + item.getCxb());
-                ProductImportDTOUtils.calcularTotales(existente);
-            } else {
-                agrupados.put(clave, item);
-            }
-        }
-
-        for (ProductImportTransformer item : agrupados.values()) {
             Dfactura detalle = new Dfactura();
             DfacturaId id = new DfacturaId();
             id.setEmpresa(empresa);
