@@ -19,6 +19,7 @@ public class StringUtils {
 
     /**
      * Metodo para sanatizar un string y subir un texto limpio a la pagina web
+     *
      * @param valor texto a verificar si tiene caracteres especiales
      * @return el texto limpio de caracteres
      */

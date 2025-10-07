@@ -60,7 +60,7 @@ public class OpenAPIConfiguration {
                 "usuario",
                 "imppartida",
                 "producto-partida"
-                );
+        );
         return modules.stream()
                 .map(module -> GroupedOpenApi.builder()
                         .group(module)

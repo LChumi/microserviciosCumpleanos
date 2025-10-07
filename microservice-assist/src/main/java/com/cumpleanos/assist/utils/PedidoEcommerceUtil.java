@@ -132,12 +132,13 @@ public class PedidoEcommerceUtil {
 
     /**
      * Metodo para validar la forma de pago de WhooCommerce y retornar su valor
+     *
      * @param payment_method String con el metodo de pago
      * @return String con la categoria
      */
     public static String getTipoPago(String payment_method) {
-        for (TipoPagoEnum tipoPago: TipoPagoEnum.values()){
-            if (tipoPago.getCategoria().equalsIgnoreCase(payment_method)){
+        for (TipoPagoEnum tipoPago : TipoPagoEnum.values()) {
+            if (tipoPago.getCategoria().equalsIgnoreCase(payment_method)) {
                 return tipoPago.getTipo();
             }
         }

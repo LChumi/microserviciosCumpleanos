@@ -16,7 +16,7 @@ import java.util.List;
 public class FileUtils {
 
     private static final String[] HeadersImport = {"ID", "ITEM", "NOMBRE", "CANTIDAD", "FOB", "CBM", "CXB"};
-    
+
     // Validación del encabezado del archivo
     public static boolean isValidHeaderImpor(Row headerRow) {
         if (headerRow.getLastCellNum() != HeadersImport.length) {
@@ -36,7 +36,7 @@ public class FileUtils {
     }
 
     // Conversion de archivos a DTO
-    public static List<ProductImportTransformer> mapRowsToProducts(Sheet sheet){
+    public static List<ProductImportTransformer> mapRowsToProducts(Sheet sheet) {
         List<ProductImportTransformer> productosList = new ArrayList<>();
         Iterator<Row> rowIterator = sheet.iterator();
 

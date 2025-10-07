@@ -13,7 +13,7 @@ import java.util.List;
 public class OpenAPIConfiguration {
 
     @Bean
-    public OpenAPI  customOpenAPI() {
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(
                         new Info()
