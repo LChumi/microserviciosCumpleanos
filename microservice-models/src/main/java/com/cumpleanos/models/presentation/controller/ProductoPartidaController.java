@@ -29,8 +29,8 @@ public class ProductoPartidaController {
         return ResponseEntity.ok().body(save);
     }
 
-    @GetMapping("/prodcuto-partida/update-default")
-    public ResponseEntity<ServiceResponse> updatePartidaDefault(Long producto, Long partida, Long empresa) {
+    @GetMapping("/prodcuto-partida/update-default/{producto}/{partida}/{empresa}")
+    public ResponseEntity<ServiceResponse> updatePartidaDefault(@PathVariable Long producto, @PathVariable Long partida, @PathVariable Long empresa) {
         ServiceResponse serviceResponse = service.updatePartidaDefault(producto, partida, empresa);
         return ResponseEntity.ok().body(serviceResponse);
     }

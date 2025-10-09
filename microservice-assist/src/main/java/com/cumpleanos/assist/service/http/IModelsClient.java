@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.service.http;
 
 import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.builders.ProductoPartidaBuilder;
 import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.common.records.*;
@@ -109,6 +110,16 @@ public interface IModelsClient {
 
     @GetMapping("models/producto/matches/{empresa}")
     ResponseEntity<String> getMatches(@PathVariable("empresa") Long empresa, @RequestParam("barcode") String barcode, @RequestParam("item") String item);
+
+    //TODO servicio que viene del controlador de ProductoPartida
+    @GetMapping("models/producto-partida/get/{producto}/{empresa}/default")
+    ResponseEntity<ProductoPartidaBuilder> getByProductoAndEmpresa(@PathVariable Long producto, @PathVariable Long empresa);
+
+    @PostMapping("models/producto-partida/save")
+    ResponseEntity<ProductoPartida> save(@RequestBody ProductoPartida partida);
+
+    @GetMapping("models/prodcuto-partida/update-default/{producto}/{partida}/{empresa}")
+    ResponseEntity<ServiceResponse> updatePartidaDefault(@PathVariable Long producto, @PathVariable Long partida, @PathVariable Long empresa);
 
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController
