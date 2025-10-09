@@ -16,7 +16,7 @@ public class ProductoPartidaController {
 
     private final IProductoPartidaService service;
 
-    @GetMapping("/producto-partida/get/{producto}/{empresa}")
+    @GetMapping("/producto-partida/get/{producto}/{empresa}/default")
     public ResponseEntity<ProductoPartidaBuilder> getByProductoAndEmpresa(@PathVariable Long producto, @PathVariable Long empresa) {
 
         ProductoPartidaBuilder builder = service.getPartidaBuilder(producto, empresa);
@@ -24,8 +24,8 @@ public class ProductoPartidaController {
     }
 
     @PostMapping("/producto-partida/save")
-    public ResponseEntity<ProductoPartida> save(@RequestBody ProductoPartida partida){
-        ProductoPartida save  = service.save(partida);
+    public ResponseEntity<ProductoPartida> save(@RequestBody ProductoPartida partida) {
+        ProductoPartida save = service.save(partida);
         return ResponseEntity.ok().body(save);
     }
 
