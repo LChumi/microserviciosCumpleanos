@@ -1,6 +1,7 @@
 package com.cumpleanos.models.service.implementation;
 
 import com.cumpleanos.common.builders.ProductoPartidaBuilder;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.ProductoPartida;
 import com.cumpleanos.core.models.ids.ProductoPartidaId;
 import com.cumpleanos.models.persistence.repository.ProductoPartidaRepository;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,22 +30,39 @@ public class ProductoPartidaServiceImpl extends GenericServiceImpl<ProductoParti
 
     @Override
     public ProductoPartidaBuilder getPartidaBuilder(Long producto, Long empresa) {
-        ProductoPartida partida = repository.getById_ProductoAndId_Empresa(producto, empresa);
-        if (partida == null) {
-            log.error("Partida de producto no encontrada codigo de producto {}", producto);
+        List<ProductoPartida> partidas = repository.getById_ProductoAndId_Empresa(producto, empresa);
+        if (partidas == null || partidas.isEmpty()) {
+            log.error("Lista vacia{}", producto);
             throw new EntityNotFoundException("No se encontro detalle acerca del producto");
+        } else {
+            ProductoPartida partida = partidas.get(0);
+            return ProductoPartidaBuilder
+                    .builder()
+                    .prodCodigo(partida.getId().getProducto())
+                    .prodNombre(partida.getProducto().getNombre())
+                    .barra(partida.getProducto().getProId())
+                    .item(partida.getProducto().getProId1())
+                    .partCodigo(partida.getId().getPartida())
+                    .partidaNombre(partida.getPartida().getNombre())
+                    .partidaId(partida.getPartida().getIprId())
+                    .porcentaje(partida.getPartida().getPorcentaje())
+                    .arancel(partida.getPartida().getArancel())
+                    .build();
         }
-        return ProductoPartidaBuilder
-                .builder()
-                .prodCodigo(partida.getId().getProducto())
-                .prodNombre(partida.getProducto().getNombre())
-                .barra(partida.getProducto().getProId())
-                .item(partida.getProducto().getProId1())
-                .partCodigo(partida.getId().getPartida())
-                .partidaNombre(partida.getPartida().getNombre())
-                .partidaId(partida.getPartida().getIprId())
-                .porcentaje(partida.getPartida().getPorcentaje())
-                .arancel(partida.getPartida().getArancel())
-                .build();
+
+    }
+
+    @Override
+    public ServiceResponse updatePartidaDefault(Long producto, Long partida, Long empresa) {
+        List<ProductoPartida> partidas = repository.getById_ProductoAndId_Empresa(producto, empresa);
+        if (partidas == null || partidas.isEmpty()) {
+            log.error("No se encontraron partidas para el siguiente {}", producto);
+            throw  new EntityNotFoundException("No se encontro partidas creadas");
+        }
+        partidas.forEach(p -> {
+            p.setDefaul(p.getId().getPartida().equals(partida));
+            repository.save(p);
+        });
+        return new ServiceResponse("Partidas Actualizadas", true);
     }
 }

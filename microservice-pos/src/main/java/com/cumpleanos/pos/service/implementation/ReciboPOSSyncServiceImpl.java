@@ -90,8 +90,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public String procesarPagoLan(Long usrLiquida, Long empresa) {
         try {
-            log.info("Inicializar Proceso POS Pago via LAN en empresa:{}", empresa);
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
+            log.info("Iniciando proceso de generar pago POS via LAN en la empresa {}, pventa, {}, de valor {}", empresa, reciboPOSView.getPventa(), reciboPOSView.getTotal());
 
             DatosEnvioRequest dEnvio = crearDatosEnvioRequest(reciboPOSView);
 
@@ -114,8 +114,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public String anularPagoLan(Long usrLiquida, Long empresa) {
         try {
-            log.info("Inicializar Anulacion POS via LAN en empresa:{}", empresa);
             ReciboPOSView v = obtenerReciboPosView(usrLiquida, empresa);
+            log.info("Inicializar Anulacion POS via LAN en la empresa {}, pventa, {}, de valor {}", empresa, v.getPventa(), v.getTotal());
 
             DatosRecepcionResponse response = apiService.anularPagoLan(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), v.getReferencia());
 
@@ -200,10 +200,10 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     private void validateDatosRecepcion(DatosRecepcionResponse response) {
         if (response == null) {
-            throw new InfoPaymentException("No se recibió respuesta de la entidad.");
+            throw new InfoPaymentException("No se recibio respuesta de la entidad.");
         }
 
-        if (!"Transacción Aprobada".equalsIgnoreCase(response.getMensajeResultado())) {
+        if (!"Transaccion Aprobada".equalsIgnoreCase(response.getMensajeResultado())) {
             throw new InfoPaymentException(response.getMensajeResultado());
         }
 
@@ -211,7 +211,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
                 isBlank(response.getCodigoAdquiriente()) ||
                 isBlank(response.getNombreAdquiriente()) ||
                 isBlank(response.getNombreEmisor())) {
-            throw new InfoPaymentException("Transacción no aprobada por la entidad ...");
+            throw new InfoPaymentException("Transaccion no aprobada por la entidad ...");
         }
         log.info("Transaccion Aprobada por la entidad respuesta {}, aprobacion #:{} referencia#: {}", response.getNombreEmisor(), response.getNumeroAprobacion(), response.getReferencia());
     }

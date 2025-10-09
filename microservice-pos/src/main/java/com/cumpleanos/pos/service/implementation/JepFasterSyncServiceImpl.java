@@ -44,6 +44,7 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
         ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
                 new RuntimeException("Recibo no encontrado")
         );
+        log.info("Iniciando proceso de generar pago JEPFaster en la empresa {}, pventa, {}, de valor {}", empresa, view.getPventa(), view.getTotal());
         JepRequestQr request = createRequest(view);
         if (status) {
             response = jepFasterClientService.getQR(request);
@@ -150,20 +151,21 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
                 log.info("Esperando respuesta - intento {}, Respuesta: {}", intentos, view.getResultado());
 
                 if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")) {
+                    log.info("Pago JepFaster Aprobado en la empresa {}, pventa, {}, de valor {}", view.getEmpresa(), view.getPventa(), view.getTotal());
                     return new ServiceResponse("PAGADO", Boolean.TRUE);
                 }
 
                 intentos++;
                 Thread.sleep(intervaloEspera);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restablecer el estado de interrupción del hilo
-                throw new InfoPaymentException("Interrupción mientras se esperaba aprobación", e);
+                Thread.currentThread().interrupt(); // Restablecer el estado de interrupcion del hilo
+                throw new InfoPaymentException("Interrupcion mientras se esperaba aprobacion", e);
             } catch (Exception e) {
                 log.error("Error inesperado: {}", e.getMessage());
                 throw new InfoPaymentException("Error esperandola aprobacion de JepFaster", e);
             }
         }
-        log.error("Tiempo de espera excedido después de {} intentos.", intentosMaximos);
+        log.error("Tiempo de espera excedido despues de {} intentos.", intentosMaximos);
         throw new InfoPaymentException("No se pudo procesar su pago verifique su estado de cuenta");
     }
 }

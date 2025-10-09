@@ -44,6 +44,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
         ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa).orElseThrow(() ->
                 new RuntimeException("Recibo no encontrado")
         );
+        log.info("Iniciando proceso de generar pago DeUna en la empresa {}, pventa, {}, de valor {}", empresa, view.getPventa(), view.getTotal());
         FinancieraId idFin = new FinancieraId(view.getEmpresa(), view.getFinanciera());
         Financiera fin = financieraRepository.findById(idFin).orElseThrow(() -> new EntityNotFoundException("No se encontro informacion financiera"));
 
@@ -173,6 +174,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
                 }
 
                 if ("APPROVED".equalsIgnoreCase(response.getData().status())) {
+                    log.info("Pago DeUna Aprobado en la empresa {}, pventa, {}, de valor {}", view.getEmpresa(), view.getPventa(), view.getTotal());
                     actualizarReciboPosAcepted(view, response.getData());
                     return response.getData();
                 }
@@ -181,14 +183,14 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
                 Thread.sleep(intervaloEspera);
 
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restablecer el estado de interrupción del hilo
-                throw new InfoPaymentException("Interrupción mientras se esperaba aprobación", e);
+                Thread.currentThread().interrupt(); // Restablecer el estado de interrupcion del hilo
+                throw new InfoPaymentException("Interrupcion mientras se esperaba aprobacion", e);
             } catch (Exception e) {
                 log.error("Error inesperado: {}", e.getMessage());
-                throw new InfoPaymentException("Error inesperado durante la aprobación", e);
+                throw new InfoPaymentException("Error inesperado durante la aprobacion", e);
             }
         }
-        log.error("Tiempo de espera excedido después de {} intentos.", intentosMaximos);
+        log.error("Tiempo de espera excedido despues de {} intentos.", intentosMaximos);
         throw new TimeoutException("Tiempo de espera agotado.");
     }
 
