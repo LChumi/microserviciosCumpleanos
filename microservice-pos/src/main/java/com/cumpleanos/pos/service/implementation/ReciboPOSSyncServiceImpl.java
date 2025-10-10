@@ -203,7 +203,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             throw new InfoPaymentException("No se recibio respuesta de la entidad.");
         }
 
-        if (!"Transaccion Aprobada".equalsIgnoreCase(response.getMensajeResultado())) {
+        if (!"Transacción Aprobada".equalsIgnoreCase(response.getMensajeResultado())) {
             throw new InfoPaymentException(response.getMensajeResultado());
         }
 
