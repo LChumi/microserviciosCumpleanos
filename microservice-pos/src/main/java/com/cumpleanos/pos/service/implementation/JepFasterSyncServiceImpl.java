@@ -148,10 +148,10 @@ public class JepFasterSyncServiceImpl implements IJepFasterSyncService {
                 ReciboPOSView view = viewRepositorio.findByUsrLiquidaAndEmpresa(usrLiq, empresa).orElseThrow(() ->
                         new RuntimeException("Recibo no encontrado")
                 );
-                log.info("Esperando respuesta - intento {}, Respuesta: {}", intentos, view.getResultado());
 
                 if (view.getResultado() != null && view.getResultado().equalsIgnoreCase("PAGADO")) {
                     log.info("Pago JepFaster Aprobado en la empresa {}, pventa, {}, de valor {}", view.getEmpresa(), view.getPventa(), view.getTotal());
+                    log.info("Pago aprobado despues de {}", intentos);
                     return new ServiceResponse("PAGADO", Boolean.TRUE);
                 }
 

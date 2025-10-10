@@ -166,7 +166,6 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
         while (intentos < intentosMaximos) {
             try {
                 ApiResponse<InfoResponse> response = deunaClientService.getInfo(fin.getApiKey(), fin.getApiSecret(), request);
-                log.info("Esperando respuesta - intento {}, Respuesta: {}", intentos, response.getData().status());
 
                 if (response.getError() != null) {
                     log.error("Error al obtener la respuesta de pago de recibo: {}", response.getError());
@@ -175,6 +174,7 @@ public class DeUnaSyncServiceImpl implements IDeUnaSyncService {
 
                 if ("APPROVED".equalsIgnoreCase(response.getData().status())) {
                     log.info("Pago DeUna Aprobado en la empresa {}, pventa, {}, de valor {}", view.getEmpresa(), view.getPventa(), view.getTotal());
+                    log.info("Pago aprobado despues de {}", intentos);
                     actualizarReciboPosAcepted(view, response.getData());
                     return response.getData();
                 }
