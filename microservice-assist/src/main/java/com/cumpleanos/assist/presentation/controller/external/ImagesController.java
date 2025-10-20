@@ -47,6 +47,13 @@ public class ImagesController {
         return buildImageResponse(service.getImageProduct(imageName), "producto");
     }
 
+    @Operation(summary = "Obtener imagenes de productos bunna")
+    @Parameter(name = "sku", description = "Barra de Producto")
+    @GetMapping("/images/producto/{sku}/bunna")
+    public ResponseEntity<Resource> getImageProductBunna(@PathVariable String sku) {
+        return buildImageResponse(service.getImageProductBunna(sku), "producto");
+    }
+
     @Operation(summary = "Valida si existe imagen en el producto")
     @Parameter(name = "imageName", description = "Barra de Producto")
     @GetMapping("/images/producto/exist/{imageName}")
