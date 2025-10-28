@@ -46,6 +46,7 @@
 		<module>mongo-service</module>
 		<module>ecommerce-service</module>
 		<module>scheduler-service</module>
+        <module>ws-service</module>
 	</modules>
 
 	<properties>
