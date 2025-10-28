@@ -18,7 +18,7 @@ public class NotificacionController {
 
     @PostMapping("/notify/bradcast")
     public Mono<Void> broadcast(@RequestBody String message) {
-        notificationHandler.broadcast(message);
+        notificationHandler.broadcast("public",message);
         return Mono.empty();
     }
 }

@@ -12,6 +12,6 @@ public class PublicNotificationService {
     private final NotificationHandler notificationHandler;
 
     public void bloquearContenedor(String id , String usuario){
-        notificationHandler.broadcast("Usuario "+ usuario + "bloqueo el contenedor "+ id);
+        notificationHandler.broadcast("tramites", "Usuario "+ usuario + "bloqueo el contenedor "+ id);
     }
 }
