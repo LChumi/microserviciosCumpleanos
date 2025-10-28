@@ -3,6 +3,7 @@ package com.cumpleanos.models.configuration;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +21,16 @@ public class OpenAPIConfiguration {
                                 .title("API Modelos oracle")
                                 .description("Documentacion API de modelos de Oracle")
                                 .version("1.0")
+                                .termsOfService("Terminos y condiciones aplicadas")
                                 .license(
                                         new License()
                                                 .name("Apache License Version 2.0")
                                                 .url("https://www.apache.org/licenses/LICENSE-2.0")
                                 )
-                );
+                ).servers(List.of(
+                        new Server().url("http://localhost:9091").description("Servidor de desarrollo"),
+                        new Server().url("https://api.bunnashop.com").description("Servidor de producción")
+                ));
     }
 
     @Bean

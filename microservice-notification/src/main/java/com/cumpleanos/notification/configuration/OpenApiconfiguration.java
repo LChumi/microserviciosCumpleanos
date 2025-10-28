@@ -1,26 +1,25 @@
-package com.cumpleanos.assist.configuration;
+package com.cumpleanos.notification.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
 @Configuration
-public class OpenAPIConfiguration {
+public class OpenApiconfiguration {
 
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("ASSIST WEB")
-                                .description("Documentacion ASSIST WEB API")
+                                .title("Notificacion Service")
+                                .description("Documentacion Notificacion Email API")
                                 .version("1.0")
                                 .contact(new Contact().email("luischumi.9@gmail.com").name("Luis Chumi").url("https://github.com/LChumi"))
                                 .termsOfService("Terminos y condiciones aplicadas")
@@ -31,32 +30,8 @@ public class OpenAPIConfiguration {
                                 )
                 )
                 .servers(List.of(
-                        new Server().url("http://localhost:9094").description("Servidor de desarrollo"),
+                        new Server().url("http://localhost:8083").description("Servidor de desarrollo"),
                         new Server().url("https://apis.cumpleanos.com.ec").description("Servidor de producción")
                 ));
-    }
-
-    @Bean
-    public List<GroupedOpenApi> groupedOpenApis() {
-        List<String> modules = List
-                .of(
-                        "dmovprod",
-                        "cco",
-                        "importaciones",
-                        "improd-trancito",
-                        "acceso-rol",
-                        "auth",
-                        "ecommerce",
-                        "images",
-                        "list-ccomprobav",
-                        "favoritos",
-                        "index"
-                );
-        return modules.stream()
-                .map(module -> GroupedOpenApi.builder()
-                        .group(module)
-                        .pathsToMatch("/assist/" + module + "/**")
-                        .build()
-                ).toList();
     }
 }
