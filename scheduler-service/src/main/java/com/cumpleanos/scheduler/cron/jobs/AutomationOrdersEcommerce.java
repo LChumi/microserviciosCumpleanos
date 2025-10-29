@@ -17,7 +17,7 @@ public class AutomationOrdersEcommerce {
 
     private final AssistClient assistClient;
 
-    @Scheduled(cron = "${cron.expression.threetimesday}")
+    @Scheduled(cron = "${cron.sync_orders}")
     public void run() {
         log.info("Iniciando proceso de actualizacion de pedidos en Sistema en Ecommerce");
         ServiceResponse response = assistClient.syncOrders().getBody();

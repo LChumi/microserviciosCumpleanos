@@ -1,4 +1,4 @@
-package com.cumpleanos.mongo.configuration;
+package com.cumpleanos.pos.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -18,8 +18,8 @@ public class OpenApiConfiguration {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Mongo Service")
-                                .description("Documentacion Datos MongoDB")
+                                .title("Caja POS")
+                                .description("Documentacion Caja POS API")
                                 .version("1.0")
                                 .contact(new Contact().email("luischumi.9@gmail.com").name("Luis Chumi").url("https://github.com/LChumi"))
                                 .termsOfService("Terminos y condiciones aplicadas")
@@ -30,7 +30,7 @@ public class OpenApiConfiguration {
                                 )
                 )
                 .servers(List.of(
-                        new Server().url("http://127.0.0.1:9095").description("Servidor de desarrollo"),
+                        new Server().url("http://127.0.0.1:9092").description("Servidor de desarrollo"),
                         new Server().url("https://apis.cumpleanos.com.ec").description("Servidor de producción")
                 ));
     }

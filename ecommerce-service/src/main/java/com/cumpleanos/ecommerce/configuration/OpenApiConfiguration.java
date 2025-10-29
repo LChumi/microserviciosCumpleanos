@@ -26,7 +26,7 @@ public class OpenApiConfiguration {
                                 .license(new License().name("Apache License Version 2.0").url("https://www.apache.org/licenses/LICENSE-2.0"))
                 )
                 .servers(List.of(
-                        new Server().url("http://localhost:8085").description("Servidor de desarrollo"),
+                        new Server().url("http://127.0.0.1:8085").description("Servidor de desarrollo"),
                         new Server().url("https://apis.cumpleanos.com.ec").description("Servidor de producción")
                 ));
     }

@@ -6,27 +6,30 @@ x-common-config: &common-config
   networks:
     - microservices-network
   environment:
-    - CONFIG_SERVER=${CONFIG_SERVER}
-    - EUREKA_SERVER_URL=${EUREKA_SERVER_URL}
-  restart: always
+    CONFIG_SERVER: ${CONFIG_SERVER}
+    EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+  restart: unless-stopped
   logging:
     driver: "json-file"
     options:
       max-size: "10m"
       max-file: "3"
 
-
 services:
   config-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-config
+    image: ghcr.io/lchumi/microservicioscumpleanos/config-service
     container_name: config-service
     ports:
       - "8888:8888"
     networks:
       - microservices-network
     environment:
-      - SPRING_PROFILES_ACTIVE=native
+      SPRING_PROFILES_ACTIVE: native
+      EUREKA_SERVER_PORT: ${EUREKA_SERVER_PORT}
+      ORACLE_USERNAME: ${ORACLE_USERNAME}
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}
+      MONGO_URI: ${MONGO_URI}
     deploy:
       resources:
         limits:
@@ -40,7 +43,7 @@ services:
 
   eureka-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-eureka
+    image: ghcr.io/lchumi/microservicioscumpleanos/eureka-service
     container_name: eureka-service
     ports:
       - "8761:8761"
@@ -55,7 +58,7 @@ services:
 
   gateway-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-gateway
+    image: ghcr.io/lchumi/microservicioscumpleanos/gateway-service
     container_name: gateway-service
     ports:
       - "8081:8081"
@@ -65,7 +68,7 @@ services:
 
   adminserver-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-adiminserver
+    image: ghcr.io/lchumi/microservicioscumpleanos/adminserver-service
     container_name: adminserver-service
     ports:
       - "9090:9090"
@@ -74,7 +77,7 @@ services:
 
   models-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-models
+    image: ghcr.io/lchumi/microservicioscumpleanos/models-service
     container_name: models-service
     ports:
       - "9091:9091"
@@ -83,10 +86,12 @@ services:
 
   recep-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-reccomprobantes
+    image: ghcr.io/lchumi/microservicioscumpleanos/recep-service
     container_name: recep-service
     ports:
       - "9093:9093"
+    environment:
+      DATA_CLIENTES: ${DATA_CLIENTES}
     volumes:
       - ./clientes:/app/data/clientes
     depends_on:
@@ -94,7 +99,7 @@ services:
 
   pos-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-pos
+    image: ghcr.io/lchumi/microservicioscumpleanos/pos-service
     container_name: pos-service
     ports:
       - "9092:9092"
@@ -106,16 +111,19 @@ services:
 
   notification-email-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-notification
+    image: ghcr.io/lchumi/microservicioscumpleanos/emails-service
     container_name: notification-email-service
     ports:
       - "8083:8083"
+    environment:
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_KEY: ${MAIL_KEY}
     depends_on:
       - gateway-service
 
   assist-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/microservice-assist
+    image: ghcr.io/lchumi/microservicioscumpleanos/assist-service
     container_name: assist-service
     ports:
       - "9094:9094"
@@ -124,8 +132,11 @@ services:
 
   meta-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/meta-service
+    image: ghcr.io/lchumi/microservicioscumpleanos/meta-service
     container_name: meta-service
+    environment:
+      META_WEBHOK: ${META_WEBHOK}
+      META_API_TOKEN: ${META_API_TOKEN}
     ports:
       - "8084:8084"
     depends_on:
@@ -133,7 +144,7 @@ services:
 
   mongo-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/mongo-service
+    image: ghcr.io/lchumi/microservicioscumpleanos/mongo-service
     container_name: mongo-service
     ports:
       - "9095:9095"
@@ -142,18 +153,37 @@ services:
 
   ecommerce-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/ecommerce-service
+    image: ghcr.io/lchumi/microservicioscumpleanos/ecommerce-service
     container_name: ecommerce-service
     ports:
       - "8085:8085"
+    environment:
+      WC_URL: ${WC_URL}
+      WC_CLIENT: ${WC_CLIENT}
+      WC_SECTRET_CLIENT: ${WC_SECTRET_CLIENT}
+      WP_USERNAME: ${WP_USERNAME}
+      WP_PASSWORD: ${WP_PASSWORD}
+      SERVER_IMAGES: ${SERVER_IMAGES}
     depends_on:
       - gateway-service
 
   scheduler-service:
     <<: *common-config
-    image: ghcr.io/sistemasicep/assistweb-backend/scheduler-service
+    image: ghcr.io/lchumi/microservicioscumpleanos/scheduler-service
     container_name: scheduler-service
     ports:
       - "8086:8086"
+    environment:
+      CRON_SYNC_PRODUCTS: ${CRON_SYNC_PRODUCTS}
+      CRON_SYNC_ORDERS: ${CRON_SYNC_ORDERS}
+    depends_on:
+      - gateway-service
+
+  ws-service:
+    <<: *common-config
+    image: ghcr.io/lchumi/microservicioscumpleanos/ws-service
+    container_name: websocket-service
+    ports:
+      - "8082:8082"
     depends_on:
       - gateway-service

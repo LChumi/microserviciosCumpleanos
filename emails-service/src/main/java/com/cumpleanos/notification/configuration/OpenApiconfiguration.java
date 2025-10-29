@@ -1,4 +1,4 @@
-package com.cumpleanos.mongo.configuration;
+package com.cumpleanos.notification.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -11,15 +11,15 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-public class OpenApiConfiguration {
+public class OpenApiconfiguration {
 
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Mongo Service")
-                                .description("Documentacion Datos MongoDB")
+                                .title("Notificacion Service")
+                                .description("Documentacion Notificacion Email API")
                                 .version("1.0")
                                 .contact(new Contact().email("luischumi.9@gmail.com").name("Luis Chumi").url("https://github.com/LChumi"))
                                 .termsOfService("Terminos y condiciones aplicadas")
@@ -30,7 +30,7 @@ public class OpenApiConfiguration {
                                 )
                 )
                 .servers(List.of(
-                        new Server().url("http://127.0.0.1:9095").description("Servidor de desarrollo"),
+                        new Server().url("http://127.0.0.1:8083").description("Servidor de desarrollo"),
                         new Server().url("https://apis.cumpleanos.com.ec").description("Servidor de producción")
                 ));
     }

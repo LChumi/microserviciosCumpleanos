@@ -22,9 +22,9 @@ public class AutomationProductsEcommerce {
     private final AssistClient assistClient;
     private final ProductUpdateService productUpdateService;
 
-    @Scheduled(cron = "${cron.expression.everyHour}")
+    @Scheduled(cron = "${cron.sync_products}")
     public void run() {
-        log.info("Iniciando proceso de actualizacion dde productos de Sistema en Ecommerce");
+        log.info("Iniciando proceso de actualizacion de productos de Sistema en Ecommerce");
         List<StockEcommerceVDTO> productos = assistClient.findAll().getBody();
 
         if (productos == null || productos.isEmpty()) {

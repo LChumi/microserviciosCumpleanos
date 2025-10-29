@@ -33,15 +33,15 @@
 	<modules>
 		<module>common-module</module>
 		<module>utility-classes-module</module>
-		<module>microservice-config</module>
-		<module>microservice-eureka</module>
-		<module>microservice-adiminserver</module>
-		<module>microservice-gateway</module>
-		<module>microservice-models</module>
-		<module>microservice-reccomprobantes</module>
-		<module>microservice-pos</module>
-		<module>microservice-notification</module>
-		<module>microservice-assist</module>
+		<module>eureka-service</module>
+		<module>adminserver-service</module>
+        <module>config-service</module>
+		<module>gateway-service</module>
+		<module>models-service</module>
+		<module>recep-service</module>
+		<module>pos-service</module>
+		<module>emails-service</module>
+		<module>assist-service</module>
 		<module>meta-service</module>
 		<module>mongo-service</module>
 		<module>ecommerce-service</module>
