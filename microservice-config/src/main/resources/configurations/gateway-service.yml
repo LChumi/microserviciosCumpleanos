@@ -17,54 +17,56 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowed-origins:
-              - "https://assist.cumpleanos.com.ec"
-              - "https://apis.cumpleanos.com.ec"
-              - "http://localhost:4200"
-            allowed-methods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowed-headers:
-              - Authorization
-              - Content-Type
-            #allowCredentials: true
-      httpclient:
-        ssl:
-          use-insecure-trust-manager: true
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: pos-service
-          uri: lb://pos-service
-          predicates:
-            - Path=/pos/**
-        - id: recep-service
-          uri: lb://recep-service
-          predicates:
-            - Path=/recp/**
-        - id: models-service
-          uri: lb://models-service
-          predicates:
-            - Path=/models/**
-        - id: assist-service
-          uri: lb://assist-service
-          predicates:
-            - Path=/assist/**
-        - id: meta-service
-          uri: lb://meta-service
-          predicates:
-            - Path=/meta/**
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/email/**
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins:
+                  - "https://assist.cumpleanos.com.ec"
+                  - "https://apis.cumpleanos.com.ec"
+                  - "http://localhost:4200"
+                allowed-methods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowed-headers:
+                  - Authorization
+                  - Content-Type
+                #allowCredentials: true
+          httpclient:
+            ssl:
+              use-insecure-trust-manager: true
+          discovery:
+            locator:
+              enabled: true
+          routes:
+            - id: pos-service
+              uri: lb://pos-service
+              predicates:
+                - Path=/pos/**
+            - id: recep-service
+              uri: lb://recep-service
+              predicates:
+                - Path=/recp/**
+            - id: models-service
+              uri: lb://models-service
+              predicates:
+                - Path=/models/**
+            - id: assist-service
+              uri: lb://assist-service
+              predicates:
+                - Path=/assist/**
+            - id: meta-service
+              uri: lb://meta-service
+              predicates:
+                - Path=/meta/**
+            - id: notification-service
+              uri: lb://notification-service
+              predicates:
+                - Path=/email/**
 
 management:
   endpoints:

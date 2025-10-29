@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 #Crear usuario no-root con UID fijo
 RUN useradd -m -u 1000 appuser \
