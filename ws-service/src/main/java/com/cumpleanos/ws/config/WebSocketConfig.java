@@ -15,7 +15,7 @@ import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAd
 import java.util.Map;
 
 @Configuration
-@RequiredArgsConstructor(onConstructor_ =  @Autowired)
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class WebSocketConfig {
 
     private final NotificationHandler publicHandler;

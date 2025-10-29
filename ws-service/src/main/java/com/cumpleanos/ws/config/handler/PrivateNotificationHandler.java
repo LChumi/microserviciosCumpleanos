@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor(onConstructor_ =  @Autowired)
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class PrivateNotificationHandler implements WebSocketHandler {
 
     private final ChatMessageService chatMessageService;

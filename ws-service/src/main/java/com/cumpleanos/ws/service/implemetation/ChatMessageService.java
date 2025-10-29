@@ -38,4 +38,3 @@ public class ChatMessageService {
         return chatMessageRepository.findByChatId(chatId).sort(Comparator.comparing(ChatMessage::getCreatedAt));
     }
 }
-

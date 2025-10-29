@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor(onConstructor_ =  @Autowired)
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class NotificationHandler implements WebSocketHandler {
 
     private final UserService userService;
@@ -44,7 +44,7 @@ public class NotificationHandler implements WebSocketHandler {
         Sinks.Many<String> sink = getCanal(canal);
 
         Mono<Void> onConnect = userService.login(nickname)
-                .doOnSuccess( usuario -> {
+                .doOnSuccess(usuario -> {
                     log.info("Usuario conectado {}", nickname);
                     sink.tryEmitNext("Usuario " + nickname + " conectado");
                 })
@@ -69,7 +69,7 @@ public class NotificationHandler implements WebSocketHandler {
         return onConnect.then(session.send(output).and(input.then()));
     }
 
-    public void broadcast(String canal ,String mensaje){
+    public void broadcast(String canal, String mensaje) {
         getCanal(canal).tryEmitNext(mensaje);
     }
 }
