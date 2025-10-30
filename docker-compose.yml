@@ -8,6 +8,27 @@ x-common-config: &common-config
   environment:
     CONFIG_SERVER: ${CONFIG_SERVER}
     EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+    SPRING_PROFILES_ACTIVE: native
+    EUREKA_SERVER_PORT: ${EUREKA_SERVER_PORT}
+    ORACLE_URL: ${ORACLE_URL}
+    ORACLE_USERNAME: ${ORACLE_USERNAME}
+    ORACLE_PASSWORD: ${ORACLE_PASSWORD}
+    MONGO_URI: ${MONGO_URI}
+    DATA_CLIENTES: ${DATA_CLIENTES}
+    MAIL_USERNAME: ${MAIL_USERNAME}
+    MAIL_KEY: ${MAIL_KEY}
+    WC_URL: ${WC_URL}
+    WC_CLIENT: ${WC_CLIENT}
+    WC_SECTRET_CLIENT: ${WC_SECTRET_CLIENT}
+    WP_USERNAME: ${WP_USERNAME}
+    WP_PASSWORD: ${WP_PASSWORD}
+    SERVER_IMAGES: ${SERVER_IMAGES}
+    CRON_SYNC_PRODUCTS: ${CRON_SYNC_PRODUCTS}
+    CRON_SYNC_ORDERS: ${CRON_SYNC_ORDERS}
+    META_WEBHOK: ${META_WEBHOK}
+    META_API_TOKEN: ${META_API_TOKEN}
+    DATA_SAVED_PATH: ${DATA_SAVED_PATH}
+    LOG_PATH: ${LOG_PATH}
   restart: unless-stopped
   logging:
     driver: "json-file"
@@ -24,12 +45,6 @@ services:
       - "8888:8888"
     networks:
       - microservices-network
-    environment:
-      SPRING_PROFILES_ACTIVE: native
-      EUREKA_SERVER_PORT: ${EUREKA_SERVER_PORT}
-      ORACLE_USERNAME: ${ORACLE_USERNAME}
-      ORACLE_PASSWORD: ${ORACLE_PASSWORD}
-      MONGO_URI: ${MONGO_URI}
     deploy:
       resources:
         limits:
@@ -73,7 +88,8 @@ services:
     ports:
       - "9090:9090"
     depends_on:
-      - eureka-service
+      eureka-service:
+        condition: service_healthy
 
   models-service:
     <<: *common-config
@@ -90,8 +106,6 @@ services:
     container_name: recep-service
     ports:
       - "9093:9093"
-    environment:
-      DATA_CLIENTES: ${DATA_CLIENTES}
     volumes:
       - ./clientes:/app/data/clientes
     depends_on:
@@ -115,9 +129,6 @@ services:
     container_name: notification-email-service
     ports:
       - "8083:8083"
-    environment:
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_KEY: ${MAIL_KEY}
     depends_on:
       - gateway-service
 
@@ -134,9 +145,6 @@ services:
     <<: *common-config
     image: ghcr.io/lchumi/microservicioscumpleanos/meta-service
     container_name: meta-service
-    environment:
-      META_WEBHOK: ${META_WEBHOK}
-      META_API_TOKEN: ${META_API_TOKEN}
     ports:
       - "8084:8084"
     depends_on:
@@ -157,13 +165,6 @@ services:
     container_name: ecommerce-service
     ports:
       - "8085:8085"
-    environment:
-      WC_URL: ${WC_URL}
-      WC_CLIENT: ${WC_CLIENT}
-      WC_SECTRET_CLIENT: ${WC_SECTRET_CLIENT}
-      WP_USERNAME: ${WP_USERNAME}
-      WP_PASSWORD: ${WP_PASSWORD}
-      SERVER_IMAGES: ${SERVER_IMAGES}
     depends_on:
       - gateway-service
 
@@ -173,9 +174,6 @@ services:
     container_name: scheduler-service
     ports:
       - "8086:8086"
-    environment:
-      CRON_SYNC_PRODUCTS: ${CRON_SYNC_PRODUCTS}
-      CRON_SYNC_ORDERS: ${CRON_SYNC_ORDERS}
     depends_on:
       - gateway-service
 

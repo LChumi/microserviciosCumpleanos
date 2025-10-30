@@ -2,4 +2,4 @@ spring:
   application:
     name: models-service
   config:
-    import: "optional:configserver:${CONFIG_SERVER:http://localhost:8888}"
+    import: "optional:configserver:${CONFIG_SERVER}"

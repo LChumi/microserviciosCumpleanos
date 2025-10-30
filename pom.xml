@@ -36,7 +36,7 @@
 		<module>eureka-service</module>
 		<module>adminserver-service</module>
         <module>config-service</module>
-		<module>gateway-service</module>
+        <module>gateway-service</module>
 		<module>models-service</module>
 		<module>recep-service</module>
 		<module>pos-service</module>

@@ -31,6 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### rutas archivos temporales ###
-filepaths.properties

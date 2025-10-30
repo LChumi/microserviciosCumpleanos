@@ -3,3 +3,7 @@ spring:
     name: scheduler-service
   config:
     import: optional:configserver:${CONFIG_SERVER:http://localhost:8888}
+
+cron:
+  sync_products: ${CRON_SYNC_PRODUCTS}
+  sync_orders: ${CRON_SYNC_ORDERS}

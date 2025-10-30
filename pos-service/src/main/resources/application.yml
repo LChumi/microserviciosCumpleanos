@@ -2,14 +2,14 @@ spring:
   application:
     name: pos-service
   config:
-    import: "optional:configserver:${CONFIG_SERVER:http://localhost:8888}"
+    import: "optional:configserver:${CONFIG_SERVER}"
 
 pos:
-  base-url: ${BASE_URL:http://}
-  puerto: ${PUERTO_CLIENTE_POS:8080/}
+  base-url: http://
+  puerto: 8080/
 
 file:
-  path: ${DATA_SAVED_PATH:C:\\Proyectos\\Microserivicios\\data_not_saved}
+  path: ${DATA_SAVED_PATH}
 
 logging:
   level:
@@ -18,4 +18,4 @@ logging:
       cumpleanos:
         pos: debug
   file:
-    name: ${LOG_PATH:C:\\Proyectos\\Microserivicios\\logs\\pos.log}
+    name: ${LOG_PATH}

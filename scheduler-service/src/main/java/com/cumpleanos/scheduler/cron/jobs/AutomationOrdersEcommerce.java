@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@PropertySource( "classpath:cron.properties")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class AutomationOrdersEcommerce {
 

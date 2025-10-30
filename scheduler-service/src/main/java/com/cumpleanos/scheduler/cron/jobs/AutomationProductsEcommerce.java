@@ -15,7 +15,6 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-@PropertySource("classpath:cron.properties")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class AutomationProductsEcommerce {
 
