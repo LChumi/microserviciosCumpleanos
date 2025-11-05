@@ -29,7 +29,7 @@ public class OpenAPIConfiguration {
                                 )
                 ).servers(List.of(
                         new Server().url("http://127.0.0.1:9091").description("Servidor de desarrollo"),
-                        new Server().url("https://api.bunnashop.com").description("Servidor de producción")
+                        new Server().url("http://192.168.112.245:9091").description("Servidor de producción")
                 ));
     }
 

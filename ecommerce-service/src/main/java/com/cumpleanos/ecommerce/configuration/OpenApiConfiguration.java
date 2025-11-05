@@ -27,7 +27,7 @@ public class OpenApiConfiguration {
                 )
                 .servers(List.of(
                         new Server().url("http://127.0.0.1:8085").description("Servidor de desarrollo"),
-                        new Server().url("https://apis.cumpleanos.com.ec").description("Servidor de producción")
+                        new Server().url("http://192.168.112.245:8085").description("Servidor de producción")
                 ));
     }
 }
