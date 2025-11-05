@@ -31,7 +31,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
     public ServiceResponse uploadProductEcommerce(Long id, Long empresa) {
         CargaProductoEcomV pv = cargaProductoEcomV.findByProducto(id, empresa);
         if (pv == null) {
-            throw new EntityNotFoundException("No se encontró el producto");
+            throw new EntityNotFoundException("No se encontró el producto "+ id);
         }
 
         validateStocks(pv);
