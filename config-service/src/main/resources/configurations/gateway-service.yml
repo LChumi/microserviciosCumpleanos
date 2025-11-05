@@ -77,7 +77,7 @@ management:
     health:
       show-details: always
     gateway:
-      enabled: true
+      access: unrestricted
   info:
     git:
       enabled: true
