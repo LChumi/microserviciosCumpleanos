@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>com.cumpleanos.adminserver</groupId>
-	<artifactId>adiminserver-service</artifactId>
+	<artifactId>adminserver-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>adiminserver-service</name>
+	<name>adminserver-service</name>
 	<description>Microservice Admin Server </description>
 
 	<properties>

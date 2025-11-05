@@ -3,7 +3,7 @@ server:
   forward-headers-strategy: framework
 spring:
   application:
-    name: adiminserver-service
+    name: adminserver-service
 eureka:
   client:
     service-url:
