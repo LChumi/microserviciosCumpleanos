@@ -32,20 +32,27 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     // Obtener una categoría por nombre
     @Override
-    public Integer obtenerCategoriaId(String nombreCategoria) {
+    public Integer obtenerCategoriaId(String nombreCategoria, Integer parentId) {
         List<Map<String, Object>> categories = wooCommerce.getAllCategories(properties.getClient(), properties.getSecretClient(), nombreCategoria);
 
-        if (!categories.isEmpty()) {
-            return (Integer) categories.get(0).get("id");
+        for (Map<String, Object> cat : categories) {
+            String name = ((String) cat.get("name")).trim();
+            Integer parent = (Integer) cat.get("parent");
+
+            if (name.equalsIgnoreCase(nombreCategoria.trim()) &&
+                    Objects.equals(parent, parentId != null ? parentId : 0)) {
+                return (Integer) cat.get("id");
+            }
         }
         return null;
     }
+
 
     @Override
     public Integer obtenerProductoId(String sku) {
         List<Map<String, Object>> existingProducts = wooCommerce.getAllProducts(properties.getClient(), properties.getSecretClient(), sku);
         if (!existingProducts.isEmpty()) {
-            return (Integer) existingProducts.get(0).get("id");
+            return (Integer) existingProducts.getFirst().get("id");
         }
         return null;
     }
@@ -107,6 +114,8 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         List<Map<String, Object>> categorias = new ArrayList<>();
         categorias.add(Map.of("id", subcategoriaId));
         productData.put("categories", categorias);
+
+        log.info("Producot {}", productData);
 
         return wooCommerce.createProduct(productData, properties.getClient(), properties.getSecretClient());
     }
@@ -173,7 +182,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     }
 
     private Integer ensureCategoryExists(String categoryName, Integer parentId) {
-        Integer categoryId = obtenerCategoriaId(categoryName.trim());
+        Integer categoryId = obtenerCategoriaId(categoryName.trim(), parentId);
         if (categoryId == null) {
             categoryId = crearCategoria(categoryName, parentId);
         }
