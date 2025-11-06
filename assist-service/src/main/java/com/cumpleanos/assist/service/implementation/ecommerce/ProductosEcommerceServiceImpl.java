@@ -81,8 +81,8 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
                 pv.getPro_id(),
                 bigDecimalToString(pv.getPrecio1()),
                 "",
-                stringCleaner(pv.getCategoria()),
-                stringCleaner(pv.getSubcategoria()),
+                limpiarCategoria(pv.getCategoria()),
+                limpiarCategoria(pv.getSubcategoria()),
                 longToInteger(pv.getStock()),
                 Math.toIntExact(pv.getEmpresa()),
                 whitIva(pv.getImpuesto())

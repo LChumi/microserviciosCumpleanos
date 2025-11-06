@@ -179,25 +179,30 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
     }
 
     private String generarIdCliente(String nombre, Long empresa) {
+        String nuevoIdBase = generarPrefix(nombre); // E.g. "ECOM-SAC"
 
-        String nuevoIdBase = generarPrefix(nombre);
+        // Recorta el prefijo si es muy largo
+        if (nuevoIdBase.length() > 7) {
+            nuevoIdBase = nuevoIdBase.substring(0, 7); // deja espacio para 3 dígitos
+        }
 
-        //Lista de Ids existentes
         List<String> ids = modelsService.getIdsClientes(nuevoIdBase, empresa);
 
-        if (ids.isEmpty()) {
-            return nuevoIdBase + "001";
-        } else {
+        int siguiente = 1;
+        if (!ids.isEmpty()) {
             int maxNum = 0;
             for (String id : ids) {
                 String numStr = id.substring(nuevoIdBase.length());
-                int num = Integer.parseInt(numStr);
-                if (num > maxNum) {
-                    maxNum = num;
-                }
+                try {
+                    int num = Integer.parseInt(numStr);
+                    if (num > maxNum) maxNum = num;
+                } catch (NumberFormatException ignored) {}
             }
-            return nuevoIdBase + String.format("%03d", maxNum + 1);
+            siguiente = maxNum + 1;
         }
+
+        String idFinal = (nuevoIdBase + String.format("%03d", siguiente));
+        return idFinal.length() > 10 ? idFinal.substring(0, 10) : idFinal;
     }
 
     /**

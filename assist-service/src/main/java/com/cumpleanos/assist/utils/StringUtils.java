@@ -1,11 +1,14 @@
 package com.cumpleanos.assist.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.Normalizer;
 import java.util.*;
 
+@Slf4j
 public class StringUtils {
 
     public static String bigDecimalToString(BigDecimal bigDecimal) {
@@ -58,6 +61,30 @@ public class StringUtils {
 
         return String.join(" ", resultado).replaceAll("\\s{2,}", " ").trim();
     }
+
+    public static String limpiarCategoria(String categoria) {
+        if (categoria == null || categoria.isEmpty()){
+            log.info("Categoria vacia ");
+            return "";
+        }
+
+        // Normalizar y quitar acentos
+        String limpio = Normalizer.normalize(categoria, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}", "");
+
+        // Reemplazar ñ por n
+        limpio = limpio.replaceAll("ñ", "n").replaceAll("Ñ", "N");
+
+        // Reemplazar cualquier forma de / por espacio
+        limpio = limpio.replaceAll("\\s*/\\s*", " ");
+
+        // Eliminar caracteres especiales excepto letras, números, guiones y espacios
+        limpio = limpio.replaceAll("[^a-zA-Z0-9\\- ]", " ");
+
+        // Compactar espacios múltiples
+        return limpio.replaceAll("\\s{2,}", " ").trim();
+    }
+
 
     public static Integer longToInteger(Long valor) {
         return Math.toIntExact(valor);
