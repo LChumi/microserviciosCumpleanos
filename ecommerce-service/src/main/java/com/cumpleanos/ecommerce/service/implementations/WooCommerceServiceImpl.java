@@ -80,6 +80,14 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     // Subir un producto con categoría y subcategoría
     @Override
     public Map<String, Object> subirProducto(ProductRequest request) {
+
+        Integer productId = obtenerProductoId(request.sku());
+        if (productId != null) {
+            log.info("Producto existe omitiendo.......");
+            Map<String, Object> productData = new HashMap<>();
+            productData.put("exist", true);
+            return productData;
+        }
         // Verificar si la categoría existe, si no, crearla
         Integer categoriaId = ensureCategoryExists(request.categoria(), null);
 

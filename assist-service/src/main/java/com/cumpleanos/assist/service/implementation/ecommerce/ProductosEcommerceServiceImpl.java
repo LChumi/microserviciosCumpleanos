@@ -37,12 +37,22 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         validateStocks(pv);
         ProductEcomRequest p = viewToProductRequest(pv);
 
+        String message = null;
+
         Map<String, Object> carga = ecomerceClient.uploadProduct(p);
         if (carga != null && carga.containsKey("id")) {
             Integer prodEcomId = (Integer) carga.get("id");
             log.info("Producto Creado con id: {} ", prodEcomId);
+            message = "Producto Creado ";
         } else {
-            throw new ProductNotCreatedException("Error al crear el producto en el Ecommerce: " + pv.getProducto());
+            assert carga != null;
+            if (Boolean.TRUE.equals(carga.get("exist"))) {
+                log.info("Producto ya existe en WhooCommerce");
+                message = "Producto ya existe ";
+            } else
+            {
+                throw new ProductNotCreatedException("Error al crear el producto en el Ecommerce: " + pv.getProducto());
+            }
         }
 
         ProductoBuilder prod = productoService.findById(pv.getProducto(), empresa);
@@ -54,8 +64,9 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         if (updated == null || updated.codigo() == null) {
             log.info("Producto no se actualizo en la base de datos");
         }
-        log.info("Producto Creado en ecommerce:{} y actualizado en Base de datos {} de la empresa {}", p.sku(), updated.codigo(), updated.empresa());
-        return new ServiceResponse("Producto creado " + p.sku() + "En Ecommerce y actualizado en BD", Boolean.TRUE);
+        assert updated != null;
+        log.info("{}, {} actualizado en Base de datos {} de la empresa {}",message, p.sku(), updated.codigo(), updated.empresa());
+        return new ServiceResponse(message + p.sku() + "En Ecommerce, actualizado en BD", Boolean.TRUE);
     }
 
     @Override
