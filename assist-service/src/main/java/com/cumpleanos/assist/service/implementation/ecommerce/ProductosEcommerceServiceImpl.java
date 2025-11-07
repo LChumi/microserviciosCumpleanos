@@ -36,6 +36,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
 
         validateStocks(pv);
         ProductEcomRequest p = viewToProductRequest(pv);
+        log.info(p.toString());
 
         String message = null;
 

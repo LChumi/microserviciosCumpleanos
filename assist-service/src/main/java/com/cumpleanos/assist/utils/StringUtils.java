@@ -63,25 +63,28 @@ public class StringUtils {
     }
 
     public static String limpiarCategoria(String categoria) {
-        if (categoria == null || categoria.isEmpty()){
-            log.info("Categoria vacia ");
+        if (categoria == null || categoria.isEmpty()) {
+            log.info("Categoría vacía");
             return "";
         }
 
-        // Normalizar y quitar acentos
+        // Proteger ñ y Ñ antes de normalizar
+        categoria = categoria.replace("ñ", "__enie__").replace("Ñ", "__ENIE__");
+
+        //Normalizar y eliminar tildes
         String limpio = Normalizer.normalize(categoria, Normalizer.Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}", "");
 
-        // Reemplazar cualquier forma de / por espacio
+        //Restaurar ñ y Ñ
+        limpio = limpio.replace("__enie__", "ñ").replace("__ENIE__", "Ñ");
+
+        //Quitar caracteres no deseados
         limpio = limpio.replaceAll("\\s*/\\s*", " ");
+        limpio = limpio.replaceAll("[^a-zA-ZñÑ0-9\\- ]", " ");
+        limpio = limpio.replaceAll("\\s{2,}", " ").trim();
 
-        // Eliminar caracteres especiales excepto letras, números, guiones y espacios
-        limpio = limpio.replaceAll("[^a-zA-Z0-9\\- ]", " ");
-
-        // Compactar espacios múltiples
-        return limpio.replaceAll("\\s{2,}", " ").trim();
+        return limpio;
     }
-
 
     public static Integer longToInteger(Long valor) {
         return Math.toIntExact(valor);
