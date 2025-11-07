@@ -72,9 +72,6 @@ public class StringUtils {
         String limpio = Normalizer.normalize(categoria, Normalizer.Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}", "");
 
-        // Reemplazar ñ por n
-        limpio = limpio.replaceAll("ñ", "n").replaceAll("Ñ", "N");
-
         // Reemplazar cualquier forma de / por espacio
         limpio = limpio.replaceAll("\\s*/\\s*", " ");
 

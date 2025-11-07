@@ -15,7 +15,9 @@ public interface WooCommerceClient {
     @GetMapping("/wp-json/wc/v3/products/categories")
     List<Map<String, Object>> getAllCategories(@RequestParam("consumer_key") String consumerKey,
                                                @RequestParam("consumer_secret") String consumerSecret,
-                                               @RequestParam("search") String search);
+                                               @RequestParam("search") String search,
+                                               @RequestParam(value = "per_page", defaultValue = "100") Integer perPage)
+            ;
 
     @PostMapping("/wp-json/wc/v3/products/categories")
     Map<String, Object> createCategory(@RequestBody Map<String, Object> categoryData,

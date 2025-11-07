@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface WooCommerceService {
 
-    Integer obtenerCategoriaId(String nombreCategoria,Integer categoriaPadre);
+    List<Map<String, Object>> obtenerCategoriaId(String nombreCategoria);
 
     Integer obtenerProductoId(String sku);
 

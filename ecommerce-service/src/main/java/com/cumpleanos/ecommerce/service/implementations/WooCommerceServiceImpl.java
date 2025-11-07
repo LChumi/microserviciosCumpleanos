@@ -32,21 +32,9 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     // Obtener una categoría por nombre
     @Override
-    public Integer obtenerCategoriaId(String nombreCategoria, Integer parentId) {
-        List<Map<String, Object>> categories = wooCommerce.getAllCategories(properties.getClient(), properties.getSecretClient(), nombreCategoria);
-
-        for (Map<String, Object> cat : categories) {
-            String name = ((String) cat.get("name")).trim();
-            Integer parent = (Integer) cat.get("parent");
-
-            if (name.equalsIgnoreCase(nombreCategoria.trim()) &&
-                    Objects.equals(parent, parentId != null ? parentId : 0)) {
-                return (Integer) cat.get("id");
-            }
-        }
-        return null;
+    public List<Map<String, Object>> obtenerCategoriaId(String nombreCategoria) {
+        return wooCommerce.getAllCategories(properties.getClient(), properties.getSecretClient(), nombreCategoria, 100);
     }
-
 
     @Override
     public Integer obtenerProductoId(String sku) {
@@ -96,10 +84,10 @@ public class WooCommerceServiceImpl implements WooCommerceService {
             return productData;
         }
         // Verificar si la categoría existe, si no, crearla
-        Integer categoriaId = ensureCategoryExists(request.categoria(), null);
+        Integer categoriaId = ensureCategoryExists(request.categoria());
 
         // Verificar si la subcategoría existe, si no, crearla bajo la categoría padre
-        Integer subcategoriaId = ensureCategoryExists(request.subcategoria(), categoriaId);
+        Integer subcategoriaId = ensureSubCategoryExist(request.subcategoria(), categoriaId);
 
         Integer imageId = null;
         try {
@@ -114,8 +102,6 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         List<Map<String, Object>> categorias = new ArrayList<>();
         categorias.add(Map.of("id", subcategoriaId));
         productData.put("categories", categorias);
-
-        log.info("Producot {}", productData);
 
         return wooCommerce.createProduct(productData, properties.getClient(), properties.getSecretClient());
     }
@@ -143,9 +129,9 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         Map<String, Object> productData = convertObjectToMap(request, imageId.orElse(null), false);
 
         // Validamos y actualizamos la categoría si es necesario
-        Integer categoriaId = ensureCategoryExists(request.categoria(), null);
+        Integer categoriaId = ensureCategoryExists(request.categoria());
 
-        Integer subcategoriaId = ensureCategoryExists(request.subcategoria(), categoriaId);
+        Integer subcategoriaId = ensureSubCategoryExist(request.subcategoria(), categoriaId);
 
         // Agregamos las categorías al producto
         List<Map<String, Object>> categorias = new ArrayList<>();
@@ -181,11 +167,35 @@ public class WooCommerceServiceImpl implements WooCommerceService {
         }
     }
 
-    private Integer ensureCategoryExists(String categoryName, Integer parentId) {
-        Integer categoryId = obtenerCategoriaId(categoryName.trim(), parentId);
-        if (categoryId == null) {
-            categoryId = crearCategoria(categoryName, parentId);
+    private Integer ensureCategoryExists(String categoryName) {
+        List<Map<String, Object>> categories = obtenerCategoriaId(categoryName.trim());
+
+        for (Map<String, Object> cat : categories) {
+            String name = ((String) cat.get("name")).trim();
+            if (name.equalsIgnoreCase(categoryName.trim())) {
+                return ((Number) cat.get("id")).intValue();
+            }
         }
-        return categoryId;
+
+        // Si no existe, crear categoría raíz
+        return crearCategoria(categoryName, null);
     }
+
+    private Integer ensureSubCategoryExist(String categoryName, Integer parentId) {
+        List<Map<String, Object>> categories = obtenerCategoriaId(categoryName.trim());
+
+        for (Map<String, Object> cat : categories) {
+            String name = ((String) cat.get("name")).trim();
+            Integer parent = ((Number) cat.get("parent")).intValue();
+
+            if (name.equalsIgnoreCase(categoryName.trim()) &&
+                    Objects.equals(parent, parentId != null ? parentId : 0)) {
+                return ((Number) cat.get("id")).intValue();
+            }
+        }
+
+        // Si no existe, crear subcategoría
+        return crearCategoria(categoryName, parentId);
+    }
+
 }
