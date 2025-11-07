@@ -31,13 +31,11 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
     public ServiceResponse uploadProductEcommerce(Long id, Long empresa) {
         CargaProductoEcomV pv = cargaProductoEcomV.findByProducto(id, empresa);
         if (pv == null) {
-            throw new EntityNotFoundException("No se encontró el producto "+ id);
+            throw new EntityNotFoundException("No se encontró el producto " + id);
         }
 
         validateStocks(pv);
         ProductEcomRequest p = viewToProductRequest(pv);
-        log.info(p.toString());
-
         String message = null;
 
         Map<String, Object> carga = ecomerceClient.uploadProduct(p);
@@ -50,8 +48,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
             if (Boolean.TRUE.equals(carga.get("exist"))) {
                 log.info("Producto ya existe en WhooCommerce");
                 message = "Producto ya existe ";
-            } else
-            {
+            } else {
                 throw new ProductNotCreatedException("Error al crear el producto en el Ecommerce: " + pv.getProducto());
             }
         }
@@ -66,7 +63,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
             log.info("Producto no se actualizo en la base de datos");
         }
         assert updated != null;
-        log.info("{}, {} actualizado en Base de datos {} de la empresa {}",message, p.sku(), updated.codigo(), updated.empresa());
+        log.info("{}, {} actualizado en Base de datos {} de la empresa {}", message, p.sku(), updated.codigo(), updated.empresa());
         return new ServiceResponse(message + p.sku() + "En Ecommerce, actualizado en BD", Boolean.TRUE);
     }
 
