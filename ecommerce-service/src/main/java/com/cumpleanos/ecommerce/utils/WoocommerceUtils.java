@@ -1,6 +1,6 @@
 package com.cumpleanos.ecommerce.utils;
 
-import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
+import com.cumpleanos.common.records.ProductEcomRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +11,8 @@ import java.util.Map;
 
 public class WoocommerceUtils {
 
-    public static Map<String, Object> convertObjectToMap(ProductRequest request, Integer imageId, Boolean status) {
+    public static Map<String, Object> convertObjectToMap(ProductEcomRequest request, Integer imageId, Boolean status) {
+
         Map<String, Object> productData = new HashMap<>();
         if (status) {
             productData.put("name", request.nombre());
@@ -40,6 +41,19 @@ public class WoocommerceUtils {
         if (imageId != null) {
             productData.put("images", List.of(Map.of("id", imageId)));
         }
+
+        if (request.precioOferta() != null && !request.precioOferta().isEmpty()) {
+            if (request.descFechaIni() != null ) {
+                productData.put("sale_price", request.precioOferta());
+                String fechaInicio = startOfDay(request.descFechaIni());
+                productData.put("date_on_sale_from",  fechaInicio);
+                if (request.descFechaFin() != null ) {
+                    String fechaFin = endOfDay(request.descFechaFin());
+                    productData.put("date_on_sale_to", fechaFin);
+                }
+            }
+        }
+
 
         return productData;
     }

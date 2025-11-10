@@ -12,11 +12,13 @@ import java.util.*;
 public class StringUtils {
 
     public static String bigDecimalToString(BigDecimal bigDecimal) {
+        if (bigDecimal == null) {
+            return "";
+        }
 
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US); //Uso de punto en decimales
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         symbols.setDecimalSeparator('.');
-
-        DecimalFormat decimalFormat = new DecimalFormat("#.##", symbols); //Define el formato
+        DecimalFormat decimalFormat = new DecimalFormat("#.##", symbols);
         return decimalFormat.format(bigDecimal);
     }
 

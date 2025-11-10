@@ -1,7 +1,7 @@
 package com.cumpleanos.ecommerce.presentation.controller;
 
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
-import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
+import com.cumpleanos.common.records.ProductEcomRequest;
 import com.cumpleanos.ecommerce.service.implementations.WooCommerceMediaServiceImpl;
 import com.cumpleanos.ecommerce.service.interfaces.WooCommerceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +30,7 @@ public class WoocommerceController {
 
     @Operation(summary = "Carga de productos", description = "Subida de productos a Woocommerce")
     @PostMapping("/woocommerce/upload-product")
-    public ResponseEntity<Map<String, Object>> subirProducto(@RequestBody ProductRequest producto) {
+    public ResponseEntity<Map<String, Object>> subirProducto(@RequestBody ProductEcomRequest producto) {
         Map<String, Object> result = service.subirProducto(producto);
         return ResponseEntity.ok(result);
     }
@@ -41,7 +41,7 @@ public class WoocommerceController {
             @Parameter(name = "process", description = "Proceso 0 actualizar info producto, 1 actualizar el producto y la imagen de el")
     })
     @PutMapping("/woocommerce/products/{sku}/{process}")
-    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductRequest request) {
+    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable String sku, @PathVariable Integer process, @RequestBody ProductEcomRequest request) {
         Map<String, Object> result = service.actualizarProducto(sku, process, request);
         return ResponseEntity.ok(result);
     }

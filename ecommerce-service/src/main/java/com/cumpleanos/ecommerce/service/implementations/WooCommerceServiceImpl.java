@@ -1,8 +1,8 @@
 package com.cumpleanos.ecommerce.service.implementations;
 
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
+import com.cumpleanos.common.records.ProductEcomRequest;
 import com.cumpleanos.ecommerce.configuration.WooCommerceProperties;
-import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
 import com.cumpleanos.ecommerce.service.exceptions.ImageUploadException;
 import com.cumpleanos.ecommerce.service.exceptions.WoocommerceDataNotFound;
 import com.cumpleanos.ecommerce.service.http.WooCommerceClient;
@@ -74,7 +74,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
 
     // Subir un producto con categoría y subcategoría
     @Override
-    public Map<String, Object> subirProducto(ProductRequest request) {
+    public Map<String, Object> subirProducto(ProductEcomRequest request) {
 
         Integer productId = obtenerProductoId(request.sku());
         if (productId != null) {
@@ -107,7 +107,7 @@ public class WooCommerceServiceImpl implements WooCommerceService {
     }
 
     @Override
-    public Map<String, Object> actualizarProducto(String sku, Integer process, ProductRequest request) {
+    public Map<String, Object> actualizarProducto(String sku, Integer process, ProductEcomRequest request) {
         if (sku == null) {
             throw new IllegalArgumentException("El ID del producto no puede ser nulo");
         }

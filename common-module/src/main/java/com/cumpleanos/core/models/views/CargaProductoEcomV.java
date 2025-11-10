@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Immutable;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -62,4 +63,13 @@ public class CargaProductoEcomV {
 
     @Column(name = "PRE_IMPUESTO")
     private Long impuesto;
+
+    @Column(name = "PRE_PRECIOS1_DSC")
+    private BigDecimal precio1Dsc;
+
+    @Column(name = "PRE_DESC_FECHA_INI")
+    private LocalDate descFechaIni;
+
+    @Column(name = "PRE_DESC_FECHA_FIN")
+    private LocalDate descFechaFin;
 }

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import static com.cumpleanos.assist.utils.StringUtils.*;
@@ -85,6 +86,12 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
     }
 
     private ProductEcomRequest viewToProductRequest(CargaProductoEcomV pv) {
+        String descuento = "" ;
+
+        if (pv.getPrecio1Dsc() != null && pv.getPrecio1().compareTo(pv.getPrecio1Dsc()) != 0) {
+            descuento = bigDecimalToString(pv.getPrecio1Dsc());
+        }
+
         return new ProductEcomRequest(
                 stringCleaner(pv.getPro_nombre()),
                 pv.getPro_id(),
@@ -94,7 +101,10 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
                 limpiarCategoria(pv.getSubcategoria()),
                 longToInteger(pv.getStock()),
                 Math.toIntExact(pv.getEmpresa()),
-                whitIva(pv.getImpuesto())
+                whitIva(pv.getImpuesto()),
+                bigDecimalToString(pv.getPrecio1Dsc()),
+                pv.getDescFechaIni(),
+                pv.getDescFechaFin()
         );
     }
 

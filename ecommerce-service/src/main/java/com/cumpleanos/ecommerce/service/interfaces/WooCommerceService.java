@@ -1,7 +1,7 @@
 package com.cumpleanos.ecommerce.service.interfaces;
 
 import com.cumpleanos.common.builders.ecommerce.PedidoWoocommerce;
-import com.cumpleanos.ecommerce.persistence.dto.ProductRequest;
+import com.cumpleanos.common.records.ProductEcomRequest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,9 +15,9 @@ public interface WooCommerceService {
 
     Integer crearCategoria(String nombreCategoria, Integer idPadre);
 
-    Map<String, Object> subirProducto(ProductRequest productRequest);
+    Map<String, Object> subirProducto(ProductEcomRequest productRequest);
 
-    Map<String, Object> actualizarProducto(String sku, Integer process, ProductRequest request);
+    Map<String, Object> actualizarProducto(String sku, Integer process, ProductEcomRequest request);
 
     List<Map<String, Object>> getOrders();
 

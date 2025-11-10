@@ -1,5 +1,7 @@
 package com.cumpleanos.common.records;
 
+import java.time.LocalDate;
+
 public record ProductEcomRequest(
         String nombre,
         String sku,
@@ -9,5 +11,8 @@ public record ProductEcomRequest(
         String subcategoria,
         Integer stock,
         Integer empresa,
-        Boolean withIva
+        Boolean withIva,
+        String precioOferta,
+        LocalDate descFechaIni,
+        LocalDate descFechaFin
 ) {}
