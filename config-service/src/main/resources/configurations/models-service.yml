@@ -24,6 +24,14 @@ spring:
     show-sql: true
     open-in-view: false
 
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
 management:
   endpoints:
     web:

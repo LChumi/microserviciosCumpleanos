@@ -2,6 +2,14 @@ spring:
   application:
     name: notification-service
 
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
 server:
   port: 8083
   forward-header-strategy: framework

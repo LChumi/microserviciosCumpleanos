@@ -50,20 +50,23 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- Dependencias de swagger -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.5</version>
         </dependency>
-
 		<!--Dependencia modulo común -->
 		<dependency>
 			<groupId>com.cumpleanos.common</groupId>
 			<artifactId>utility-classes-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+        <!--Dependencia Caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
 
 	</dependencies>
 

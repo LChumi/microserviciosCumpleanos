@@ -15,9 +15,13 @@ spring:
     show-sql: true
     open-in-view: false
 
+  cache:
+    type: caffeine
   cloud:
     loadbalancer:
-      excluded-interfaces: org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
 
 eureka:
   client:

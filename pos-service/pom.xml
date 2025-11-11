@@ -66,20 +66,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-
-		<!--Dependencia de Cache Coffaine-->
-		<dependency>
-			<groupId>com.github.ben-manes.caffeine</groupId>
-			<artifactId>caffeine</artifactId>
-			<version>3.1.8</version>
-		</dependency>
+        <!--Dependencia Caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
 		<!--Dependencia Modulo Comun-->
 		<dependency>
 			<groupId>com.cumpleanos.core</groupId>
 			<artifactId>common-module</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.cumpleanos.common</groupId>
 			<artifactId>utility-classes-module</artifactId>

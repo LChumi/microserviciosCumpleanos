@@ -2,6 +2,14 @@ spring:
   application:
     name: ecommerce-service
 
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
 server:
   port: 8085
   forward-header-strategy: framework

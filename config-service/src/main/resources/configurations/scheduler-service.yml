@@ -6,6 +6,14 @@ spring:
   application:
     name: scheduler-service
 
+  cache:
+    type: caffeine
+  cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
+
 eureka:
   client:
     service-url:

@@ -61,32 +61,27 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.5</version>
         </dependency>
-		<!--Dependencia de Cache Coffaine-->
-		<dependency>
-			<groupId>com.github.ben-manes.caffeine</groupId>
-			<artifactId>caffeine</artifactId>
-			<version>3.1.8</version>
-		</dependency>
+        <!--Dependencia Caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
 		<!--Dependencia de módulo común -->
 		<dependency>
 			<groupId>com.cumpleanos.core</groupId>
 			<artifactId>common-module</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.cumpleanos.common</groupId>
 			<artifactId>utility-classes-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<!--Dependencia de Feign Client-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-
-
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

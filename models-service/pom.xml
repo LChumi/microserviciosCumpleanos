@@ -66,12 +66,6 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.5</version>
         </dependency>
-		<!--Dependencia de Cache Coffaine-->
-		<dependency>
-			<groupId>com.github.ben-manes.caffeine</groupId>
-			<artifactId>caffeine</artifactId>
-			<version>3.1.8</version>
-		</dependency>
 
 		<!--Dependencia de Módulos Comunes-->
 		<dependency>
@@ -79,13 +73,11 @@
 			<artifactId>common-module</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.cumpleanos.common</groupId>
 			<artifactId>utility-classes-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<!--Dependencias para usar Mapper-->
 		<!-- MapStruct API -->
 		<dependency>
@@ -101,8 +93,11 @@
 			<version>1.5.5.Final</version>
 			<scope>provided</scope>
 		</dependency>
-
-
+        <!--Dependencia Caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

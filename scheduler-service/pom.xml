@@ -57,7 +57,11 @@
 			<artifactId>utility-classes-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+        <!--Dependencia Caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

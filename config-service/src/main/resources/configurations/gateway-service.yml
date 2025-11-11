@@ -15,7 +15,13 @@ eureka:
 spring:
   application:
     name: gateway-service
+  cache:
+    type: caffeine
   cloud:
+    loadbalancer:
+      cache:
+        caffeine:
+          spec: maximumSize=500,expireAfterAccess=10m
     gateway:
       server:
         webflux:
