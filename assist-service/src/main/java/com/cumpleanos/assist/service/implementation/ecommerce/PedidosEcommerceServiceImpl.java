@@ -196,7 +196,8 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
                 try {
                     int num = Integer.parseInt(numStr);
                     if (num > maxNum) maxNum = num;
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException ignored) {
+                }
             }
             siguiente = maxNum + 1;
         }

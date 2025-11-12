@@ -43,18 +43,16 @@ public class WoocommerceUtils {
         }
 
         if (request.precioOferta() != null && !request.precioOferta().isEmpty()) {
-            if (request.descFechaIni() != null ) {
+            if (request.descFechaIni() != null) {
                 productData.put("sale_price", request.precioOferta());
                 String fechaInicio = startOfDay(request.descFechaIni());
-                productData.put("date_on_sale_from",  fechaInicio);
-                if (request.descFechaFin() != null ) {
+                productData.put("date_on_sale_from", fechaInicio);
+                if (request.descFechaFin() != null) {
                     String fechaFin = endOfDay(request.descFechaFin());
                     productData.put("date_on_sale_to", fechaFin);
                 }
             }
         }
-
-
         return productData;
     }
 

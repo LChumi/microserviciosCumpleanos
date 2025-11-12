@@ -86,7 +86,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
     }
 
     private ProductEcomRequest viewToProductRequest(CargaProductoEcomV pv) {
-        String descuento = "" ;
+        String descuento = "";
 
         if (pv.getPrecio1Dsc() != null && pv.getPrecio1().compareTo(pv.getPrecio1Dsc()) != 0) {
             descuento = bigDecimalToString(pv.getPrecio1Dsc());
