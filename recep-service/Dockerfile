@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk
 
 #Crear usuario no-root con UID fijo
 RUN useradd -m -u 1000 appuser \
