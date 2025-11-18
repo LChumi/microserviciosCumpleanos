@@ -41,9 +41,9 @@ public class ProductoServiceImpl extends GenericServiceImpl<Producto, ProductoId
                     prod.getUbicacion(),
                     prod.getProId1(),
                     prod.getCliente(),
-                    prod.getProveedor().getId().getCodigo(),
-                    prod.getGproducto().getId().getCodigo(),
-                    prod.getUnidad().getId().getCodigo()
+                    prod.getProveedor() != null ? prod.getProveedor().getId().getCodigo() : null,
+                    prod.getGproducto() != null ? prod.getGproducto().getId().getCodigo() : null,
+                    prod.getUnidad() != null ? prod.getUnidad().getId().getCodigo() : null
             );
         }
     }
