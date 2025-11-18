@@ -326,7 +326,7 @@ public class PedidosEcommerceServiceImpl implements IPedidosEcommerceService {
 
         try {
             EmailRecord email = new EmailRecord(
-                    new String[]{"amunoz@cumpleanos.com.ec", "iullauri@cumpleanos.com.ec"},
+                    new String[]{"amunoz@cumpleanos.com.ec", "iullauri@cumpleanos.com.ec", "eromero@cumpleanos.com.ec"},
                     asunto,
                     mensaje
             );
