@@ -74,6 +74,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         if (pv == null) {
             throw new EntityNotFoundException("No se encontró el producto");
         }
+        validateStocks(pv);
         ProductEcomRequest request = viewToProductRequest(pv);
 
         Map<String, Object> update = ecomerceClient.updateProduct(barraAnt, process, request);
@@ -102,7 +103,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
                 longToInteger(pv.getStock()),
                 Math.toIntExact(pv.getEmpresa()),
                 whitIva(pv.getImpuesto()),
-                bigDecimalToString(pv.getPrecio1Dsc()),
+                descuento,
                 pv.getDescFechaIni(),
                 pv.getDescFechaFin()
         );
