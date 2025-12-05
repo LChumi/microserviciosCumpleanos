@@ -113,7 +113,7 @@ public interface IModelsClient {
 
     //TODO servicio que viene del controlador de ProductoPartida
     @GetMapping("models/producto-partida/get/{producto}/{empresa}/default")
-    ResponseEntity<ProductoPartidaBuilder> getByProductoAndEmpresa(@PathVariable Long producto, @PathVariable Long empresa);
+    ResponseEntity<ProductoPartidaBuilder> getPartidaByProductoAndEmpresa(@PathVariable Long producto, @PathVariable Long empresa);
 
     @PostMapping("models/producto-partida/save")
     ResponseEntity<ProductoPartida> saveParidaProducto(@RequestBody ProductoPartida partida);

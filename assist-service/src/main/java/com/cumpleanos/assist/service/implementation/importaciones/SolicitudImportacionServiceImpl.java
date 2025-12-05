@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.service.implementation.importaciones;
 
 import com.cumpleanos.assist.service.interfaces.importaciones.IDmovprodConService;
+import com.cumpleanos.common.builders.ProductoPartidaBuilder;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
 import com.cumpleanos.assist.persistence.inmutables.SciResponse;
@@ -147,6 +148,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), empresa);
                 if (producto != null) {
                     detalle.setDfacProducto(producto.codigo());
+                    Long partida = getPrtida(producto.codigo(), producto.empresa());
+                    if (partida != null) {
+                        detalle.setPartida(partida);
+                    }
                 }
             }
             if (detalle.getDfacProducto() != null || detalle.getProductTemp() != null) {
@@ -239,6 +244,14 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         relacion.setPreSecuencia(orden.secuencia());
         relacion.setPreCant(orden.cantidad());
         relacion.setPreFecha(orden.fecha());
+    }
+
+    private Long getPrtida(Long producto, Long empresa){
+        ProductoPartidaBuilder partida = productoService.getPartidaByProductoAndEmpresa(producto, empresa);
+        if (partida != null) {
+            return  partida.getPartCodigo();
+        }
+        return null;
     }
 
 }

@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -192,18 +190,18 @@ public class ClientServiceImpl {
     }
 
     //PRODUCTO - PARTIDA
-    public ProductoPartidaBuilder getByProductoAndEmpresa(Long producto, Long empresa) {
-        return HttpResponseHandler.handle(() -> modelsClient.getByProductoAndEmpresa(producto, empresa),
+    public ProductoPartidaBuilder getPartidaByProductoAndEmpresa(Long producto, Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.getPartidaByProductoAndEmpresa(producto, empresa),
                 "Error al obtener la partida del producto en la empresa: " + empresa);
     }
 
-    public ProductoPartida save (ProductoPartida partida){
+    public ProductoPartida savePartida(ProductoPartida partida) {
         return HttpResponseHandler.handle(() -> modelsClient.saveParidaProducto(partida),
                 "Error al guardar la partida");
     }
 
-    public ServiceResponse updatePartidaDefault(Long producto, Long partida, Long empresa){
-        return HttpResponseHandler.handle(() -> modelsClient.updatePartidaDefault(producto , partida, empresa),
+    public ServiceResponse updatePartidaDefault(Long producto, Long partida, Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.updatePartidaDefault(producto, partida, empresa),
                 "Error al actualizar la partida del producto en la empresa: " + empresa);
     }
 
