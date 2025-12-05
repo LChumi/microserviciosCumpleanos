@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handelGeneralException(Exception e) {
-        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
-        log.error(e.getMessage(), e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    public ResponseEntity<ErrorResponse> handleGeneralException(Exception e) {
+        log.error("Error procesando request", e);
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Ha ocurrido un error inesperado. Contacte al administrador."
+        );
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }

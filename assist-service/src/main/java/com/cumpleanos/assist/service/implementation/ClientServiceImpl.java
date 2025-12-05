@@ -1,6 +1,7 @@
 package com.cumpleanos.assist.service.implementation;
 
 import com.cumpleanos.common.builders.ProductoBuilder;
+import com.cumpleanos.common.builders.ProductoPartidaBuilder;
 import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.assist.service.http.HttpResponseHandler;
@@ -188,6 +189,22 @@ public class ClientServiceImpl {
     public String getMatches(Long empresa, String barcode, String item) {
         return HttpResponseHandler.handle(() -> modelsClient.getMatches(empresa, barcode, item),
                 "Error al obtener las coincidencias");
+    }
+
+    //PRODUCTO - PARTIDA
+    public ProductoPartidaBuilder getByProductoAndEmpresa(Long producto, Long empresa) {
+        return HttpResponseHandler.handle(() -> modelsClient.getByProductoAndEmpresa(producto, empresa),
+                "Error al obtener la partida del producto en la empresa: " + empresa);
+    }
+
+    public ProductoPartida save (ProductoPartida partida){
+        return HttpResponseHandler.handle(() -> modelsClient.saveParidaProducto(partida),
+                "Error al guardar la partida");
+    }
+
+    public ServiceResponse updatePartidaDefault(Long producto, Long partida, Long empresa){
+        return HttpResponseHandler.handle(() -> modelsClient.updatePartidaDefault(producto , partida, empresa),
+                "Error al actualizar la partida del producto en la empresa: " + empresa);
     }
 
     //TODO servicio que viene de FunctionOracleController

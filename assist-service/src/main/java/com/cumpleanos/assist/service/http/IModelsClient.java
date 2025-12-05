@@ -116,7 +116,7 @@ public interface IModelsClient {
     ResponseEntity<ProductoPartidaBuilder> getByProductoAndEmpresa(@PathVariable Long producto, @PathVariable Long empresa);
 
     @PostMapping("models/producto-partida/save")
-    ResponseEntity<ProductoPartida> save(@RequestBody ProductoPartida partida);
+    ResponseEntity<ProductoPartida> saveParidaProducto(@RequestBody ProductoPartida partida);
 
     @GetMapping("models/prodcuto-partida/update-default/{producto}/{partida}/{empresa}")
     ResponseEntity<ServiceResponse> updatePartidaDefault(@PathVariable Long producto, @PathVariable Long partida, @PathVariable Long empresa);
