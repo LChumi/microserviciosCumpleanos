@@ -221,11 +221,11 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         asignarDatosBase(relacion, orden, producto);
 
         if (sci != null) {
-            relacion.setPedEmpresa(sci.empresa());
-            relacion.setPedido(sci.cco());
-            relacion.setPedFecha(sci.fecha());
-            relacion.setPedSecuencia(sci.secuencia());
-            relacion.setPedCant(sci.cantidad());
+            relacion.setEmpresa(sci.empresa());
+            relacion.setPrepedido(sci.cco());
+            relacion.setPreFecha(sci.fecha());
+            relacion.setPreSecuencia(sci.secuencia());
+            relacion.setPreCant(sci.cantidad());
         }
 
         DmovprodCon intermedia = dmovprodConService.save(relacion);
@@ -238,12 +238,12 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     }
 
     private void asignarDatosBase(DmovprodCon relacion, DfacturaDTO orden, Long producto) {
-        relacion.setEmpresa(orden.empresa());
+        relacion.setPedEmpresa(orden.empresa());
         relacion.setProducto(producto);
-        relacion.setPrepedido(orden.cco());
-        relacion.setPreSecuencia(orden.secuencia());
-        relacion.setPreCant(orden.cantidad());
-        relacion.setPreFecha(orden.fecha());
+        relacion.setPedido(orden.cco());
+        relacion.setPedSecuencia(orden.secuencia());
+        relacion.setPedCant(orden.cantidad());
+        relacion.setPedFecha(orden.fecha());
     }
 
     private Long getPrtida(Long producto, Long empresa){
