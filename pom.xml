@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.7</version>
+    </parent>
 
-	<groupId>com.cumpleanos</groupId>
-	<artifactId>microservices</artifactId>
-	<version>1.0-SNAPSHOT</version>
+    <groupId>com.cumpleanos</groupId>
+    <artifactId>microservices</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-	<name>microservices</name>
-	<description>Microservicios Importadora Cumpleaños</description>
-	<packaging>pom</packaging>
+    <name>microservices</name>
+    <description>Microservicios Importadora Cumpleaños</description>
+    <packaging>pom</packaging>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
-	<developers>
-		<developer>
-			<name>Luis Chumi</name>
-			<email>luischumi.9@gmail.com</email>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>Luis Chumi</name>
+            <email>luischumi.9@gmail.com</email>
+        </developer>
+    </developers>
 
-	<modules>
-		<module>common-module</module>
-		<module>utility-classes-module</module>
-		<module>eureka-service</module>
-		<module>adminserver-service</module>
+    <modules>
+        <module>common-module</module>
+        <module>utility-classes-module</module>
+        <module>eureka-service</module>
+        <module>adminserver-service</module>
         <module>config-service</module>
         <module>gateway-service</module>
-		<module>models-service</module>
-		<module>recep-service</module>
-		<module>pos-service</module>
-		<module>emails-service</module>
-		<module>assist-service</module>
-		<module>meta-service</module>
-		<module>mongo-service</module>
-		<module>ecommerce-service</module>
-		<module>scheduler-service</module>
+        <module>models-service</module>
+        <module>recep-service</module>
+        <module>pos-service</module>
+        <module>emails-service</module>
+        <module>assist-service</module>
+        <module>meta-service</module>
+        <module>mongo-service</module>
+        <module>ecommerce-service</module>
+        <module>scheduler-service</module>
         <module>ws-service</module>
-	</modules>
+    </modules>
 
-	<properties>
+    <properties>
         <java.version>21</java.version>
-	</properties>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
