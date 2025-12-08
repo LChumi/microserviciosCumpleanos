@@ -148,7 +148,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), empresa);
                 if (producto != null) {
                     detalle.setDfacProducto(producto.codigo());
-                    Long partida = getPrtida(producto.codigo(), producto.empresa());
+                    Long partida = getPartida(producto.codigo(), producto.empresa());
                     if (partida != null) {
                         detalle.setPartida(partida);
                     }
@@ -246,10 +246,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         relacion.setPedFecha(orden.fecha());
     }
 
-    private Long getPrtida(Long producto, Long empresa){
+    private Long getPartida(Long producto, Long empresa) {
         ProductoPartidaBuilder partida = productoService.getPartidaByProductoAndEmpresa(producto, empresa);
         if (partida != null) {
-            return  partida.getPartCodigo();
+            return partida.getPartCodigo();
         }
         return null;
     }
