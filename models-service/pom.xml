@@ -71,7 +71,7 @@
         <dependency>
             <groupId>com.cumpleanos.common</groupId>
             <artifactId>utility-classes-module</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--Dependencias para usar Mapper-->
         <!-- MapStruct API -->
