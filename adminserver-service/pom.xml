@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.adminserver</groupId>
     <artifactId>adminserver-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>adminserver-service</name>
     <description>Microservice Admin Server</description>
 

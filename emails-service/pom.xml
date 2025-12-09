@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.notification</groupId>
     <artifactId>emails-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>emails-service</name>
     <description>Mircoservice for notifications</description>
 

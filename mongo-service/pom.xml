@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.mongo</groupId>
     <artifactId>mongo-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>mongo-service</name>
     <description>Microservice to connect MongoDB</description>
 

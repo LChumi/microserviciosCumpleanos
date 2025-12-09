@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.assist</groupId>
     <artifactId>assist-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>assist-service</name>
     <description>Microservice Assist Web</description>
 

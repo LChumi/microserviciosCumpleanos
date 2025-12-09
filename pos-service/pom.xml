@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.pos</groupId>
     <artifactId>pos-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>pos-service</name>
     <description>Microservice POS</description>
 

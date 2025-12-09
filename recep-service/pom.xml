@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.reccomprobantes</groupId>
     <artifactId>recep-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>recep-service</name>
     <description>Microservicio Recepcion Comprobantes SRI</description>
 

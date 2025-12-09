@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.scheduler</groupId>
     <artifactId>scheduler-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>scheduler-service</name>
     <description>Microservice to execute scheduler</description>
 

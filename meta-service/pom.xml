@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.meta</groupId>
     <artifactId>meta-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>meta-service</name>
     <description>Microservice Meta</description>
 

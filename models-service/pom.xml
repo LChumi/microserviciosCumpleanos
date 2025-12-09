@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.models</groupId>
     <artifactId>models-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>models-service</name>
     <description>Microservices Main Models</description>
 

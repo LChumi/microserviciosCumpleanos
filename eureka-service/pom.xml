@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.eureka</groupId>
     <artifactId>eureka-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>eureka-service</name>
     <description>Microservice Eureka Cumpleanos</description>
 

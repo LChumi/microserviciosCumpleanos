@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.core</groupId>
     <artifactId>common-module</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <name>common-module</name>
     <description>Common module of main entities</description>

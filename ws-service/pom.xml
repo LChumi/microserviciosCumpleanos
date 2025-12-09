@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.ws</groupId>
     <artifactId>ws-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>ws-service</name>
     <description>microservice to send notifications real time</description>
 

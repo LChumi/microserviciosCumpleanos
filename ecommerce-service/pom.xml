@@ -10,7 +10,6 @@
 
     <groupId>com.cumpleanos.ecommerce</groupId>
     <artifactId>ecommerce-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>ecommerce-service</name>
     <description>API to connect E-Commerce and WooCommerce</description>
 
