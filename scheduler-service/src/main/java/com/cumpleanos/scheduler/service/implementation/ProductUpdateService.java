@@ -6,10 +6,7 @@ import com.cumpleanos.scheduler.service.http.AssistClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -18,8 +15,7 @@ public class ProductUpdateService {
 
     private final AssistClient assistClient;
 
-    @Async
-    public CompletableFuture<Void> updateProducts(StockEcommerceVDTO product) {
+    public void updateProducts(StockEcommerceVDTO product) {
         try {
             ServiceResponse response = assistClient.getProductoUpdate(
                     product.producto(),
@@ -35,9 +31,12 @@ public class ProductUpdateService {
             } else {
                 log.error("Error desconocido en SKU: {}", product.proId());
             }
+
+            // PAUSA PARA NO SATURAR WORDPRESS / WOOCOMMERCE
+            Thread.sleep(2000); // 2 segundos
+
         } catch (Exception e) {
             log.error("Excepcion al actualizar producto SKU: {} ERROR: {}", product.proId(), e.getMessage(), e);
         }
-        return CompletableFuture.completedFuture(null);
     }
 }
