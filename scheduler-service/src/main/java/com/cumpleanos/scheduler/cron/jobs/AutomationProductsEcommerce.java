@@ -52,5 +52,4 @@ public class AutomationProductsEcommerce {
             log.info("Proceso de actualización finalizado");
         }
     }
-
 }
