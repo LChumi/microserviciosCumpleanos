@@ -9,8 +9,6 @@ import java.math.BigInteger;
 
 public interface IDfacturaService extends GenericService<Dfactura, DfacturaId> {
 
-    ServiceResponse validateQuantities(BigInteger cco, Long producto);
-
     DfacturaDTO getDfactura(BigInteger cco, Long producto);
 
     ServiceResponse addCantApr(BigInteger cco, Long producto, Integer cantidad);

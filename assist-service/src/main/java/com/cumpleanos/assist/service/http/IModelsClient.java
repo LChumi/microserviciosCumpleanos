@@ -54,9 +54,6 @@ public interface IModelsClient {
     @PostMapping("/models/dfactura/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
 
-    @GetMapping("/models/dfactura/get/{cco}/{producto}/")
-    ResponseEntity<ServiceResponse> getDetalle(@PathVariable BigInteger cco, @PathVariable Long producto);
-
     @GetMapping("/models/dfactura/getBy/{cco}/{producto}")
     ResponseEntity<DfacturaDTO> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto);
 

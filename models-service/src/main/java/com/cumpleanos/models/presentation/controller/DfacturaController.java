@@ -32,17 +32,6 @@ public class DfacturaController {
         return ResponseEntity.ok(nuevoDetalle != null);
     }
 
-    @Operation(summary = "Validar existencia Dfactura ", description = "Obtiene el detalle de la factura si existe el producto y el comprobante cco")
-    @Parameters({
-            @Parameter(name = "cco", description = "Codigo del comprobante"),
-            @Parameter(name = "producto", description = "Codigo del producto")
-    })
-    @GetMapping("/dfactura/get/{cco}/{producto}/")
-    public ResponseEntity<ServiceResponse> getDetalle(@PathVariable BigInteger cco, @PathVariable Long producto) {
-        ServiceResponse response = service.validateQuantities(cco, producto);
-        return ResponseEntity.ok(response);
-    }
-
     @Operation(summary = "Obtener Dfactura", description = "Obtiene el DTO de Dfactura ")
     @Parameters({
             @Parameter(name = "cco", description = "Codigo del comprobante"),

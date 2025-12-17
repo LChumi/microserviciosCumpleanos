@@ -74,16 +74,6 @@ public class ClientServiceImpl {
     }
 
     //DFACTURA
-    public Boolean newDfactura(Dfactura d) {
-        return HttpResponseHandler.handle(() -> modelsClient.create(d),
-                "Error al crear el detalle de la factura en la empresa: " + d.getId().getEmpresa());
-    }
-
-    public ServiceResponse getDetalleProducto(BigInteger cco, Long producto) {
-        return HttpResponseHandler.handle(() -> modelsClient.getDetalle(cco, producto),
-                "Error al consultar el detalle de la factura ");
-    }
-
     public DfacturaDTO getDfactura(BigInteger cco, Long producto) {
         return HttpResponseHandler.handle(() -> modelsClient.getDfactura(cco, producto),
                 "Error al consultar el producto en el detalle ");

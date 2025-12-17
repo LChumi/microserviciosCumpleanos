@@ -30,16 +30,6 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
     }
 
     @Override
-    public ServiceResponse validateQuantities(BigInteger cco, Long producto) {
-        Optional<Dfactura> dfac = repository.findByFacComprobaAndDfacProducto(cco, producto);
-
-        if (dfac.isEmpty()) {
-            return new ServiceResponse("Producto no encontrado en el detalle ", false);
-        }
-        return new ServiceResponse("Producto existe en el detalle procesado", true);
-    }
-
-    @Override
     public DfacturaDTO getDfactura(BigInteger cco, Long producto) {
         Dfactura dfac = repository.findByFacComprobaAndDfacProducto(cco, producto)
                 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado en el detalle"));
