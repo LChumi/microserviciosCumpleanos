@@ -58,7 +58,7 @@ public interface IModelsClient {
     @GetMapping("/models/dfactura/listBy/{cco}/{producto}")
     ResponseEntity<List<DfacturaDTO>> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto);
 
-    @GetMapping("/dfactura/added-cant/{cco}/{producto}/{cantidad}/{precioReferencia}")
+    @GetMapping("/models/dfactura/added-cant/{cco}/{producto}/{cantidad}/{precioReferencia}")
     ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad, @PathVariable BigDecimal precioReferencia);
 
     //Todo servicio que viene del controlador ClienteController

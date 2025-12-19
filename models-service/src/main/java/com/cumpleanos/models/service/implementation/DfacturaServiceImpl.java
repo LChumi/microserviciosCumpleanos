@@ -65,7 +65,7 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
 
         //Validar Lineas sin CANAPR
         List<Dfactura> disponibles = detalles.stream()
-                .filter(d -> d.getCanapr() == null)
+                .filter(d -> d.getCanapr() == 0)
                 .toList();
 
         if (disponibles.isEmpty()) {

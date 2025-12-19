@@ -55,11 +55,12 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     @Override
     public SciResponse procesarOrden(SolicitudRequestDTO request) {
         try {
-            SciResponse cabecera = generarCabeceraYComprobante(request);
+            //SciResponse cabecera = generarCabeceraYComprobante(request);
+            SciResponse cabecera = new SciResponse(new BigInteger("100000000000000000010607047"), "OCI-001-011-0000009");
 
             for (ProductImportTransformer item : request.getItems()) {
 
-                log.info("Buscando informacion del Producto por su id ");
+                log.info("Buscando informacion del Producto por su id {}", item.getId());
                 if (item.getId() == null) {
                     ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
                     if (temporal != null) {
@@ -195,6 +196,15 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 ? null
                 : seleccionarSci(sciList, orden.precio());
 
+        //Actualizar CANAPR solo si hay SCI
+        if (sci != null) {
+            ServiceResponse response=
+                    productoService.addedCanApr(sci.cco(), producto, orden.cantidad(), orden.precio());
+            if (!response.success()) {
+                throw new IllegalArgumentException(response.message());
+            }
+        }
+        createIntermediate(orden, sci, producto);
     }
 
     /**
@@ -261,15 +271,16 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     }
 
     private DfacturaDTO seleccionarOrden(List<DfacturaDTO> ordenes, ProductImportTransformer item){
+        log.info("Buscando ordenes en el item {}", item);
+        log.info("Buscando ordenes en el item {}", ordenes);
         return ordenes.stream()
                 .filter(o ->
                         o.precio().compareTo(BigDecimal.valueOf(item.getFob())) == 0 &&
-                                o.cantidad().equals(item.getCantidad())
+                                o.cantidad().equals(item.getCantidadTotal())
                 )
                 .findFirst()
                 .orElseThrow(() ->
                         new IllegalStateException("No existe linea de orden con cantidad y precios exactos")
                 );
     }
-
 }
