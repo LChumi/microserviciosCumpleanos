@@ -63,14 +63,14 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 if (item.getId() == null) {
                     ProductoTemp temporal = productoTempService.getProductoTempByCodFabricaAndEmpresa(item.getCodFabrica(), request.getEmpresa());
                     if (temporal != null) {
-                        getDetalleAndAddCant(item.getCcoOrigen(), cabecera.cco(), temporal.getCodigo());
+                        getDetalleAndAddCant(item, cabecera.cco(), temporal.getCodigo());
                     } else {
                         log.error("Error el producto no existe con el codigo de fabrica {} y no dispone de barra producto {}", item.getCodFabrica(), item.getNombre());
                     }
                 } else {
                     ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), request.getEmpresa());
                     if (producto != null) {
-                        getDetalleAndAddCant(item.getCcoOrigen(), cabecera.cco(), producto.codigo());
+                        getDetalleAndAddCant(item, cabecera.cco(), producto.codigo());
                     } else {
                         log.error("Error el producto no existe {} con el id {}", item.getNombre(), item.getId());
                     }
@@ -173,34 +173,28 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
      * <p>
      * Lanza una excepción si no se encuentra información en ninguna de las órdenes.
      *
-     * @param ccoAnt   Código de la orden SCI (puede ser nulo)
+     * @param item  Item de orden creado
      * @param cabecera Código de la orden principal
      * @param producto ID del producto a relacionar
      * @throws IllegalArgumentException si no se encuentra información en ninguna orden
      */
-    private void getDetalleAndAddCant(BigInteger ccoAnt, BigInteger cabecera, Long producto) {
-        DfacturaDTO sci = productoService.getDfactura(ccoAnt, producto);
-        DfacturaDTO ord = productoService.getDfactura(cabecera, producto);
+    private void getDetalleAndAddCant(ProductImportTransformer item, BigInteger cabecera, Long producto) {
+        List<DfacturaDTO> sciList = productoService.getDfactura(item.getCcoOrigen(), producto);
+        List<DfacturaDTO> ordList = productoService.getDfactura(cabecera, producto);
 
-        if (sci == null && ord == null) {
-            log.warn("Detalle orden no existente. cco: {}, ccoAnt: {}, producto: {}", cabecera, ccoAnt, producto);
-            throw new IllegalArgumentException("No se encontró detalle para el producto en ninguna orden.");
+        if (ordList == null || ordList.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "No existe detalle en ORDEN destino"
+            );
         }
 
-        if (ord != null) {
-            if (sci == null) {
-                createIntermediate(ord, null, producto);
-            } else {
-                ServiceResponse response = productoService.addedCanApr(sci.cco(), producto, ord.cantidad());
-                if (response.success()) {
-                    log.info("Cantidad Apr actualizada correctamente.");
-                    createIntermediate(ord, sci, producto);
-                } else {
-                    log.error("No se pudo actualizar la cantidad Apr para producto {} en orden SCI {}", producto, sci.cco());
-                    throw new IllegalStateException("Error al actualizar cantidad Apr.");
-                }
-            }
-        }
+        //Orden exacta
+        DfacturaDTO orden = seleccionarOrden(ordList, item);
+
+        DfacturaDTO sci = sciList == null || sciList.isEmpty()
+                ? null
+                : seleccionarSci(sciList, orden.precio());
+
     }
 
     /**
@@ -252,6 +246,30 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             return partida.getPartCodigo();
         }
         return null;
+    }
+
+    private DfacturaDTO seleccionarSci(List<DfacturaDTO> sciList, BigDecimal precioOrden) {
+        BigDecimal tolerancia = new BigDecimal("1.00");
+
+        return sciList.stream()
+                .filter(s -> s.precio() != null)
+                .filter(s ->
+                        s.precio().subtract(precioOrden).abs().compareTo(tolerancia) <= 0
+                )
+                .findFirst()
+                .orElse(null); //SCI puede que no exista
+    }
+
+    private DfacturaDTO seleccionarOrden(List<DfacturaDTO> ordenes, ProductImportTransformer item){
+        return ordenes.stream()
+                .filter(o ->
+                        o.precio().compareTo(BigDecimal.valueOf(item.getFob())) == 0 &&
+                                o.cantidad().equals(item.getCantidad())
+                )
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException("No existe linea de orden con cantidad y precios exactos")
+                );
     }
 
 }

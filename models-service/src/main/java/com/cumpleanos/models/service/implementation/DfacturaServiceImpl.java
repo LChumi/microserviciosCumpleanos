@@ -6,6 +6,7 @@ import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.ids.DfacturaId;
 import com.cumpleanos.models.persistence.repository.DfacturaRepository;
 import com.cumpleanos.models.service.interfaces.IDfacturaService;
+import com.cumpleanos.models.utils.DtoUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 import static com.cumpleanos.models.utils.DtoUtils.getDfacturaDTO;
@@ -30,27 +33,77 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
     }
 
     @Override
-    public DfacturaDTO getDfactura(BigInteger cco, Long producto) {
-        Dfactura dfac = repository.findByFacComprobaAndDfacProducto(cco, producto)
-                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado en el detalle"));
+    public List<DfacturaDTO> getDfacturas(BigInteger cco, Long producto) {
+        List<Dfactura> detalles =
+                repository.findByFacComprobaAndDfacProducto(cco, producto);
 
-        return getDfacturaDTO(dfac);
+        if (detalles.isEmpty()) {
+            throw new EntityNotFoundException("Producto no encontrado en el detalle");
+        }
+
+        return detalles.stream()
+                .map(DtoUtils::getDfacturaDTO)
+                .toList();
     }
 
     @Override
-    public ServiceResponse addCantApr(BigInteger cco, Long producto, Integer cantidad) {
+    public ServiceResponse addCantApr(BigInteger cco, Long producto, Integer cantidad, BigDecimal precio) {
 
         if (cantidad == null || cantidad < 0) {
             throw new IllegalArgumentException("Cantidad inválida");
         }
 
-        Dfactura dfac = repository.findByFacComprobaAndDfacProducto(cco, producto)
-                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado en el detalle"));
+        if (precio == null){
+            throw new IllegalArgumentException("Precio requerido");
+        }
 
-        dfac.setCanapr(cantidad);
+        List<Dfactura> detalles = repository.findByFacComprobaAndDfacProducto(cco, producto);
 
-        repository.save(dfac);
-        log.info("Actualizada cantidad aprobada para producto {} en comprobante {}", producto, cco);
-        return new ServiceResponse("cantidad actualizada en el detalle procesado", true);
+        if (detalles.isEmpty()) {
+            throw new EntityNotFoundException("Producto no encontrado en el detalle");
+        }
+
+        //Validar Lineas sin CANAPR
+        List<Dfactura> disponibles = detalles.stream()
+                .filter(d -> d.getCanapr() == null)
+                .toList();
+
+        if (disponibles.isEmpty()) {
+            return new ServiceResponse("No existen lineas disponibles para aprobar", false);
+        }
+
+        BigDecimal tolerancia = new BigDecimal("1.00");
+
+        //Coincidencia exacta de precio
+        Optional<Dfactura> exacto = disponibles.stream()
+                .filter(d -> d.getPrecio() != null)
+                .filter(d -> d.getPrecio().compareTo(precio) == 0)
+                .findFirst();
+        //Precio dentro del un rango
+        Optional<Dfactura> enRango = disponibles.stream()
+                .filter(d -> d.getPrecio() != null)
+                .filter(d ->
+                        d.getPrecio().subtract(precio).abs().compareTo(tolerancia) <= 0
+                        )
+                .findFirst();
+
+        // Seleccion final
+        Dfactura seleccionado = exacto
+                .or(() -> enRango)
+                .orElse(disponibles.getFirst()); //falback
+
+        //Notificacion si el precio n o coincide
+        if (seleccionado.getPrecio() != null && seleccionado.getPrecio().compareTo(precio) != 0){
+            log.warn("Precio diferente asignado. cco={}, producto={}, enviado={}, usado={}",
+                    cco, producto, precio, seleccionado.getPrecio());
+        }
+
+        seleccionado.setCanapr(cantidad);
+        repository.save(seleccionado);
+
+        log.info("CANAPR asignado. cco={}, producto={}, secuencia={}, precio={}",
+                cco, producto, seleccionado.getPrecio(), seleccionado.getPrecio());
+
+        return new ServiceResponse("Cantidad aprobada asignada correctamente", true);
     }
 }

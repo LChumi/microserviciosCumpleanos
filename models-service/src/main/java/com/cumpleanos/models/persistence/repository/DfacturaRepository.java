@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -15,6 +15,6 @@ public interface DfacturaRepository extends JpaRepository<Dfactura, DfacturaId> 
 
     Set<Dfactura> findById_CcoOrderById_Secuencia(@NotNull BigInteger cco);
 
-    Optional<Dfactura> findByFacComprobaAndDfacProducto(BigInteger facComproba, Long dfacProducto);
+    List<Dfactura> findByFacComprobaAndDfacProducto(BigInteger facComproba, Long dfacProducto);
 
 }

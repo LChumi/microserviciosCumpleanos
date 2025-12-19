@@ -94,15 +94,15 @@ public class FilesServicesImpl implements IFileService {
 
         if (!withSCI.isEmpty()) {
             if (notSCI.isEmpty()) {
-                log.info("Todos los trámites con registro se validaran los estados ");
+                log.info("Todos los tramites con registro se validaran los estados ");
                 validateOrders(withSCI, empresa);
             } else {
-                log.info("Trámites mixtos con y sin registros");
+                log.info("Tramites mixtos con y sin registros");
                 validateOrders(notSCI, empresa);
                 validateOrders(withSCI, empresa);
             }
         } else {
-            log.info("Trámites sin registros, crear SCI");
+            log.info("Tramites sin registros, crear SCI");
             validateOrders(notSCI, empresa);
         }
 
@@ -214,7 +214,7 @@ public class FilesServicesImpl implements IFileService {
     }
 
     /**
-     * Busca un producto temporal por código de barra o código de fábrica.
+     * Busca un producto temporal por código de barra o código de fabrica.
      *
      * @return el producto temporal encontrado, o null si no existe
      */
@@ -255,7 +255,7 @@ public class FilesServicesImpl implements IFileService {
     private void getTrancitos(ProductImportTransformer item, Long proCodigo, Long empresa) {
         Set<ImpProdTrancitoVw> importaciones = impProdTrancitoVwService.getImpProdTrancitoVwsByProdAndEmpresa(proCodigo, empresa);
         if (importaciones.isEmpty()) {
-            log.error("Importaciones vacías, no se registran los tránsitos.");
+            log.warn("Importaciones vacias, no se registran los transitos.");
             item.setTrancitos(new HashSet<>());
         } else {
             item.setTrancitos(chekImports(importaciones));

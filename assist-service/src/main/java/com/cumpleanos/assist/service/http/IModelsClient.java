@@ -10,6 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
@@ -54,11 +55,11 @@ public interface IModelsClient {
     @PostMapping("/models/dfactura/new")
     ResponseEntity<Boolean> create(@RequestBody Dfactura dfactura);
 
-    @GetMapping("/models/dfactura/getBy/{cco}/{producto}")
-    ResponseEntity<DfacturaDTO> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto);
+    @GetMapping("/models/dfactura/listBy/{cco}/{producto}")
+    ResponseEntity<List<DfacturaDTO>> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto);
 
-    @GetMapping("/models/dfactura/added-cant/{cco}/{producto}/{cantidad}")
-    ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad);
+    @GetMapping("/dfactura/added-cant/{cco}/{producto}/{cantidad}/{precioReferencia}")
+    ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad, @PathVariable BigDecimal precioReferencia);
 
     //Todo servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")

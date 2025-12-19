@@ -74,7 +74,7 @@ public class FileUtils {
     // Mapeo de una fila a un objeto ProductImportTransformer
     private static ProductImportTransformer mapRowToProductImport(Row row) throws ParseException {
         return ProductImportTransformer.builder()
-                .id(getCellValueSafely(row.getCell(0)))
+                .id(getCellIdValue(row.getCell(0)))
                 .item(getCellValueSafely(row.getCell(1)))
                 .nombre(getCellValueSafely(row.getCell(2)))
                 .cantidad(parseIntegerSafely(getCellValueSafely(row.getCell(3)))) // Valor predeterminado 0
@@ -110,7 +110,10 @@ public class FileUtils {
             return "";
         }
         DataFormatter formatter = new DataFormatter();
-        return formatter.formatCellValue(cell).trim();
+        String raw = formatter.formatCellValue(cell);
+
+        //Elimnia espacion invisibles al inicio y final
+        return raw.replace("\u00A0", "").trim();
     }
 
     // Conversión segura de String a Integer
@@ -137,6 +140,34 @@ public class FileUtils {
         } catch (Exception e) {
             System.err.println("Error al convertir valor a Double: " + value);
             return 0.0; // Valor predeterminado
+        }
+    }
+
+    private static String getCellIdValue(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
+
+        switch (cell.getCellType()) {
+            case STRING:
+                DataFormatter formatter = new DataFormatter();
+                String raw = formatter.formatCellValue(cell);
+                return raw.replace("\u00A0", "").trim();
+
+            case NUMERIC:
+                double value = cell.getNumericCellValue();
+                if (value == Math.floor(value)){
+                    return String.format("%.0f", value).trim();
+                } else {
+                    return String.valueOf(value).trim();
+                }
+
+            case FORMULA:
+                return String.valueOf(cell.getBooleanCellValue()).trim();
+
+            case BLANK:
+            default:
+                return "";
         }
     }
 

@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 
 @RestController
 @RequestMapping("models")
@@ -37,9 +39,9 @@ public class DfacturaController {
             @Parameter(name = "cco", description = "Codigo del comprobante"),
             @Parameter(name = "producto", description = "Codigo del producto")
     })
-    @GetMapping("/dfactura/getBy/{cco}/{producto}")
-    public ResponseEntity<DfacturaDTO> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto) {
-        DfacturaDTO fac = service.getDfactura(cco, producto);
+    @GetMapping("/dfactura/listBy/{cco}/{producto}")
+    public ResponseEntity<List<DfacturaDTO>> getDfactura(@PathVariable BigInteger cco, @PathVariable Long producto) {
+        List<DfacturaDTO> fac = service.getDfacturas(cco, producto);
         return ResponseEntity.ok(fac);
     }
 
@@ -49,9 +51,9 @@ public class DfacturaController {
             @Parameter(name = "producto", description = "Codigo del producto"),
             @Parameter(name = "cantidad", description = "Cantidad aprovada")
     })
-    @GetMapping("/dfactura/added-cant/{cco}/{producto}/{cantidad}")
-    public ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad) {
-        ServiceResponse reponse = service.addCantApr(cco, producto, cantidad);
+    @GetMapping("/dfactura/added-cant/{cco}/{producto}/{cantidad}/{precioReferencia}")
+    public ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad, @PathVariable BigDecimal precioReferencia) {
+        ServiceResponse reponse = service.addCantApr(cco, producto, cantidad, precioReferencia);
         return ResponseEntity.ok(reponse);
     }
 }

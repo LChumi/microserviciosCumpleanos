@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
@@ -74,13 +75,13 @@ public class ClientServiceImpl {
     }
 
     //DFACTURA
-    public DfacturaDTO getDfactura(BigInteger cco, Long producto) {
+    public List<DfacturaDTO> getDfactura(BigInteger cco, Long producto) {
         return HttpResponseHandler.handle(() -> modelsClient.getDfactura(cco, producto),
                 "Error al consultar el producto en el detalle ");
     }
 
-    public ServiceResponse addedCanApr(BigInteger cco, Long producto, Integer cantidad) {
-        return HttpResponseHandler.handle(() -> modelsClient.addedCanApr(cco, producto, cantidad),
+    public ServiceResponse addedCanApr(BigInteger cco, Long producto, Integer cantidad, BigDecimal precioReferencia) {
+        return HttpResponseHandler.handle(() -> modelsClient.addedCanApr(cco, producto, cantidad, precioReferencia),
                 "Error al agregar la cantidad del producto: " + producto);
     }
 
