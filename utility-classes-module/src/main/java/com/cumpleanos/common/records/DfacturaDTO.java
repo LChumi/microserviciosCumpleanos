@@ -17,6 +17,7 @@ public record DfacturaDTO(
         String producto,
         String item,
         Integer cantidad,
+        BigDecimal cantApr,
         BigDecimal precio,
         BigDecimal total
 ) {

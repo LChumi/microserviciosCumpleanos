@@ -65,8 +65,10 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
 
         //Validar Lineas sin CANAPR
         List<Dfactura> disponibles = detalles.stream()
-                .filter(d -> d.getCanapr() == 0)
-                .toList();
+                .filter(d ->
+                        d.getCanapr() != null &&
+                                d.getCanapr().compareTo(BigDecimal.ZERO) == 0
+                ).toList();
 
         if (disponibles.isEmpty()) {
             return new ServiceResponse("No existen lineas disponibles para aprobar", false);
@@ -98,7 +100,8 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
                     cco, producto, precio, seleccionado.getPrecio());
         }
 
-        seleccionado.setCanapr(cantidad);
+        BigDecimal dbCant = new  BigDecimal(cantidad);
+        seleccionado.setCanapr(dbCant);
         repository.save(seleccionado);
 
         log.info("CANAPR asignado. cco={}, producto={}, secuencia={}, precio={}",

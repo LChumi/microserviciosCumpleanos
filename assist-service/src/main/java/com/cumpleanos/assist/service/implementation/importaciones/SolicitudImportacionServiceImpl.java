@@ -56,7 +56,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     public SciResponse procesarOrden(SolicitudRequestDTO request) {
         try {
             //SciResponse cabecera = generarCabeceraYComprobante(request);
-            SciResponse cabecera = new SciResponse(new BigInteger("100000000000000000010607047"), "OCI-001-011-0000009");
+            SciResponse cabecera = new SciResponse(new BigInteger("100000000000000000010617228"), "OCI-001-011-0000009");
 
             for (ProductImportTransformer item : request.getItems()) {
 
@@ -124,7 +124,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
             detalle.setId(id);
             detalle.setCantidad(item.getCantidadTotal());
-            detalle.setCanapr(0);
+            detalle.setCanapr(BigDecimal.ZERO);
             detalle.setPrecio(BigDecimal.valueOf(item.getFob()));
 
             detalle.setDfacBodega(bodega);
@@ -201,7 +201,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             ServiceResponse response=
                     productoService.addedCanApr(sci.cco(), producto, orden.cantidad(), orden.precio());
             if (!response.success()) {
-                throw new IllegalArgumentException(response.message());
+                log.error("No se encontro el mismo valor dentro del registro : {}", response.message());
             }
         }
         createIntermediate(orden, sci, producto);
@@ -232,9 +232,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             relacion.setPreCant(sci.cantidad());
         }
 
+        log.info("Realcion:{} ",  relacion);
         DmovprodCon intermedia = dmovprodConService.save(relacion);
+
         if (intermedia == null) {
-            log.error("Los datos de la entidasd");
             throw new EntityNotFoundException("La entidad no fue creada correctamente en el sistema");
         }
 
@@ -265,6 +266,10 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 .filter(s -> s.precio() != null)
                 .filter(s ->
                         s.precio().subtract(precioOrden).abs().compareTo(tolerancia) <= 0
+                )
+                .filter(s ->
+                        s.cantApr() != null &&
+                                s.cantApr().compareTo(BigDecimal.ZERO) == 0
                 )
                 .findFirst()
                 .orElse(null); //SCI puede que no exista

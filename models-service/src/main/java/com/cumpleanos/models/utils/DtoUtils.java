@@ -16,6 +16,7 @@ public class DtoUtils {
                 item.getProducto() != null ? item.getProducto().getNombre() : item.getProductoTemp().getNombre(),
                 item.getProducto() != null ? item.getProducto().getProId1() : item.getProductoTemp().getProId(),
                 item.getCantidad(),
+                item.getCanapr(),
                 item.getPrecio(),
                 item.getTotal()
         );

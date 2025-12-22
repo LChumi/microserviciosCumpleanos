@@ -54,8 +54,8 @@ public class Dfactura {
     private Integer cantidad;
 
     @NotNull
-    @Column(name = "DFAC_CANAPR", nullable = false, precision = 17, scale = 4)
-    private Integer canapr;
+    @Column(name = "DFAC_CANAPR", precision = 17, scale = 4)
+    private BigDecimal canapr;
 
     @NotNull
     @Column(name = "DFAC_PRECIO", nullable = false, precision = 20, scale = 7)
