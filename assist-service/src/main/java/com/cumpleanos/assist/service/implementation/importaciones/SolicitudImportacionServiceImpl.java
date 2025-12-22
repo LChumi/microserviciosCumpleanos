@@ -173,7 +173,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
      * <p>
      * Lanza una excepción si no se encuentra información en ninguna de las órdenes.
      *
-     * @param item  Item de orden creado
+     * @param item     Item de orden creado
      * @param cabecera Código de la orden principal
      * @param producto ID del producto a relacionar
      * @throws IllegalArgumentException si no se encuentra información en ninguna orden
@@ -197,7 +197,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
         //Actualizar CANAPR solo si hay SCI
         if (sci != null) {
-            ServiceResponse response=
+            ServiceResponse response =
                     productoService.addedCanApr(sci.cco(), producto, orden.cantidad(), orden.precio());
             if (!response.success()) {
                 log.error("No se encontro el mismo valor dentro del registro : {}", response.message());
@@ -231,7 +231,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             relacion.setPreCant(sci.cantidad());
         }
 
-        log.info("Realcion:{} ",  relacion);
+        log.info("Realcion:{} ", relacion);
         DmovprodCon intermedia = dmovprodConService.save(relacion);
 
         if (intermedia == null) {
@@ -274,7 +274,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 .orElse(null); //SCI puede que no exista
     }
 
-    private DfacturaDTO seleccionarOrden(List<DfacturaDTO> ordenes, ProductImportTransformer item){
+    private DfacturaDTO seleccionarOrden(List<DfacturaDTO> ordenes, ProductImportTransformer item) {
         log.info("Buscando ordenes en el item {}", item);
         log.info("Buscando ordenes en el item {}", ordenes);
         return ordenes.stream()

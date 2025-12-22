@@ -53,7 +53,7 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
             throw new IllegalArgumentException("Cantidad inválida");
         }
 
-        if (precio == null){
+        if (precio == null) {
             throw new IllegalArgumentException("Precio requerido");
         }
 
@@ -86,7 +86,7 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
                 .filter(d -> d.getPrecio() != null)
                 .filter(d ->
                         d.getPrecio().subtract(precio).abs().compareTo(tolerancia) <= 0
-                        )
+                )
                 .findFirst();
 
         // Seleccion final
@@ -95,12 +95,12 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
                 .orElse(disponibles.getFirst()); //falback
 
         //Notificacion si el precio n o coincide
-        if (seleccionado.getPrecio() != null && seleccionado.getPrecio().compareTo(precio) != 0){
+        if (seleccionado.getPrecio() != null && seleccionado.getPrecio().compareTo(precio) != 0) {
             log.warn("Precio diferente asignado. cco={}, producto={}, enviado={}, usado={}",
                     cco, producto, precio, seleccionado.getPrecio());
         }
 
-        BigDecimal dbCant = new  BigDecimal(cantidad);
+        BigDecimal dbCant = new BigDecimal(cantidad);
         seleccionado.setCanapr(dbCant);
         repository.save(seleccionado);
 
