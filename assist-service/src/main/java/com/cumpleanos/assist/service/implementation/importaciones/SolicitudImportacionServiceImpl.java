@@ -55,8 +55,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     @Override
     public SciResponse procesarOrden(SolicitudRequestDTO request) {
         try {
-            //SciResponse cabecera = generarCabeceraYComprobante(request);
-            SciResponse cabecera = new SciResponse(new BigInteger("100000000000000000010617228"), "OCI-001-011-0000009");
+            SciResponse cabecera = generarCabeceraYComprobante(request);
 
             for (ProductImportTransformer item : request.getItems()) {
 
