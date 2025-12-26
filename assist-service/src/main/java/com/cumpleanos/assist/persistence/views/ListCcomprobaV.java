@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Immutable
 @Table(name = "LIST_CCOMPROBA_V")
-@Data
 public class ListCcomprobaV {
 
     @Id

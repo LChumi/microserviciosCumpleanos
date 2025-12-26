@@ -6,14 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.Immutable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "IMP_PRODTRANCITO_VW")
 @Data
+@Entity
+@Immutable
+@Table(name = "IMP_PRODTRANCITO_VW")
 public class ImpProdTrancitoVw {
 
     @Id
