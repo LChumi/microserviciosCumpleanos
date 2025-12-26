@@ -21,34 +21,34 @@ public class ComImpV1 {
     private BigInteger cco;
 
     @Column(name = "CCO_EMPRESA", nullable = false)
-    private Long ccoEmpresa;
+    private Long empresa;
 
     @Column(name = "CCO_DSP_COMPROBANTE", length = 4000)
-    private String ccoDspComprobante;
+    private String dspComprobante;
 
     @Column(name = "CCO_PERIODO", nullable = false)
-    private Short ccoPeriodo;
+    private Short periodo;
 
     @Column(name = "CCO_FECHA", nullable = false)
-    private LocalDate ccoFecha;
+    private LocalDate fecha;
 
     @Column(name = "CCO_CONCEPTO", nullable = false, length = 300)
-    private String ccoConcepto;
+    private String concepto;
 
     @Column(name = "CCO_TIPODOC", nullable = false)
-    private Long ccoTipodoc;
+    private Long tipodoc;
 
     @Column(name = "CCO_NUMERO", nullable = false)
-    private Long ccoNumero;
+    private Long numero;
 
     @Column(name = "CCO_SIGLA", nullable = false)
-    private Long ccoSigla;
+    private Long sigla;
 
     @Column(name = "CCO_SERIE", nullable = false)
-    private Long ccoSerie;
+    private Long serie;
 
     @Column(name = "CCO_ALMACEN")
-    private Long ccoAlmacen;
+    private Long almacen;
 
     @Column(name = "CREA_USR", length = 10)
     private String creaUsr;
@@ -63,13 +63,13 @@ public class ComImpV1 {
     private LocalDate modFecha;
 
     @Column(name = "CCO_IMP_OBSERVACIONES", length = 100)
-    private String ccoImpObservaciones;
+    private String impObservaciones;
 
     @Column(name = "IPT_COD_ESTADO")
-    private Boolean iptCodEstado;
+    private Short codEstado;
 
     @Column(name = "IPT_ESTADO", length = 12)
-    private String iptEstado;
+    private String estado;
 
     @Column(name = "CLI_ID", nullable = false, length = 10)
     private String cliId;
