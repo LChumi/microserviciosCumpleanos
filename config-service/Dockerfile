@@ -1,19 +1,13 @@
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:21-jre
 
-#Instalar curl
 RUN apt-get update && apt-get install -y curl
 
-ARG JAR_FILE=target/*.jar
+WORKDIR /app
+COPY target/*.jar app.jar
 
-#Usuario no root con UID fijo
-RUN useradd -m -u 1000 appuser \
-    && mkdir -p /app \
-    && chown -R appuser:appuser /app
+USER 1000
 
-# Copiar jar
-COPY ${JAR_FILE} /app/app.jar
-RUN chown appuser:appuser /app/app.jar
-
-USER appuser
-
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", \
+  "-XX:+UseContainerSupport", \
+  "-XX:MaxRAMPercentage=75.0", \
+  "-jar", "app.jar"]

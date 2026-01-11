@@ -28,7 +28,6 @@ x-common-config: &common-config
     META_WEBHOK: ${META_WEBHOK}
     META_API_TOKEN: ${META_API_TOKEN}
     DATA_SAVED_PATH: ${DATA_SAVED_PATH}
-    LOG_PATH: ${LOG_PATH}
   restart: unless-stopped
   logging:
     driver: "json-file"

@@ -31,6 +31,7 @@ spring:
                 allowed-origins:
                   - "https://assist.cumpleanos.com.ec"
                   - "https://apis.cumpleanos.com.ec"
+                  - "http://192.168.112.245"
                   - "http://localhost:4200"
                 allowed-methods:
                   - GET

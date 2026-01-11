@@ -1,16 +1,12 @@
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:21-jre
 
-#Crear usuario no-root con UID fijo
-RUN useradd -m -u 1000 appuser \
-    && mkdir -p /app/data/clientes \
-    && chown -R appuser:appuser /app
+WORKDIR /app
 
-#Copiar el Jar
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} /app/app.jar
+COPY target/*.jar app.jar
 
-RUN chown appuser:appuser /app/app.jar
+USER 1000
 
-USER appuser
-
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", \
+  "-XX:+UseContainerSupport", \
+  "-XX:MaxRAMPercentage=75.0", \
+  "-jar", "app.jar"]

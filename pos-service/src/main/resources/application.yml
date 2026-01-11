@@ -10,12 +10,3 @@ pos:
 
 file:
   path: ${DATA_SAVED_PATH}
-
-logging:
-  level:
-    root: info
-    com:
-      cumpleanos:
-        pos: debug
-  file:
-    name: ${LOG_PATH}
