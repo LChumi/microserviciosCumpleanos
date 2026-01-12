@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "images-service", url = "http://192.168.112.36:7569/images")
+@FeignClient(name = "images-service", url = "http://192.168.112.192:7569/images")
 public interface Images36Client {
 
     @GetMapping(value = "/producto/{imageName}", produces = MediaType.ALL_VALUE)
