@@ -9,12 +9,6 @@ spring:
   config:
     import: classpath:/configurations/application-secure.yml
 
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
-    open-in-view: false
-
   cache:
     type: caffeine
   cloud:

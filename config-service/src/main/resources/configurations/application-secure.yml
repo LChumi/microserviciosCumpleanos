@@ -4,3 +4,20 @@ spring:
     url: ${ORACLE_URL}
     username: ${ORACLE_USERNAME}
     password: ${ORACLE_PASSWORD}
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
+      connection-timeout: 45000
+      validation-timeout: 5000
+      idle-timeout: 600000
+      max-lifetime: 840000
+      keepalive-time: 300000
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 100

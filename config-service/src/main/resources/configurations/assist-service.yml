@@ -18,11 +18,6 @@ spring:
   config:
     import: classpath:/configurations/application-secure.yml
 
-  jpa:
-    hibernate:
-      ddl-auto: none
-    open-in-view: false
-
   cache:
     type: caffeine
   cloud:
