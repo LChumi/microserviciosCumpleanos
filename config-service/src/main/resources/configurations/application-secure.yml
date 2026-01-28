@@ -5,19 +5,24 @@ spring:
     username: ${ORACLE_USERNAME}
     password: ${ORACLE_PASSWORD}
     hikari:
-      maximum-pool-size: 3
-      minimum-idle: 1
-      connection-timeout: 45000
+      pool-name: HikariOraclePool
+      maximum-pool-size: 15
+      minimum-idle: 5
+      connection-timeout: 30000
       validation-timeout: 5000
       idle-timeout: 600000
-      max-lifetime: 840000
+      max-lifetime: 1800000
       keepalive-time: 300000
+      leak-detection-threshold: 20000
 
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: none
-    open-in-view: false
     properties:
       hibernate:
         jdbc:
           batch_size: 100
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false

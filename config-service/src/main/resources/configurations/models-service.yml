@@ -34,7 +34,12 @@ management:
         exclude: beans,env,threaddump
   endpoint:
     health:
+      probes:
+        enabled: true
       show-details: never
+  health:
+    db:
+      enabled: true
   info:
     git:
       enabled: true
