@@ -1,12 +1,11 @@
 package com.cumpleanos.common.records;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public record EmailRecord(
-        @NotBlank(message = "El destinatario no puede estar vacio")
-        @Email(message = "El formato de correo electronico es invalido ")
+        @NotEmpty(message = "Debe existir al menos un destinatario")
         String[] toUser,
 
         @NotBlank(message = "El asunto no puede estar vacio")

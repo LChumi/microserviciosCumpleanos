@@ -1,3 +1,7 @@
+server:
+  port: 8083
+  forward-header-strategy: framework
+
 spring:
   application:
     name: notification-service
@@ -10,9 +14,18 @@ spring:
         caffeine:
           spec: maximumSize=500,expireAfterAccess=10m
 
-server:
-  port: 8083
-  forward-header-strategy: framework
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_KEY}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
+      mail.smtp.ssl.protocols: TLSv1.2
 
 eureka:
   client:

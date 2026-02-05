@@ -6,6 +6,10 @@ x-common-config: &common-config
   networks:
     - microservices-network
 
+  dns:
+    - 8.8.8.8
+    - 1.1.1.1
+
   extra_hosts:
     - "shop.cumpleanos.com.ec:192.168.112.250"
 
