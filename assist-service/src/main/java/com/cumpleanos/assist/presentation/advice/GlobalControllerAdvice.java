@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 @Slf4j
@@ -25,5 +26,10 @@ public class GlobalControllerAdvice {
         final ErrorResponse error = new ErrorResponse(unauthorized.value(), e.getMessage());
         log.error(e.getMessage(), e);
         return ResponseEntity.status(unauthorized).body(error);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<String> handleNoResource(NoResourceFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND) .body("Recurso no disponible");
     }
 }

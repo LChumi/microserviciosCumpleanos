@@ -65,7 +65,7 @@ public class ProductosEcommerceServiceImpl implements IProductosEcommerceService
         }
         assert updated != null;
         log.info("{}, {} actualizado en Base de datos {} de la empresa {}", message, p.sku(), updated.codigo(), updated.empresa());
-        return new ServiceResponse(message + p.sku() + "En Ecommerce, actualizado en BD", Boolean.TRUE);
+        return new ServiceResponse(message + p.sku() + " En Ecommerce, actualizado en BD", Boolean.TRUE);
     }
 
     @Override
