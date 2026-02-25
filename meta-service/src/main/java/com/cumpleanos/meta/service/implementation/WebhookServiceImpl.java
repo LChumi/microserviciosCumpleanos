@@ -27,6 +27,7 @@ public class WebhookServiceImpl {
     private final WhatsappClient whatsappClient;
 
     public void processIncomingMessage(WebhookPayLoad payload) {
+        log.info("Mensaje de webhook entrante {}", payload);
         var message = payload.entry().stream()
                 .flatMap(entry -> entry.changes().stream())
                 .map(Change::value)
