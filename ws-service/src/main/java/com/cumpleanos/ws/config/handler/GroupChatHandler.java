@@ -43,4 +43,3 @@ public class GroupChatHandler implements WebSocketHandler {
         return session.send(output).and(input.then());
     }
 }
-
