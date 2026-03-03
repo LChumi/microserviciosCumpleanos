@@ -42,6 +42,7 @@ public class PrivateNotificationHandler implements WebSocketHandler {
         sessionRegistry.connect(userId);
 
         Flux<Void> inputProcessing = session.receive()
+                .filter(msg -> msg.getType() == WebSocketMessage.Type.TEXT)
                 .map(WebSocketMessage::getPayloadAsText)
                 .flatMap(text -> {
 

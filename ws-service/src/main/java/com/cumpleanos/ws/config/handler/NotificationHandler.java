@@ -54,7 +54,8 @@ public class NotificationHandler implements WebSocketHandler {
                         .then();
 
         Flux<String> input = session.receive()
-                .map(WebSocketMessage::getPayloadAsText)
+    .filter(msg -> msg.getType() == WebSocketMessage.Type.TEXT)
+    .map(WebSocketMessage::getPayloadAsText)
                 .doOnNext(message -> {
                     log.info("Cliente {} envió a canal {}: {}", nickname, canal, message);
                     sink.tryEmitNext("[" + canal + "] " + nickname + ": " + message);
