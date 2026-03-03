@@ -19,6 +19,7 @@ public class ChannelBroker {
     }
 
     public void broadcast(String canal, String message) {
-        getChannel(canal).tryEmitNext(message);
+        Sinks.Many<String> sink = getChannel(canal);
+        sink.tryEmitNext(message);
     }
 }
