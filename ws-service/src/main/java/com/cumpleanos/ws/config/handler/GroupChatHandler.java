@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 
 import java.net.URI;
+import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,8 +39,15 @@ public class GroupChatHandler implements WebSocketHandler {
                 .doOnNext(msg -> sink.tryEmitNext("[" + chatId + "] " + user + ": " + msg))
                 .doFinally(sig -> log.info("Usuario {} salió del grupo {}", user, chatId));
 
-        Flux<WebSocketMessage> output = sink.asFlux().map(session::textMessage);
+        Flux<WebSocketMessage> output =
+                sink.asFlux().map(session::textMessage);
 
-        return session.send(output).and(input.then());
+        Flux<WebSocketMessage> heartbeat =
+                Flux.interval(Duration.ofSeconds(20))
+                        .map(i -> session.pingMessage(factory ->
+                                factory.wrap(new byte[0])
+                        ));
+
+        return session.send(Flux.merge(output, heartbeat)).and(input.then());
     }
 }

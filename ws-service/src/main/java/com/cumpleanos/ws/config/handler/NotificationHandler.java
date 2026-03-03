@@ -16,6 +16,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 
+import java.time.Duration;
 import java.util.Optional;
 
 @Slf4j
@@ -62,8 +63,15 @@ public class NotificationHandler implements WebSocketHandler {
         Flux<WebSocketMessage> output =
                 sink.asFlux().map(session::textMessage);
 
+        Flux<WebSocketMessage> heartbeat =
+                Flux.interval(Duration.ofSeconds(20))
+                        .map(i -> session.pingMessage(factory ->
+                                factory.wrap(new byte[0])
+                        ));
+
         return onConnect
-                .then(session.send(output).and(input.then()))
+                .then(session.send(Flux.merge(output, heartbeat))
+                        .and(input.then()))
                 .then(
                         sessionRegistry.disconnect(nickname)
                                 .flatMap(remaining -> {
