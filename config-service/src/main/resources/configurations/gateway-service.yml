@@ -74,6 +74,10 @@ spring:
               uri: lb://notification-service
               predicates:
                 - Path=/email/**
+            - id: ws-service
+              uri: lb://ws-service
+              predicates:
+                - Path=/ws/**
 
 management:
   endpoints:
