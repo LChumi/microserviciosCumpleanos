@@ -2,6 +2,7 @@ package com.cumpleanos.ws.config.handler;
 
 import com.cumpleanos.ws.config.component.ChannelBroker;
 import com.cumpleanos.ws.config.component.RedisSessionRegistry;
+import com.cumpleanos.ws.persistence.dto.BroadcastRequest;
 import com.cumpleanos.ws.service.implemetation.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class NotificationHandler implements WebSocketHandler {
                                 sessionRegistry.connect(nickname)
                         )
                         .doOnSuccess(v -> {
-                            log.info("Usuario conectado {}", nickname);
+                            log.info("Usuario conectado {} al canal {} ", nickname, canal);
                             sink.tryEmitNext("Usuario " + nickname + " conectado");
                         })
                         .then();
@@ -77,7 +78,7 @@ public class NotificationHandler implements WebSocketHandler {
                 );
     }
 
-    public void broadcast(String canal, String mensaje) {
-        broker.broadcast(canal, mensaje);
+    public void broadcast(BroadcastRequest request) {
+        broker.broadcast(request.cannal(), request.message());
     }
 }

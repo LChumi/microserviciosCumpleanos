@@ -1,6 +1,7 @@
 package com.cumpleanos.ws.presentation.controller;
 
 import com.cumpleanos.ws.config.handler.NotificationHandler;
+import com.cumpleanos.ws.persistence.dto.BroadcastRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +17,10 @@ public class NotificacionController {
 
     private final NotificationHandler notificationHandler;
 
-    @PostMapping("/notify/bradcast")
-    public Mono<Void> broadcast(@RequestBody String message) {
-        notificationHandler.broadcast("public",message);
+    @PostMapping("/notify/broadcast")
+    public Mono<Void> broadcast(@RequestBody BroadcastRequest request) {
+        notificationHandler.broadcast(request);
         return Mono.empty();
     }
+
 }
