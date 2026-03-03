@@ -35,8 +35,8 @@ public class GroupChatHandler implements WebSocketHandler {
                 id -> Sinks.many().multicast().onBackpressureBuffer());
 
         Flux<String> input = session.receive()
-    .filter(msg -> msg.getType() == WebSocketMessage.Type.TEXT)
-    .map(WebSocketMessage::getPayloadAsText)
+                .filter(msg -> msg.getType() == WebSocketMessage.Type.TEXT)
+                .map(WebSocketMessage::getPayloadAsText)
                 .doOnNext(msg -> sink.tryEmitNext("[" + chatId + "] " + user + ": " + msg))
                 .doFinally(sig -> log.info("Usuario {} salió del grupo {}", user, chatId));
 
