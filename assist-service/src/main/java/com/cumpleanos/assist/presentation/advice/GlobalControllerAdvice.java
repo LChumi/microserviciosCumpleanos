@@ -30,6 +30,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<String> handleNoResource(NoResourceFoundException ex) {
+        log.error("Recurso no disponible");
         return ResponseEntity.status(HttpStatus.NOT_FOUND) .body("Recurso no disponible");
     }
 }
