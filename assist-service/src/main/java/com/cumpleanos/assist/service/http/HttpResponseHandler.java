@@ -9,15 +9,25 @@ import java.util.function.Supplier;
 @Slf4j
 public class HttpResponseHandler {
 
-    public static <T> T handle(Supplier<ResponseEntity<T>> supplier, String errorMessage){
-        try{
-            return supplier.get().getBody();
-        }catch(FeignException e){
-            log.error("Error de Feign: {} - {} ",e.status(), e.getMessage());
+    public static <T> T handle(Supplier<ResponseEntity<T>> supplier, String errorMessage) {
+
+        try {
+
+            ResponseEntity<T> response = supplier.get();
+            return response != null ? response.getBody() : null;
+
+        } catch (FeignException e) {
+
+            log.error("Feign error {} - {}", e.status(), e.contentUTF8());
             return null;
-        }catch(Exception e){
+
+        } catch (Exception e) {
+
             log.error(errorMessage, e);
             return null;
+
         }
+
     }
+
 }
