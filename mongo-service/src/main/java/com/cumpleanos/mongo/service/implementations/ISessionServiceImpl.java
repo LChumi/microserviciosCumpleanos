@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ =  {@Autowired})
@@ -40,11 +42,19 @@ public class ISessionServiceImpl extends GenericServiceImpl<Session, String> imp
 
             repository.save(session);
 
-            return new ServiceResponse("Session saved", true);
+            return new ServiceResponse("Sesión guardada", true);
         } catch (Exception e) {
             return new ServiceResponse("Error al guardar la sesion", false);
         }
     }
 
+    @Override
+    public ServiceResponse getLastLogin(String userId) {
+        Instant time = repository.findTopByUserIdOrderByLoginTimeDesc(userId)
+                .map(Session::getLoginTime)
+                .orElse(null);
+
+        return new ServiceResponse("Ultimo inicio de sesion: " + time, true);
+    }
 
 }

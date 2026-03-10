@@ -8,4 +8,6 @@ public interface ISessionService extends IGenericService<Session, String> {
 
     ServiceResponse saveSession(SessionDTO session);
 
+    ServiceResponse getLastLogin(String userId);
+
 }

@@ -9,5 +9,8 @@ import java.util.Optional;
 public interface SessionRepository extends MongoRepository<Session, String> {
 
     Optional<Session> findBySessionId(String sessionId);
+
     List<Session> findByUserId(String userId);
+
+    Optional<Session> findTopByUserIdOrderByLoginTimeDesc(String userId);
 }
