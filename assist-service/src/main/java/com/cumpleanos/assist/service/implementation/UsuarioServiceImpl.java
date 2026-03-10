@@ -47,10 +47,10 @@ public class UsuarioServiceImpl {
                 Instant.now().plus(Duration.ofHours(4))
         );
 
-        ServiceResponse response =sessionService.saveSession(dto);
-        if (response.success()){
+        ServiceResponse response = sessionService.saveSession(dto);
+        if (response.success()) {
             log.info(response.message());
-        }else {
+        } else {
             log.info(response.message());
         }
 
