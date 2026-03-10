@@ -5,14 +5,20 @@ import com.cumpleanos.assist.persistence.inmutables.UserResponse;
 import com.cumpleanos.assist.service.exception.BadCredentialsException;
 import com.cumpleanos.assist.service.implementation.UsuarioServiceImpl;
 import com.cumpleanos.common.records.ServiceResponse;
+import com.cumpleanos.common.records.SessionDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("assist")
@@ -32,11 +38,8 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     @Operation(summary = "Login")
-    public ResponseEntity<UserResponse> login(@RequestBody @Valid AuthenticationRequest request) {
-        UserResponse user = usuarioService.login(request);
-        if (user == null) {
-            throw new BadCredentialsException("Usuario no autenticado");
-        }
+    public ResponseEntity<UserResponse> login(@RequestBody @Valid AuthenticationRequest request, HttpServletRequest httpRequest) {
+        UserResponse user = usuarioService.login(request, httpRequest);
         return ResponseEntity.accepted().body(user);
     }
 }
