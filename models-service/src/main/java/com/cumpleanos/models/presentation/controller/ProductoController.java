@@ -33,8 +33,8 @@ public class ProductoController {
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/producto/barra/{barra}/empresa/{empresa}")
-    public ResponseEntity<ProductoDTO> getProductoByBarra(@PathVariable("barra") String barra,
-                                                          @PathVariable("empresa") Long empresa) {
+    public ResponseEntity<ProductoDTO> getProductoByBarra(@PathVariable String barra,
+                                                          @PathVariable Long empresa) {
         ProductoDTO producto = service.getProductoByBarraAndEmpresa(barra, empresa);
 
         return ResponseEntity.ok(producto);
@@ -48,8 +48,8 @@ public class ProductoController {
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
     @GetMapping("/producto/id/{codigo}/{empresa}")
-    public ResponseEntity<ProductoBuilder> getProductoById(@PathVariable("codigo") Long codigo,
-                                                           @PathVariable("empresa") Long empresa) {
+    public ResponseEntity<ProductoBuilder> getProductoById(@PathVariable Long codigo,
+                                                           @PathVariable Long empresa) {
         ProductoId id = new ProductoId();
         id.setEmpresa(empresa);
         id.setCodigo(codigo);
