@@ -44,8 +44,8 @@ spring:
                   - Content-Type
                 #allowCredentials: true
           httpclient:
-            connect-timeout: 3000
-            response-timeout: 5s
+            #connect-timeout: 3000
+            #response-timeout: 5s
             ssl:
               use-insecure-trust-manager: true
           discovery:
