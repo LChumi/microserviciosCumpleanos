@@ -39,7 +39,7 @@ public class UsuarioServiceImpl {
                 null,
                 UUID.randomUUID().toString(),
                 user.getUsrId(),
-                httpRequest.getRemoteAddr(),
+                getClientIp(httpRequest),
                 httpRequest.getHeader("User-Agent"),
                 Instant.now(),
                 Instant.now(),
@@ -85,6 +85,17 @@ public class UsuarioServiceImpl {
         } catch (Exception e) {
             return new ServiceResponse("Error al enviar el correo.", false);
         }
+    }
+
+    private String getClientIp(HttpServletRequest request){
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.isEmpty()){
+            ip = request.getHeader("X-Real-IP");
+        }
+        if (ip == null || ip.isEmpty()){
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 
 }
