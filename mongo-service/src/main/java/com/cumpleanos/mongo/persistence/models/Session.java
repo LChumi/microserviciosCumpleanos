@@ -31,11 +31,3 @@ public class Session implements Serializable {
     // Para TTL dinámico
     private Instant expireAt;
 }
-
-/**
- * Crear TTL dinamico
- * db.sessions.createIndex(
- *   { "expireAt": 1 },
- *   { expireAfterSeconds: 0 }
- * )
- */

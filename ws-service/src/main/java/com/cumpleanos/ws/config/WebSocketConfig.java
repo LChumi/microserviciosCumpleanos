@@ -1,8 +1,6 @@
 package com.cumpleanos.ws.config;
 
-import com.cumpleanos.ws.config.handler.GroupChatHandler;
-import com.cumpleanos.ws.config.handler.NotificationHandler;
-import com.cumpleanos.ws.config.handler.PrivateNotificationHandler;
+import com.cumpleanos.ws.config.handler.WsHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,23 +13,20 @@ import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAd
 import java.util.Map;
 
 @Configuration
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class WebSocketConfig {
 
-    private final NotificationHandler publicHandler;
-    private final PrivateNotificationHandler privateHandler;
-    private final GroupChatHandler groupHandler;
+    private final WsHandler wsHandler;
 
     @Bean
     public HandlerMapping handlerMapping() {
-        Map<String, WebSocketHandler> map = Map.of(
-                "/ws/notify", publicHandler,
-                "/ws/private", privateHandler,
-                "/ws/group", groupHandler
-        );
-        return new SimpleUrlHandlerMapping(map, 1);
-    }
 
+        Map<String, WebSocketHandler> map = Map.of(
+                "/ws/chat", wsHandler
+        );
+
+        return new SimpleUrlHandlerMapping(map, -1);
+    }
 
     @Bean
     public WebSocketHandlerAdapter handlerAdapter() {
