@@ -29,10 +29,13 @@ public class WsBroker {
 
     public void broadcast(String channel, WsMessage message) {
 
+        if (channel == null || channel.isBlank()) {
+            return;
+        }
+
         Sinks.Many<WsMessage> sink = channel(channel);
 
         sink.tryEmitNext(message);
-
     }
 
     public void removeChannel(String name) {

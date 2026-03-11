@@ -21,6 +21,10 @@ public class NotificacionController {
     @PostMapping("/broadcast")
     public Mono<Void> broadcast(@RequestBody BroadcastRequest request) {
 
+        if (request.channel() == null || request.channel().isBlank()) {
+            return Mono.error(new IllegalArgumentException("canal requerido"));
+        }
+
         broker.broadcast(
                 request.channel(),
                 new WsMessage(
