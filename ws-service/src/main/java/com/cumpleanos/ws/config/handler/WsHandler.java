@@ -34,6 +34,11 @@ public class WsHandler implements WebSocketHandler {
 
         String user = query.getFirst("user");
 
+        if (user == null || user.isBlank()) {
+            log.warn("Conexion WS rechazada: user null");
+            return session.close();
+        }
+
         Sinks.Many<WsMessage> userSink = broker.user(user);
 
         Flux<WebSocketMessage> output =
