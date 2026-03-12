@@ -13,5 +13,4 @@ public class BodegaDTO {
     private String bodUbicacion;
     private Short proveedor;
     private Long almacen;
-
 }

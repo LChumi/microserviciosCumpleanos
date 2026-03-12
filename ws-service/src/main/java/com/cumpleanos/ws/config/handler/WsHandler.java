@@ -82,14 +82,13 @@ public class WsHandler implements WebSocketHandler {
 
                                 switch (msg.type()) {
 
-                                    case "GROUP_MESSAGE", "NOTIFICATION" ->
-                                            broker.sendChannel(msg.channel(), msg);
+                                    case "GROUP_MESSAGE", "NOTIFICATION" -> broker.sendChannel(msg.channel(), msg);
 
-                                    case "PRIVATE_MESSAGE" ->
-                                            broker.sendUser(msg.target(), msg);
+                                    case "PRIVATE_MESSAGE" -> broker.sendUser(msg.target(), msg);
                                 }
 
-                            } catch (Exception ignored) {}
+                            } catch (Exception ignored) {
+                            }
 
                             return Mono.empty();
                         });
