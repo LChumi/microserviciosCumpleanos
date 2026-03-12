@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -33,6 +35,7 @@ public class WsHandler implements WebSocketHandler {
                 UriComponentsBuilder.fromUri(uri).build().getQueryParams();
 
         String user = query.getFirst("user");
+        List<String> channels = query.get("channel");
 
         if (user == null || user.isBlank()) {
             log.warn("Conexion WS rechazada: user null");
@@ -41,12 +44,19 @@ public class WsHandler implements WebSocketHandler {
 
         Sinks.Many<WsMessage> userSink = broker.user(user);
 
+        List<Flux<WsMessage>> sources = new ArrayList<>();
+        sources.add(userSink.asFlux());
+
+        if (channels != null) {
+            for (String channel : channels) {
+                sources.add(broker.channel(channel).asFlux());
+            }
+        }
+
         Flux<WebSocketMessage> output =
-                Flux.merge(
-                        userSink.asFlux()
-                )
+                Flux.merge(sources)
                         .map(msg -> {
-                            try{
+                            try {
                                 return mapper.writeValueAsString(msg);
                             } catch (Exception e) {
                                 return "{}";
@@ -54,10 +64,11 @@ public class WsHandler implements WebSocketHandler {
                         })
                         .map(session::textMessage);
 
-        Flux<Void> input=
+        Flux<Void> input =
                 session.receive()
                         .map(WebSocketMessage::getPayloadAsText)
                         .flatMap(text -> {
+
                             WsMessage msg;
 
                             try {
@@ -66,18 +77,18 @@ public class WsHandler implements WebSocketHandler {
                                 return Mono.empty();
                             }
 
-                            switch (msg.type()){
+                            switch (msg.type()) {
 
                                 case "GROUP_MESSAGE", "NOTIFICATION" ->
                                         broker.sendChannel(msg.channel(), msg);
 
                                 case "PRIVATE_MESSAGE" ->
                                         broker.sendUser(msg.target(), msg);
-
                             }
 
                             return Mono.empty();
                         });
+
         return session
                 .send(output)
                 .and(input);
