@@ -10,10 +10,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class WsBroker {
 
-    private final Map<String, Sinks.Many<WsMessage>> channels = new ConcurrentHashMap<>();
-    private final Map<String, Sinks.Many<WsMessage>> users = new ConcurrentHashMap<>();
+    private final Map<String, Sinks.Many<WsMessage>> channels =
+            new ConcurrentHashMap<>();
+
+    private final Map<String, Sinks.Many<WsMessage>> users =
+            new ConcurrentHashMap<>();
 
     public Sinks.Many<WsMessage> channel(String name) {
+
         return channels.computeIfAbsent(
                 name,
                 k -> Sinks.many().multicast().directBestEffort()
@@ -21,25 +25,18 @@ public class WsBroker {
     }
 
     public Sinks.Many<WsMessage> user(String user) {
+
         return users.computeIfAbsent(
                 user,
                 k -> Sinks.many().multicast().directBestEffort()
         );
     }
 
-    public void broadcast(String channel, WsMessage message) {
+    public void broadcast(String channel, WsMessage msg) {
 
-        if (channel == null || channel.isBlank()) {
-            return;
-        }
+        if (channel == null || channel.isBlank()) return;
 
-        Sinks.Many<WsMessage> sink = channel(channel);
-
-        sink.tryEmitNext(message);
-    }
-
-    public void removeChannel(String name) {
-        channels.remove(name);
+        channel(channel).tryEmitNext(msg);
     }
 
     public void sendChannel(String channel, WsMessage msg) {
@@ -50,4 +47,16 @@ public class WsBroker {
         user(user).tryEmitNext(msg);
     }
 
+    public void removeUser(String user) {
+        users.remove(user);
+    }
+
+    public void removeChannelIfEmpty(String name) {
+
+        Sinks.Many<WsMessage> sink = channels.get(name);
+
+        if (sink != null && sink.currentSubscriberCount() <= 0) {
+            channels.remove(name);
+        }
+    }
 }
