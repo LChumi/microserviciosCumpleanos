@@ -46,7 +46,7 @@ public interface IModelsClient {
 
     //TODO servicio que viene del controlador AlmacenController
     @GetMapping("/models/almacen/{empresa}")
-    ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable("empresa") Long empresa);
+    ResponseEntity<Set<AlmacenDTO>> listarAlmacenes(@PathVariable Long empresa);
 
     @GetMapping("/models/almacen/get/{empresa}/{codigo}")
     ResponseEntity<AlmacenDTO> getById(@PathVariable Long empresa, @PathVariable Long codigo);
@@ -63,13 +63,13 @@ public interface IModelsClient {
 
     //Todo servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")
-    ResponseEntity<ClienteRecord> findByRucAndEmpresa(@PathVariable("ruc") String ruc, @PathVariable("tipo") Short tipo, @PathVariable("empresa") Long empresa);
+    ResponseEntity<ClienteRecord> findByRucAndEmpresa(@PathVariable String ruc, @PathVariable Short tipo, @PathVariable Long empresa);
 
     @PostMapping("/models/cliente/new")
     ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente);
 
     @GetMapping("/models/cliente/id/{cliId}/{empresa}")
-    ResponseEntity<List<String>> getClientes(@PathVariable("cliId") String cliId, @PathVariable("empresa") Long empresa);
+    ResponseEntity<List<String>> getClientes(@PathVariable String cliId, @PathVariable Long empresa);
 
     //TODO servicio que viene del controlador BodegaController
     @GetMapping("/models/bodega/web/{empresa}")
@@ -84,13 +84,13 @@ public interface IModelsClient {
 
     //TODO servicio que viene del controlador FuctionOracleController
     @GetMapping("/models/function-oralce/verificarJuridico/{ruc}")
-    ResponseEntity<Long> verificarJuridico(@PathVariable("ruc") String ruc);
+    ResponseEntity<Long> verificarJuridico(@PathVariable String ruc);
 
     @GetMapping("/models/function-oracle/parametro/{empresa}/{sigla}/{secuencia}/{tipo}")
-    ResponseEntity<Long> verificarParametro(@PathVariable("empresa") Long empresa,
-                                            @PathVariable("sigla") String sigla,
-                                            @PathVariable("secuencia") String secuencia,
-                                            @PathVariable("tipo") int tipo);
+    ResponseEntity<Long> verificarParametro(@PathVariable Long empresa,
+                                            @PathVariable String sigla,
+                                            @PathVariable String secuencia,
+                                            @PathVariable int tipo);
 
     //TODO servicio que viene del controlador UbicacionController
     @GetMapping("/models/ubicacion/{emp}/{nombre}")
@@ -98,16 +98,16 @@ public interface IModelsClient {
 
     //TODO servicio que viene del controlador ProductoController
     @GetMapping("/models/producto/barra/{barra}/empresa/{empresa}")
-    ResponseEntity<ProductoDTO> getProductoByBarra(@PathVariable("barra") String barra, @PathVariable("empresa") Long empresa);
+    ResponseEntity<ProductoDTO> getProductoByBarra(@PathVariable String barra, @PathVariable Long empresa);
 
     @GetMapping("models/producto/id/{codigo}/{empresa}")
-    ResponseEntity<ProductoBuilder> getProductoById(@PathVariable("codigo") Long codigo, @PathVariable("empresa") Long empresa);
+    ResponseEntity<ProductoBuilder> getProductoById(@PathVariable Long codigo, @PathVariable Long empresa);
 
     @PutMapping("models/producto/update")
     ResponseEntity<ProductoDTO> updateProducto(@RequestBody ProductoBuilder producto);
 
     @GetMapping("models/producto/matches/{empresa}")
-    ResponseEntity<String> getMatches(@PathVariable("empresa") Long empresa, @RequestParam("barcode") String barcode, @RequestParam("item") String item);
+    ResponseEntity<String> getMatches(@PathVariable Long empresa, @RequestParam("barcode") String barcode, @RequestParam("item") String item);
 
     //TODO servicio que viene del controlador de ProductoPartida
     @GetMapping("models/producto-partida/get/{producto}/{empresa}/default")
@@ -129,7 +129,7 @@ public interface IModelsClient {
     ResponseEntity<Creposicion> saveCreposicion(@RequestBody Creposicion creposicion);
 
     @GetMapping("/models/creposicion/find/{referencia}/{empresa}")
-    ResponseEntity<Boolean> findCreposicionByReferencia(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa);
+    ResponseEntity<Boolean> findCreposicionByReferencia(@PathVariable String referencia, @PathVariable Long empresa);
 
     @GetMapping("/models/creposicion/update/{empresa}/{codigo}/{usrliq}/{estado}")
     ResponseEntity<ServiceResponse> finalizarPedido(@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado);

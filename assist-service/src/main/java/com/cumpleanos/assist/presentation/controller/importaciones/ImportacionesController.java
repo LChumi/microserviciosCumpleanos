@@ -2,6 +2,7 @@ package com.cumpleanos.assist.presentation.controller.importaciones;
 
 import com.cumpleanos.assist.persistence.dto.OrdenCompraListDTO;
 import com.cumpleanos.assist.persistence.dto.SolicitudRequestDTO;
+import com.cumpleanos.assist.persistence.inmutables.ImportacionRequest;
 import com.cumpleanos.assist.persistence.inmutables.SciResponse;
 import com.cumpleanos.assist.persistence.transformers.ProductImportTransformer;
 import com.cumpleanos.assist.service.implementation.files.FilesServicesImpl;
@@ -68,6 +69,12 @@ public class ImportacionesController {
     public ResponseEntity<SciResponse> confirmarOrdenCompra(@RequestBody @Valid SolicitudRequestDTO solicitudRequestDTO) {
         SciResponse result = solicitudImportacionService.procesarOrden(solicitudRequestDTO);
         return ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "Carga de Importaciones")
+    @PostMapping("/importaciones/ingreso")
+    public ResponseEntity<SciResponse> ingresoImportacion(@RequestBody ImportacionRequest request){
+        return ResponseEntity.ok().build();
     }
 
 }
