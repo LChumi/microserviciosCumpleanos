@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.persistence.views;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,12 +18,14 @@ import java.time.LocalDate;
 public class ComImpV1 {
 
     @Id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "CCO_CODIGO")
     private BigInteger cco;
 
     @Column(name = "CCO_EMPRESA", nullable = false)
     private Long empresa;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "CCO_DSP_COMPROBANTE", length = 4000)
     private String dspComprobante;
 
