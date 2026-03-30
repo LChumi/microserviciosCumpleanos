@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ public class ImporitemId implements Serializable {
     private Long iitSecuencia;
 
     @Column(name = "IIT_IMP_COMPROBA", nullable = false)
-    private Long iitImpComproba;
+    private BigInteger iitImpComproba;
 
     @Column(name = "IIT_EMPRESA", nullable = false)
     private Long iitEmpresa;
