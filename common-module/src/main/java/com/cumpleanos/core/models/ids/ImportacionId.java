@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class ImportacionId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "IPT_CCO_COMPROBA", nullable = false)
-    private Long ccoComproba;
+    private BigInteger ccoComproba;
 
     @Column(name = "IPT_EMPRESA", nullable = false)
     private Long empresa;

@@ -64,6 +64,7 @@ public class OpenAPIConfiguration {
                 "usrbod",
                 "usuario",
                 "imppartida",
+                "imporitem",
                 "producto-partida"
         );
         return modules.stream()

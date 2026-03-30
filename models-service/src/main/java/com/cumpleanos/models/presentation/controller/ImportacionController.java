@@ -1,7 +1,7 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.common.records.ImporItemDTO;
-import com.cumpleanos.models.service.interfaces.IImporitemService;
+import com.cumpleanos.common.records.ImportacionDTO;
+import com.cumpleanos.models.service.interfaces.IImportacionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -14,25 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
-import java.util.List;
 
 @RestController
 @RequestMapping("models")
 @RequiredArgsConstructor
-@Tag(name = "Productos Importacion", description = "Detalles de productos de Importacion")
-public class ImporItemController {
+@Tag(name = "Impotacion", description = "Detalles cabecera de importacion")
+public class ImportacionController {
 
-    private final IImporitemService service;
+    private final IImportacionService service;
 
-    @Operation(summary = "Obtener producto", description = "Obtiene el producto de importacion ")
+    @Operation(summary = "Obtener Importacion", description = "Obtener Cabecera de Importacion")
     @Parameters({
             @Parameter(name = "cco", description = "Codigo de importacion"),
-            @Parameter(name = "producto", description = "Codigo del producto")
+            @Parameter(name = "empresa", description = "Codigo de empresa"),
     })
-    @GetMapping("/imporitem/getByCco/{cco}/{producto}")
-    public ResponseEntity<List<ImporItemDTO>> getProductoImpor(@PathVariable BigInteger cco , @PathVariable Long producto){
-        List<ImporItemDTO> items = service.getImporItemByCco(cco,producto);
-        return ResponseEntity.ok(items);
+    @GetMapping("/importacion/get/{cco}/{empresa}")
+    public ResponseEntity<ImportacionDTO> getImportacion(@PathVariable BigInteger cco, @PathVariable Long empresa) {
+        ImportacionDTO dto = service.getById(cco, empresa);
+        return ResponseEntity.ok(dto);
     }
-
 }
