@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.service.implementation.importaciones;
 
+import com.cumpleanos.assist.persistence.inmutables.ImportacionRequest;
 import com.cumpleanos.assist.service.interfaces.importaciones.IDmovprodConService;
 import com.cumpleanos.common.builders.ProductoPartidaBuilder;
 import com.cumpleanos.common.dtos.ProductoDTO;
@@ -82,6 +83,11 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             log.error("Error al generar la cabecera SCI: {}", e.getMessage(), e);
             throw e;
         }
+    }
+
+    @Override
+    public SciResponse procesarImportacion(ImportacionRequest request) {
+        return null;
     }
 
     private SciResponse generarCabeceraYComprobante(SolicitudRequestDTO request) {

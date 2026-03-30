@@ -74,6 +74,7 @@ public class ImportacionesController {
     @Operation(summary = "Carga de Importaciones")
     @PostMapping("/importaciones/ingreso")
     public ResponseEntity<SciResponse> ingresoImportacion(@RequestBody ImportacionRequest request){
+        SciResponse response = solicitudImportacionService.procesarImportacion(request);
         return ResponseEntity.ok().build();
     }
 
