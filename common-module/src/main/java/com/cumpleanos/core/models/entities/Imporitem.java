@@ -30,13 +30,13 @@ public class Imporitem {
     private Boolean tipoItem = false;
 
     @Column(name = "IIT_CANT_PEDIDA", nullable = false, precision = 17, scale = 4)
-    private BigDecimal cantPedida;
+    private Integer cantPedida;
 
     @Column(name = "IIT_CANT_LLEGADA", precision = 17, scale = 4)
-    private BigDecimal cantLlegada;
+    private Integer cantLlegada;
 
     @Column(name = "IIT_CANT_LIQUIDADA", precision = 17, scale = 4)
-    private BigDecimal cantLiquidada;
+    private Integer cantLiquidada;
 
     @Column(name = "IIT_COSTO", precision = 18, scale = 5)
     private BigDecimal costo;
