@@ -19,8 +19,6 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
-import static com.cumpleanos.models.utils.DtoUtils.getDfacturaDTO;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -94,7 +92,7 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
                 .or(() -> enRango)
                 .orElse(disponibles.getFirst()); //falback
 
-        //Notificacion si el precio n o coincide
+        //Notificacion si el precio no coincide
         if (seleccionado.getPrecio() != null && seleccionado.getPrecio().compareTo(precio) != 0) {
             log.warn("Precio diferente asignado. cco={}, producto={}, enviado={}, usado={}",
                     cco, producto, precio, seleccionado.getPrecio());
