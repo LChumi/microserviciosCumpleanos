@@ -9,7 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WoocommerceUtils {
+public final class WoocommerceUtils {
+
+    private WoocommerceUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static Map<String, Object> convertObjectToMap(ProductEcomRequest request, Integer imageId, Boolean status) {
 

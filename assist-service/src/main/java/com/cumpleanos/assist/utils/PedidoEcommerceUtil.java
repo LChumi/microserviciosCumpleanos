@@ -17,7 +17,11 @@ import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.*;
 import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.ALM;
 import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.DOM;
 
-public class PedidoEcommerceUtil {
+public final class PedidoEcommerceUtil {
+
+    private PedidoEcommerceUtil() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static final String USER = "WEB_USR";
     private static final String OBS = "PEDIDO GENERADO DESDE E-COMMERCE ";

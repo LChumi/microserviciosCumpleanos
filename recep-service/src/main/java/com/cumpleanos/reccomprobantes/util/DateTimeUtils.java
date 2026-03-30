@@ -9,7 +9,11 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
 @Slf4j
-public class DateTimeUtils {
+public final class DateTimeUtils {
+
+    private DateTimeUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

@@ -9,7 +9,11 @@ import java.text.Normalizer;
 import java.util.*;
 
 @Slf4j
-public class StringUtils {
+public final class StringUtils {
+
+    private StringUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static String bigDecimalToString(BigDecimal bigDecimal) {
         if (bigDecimal == null) {

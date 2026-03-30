@@ -13,7 +13,11 @@ import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
-public class FileUtils {
+public final class FileUtils {
+
+    private FileUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     private static final String[] HeadersImport = {"ID", "ITEM", "NOMBRE", "CANTIDAD", "FOB", "CBM", "CXB"};
 

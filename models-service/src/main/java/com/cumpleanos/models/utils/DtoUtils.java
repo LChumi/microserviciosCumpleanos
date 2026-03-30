@@ -3,7 +3,11 @@ package com.cumpleanos.models.utils;
 import com.cumpleanos.common.records.DfacturaDTO;
 import com.cumpleanos.core.models.entities.Dfactura;
 
-public class DtoUtils {
+public final class DtoUtils {
+
+    private DtoUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static DfacturaDTO getDfacturaDTO(Dfactura item) {
         return new DfacturaDTO(

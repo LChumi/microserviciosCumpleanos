@@ -7,7 +7,11 @@ import com.cumpleanos.assist.persistence.views.ImpProdTrancitoVw;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ProductImportDTOUtils {
+public final class ProductImportDTOUtils {
+
+    private ProductImportDTOUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     /**
      * Mapea un conjunto de entidades {@code ImpProdTrancitoVw} a sus correspondientes DTO

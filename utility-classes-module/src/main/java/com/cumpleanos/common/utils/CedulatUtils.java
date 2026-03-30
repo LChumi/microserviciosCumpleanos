@@ -1,6 +1,10 @@
 package com.cumpleanos.common.utils;
 
-public class CedulatUtils {
+public final class CedulatUtils {
+
+    private CedulatUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static Short tipoCedula(String cedula) {
         //Verificar si el string solo tiene numeros

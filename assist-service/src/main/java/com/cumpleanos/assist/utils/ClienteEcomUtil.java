@@ -10,7 +10,11 @@ import java.util.Arrays;
 
 import static com.cumpleanos.common.utils.CedulatUtils.*;
 
-public class ClienteEcomUtil {
+public final class ClienteEcomUtil {
+
+    private ClienteEcomUtil() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static String generarPrefix(String nombre) {
         return "ECOM-" + nombre.substring(0, 3).toUpperCase().trim();

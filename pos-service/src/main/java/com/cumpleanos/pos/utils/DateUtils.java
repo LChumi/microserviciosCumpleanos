@@ -6,7 +6,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
-public class DateUtils {
+public final class DateUtils {
+
+    private DateUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static String obtenerFechaHora(){
         LocalDateTime fecha = LocalDateTime.now();

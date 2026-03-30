@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 @Component
 @Slf4j
-public class FilesUtils {
+public final class FilesUtils {
 
     @Value("${file.path}")
     private String ruta;

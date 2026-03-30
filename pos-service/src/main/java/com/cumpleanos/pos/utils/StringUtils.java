@@ -4,7 +4,11 @@ import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 
 import static com.cumpleanos.pos.utils.DateUtils.obtenerFechaHora;
 
-public class StringUtils {
+public final class StringUtils {
+
+    private StringUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static String getTransactionReference(ReciboPOSView v) {
         return obtenerFechaHora() + v.getCodigo() + v.getPventa() + v.getFinanciera();

@@ -28,7 +28,11 @@ import java.time.ZonedDateTime;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class ComprobantesUtils {
+public final class ComprobantesUtils {
+
+    private ComprobantesUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static ComprobanteCsv getComprobanteCsv(String[] values) {
         ComprobanteCsv comprobante = new ComprobanteCsv();

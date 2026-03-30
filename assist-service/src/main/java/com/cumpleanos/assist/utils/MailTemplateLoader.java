@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class MailTemplateLoader {
+public final class MailTemplateLoader {
+
+    private MailTemplateLoader() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static String loadAndFillTemplate(String templateName, Map<String, String> variables) {
         try {

@@ -3,7 +3,11 @@ package com.cumpleanos.mongo.utils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ImageUtils {
+public final class ImageUtils {
+
+    private ImageUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     /**
      * Metodo para cambiar el tamaño de la imagen preservando la relación de aspecto

@@ -3,7 +3,11 @@ package com.cumpleanos.reccomprobantes.util;
 import java.util.List;
 import java.util.Map;
 
-public class MessagesUtils {
+public final class MessagesUtils {
+
+    private MessagesUtils() {
+        throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
+    }
 
     public static String mensajeHtmlCamposNulosClientes(List<Map<String, String>> clientes, String empresa, String logoSrc) {
         StringBuilder htmlBuilder = new StringBuilder();
