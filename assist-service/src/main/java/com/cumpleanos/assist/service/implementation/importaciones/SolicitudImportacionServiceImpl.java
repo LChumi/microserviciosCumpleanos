@@ -235,6 +235,8 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
             relacion.setPreFecha(sci.fecha());
             relacion.setPreSecuencia(sci.secuencia());
             relacion.setPreCant(sci.cantidad());
+        } else {
+            relacion.setEmpresa(orden.empresa());
         }
 
         log.info("Realcion:{} ", relacion);
