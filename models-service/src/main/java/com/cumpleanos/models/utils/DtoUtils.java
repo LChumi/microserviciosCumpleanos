@@ -30,8 +30,8 @@ public final class DtoUtils {
 
     public static ImporItemDTO getImporItemDTO(Imporitem item) {
         return new ImporItemDTO(
-                item.getId().getIitEmpresa(),
-                item.getId().getIitImpComproba(),
+                item.getId().getEmpresa(),
+                item.getId().getComproba(),
                 item.getIitProducto(),
                 item.getProducto() != null ? item.getProducto().getProId() : item.getProductoTemp().getProId(),
                 item.getProducto() != null ? item.getProducto().getNombre() : item.getProductoTemp().getNombre(),
