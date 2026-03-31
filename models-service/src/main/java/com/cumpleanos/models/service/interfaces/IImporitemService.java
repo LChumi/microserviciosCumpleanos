@@ -11,4 +11,6 @@ public interface IImporitemService extends GenericService<Imporitem, ImporitemId
 
     List<ImporItemDTO> getImporItemByCco(BigInteger cco, Long codProducto);
 
+    List<ImporItemDTO> getByCco(BigInteger cco);
+
 }

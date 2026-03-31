@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface ImporItemRepository extends JpaRepository<Imporitem, ImporitemId> {
 
-    List<Imporitem> findById_IitImpComprobaAndIitProducto(BigInteger idIitImpComproba, Long iitProducto);
+    List<Imporitem> findById_ComprobaAndIitProducto(BigInteger idIitImpComproba, Long iitProducto);
+
+    List<Imporitem> findById_Comproba(BigInteger idComproba);
 }

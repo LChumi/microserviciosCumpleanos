@@ -22,11 +22,11 @@ public class ImporitemId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "IIT_SECUENCIA", nullable = false)
-    private Long iitSecuencia;
+    private Long secuencia;
 
     @Column(name = "IIT_IMP_COMPROBA", nullable = false)
-    private BigInteger iitImpComproba;
+    private BigInteger comproba;
 
     @Column(name = "IIT_EMPRESA", nullable = false)
-    private Long iitEmpresa;
+    private Long empresa;
 }

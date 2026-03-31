@@ -35,4 +35,11 @@ public class ImporItemController {
         return ResponseEntity.ok(items);
     }
 
+    @Operation(summary = "Lista productos", description = "Obtiene la lista de productos de importacion ")
+    @Parameter(name = "cco", description = "Codigo de importacion")
+    @GetMapping("/imporitem/list-by/{cco}")
+    public ResponseEntity<List<ImporItemDTO>> listByCco(@PathVariable BigInteger cco){
+        List<ImporItemDTO> items = service.getByCco(cco);
+        return ResponseEntity.ok(items);
+    }
 }

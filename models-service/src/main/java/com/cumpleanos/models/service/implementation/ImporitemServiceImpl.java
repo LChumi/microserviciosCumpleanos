@@ -30,10 +30,22 @@ public class ImporitemServiceImpl extends GenericServiceImpl<Imporitem, Imporite
 
     @Override
     public List<ImporItemDTO> getImporItemByCco(BigInteger cco, Long codProducto) {
-        List<Imporitem> items = repository.findById_IitImpComprobaAndIitProducto(cco, codProducto);
+        List<Imporitem> items = repository.findById_ComprobaAndIitProducto(cco, codProducto);
 
         if (items.isEmpty()) {
             throw new EntityNotFoundException("Producto no encontrado en la importacion");
+        }
+
+        return items.stream()
+                .map(DtoUtils::getImporItemDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ImporItemDTO> getByCco(BigInteger cco) {
+        List<Imporitem> items = repository.findById_Comproba(cco);
+        if (items.isEmpty()) {
+            throw new EntityNotFoundException("No se encontraron productos en la importacion");
         }
 
         return items.stream()
