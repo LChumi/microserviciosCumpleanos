@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -128,6 +129,25 @@ public class ClientServiceImpl {
     public List<Ubicacion> getUbicaion(Long empr, String nombre) {
         return HttpResponseHandler.handle(() -> modelsClient.getUbicacionByNombre(empr, nombre),
                 "Error al obtener la ciudad por nombre: " + nombre + " empresa: " + empr);
+    }
+
+    //IMPORTACION
+    public ImportacionDTO getImportacion(BigInteger cco, Long empresa){
+        return
+                HttpResponseHandler.handle(() -> modelsClient.getImportacion(cco, empresa),
+                        "Error al obtener la importacion");
+    }
+
+    public List<ImporItemDTO> getProductoImpor(BigInteger cco, Long producto){
+        return
+                HttpResponseHandler.handle(() -> modelsClient.getProductoImpor(cco, producto),
+                        "Errro al obtener el producto por cabecera");
+    }
+
+    public List<ImporItemDTO> getListByCco(BigInteger cco){
+        return
+                HttpResponseHandler.handle(() -> modelsClient.listByCco(cco),
+                        "Error al obtener la lista de importacion");
     }
 
     /* --- ECOMMERCE ---*/

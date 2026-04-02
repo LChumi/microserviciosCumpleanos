@@ -119,6 +119,16 @@ public interface IModelsClient {
     @GetMapping("models/prodcuto-partida/update-default/{producto}/{partida}/{empresa}")
     ResponseEntity<ServiceResponse> updatePartidaDefault(@PathVariable Long producto, @PathVariable Long partida, @PathVariable Long empresa);
 
+    //TODO servicio que viene del controlador de Importacion
+    @GetMapping("models/importacion/get/{cco}/{empresa}")
+    ResponseEntity<ImportacionDTO> getImportacion(@PathVariable BigInteger cco, @PathVariable Long empresa);
+
+    @GetMapping("models/imporitem/getByCco/{cco}/{producto}")
+    ResponseEntity<List<ImporItemDTO>> getProductoImpor(@PathVariable BigInteger cco , @PathVariable Long producto);
+
+    @GetMapping("models/imporitem/list-by/{cco}")
+    ResponseEntity<List<ImporItemDTO>> listByCco(@PathVariable BigInteger cco);
+
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController
     @PostMapping("/models/dreposicion/save")
