@@ -5,5 +5,6 @@ import java.util.List;
 
 public record ImportacionRequest(
         BigInteger ccoImportacion,
+        Long empresa,
         List<BigInteger> ccoOrdenes
 ) {}

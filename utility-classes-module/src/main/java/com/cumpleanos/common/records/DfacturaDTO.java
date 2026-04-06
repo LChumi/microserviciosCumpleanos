@@ -20,5 +20,6 @@ public record DfacturaDTO(
         BigDecimal cantApr,
         BigDecimal precio,
         BigDecimal total
+
 ) {
 }

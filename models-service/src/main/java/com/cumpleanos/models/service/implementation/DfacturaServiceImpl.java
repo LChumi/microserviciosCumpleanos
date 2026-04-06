@@ -23,7 +23,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId> implements IDfacturaService {
+
     private final DfacturaRepository repository;
+    private static final BigDecimal TOLERANCIA_PRECIO = new BigDecimal("1.00");
+
+// Y en el método simplemente usas TOLERANCIA_PRECIO
 
     @Override
     public CrudRepository<Dfactura, DfacturaId> getRepository() {
@@ -47,7 +51,7 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
     @Override
     public ServiceResponse addCantApr(BigInteger cco, Long producto, Integer cantidad, BigDecimal precio) {
 
-        if (cantidad == null || cantidad < 0) {
+        if (cantidad == null || cantidad <= 0) {
             throw new IllegalArgumentException("Cantidad inválida");
         }
 
@@ -63,16 +67,12 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
 
         //Validar Lineas sin CANAPR
         List<Dfactura> disponibles = detalles.stream()
-                .filter(d ->
-                        d.getCanapr() != null &&
-                                d.getCanapr().compareTo(BigDecimal.ZERO) == 0
+                .filter(d -> d.getCanapr() == null || d.getCanapr().compareTo(BigDecimal.ZERO) == 0
                 ).toList();
 
         if (disponibles.isEmpty()) {
             return new ServiceResponse("No existen lineas disponibles para aprobar", false);
         }
-
-        BigDecimal tolerancia = new BigDecimal("1.00");
 
         //Coincidencia exacta de precio
         Optional<Dfactura> exacto = disponibles.stream()
@@ -83,7 +83,7 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
         Optional<Dfactura> enRango = disponibles.stream()
                 .filter(d -> d.getPrecio() != null)
                 .filter(d ->
-                        d.getPrecio().subtract(precio).abs().compareTo(tolerancia) <= 0
+                        d.getPrecio().subtract(precio).abs().compareTo(TOLERANCIA_PRECIO) <= 0
                 )
                 .findFirst();
 
@@ -103,7 +103,7 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
         repository.save(seleccionado);
 
         log.info("CANAPR asignado. cco={}, producto={}, secuencia={}, precio={}",
-                cco, producto, seleccionado.getPrecio(), seleccionado.getPrecio());
+                cco, producto, seleccionado.getSecuenciaPed(), seleccionado.getPrecio());
 
         return new ServiceResponse("Cantidad aprobada asignada correctamente", true);
     }

@@ -15,6 +15,7 @@ import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.assist.service.interfaces.importaciones.IProductoTempService;
 import com.cumpleanos.assist.service.interfaces.importaciones.ISolicitudImportacionService;
 import com.cumpleanos.common.records.DfacturaDTO;
+import com.cumpleanos.common.records.ImporItemDTO;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Dfactura;
 import com.cumpleanos.core.models.entities.DmovprodCon;
@@ -24,6 +25,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScanPackages;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,8 +41,9 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final FunctionOracleRepository functionRepository;
     private final IModelsClient modelsClient;
     private final IProductoTempService productoTempService;
-    private final ClientServiceImpl productoService;
+    private final ClientServiceImpl clientModelService;
     private final IDmovprodConService dmovprodConService;
+    private final EntityScanPackages entityScanPackages;
 
     @Override
     public SciResponse procesarSolicitud(SolicitudRequestDTO request) {
@@ -69,7 +72,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                         log.error("Error el producto no existe con el codigo de fabrica {} y no dispone de barra producto {}", item.getCodFabrica(), item.getNombre());
                     }
                 } else {
-                    ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), request.getEmpresa());
+                    ProductoDTO producto = clientModelService.getProductoByBarraAndEmpresa(item.getId(), request.getEmpresa());
                     if (producto != null) {
                         getDetalleAndAddCant(item, cabecera.cco(), producto.codigo());
                     } else {
@@ -87,6 +90,15 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
     @Override
     public SciResponse procesarImportacion(ImportacionRequest request) {
+        List<ImporItemDTO> items = clientModelService.getListByCco(request.ccoImportacion());
+        if (items == null || items.isEmpty()) {
+            log.warn("Lista de importacion vacia");
+        } else {
+            for (ImporItemDTO item : items) {
+                buscarPorductoOrden(item, request.ccoOrdenes());
+            }
+        }
+
         return null;
     }
 
@@ -151,7 +163,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                     detalle.setProductTemp(temporal.getCodigo());
                 }
             } else {
-                ProductoDTO producto = productoService.getProductoByBarraAndEmpresa(item.getId(), empresa);
+                ProductoDTO producto = clientModelService.getProductoByBarraAndEmpresa(item.getId(), empresa);
                 if (producto != null) {
                     detalle.setDfacProducto(producto.codigo());
                     Long partida = getPartida(producto.codigo(), producto.empresa());
@@ -185,8 +197,8 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
      * @throws IllegalArgumentException si no se encuentra información en ninguna orden
      */
     private void getDetalleAndAddCant(ProductImportTransformer item, BigInteger cabecera, Long producto) {
-        List<DfacturaDTO> sciList = productoService.getDfactura(item.getCcoOrigen(), producto);
-        List<DfacturaDTO> ordList = productoService.getDfactura(cabecera, producto);
+        List<DfacturaDTO> sciList = clientModelService.getDfactura(item.getCcoOrigen(), producto);
+        List<DfacturaDTO> ordList = clientModelService.getDfactura(cabecera, producto);
 
         if (ordList == null || ordList.isEmpty()) {
             throw new IllegalArgumentException(
@@ -204,7 +216,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         //Actualizar CANAPR solo si hay SCI
         if (sci != null) {
             ServiceResponse response =
-                    productoService.addedCanApr(sci.cco(), producto, orden.cantidad(), orden.precio());
+                    clientModelService.addedCanApr(sci.cco(), producto, orden.cantidad(), orden.precio());
             if (!response.success()) {
                 log.error("No se encontro el mismo valor dentro del registro : {}", response.message());
             }
@@ -259,7 +271,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     }
 
     private Long getPartida(Long producto, Long empresa) {
-        ProductoPartidaBuilder partida = productoService.getPartidaByProductoAndEmpresa(producto, empresa);
+        ProductoPartidaBuilder partida = clientModelService.getPartidaByProductoAndEmpresa(producto, empresa);
         if (partida != null) {
             return partida.getPartCodigo();
         }
@@ -284,7 +296,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
     private DfacturaDTO seleccionarOrden(List<DfacturaDTO> ordenes, ProductImportTransformer item) {
         log.info("Buscando ordenes en el item {}", item);
-        log.info("Buscando ordenes en el item {}", ordenes);
+        log.info("Buscando en las ordenes {}", ordenes);
         return ordenes.stream()
                 .filter(o ->
                         o.precio().compareTo(BigDecimal.valueOf(item.getFob())) == 0 &&
@@ -294,5 +306,42 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
                 .orElseThrow(() ->
                         new IllegalStateException("No existe linea de orden con cantidad y precios exactos")
                 );
+    }
+
+    private void buscarPorductoOrden(ImporItemDTO item, List<BigInteger> ordenes) {
+
+        int cantidadPendiente = item.cantPedida(); //cantidad pendiente de aprobar
+
+        for (BigInteger cco : ordenes) {
+
+            if (cantidadPendiente <=0) break; //cantidad completa break
+
+            List<DfacturaDTO> lineas = clientModelService.getDfactura(cco, item.proCodigo());
+
+            if (lineas == null || lineas.isEmpty()) continue;
+
+            for (DfacturaDTO dto: lineas){
+                if (cantidadPendiente <=0 )break;
+
+                int canLinea = dto.cantidad(); // lo que la linea tiene disponible
+
+                if (canLinea <= 0) continue; //linea sin cantidad saltar
+
+                //Cuanto podemos tomar de esta linea
+                int cantAAsigbar = Math.min(canLinea, cantidadPendiente);
+
+                //Actualizar cantidad aprobada cantApr
+                clientModelService.addedCanApr(cco, item.proCodigo(), cantAAsigbar, dto.precio());
+
+                cantidadPendiente -= cantAAsigbar;
+
+                log.info("Asignado {} de {} en cco={}, pendiente={}", cantAAsigbar, item.proCodigo(), cco, cantidadPendiente);
+            }
+        }
+
+        //Verificar si queda pendiente
+        if (cantidadPendiente > 0){
+            log.warn("Producto {} no se completo, faltan {} unidades", item.proCodigo(), cantidadPendiente);
+        }
     }
 }
