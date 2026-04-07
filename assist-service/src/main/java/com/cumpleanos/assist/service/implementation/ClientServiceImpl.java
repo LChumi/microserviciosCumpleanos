@@ -132,19 +132,19 @@ public class ClientServiceImpl {
     }
 
     //IMPORTACION
-    public ImportacionDTO getImportacion(BigInteger cco, Long empresa){
+    public ImportacionDTO getImportacion(BigInteger cco, Long empresa) {
         return
                 HttpResponseHandler.handle(() -> modelsClient.getImportacion(cco, empresa),
                         "Error al obtener la importacion");
     }
 
-    public List<ImporItemDTO> getProductoImpor(BigInteger cco, Long producto){
+    public List<ImporItemDTO> getProductoImpor(BigInteger cco, Long producto) {
         return
                 HttpResponseHandler.handle(() -> modelsClient.getProductoImpor(cco, producto),
                         "Errro al obtener el producto por cabecera");
     }
 
-    public List<ImporItemDTO> getListByCco(BigInteger cco){
+    public List<ImporItemDTO> getListByCco(BigInteger cco) {
         return
                 HttpResponseHandler.handle(() -> modelsClient.listByCco(cco),
                         "Error al obtener la lista de importacion");

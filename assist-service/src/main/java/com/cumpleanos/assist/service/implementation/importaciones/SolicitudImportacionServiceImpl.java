@@ -25,7 +25,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScanPackages;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -43,7 +42,6 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
     private final IProductoTempService productoTempService;
     private final ClientServiceImpl clientModelService;
     private final IDmovprodConService dmovprodConService;
-    private final EntityScanPackages entityScanPackages;
 
     @Override
     public SciResponse procesarSolicitud(SolicitudRequestDTO request) {
@@ -314,14 +312,14 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
 
         for (BigInteger cco : ordenes) {
 
-            if (cantidadPendiente <=0) break; //cantidad completa break
+            if (cantidadPendiente <= 0) break; //cantidad completa break
 
             List<DfacturaDTO> lineas = clientModelService.getDfactura(cco, item.proCodigo());
 
             if (lineas == null || lineas.isEmpty()) continue;
 
-            for (DfacturaDTO dto: lineas){
-                if (cantidadPendiente <=0 )break;
+            for (DfacturaDTO dto : lineas) {
+                if (cantidadPendiente <= 0) break;
 
                 int canLinea = dto.cantidad(); // lo que la linea tiene disponible
 
@@ -340,7 +338,7 @@ public class SolicitudImportacionServiceImpl implements ISolicitudImportacionSer
         }
 
         //Verificar si queda pendiente
-        if (cantidadPendiente > 0){
+        if (cantidadPendiente > 0) {
             log.warn("Producto {} no se completo, faltan {} unidades", item.proCodigo(), cantidadPendiente);
         }
     }
