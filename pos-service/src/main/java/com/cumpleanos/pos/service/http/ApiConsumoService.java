@@ -2,6 +2,8 @@ package com.cumpleanos.pos.service.http;
 
 import com.cumpleanos.pos.persistence.api.datapos.DatosEnvioRequest;
 import com.cumpleanos.pos.persistence.api.datapos.DatosRecepcionResponse;
+import com.cumpleanos.pos.persistence.api.medianet.DatosEnvioPP;
+import com.cumpleanos.pos.persistence.api.medianet.PagoMedResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +39,8 @@ public class ApiConsumoService {
     private static final String ANULAR_PAGO_LAN="pos/anular_pago_lan/";
     private static final String ULTIMA_TRANSACCION_LAN="pos/ultima_transaccion_lan/";
 
+    private static final String MEDIANET_POS="pos/medianet/transaccion/";
+
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -53,11 +57,11 @@ public class ApiConsumoService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
-                log.error("Respuesta no satisfactoria en el Cliente ip:{} en el puerto COM: {} statusCode:{}", ip, puertoCom, response.getStatusCode());
+                log.error("Respuesta no satisfactoria en el ip del Equipo:{} en el puerto COM: {} statusCode:{}", ip, puertoCom, response.getStatusCode());
                 throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio respuesta no satisfactoria");
             }
         } catch (HttpServerErrorException e) {
-            log.error("ERROR: al enviar la solicitud Procesar Pago al cliente ip:{} en el puerto COM: {} statusCode:{} ", ip, puertoCom, e.getStatusCode());
+            log.error("ERROR: al enviar la solicitud Procesar Pago al ip del Equipo:{} en el puerto COM: {} statusCode:{} ", ip, puertoCom, e.getStatusCode());
             throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al Procesar el pago");
         }
     }
@@ -89,11 +93,11 @@ public class ApiConsumoService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
-                log.error("Respuesta no satisfactoria al anularPago cliente ip:{} en el puerto COM:{} statusCode:{}", ip, puertoCom, response.getStatusCode());
+                log.error("Respuesta no satisfactoria al anularPago ip del Equipo:{} en el puerto COM:{} statusCode:{}", ip, puertoCom, response.getStatusCode());
                 throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio Cliente respuesta no satisfactoria");
             }
         } catch (HttpServerErrorException e) {
-            log.error("ERROR: al procesar la anulacion de pago al cliente ip:{} en el puerto COM:{} statusCode:{} ", ip, puertoCom, e.getStatusCode());
+            log.error("ERROR: al procesar la anulacion de pago al ip del Equipo:{} en el puerto COM:{} statusCode:{} ", ip, puertoCom, e.getStatusCode());
             throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al anular el pago ");
         }
     }
@@ -106,14 +110,36 @@ public class ApiConsumoService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
-                log.error("Respuesta no satisfactoria en el cliente ip:{} en el puerto COM:{} statusCode:{}", ip, puertoCom, response.getStatusCode());
+                log.error("Respuesta no satisfactoria al obtener ultimaTransaccion en el ip del Equipo LAN:{} {} statusCode:{}", ip, puertoCom, response.getStatusCode());
                 throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio Cliente respuesta no satisfactoria");
             }
         } catch (HttpServerErrorException e) {
-            log.error("Error al enviar la solicitud obtenerUltimaTransaccion al cliente ip:{} en el puerto COM:{} statusCode:{} ", ip, puertoCom, e.getStatusCode());
+            log.error("Error al enviar la solicitud obtenerUltimaTransaccion al ip del Equipo:{} en el puerto COM:{} statusCode:{} ", ip, puertoCom, e.getStatusCode());
             throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente obtenerUltimaTransaccion ");
         }
     }
+
+    /*
+    Todo proceso que realiza Medianet por LAN
+     */
+    public PagoMedResponse transaccionarMedianet(String ipEquipo, String puertoPos, String ipPos, DatosEnvioPP request){
+        String url = String.format("%s%s:%s%s%s/%s", baseUrl, ipEquipo, puerto, MEDIANET_POS, puertoPos, ipPos);
+        HttpEntity<DatosEnvioPP> entity = new HttpEntity<>(request, createHeaders());
+        
+        try {
+            ResponseEntity<PagoMedResponse> response = restTemplate.postForEntity(url, entity, PagoMedResponse.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                log.error("Respuesta no satisfactoria en el ip del Equipo:{} en Medianet {}:{} statusCode:{}", ipEquipo, ipPos, puertoPos, response.getStatusCode());
+                throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio respuesta no satisfactoria");
+            }
+        } catch (HttpServerErrorException e) {
+            log.error("ERROR: al transaccionar en el Equipo{} en Medianet {}:{} statusCode ", ipEquipo, ipPos, puertoPos, e);
+            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al Procesar el pago");
+        }
+    }
+
 
     /*
     Todo proceso que realiza la conexion LAN a Datafast
@@ -128,7 +154,7 @@ public class ApiConsumoService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
-                log.error("Respuesta no satisfactoria en el Cliente ip:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
+                log.error("Respuesta no satisfactoria en el ip del Equipo:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
                 throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio respuesta no satisfactoria");
             }
         } catch (HttpServerErrorException e) {
@@ -146,7 +172,7 @@ public class ApiConsumoService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
-                log.error("Respuesta no satisfactoria al anular pago en cliente ip:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
+                log.error("Respuesta no satisfactoria al anular pago en ip del Equipo:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
                 throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio Cliente respuesta no satisfactoria");
             }
         } catch (HttpServerErrorException e) {
@@ -163,7 +189,7 @@ public class ApiConsumoService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
-                log.error("Respuesta no satisfactoria al obtenerUltima transaccion en cliente ip:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
+                log.error("Respuesta no satisfactoria al obtenerUltima transaccion en ip del Equipo:{} en Datafast {}:{} statusCode:{}", ip, ipDtf, puertoDtf, response.getStatusCode());
                 throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio Cliente respuesta no satisfactoria");
             }
         } catch (HttpServerErrorException e) {

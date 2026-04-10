@@ -69,6 +69,11 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     }
 
     @Override
+    public String transaccionMedianet(Long usrLiquida, Long empresa) {
+        return "";
+    }
+
+    @Override
     @Transactional
     public String anularPago(Long usrLiquida, Long empresa) {
         try {

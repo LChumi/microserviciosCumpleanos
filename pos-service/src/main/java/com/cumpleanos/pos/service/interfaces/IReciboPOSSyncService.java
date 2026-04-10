@@ -13,4 +13,6 @@ public interface IReciboPOSSyncService {
     String procesarPagoLan(Long usrLiquida, Long empresa);
 
     String anularPagoLan(Long usrLiquida, Long empresa);
+
+    String transaccionMedianet(Long usrLiquida, Long empresa);
 }
