@@ -1,20 +1,22 @@
 package com.cumpleanos.pos.persistence.api.medianet;
 
-public record DatosEnvioPP(
-        double subtotal,
-        double subtotal0,
-        double iva,
-        double total,
-        String tipoTransaccion,
-        String codigoDiferido,
-        String plazo,
-        String mid,
-        String tid,
-        String cid,
-        String pVenta,
-        //Campos anulacion
-        String referencia,
-        String lote,
-        String numeroAutorizacion
-) {
+import lombok.Data;
+
+@Data
+public class DatosEnvioPP {
+    private double subtotal;
+    private double subtotal0;
+    private double iva;
+    private double total;
+    private String tipoTransaccion;
+    private String codigoDiferido;
+    private String plazo;
+    private String mid;
+    private String tid;
+    private String cid;
+    private String pVenta;
+    //Campos anulacion
+    private String referencia;
+    private String lote;
+    private String numeroAutorizacion;
 }

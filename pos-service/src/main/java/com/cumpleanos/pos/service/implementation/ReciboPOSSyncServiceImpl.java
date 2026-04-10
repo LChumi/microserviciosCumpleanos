@@ -2,6 +2,7 @@ package com.cumpleanos.pos.service.implementation;
 
 import com.cumpleanos.pos.persistence.api.datapos.DatosEnvioRequest;
 import com.cumpleanos.pos.persistence.api.datapos.DatosRecepcionResponse;
+import com.cumpleanos.pos.persistence.api.medianet.DatosEnvioPP;
 import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
@@ -70,7 +71,26 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     @Override
     public String transaccionMedianet(Long usrLiquida, Long empresa) {
-        return "";
+        try {
+            log.info("Iniciar Transaccion Medianet");
+            ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
+
+            DatosEnvioRequest dEnvio = crearDatosEnvioMedianet(reciboPOSView);
+*
+            DatosRecepcionResponse response = apiService.procesarPago(reciboPOSView.getIp(), reciboPOSView.getPuertoCom(), dEnvio);
+
+            validateDatosRecepcion(response);
+
+            actualizaGuardarReciboPOS(reciboPOSView, response);
+
+            return "1";
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al procesar el pago: {}", e.getMessage(), e);
+            return "Error de acceso a datos: " + e.getMessage();
+        } catch (Exception e) {
+            log.error("ERROR al procesar el pago: {}", e.getMessage(), e);
+            return e.getMessage();
+        }
     }
 
     @Override
@@ -147,6 +167,56 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
         return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
                 .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa ));
+    }
+
+    private DatosEnvioPP crearDatosEnvioMedianet(ReciboPOSView v) {
+        DatosEnvioPP pp = new DatosEnvioPP();
+        if (v.getDescuento() == null || BigDecimal.ZERO.compareTo(v.getDescuento()) == 0) {
+            pp.setSubtotal(v.getSubtotal().doubleValue());
+        } else {
+            BigDecimal subtotal = v.getSubtotal().subtract(v.getDescuento());
+            pp.setSubtotal(subtotal.doubleValue());
+        }
+
+        pp.setSubtotal0(v.getSubtotal0().doubleValue());
+        pp.setIva(v.getValImpuesto().doubleValue());
+        pp.setTotal(v.getTotal().doubleValue());
+
+        // Cuotas y tipo transacción
+        Long cuotasValor = v.getCuotas();
+        int cuotas = (cuotasValor != null && cuotasValor > 0) ? Math.toIntExact(cuotasValor) : 0;
+        String tipoCredito = v.getTipoCredito(); //Corriente, Diferidos
+
+        String tipoTransaccion;
+        String codigoDiferido;
+        String plazo;
+
+        //Compra Corriente
+        if (cuotas == 0) {
+            tipoTransaccion = "01";
+            codigoDiferido = "00";
+            plazo = "00";
+        } else if ("DiferidoSinIntereses".equals(tipoCredito)) {
+            //Cuotas pero sin intereses
+            tipoTransaccion = "02";
+            codigoDiferido = "01";
+            plazo = String.format("%02d", cuotas);
+        } else if ("DiferidoConIntereses".equals(tipoCredito)) {
+            //Cuotas con intereses
+            tipoTransaccion = "02";
+            codigoDiferido = "04";
+            plazo = String.format("%02d", cuotas);
+        } else {
+            // "Corriente" o cualquier otro caso con cuotas
+            tipoTransaccion = "01";
+            codigoDiferido  = "00";
+            plazo           = "00";
+        }
+
+        pp.setTipoTransaccion(tipoTransaccion);
+        pp.setCodigoDiferido(codigoDiferido);
+        pp.setPlazo(plazo);
+
     }
 
     private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
