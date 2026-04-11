@@ -3,6 +3,7 @@ package com.cumpleanos.pos.service.implementation;
 import com.cumpleanos.pos.persistence.api.datapos.DatosEnvioRequest;
 import com.cumpleanos.pos.persistence.api.datapos.DatosRecepcionResponse;
 import com.cumpleanos.pos.persistence.api.medianet.DatosEnvioPP;
+import com.cumpleanos.pos.persistence.api.medianet.PagoMedResponse;
 import com.cumpleanos.pos.persistence.entity.ReciboPOS;
 import com.cumpleanos.pos.persistence.entity.ReciboPOSView;
 import com.cumpleanos.pos.persistence.ids.ReciboPOSId;
@@ -75,13 +76,13 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.info("Iniciar Transaccion Medianet");
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
-            DatosEnvioRequest dEnvio = crearDatosEnvioMedianet(reciboPOSView);
-*
-            DatosRecepcionResponse response = apiService.procesarPago(reciboPOSView.getIp(), reciboPOSView.getPuertoCom(), dEnvio);
+            DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView);
 
-            validateDatosRecepcion(response);
+            PagoMedResponse response = apiService.transaccionarMedianet(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
 
-            actualizaGuardarReciboPOS(reciboPOSView, response);
+            validateTramaMed(response);
+
+            actualizaGuardarMedianetPOS(reciboPOSView, response);
 
             return "1";
         } catch (DataAccessException | PersistenceException e) {
@@ -171,6 +172,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     private DatosEnvioPP crearDatosEnvioMedianet(ReciboPOSView v) {
         DatosEnvioPP pp = new DatosEnvioPP();
+
+        //Subtotal
         if (v.getDescuento() == null || BigDecimal.ZERO.compareTo(v.getDescuento()) == 0) {
             pp.setSubtotal(v.getSubtotal().doubleValue());
         } else {
@@ -213,10 +216,25 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             plazo           = "00";
         }
 
-        pp.setTipoTransaccion(tipoTransaccion);
+        // Anulacion vs Compra
+        boolean esAnulacion = v.getReferencia() != null && !v.getReferencia().isEmpty()
+                && v.getLote() != null && !v.getLote().isEmpty()
+                && v.getNumAprobacion() != null && !v.getNumAprobacion().isEmpty();
+
+        if (esAnulacion) {
+            // Anulación
+            pp.setTipoTransaccion("03");
+            pp.setReferencia(v.getReferencia());
+            pp.setLote(v.getLote());
+            pp.setNumeroAutorizacion(v.getNumAprobacion());
+        } else {
+            pp.setTipoTransaccion(tipoTransaccion);
+        }
+
         pp.setCodigoDiferido(codigoDiferido);
         pp.setPlazo(plazo);
 
+        return pp;
     }
 
     private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
@@ -248,15 +266,17 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
-                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
+                .orElseThrow(() -> new ReciboNotFoundException("Datafast No se encontraron datos en la vista Recibo"));
         actualizarReciboPOS(reciboPOS, response);
         try {
             reciboPOSRepository.save(reciboPOS);
         } catch (DataAccessException | PersistenceException e) {
-            log.error("ERROR de acceso a datos al actualizar el pago: {}", e.getMessage(), e);
+            log.error("ERROR de acceso a datos al actualizar el pago Datafast: {}", e.getMessage(), e);
             filesUtils.crearArchivoDatosNoGuardado(v.getUsrLiquida(), v.getEmpresa(), response);
         }
     }
+
+
 
     private void actualizarReciboPOS(ReciboPOS reciboPOS, DatosRecepcionResponse response) {
         String tarjetaCliente = response.getTarjetaHabiente().trim().toUpperCase();
@@ -273,9 +293,36 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         reciboPOS.setAprobado(true);
     }
 
+    private void actualizaGuardarMedianetPOS(ReciboPOSView v, PagoMedResponse response) {
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException(" Medianet No se encontraron datos en la vista Recibo"));
+        actualizarMedianet(reciboPOS, response);
+        try {
+            reciboPOSRepository.save(reciboPOS);
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al actualizar el pago Medianet: {}", e.getMessage(), e);
+        }
+    }
+
+    private void actualizarMedianet(ReciboPOS reciboPOS, PagoMedResponse response) {
+        String nombreTarjeta = response.nombreTarjetahabiente().trim().toUpperCase();
+        reciboPOS.setTarjetaHabiente(nombreTarjeta);
+        reciboPOS.setNumAprob(response.numeroAutorizacion());
+        reciboPOS.setNomEmisor(response.chipAppName());
+        reciboPOS.setReferencia(response.referencia());
+        reciboPOS.setLote(response.lote());
+        reciboPOS.setNomAdquiriente(response.grupoTarjeta());
+        reciboPOS.setNumTarjeta(response.tarjetaTruncada());
+        reciboPOS.setResultado(response.mensajeResultado());
+        reciboPOS.setFecha(obtenerFecha());
+        reciboPOS.setHora(obtenerHora());
+        reciboPOS.setAprobado(true);
+    }
+
     private void validateDatosRecepcion(DatosRecepcionResponse response) {
         if (response == null) {
-            throw new InfoPaymentException("No se recibio respuesta de la entidad.");
+            throw new InfoPaymentException("No se recibio respuesta del POS Datafast.");
         }
 
         if (!"Transacción Aprobada".equalsIgnoreCase(response.getMensajeResultado())) {
@@ -286,9 +333,28 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
                 isBlank(response.getCodigoAdquiriente()) ||
                 isBlank(response.getNombreAdquiriente()) ||
                 isBlank(response.getNombreEmisor())) {
-            throw new InfoPaymentException("Transaccion no aprobada por la entidad ...");
+            throw new InfoPaymentException("Transaccion no aprobada por la entidad Datafast ...");
         }
-        log.info("Transaccion Aprobada por la entidad respuesta {}, aprobacion #:{} referencia#: {}", response.getNombreEmisor(), response.getNumeroAprobacion(), response.getReferencia());
+        log.info("Transaccion Datafast aprobada respuesta {}, aprobacion #:{} referencia#: {}", response.getNombreEmisor(), response.getNumeroAprobacion(), response.getReferencia());
+    }
+
+    private void validateTramaMed(PagoMedResponse response){
+        if (response == null){
+            throw new InfoPaymentException("No se recibio respuesta del POS Medianet");
+        }
+
+        if (!"00".equalsIgnoreCase(response.resultado())){
+            throw new InfoPaymentException(response.mensajeResultado());
+        }
+
+        if (
+                isBlank(response.numeroAutorizacion())
+                || isBlank(response.chipAppName())
+                || isBlank(response.tarjetaTruncada())
+        ){
+            throw new InfoPaymentException("Transaccion no aprobada por la entidad Medianet ...");
+        }
+        log.info("Transaccion Medianet aprobada respuesta:{}, aprobacion:{} referencia{}:", response.mensajeResultado(), response.numeroAutorizacion(), response.referencia());
     }
 
     private boolean isBlank(String value) {

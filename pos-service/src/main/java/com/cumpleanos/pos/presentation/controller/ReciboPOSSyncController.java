@@ -19,20 +19,11 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Tag(name = "DataPos", description = "Documentacion API Datafast")
+@Tag(name = "Medianet", description = "Documentacion API Medianet")
+
 public class ReciboPOSSyncController {
 
     private final IReciboPOSSyncService service;
-
-    @Operation(summary = "Procesar Pago COM", description = "Conecta y procesa el Pago via puerto COM", tags = {"DataPos"})
-    @Parameters({
-            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
-            @Parameter(name = "empresa", description = "Codigo de empresa")
-    })
-    @GetMapping("/procesarPago/{usr}/{empresa}")
-    public ResponseEntity<String> procesarPago(@PathVariable Long usr, @PathVariable Long empresa) {
-        String response = service.procesarPago(usr, empresa);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     @Operation(summary = "Lista Puertos COM", description = "Lista los puertos COM del cliente", tags = {"DataPos"})
     @Parameters({
@@ -42,17 +33,6 @@ public class ReciboPOSSyncController {
     @GetMapping("/listarPuertos/{usr}/{empresa}")
     public ResponseEntity<Map<String, String>> listarPuertos(@PathVariable Long usr, @PathVariable Long empresa) {
         Map<String, String> response = service.listarPuertos(usr, empresa);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Anular Pago COM", description = "Anula los pagos a Datapos", tags = {"DataPos"})
-    @Parameters({
-            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
-            @Parameter(name = "empresa", description = "Codigo de empresa")
-    })
-    @GetMapping("/anularPago/{usr}/{empresa}")
-    public ResponseEntity<String> anularPago(@PathVariable Long usr, @PathVariable Long empresa) {
-        String response = service.anularPago(usr, empresa);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -77,4 +57,11 @@ public class ReciboPOSSyncController {
         String response = service.anularPagoLan(usr, empresa);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /*@Operation(summary = "Procesar Pago", description = "Pago POS a medianet", tags = {"Medianet"})
+    @Parameters({
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "empresa", description = "Codigo de empresa")
+    })
+    @GetMapping({})*/
 }
