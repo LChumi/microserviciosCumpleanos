@@ -138,4 +138,7 @@ public class ReciboPOSView {
     @Column(name = "RPO_TOTAL")
     private BigDecimal total;
 
+    @Column(name = "RPO_ANULADO")
+    private Integer anulado;
+
 }

@@ -95,6 +95,34 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     }
 
     @Override
+    public String anularMedianet(Long usrLiquida, Long empresa) {
+        try {
+            log.info("Iniciar Anulacion Medianet");
+            ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
+
+            if (reciboPOSView.getNumAprobacion() == null) {
+                throw new InfoPaymentException("El recibo no tiene registro de cobro");
+            } else if (reciboPOSView.getAnulado() == 1) {
+                throw new InfoPaymentException("El recibo ya fue anulado");
+            }
+
+            DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView);
+
+            PagoMedResponse response = apiService.transaccionarMedianet(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
+
+            validateTramaMed(response);
+
+            return updateCancelPos(reciboPOSView, response);
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al procesar el pago: {}", e.getMessage(), e);
+            return "Error de acceso a datos: " + e.getMessage();
+        } catch (Exception e) {
+            log.error("ERROR al procesar el pago: {}", e.getMessage(), e);
+            return e.getMessage();
+        }
+    }
+
+    @Override
     @Transactional
     public String anularPago(Long usrLiquida, Long empresa) {
         try {
@@ -157,11 +185,20 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     private String getRecibo(ReciboPOSView v, DatosRecepcionResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
-                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo"));
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontro recibo Datafast"));
 
         actualizarReciboPOS(reciboPOS, response);
         reciboPOS.setAnulado(true);
         reciboPOSRepository.save(reciboPOS);
+        return "1";
+    }
+
+    private String updateCancelPos(ReciboPOSView v, PagoMedResponse reponse){
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontro recibo Medianet"));
+        actualizarMedianet(reciboPOS, reponse);
+        reciboPOS.setAnulado(true);
         return "1";
     }
 
@@ -275,8 +312,6 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             filesUtils.crearArchivoDatosNoGuardado(v.getUsrLiquida(), v.getEmpresa(), response);
         }
     }
-
-
 
     private void actualizarReciboPOS(ReciboPOS reciboPOS, DatosRecepcionResponse response) {
         String tarjetaCliente = response.getTarjetaHabiente().trim().toUpperCase();

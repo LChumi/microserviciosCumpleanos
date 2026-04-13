@@ -58,10 +58,25 @@ public class ReciboPOSSyncController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /*@Operation(summary = "Procesar Pago", description = "Pago POS a medianet", tags = {"Medianet"})
+    @Operation(summary = "Procesar Pago", description = "Pago POS a medianet", tags = {"Medianet"})
     @Parameters({
             @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
     })
-    @GetMapping({})*/
+    @GetMapping("/medianet/procesar-pago/{usr}/{empresa}")
+    public ResponseEntity<String> medianetProcesarPago(@PathVariable Long usr, @PathVariable Long empresa) {
+        String response = service.transaccionMedianet(usr, empresa);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Procesar Pago", description = "Pago POS a medianet", tags = {"Medianet"})
+    @Parameters({
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "empresa", description = "Codigo de empresa")
+    })
+    @GetMapping("/medianet/anular-pago/{usr}/{empresa}")
+    public ResponseEntity<String> medianetAnularPago(@PathVariable Long usr, @PathVariable Long empresa) {
+        String response = service.anularMedianet(usr, empresa);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
