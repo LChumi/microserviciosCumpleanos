@@ -50,6 +50,9 @@ public class ReciboPOSView {
     @Column(name = "CAP_ID")
     private String capId;
 
+    @Column(name = "CAP_MID")
+    private String capMid;
+
     @Column(name = "CAP_NOMBRE_EQUIPO")
     private String nombreEquipo;
 

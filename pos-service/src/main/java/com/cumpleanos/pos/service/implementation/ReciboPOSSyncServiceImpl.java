@@ -271,6 +271,10 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         pp.setCodigoDiferido(codigoDiferido);
         pp.setPlazo(plazo);
 
+        pp.setCid(String.valueOf(v.getPventa()));
+        pp.setTid(v.getCapId());
+        pp.setMid(v.getCapMid());
+
         return pp;
     }
 
