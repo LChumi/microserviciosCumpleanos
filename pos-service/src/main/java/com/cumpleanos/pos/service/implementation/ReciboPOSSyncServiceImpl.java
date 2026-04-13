@@ -86,10 +86,10 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
             return "1";
         } catch (DataAccessException | PersistenceException e) {
-            log.error("ERROR de acceso a datos al procesar el pago: {}", e.getMessage(), e);
-            return "Error de acceso a datos: " + e.getMessage();
+            log.error("ERROR de acceso a datos al procesar el pago medianet: {}", e.getMessage(), e);
+            return "Error de acceso a datos medianet: " + e.getMessage();
         } catch (Exception e) {
-            log.error("ERROR al procesar el pago: {}", e.getMessage(), e);
+            log.error("ERROR al procesar el pago medianet: {}", e.getMessage(), e);
             return e.getMessage();
         }
     }
@@ -114,10 +114,10 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
             return updateCancelPos(reciboPOSView, response);
         } catch (DataAccessException | PersistenceException e) {
-            log.error("ERROR de acceso a datos al procesar el pago: {}", e.getMessage(), e);
-            return "Error de acceso a datos: " + e.getMessage();
+            log.error("ERROR de acceso a datos al procesar el pago Medianet: {}", e.getMessage(), e);
+            return "Error de acceso a datos Medianet: " + e.getMessage();
         } catch (Exception e) {
-            log.error("ERROR al procesar el pago: {}", e.getMessage(), e);
+            log.error("ERROR al procesar el pago mediante: {}", e.getMessage(), e);
             return e.getMessage();
         }
     }

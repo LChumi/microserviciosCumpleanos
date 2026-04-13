@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,6 @@ import java.util.Map;
 @RequestMapping("pos")
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-@Tag(name = "DataPos", description = "Documentacion API Datafast")
-@Tag(name = "Medianet", description = "Documentacion API Medianet")
-
 public class ReciboPOSSyncController {
 
     private final IReciboPOSSyncService service;
