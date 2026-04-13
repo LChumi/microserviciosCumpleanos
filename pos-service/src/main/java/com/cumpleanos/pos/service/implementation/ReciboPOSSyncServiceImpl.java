@@ -274,6 +274,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         pp.setCid(String.valueOf(v.getPventa()));
         pp.setTid(v.getCapId());
         pp.setMid(v.getCapMid());
+        pp.setPVenta(String.valueOf(v.getPventa()));
 
         return pp;
     }
@@ -388,8 +389,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
         if (
                 isBlank(response.numeroAutorizacion())
-                || isBlank(response.chipAppName())
-                || isBlank(response.tarjetaTruncada())
+                || isBlank(response.lote())
+                || isBlank(response.referencia())
         ){
             throw new InfoPaymentException("Transaccion no aprobada por la entidad Medianet ...");
         }
