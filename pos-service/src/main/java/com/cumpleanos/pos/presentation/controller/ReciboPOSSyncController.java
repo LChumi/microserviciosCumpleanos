@@ -54,7 +54,7 @@ public class ReciboPOSSyncController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Procesar Pago", description = "Pago POS a medianet", tags = {"Medianet"})
+    @Operation(summary = "Procesar Pago", description = "Transacciones realizadas a Pos Medianet", tags = {"Medianet"})
     @Parameters({
             @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
@@ -65,7 +65,7 @@ public class ReciboPOSSyncController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Procesar Pago", description = "Pago POS a medianet", tags = {"Medianet"})
+    @Operation(summary = "Anular Pago", description = "Anulacion de transacciones realizadas a Pos Medianet", tags = {"Medianet"})
     @Parameters({
             @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
             @Parameter(name = "empresa", description = "Codigo de empresa")
