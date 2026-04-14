@@ -82,7 +82,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
             validateTramaMed(response);
 
-            actualizaGuardarMedianetPOS(reciboPOSView, response);
+            actualizaGuardarMedianetPOS(reciboPOSView, response, true);
 
             return "1";
         } catch (DataAccessException | PersistenceException e) {
@@ -112,7 +112,9 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
             validateTramaMed(response);
 
-            return updateCancelPos(reciboPOSView, response);
+            actualizaGuardarMedianetPOS(reciboPOSView, response, false);
+
+            return "1";
         } catch (DataAccessException | PersistenceException e) {
             log.error("ERROR de acceso a datos al procesar el pago Medianet: {}", e.getMessage(), e);
             return "Error de acceso a datos Medianet: " + e.getMessage();
@@ -120,6 +122,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.error("ERROR al procesar el pago mediante: {}", e.getMessage(), e);
             return e.getMessage();
         }
+
     }
 
     @Override
@@ -190,15 +193,6 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         actualizarReciboPOS(reciboPOS, response);
         reciboPOS.setAnulado(true);
         reciboPOSRepository.save(reciboPOS);
-        return "1";
-    }
-
-    private String updateCancelPos(ReciboPOSView v, PagoMedResponse reponse){
-        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
-        ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
-                .orElseThrow(() -> new ReciboNotFoundException("No se encontro recibo Medianet"));
-        actualizarMedianet(reciboPOS, reponse);
-        reciboPOS.setAnulado(true);
         return "1";
     }
 
@@ -333,11 +327,11 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         reciboPOS.setAprobado(true);
     }
 
-    private void actualizaGuardarMedianetPOS(ReciboPOSView v, PagoMedResponse response) {
+    private void actualizaGuardarMedianetPOS(ReciboPOSView v, PagoMedResponse response, Boolean tipoTransaccion) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
                 .orElseThrow(() -> new ReciboNotFoundException(" Medianet No se encontraron datos en la vista Recibo"));
-        actualizarMedianet(reciboPOS, response);
+        actualizarMedianet(reciboPOS, response, tipoTransaccion);
         try {
             reciboPOSRepository.save(reciboPOS);
         } catch (DataAccessException | PersistenceException e) {
@@ -345,19 +339,30 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         }
     }
 
-    private void actualizarMedianet(ReciboPOS reciboPOS, PagoMedResponse response) {
-        String nombreTarjeta = response.nombreTarjetahabiente().trim().toUpperCase();
-        reciboPOS.setTarjetaHabiente(nombreTarjeta);
-        reciboPOS.setNumAprob(response.numeroAutorizacion());
-        reciboPOS.setNomEmisor(response.chipAppName());
-        reciboPOS.setReferencia(response.referencia());
-        reciboPOS.setLote(response.lote());
-        reciboPOS.setNomAdquiriente(response.grupoTarjeta());
-        reciboPOS.setNumTarjeta(response.tarjetaTruncada());
-        reciboPOS.setResultado(response.mensajeResultado());
-        reciboPOS.setFecha(obtenerFecha());
-        reciboPOS.setHora(obtenerHora());
-        reciboPOS.setAprobado(true);
+    private void actualizarMedianet(ReciboPOS reciboPOS, PagoMedResponse response, Boolean tipoTransaccion) {
+        if (tipoTransaccion) {
+            String nombreTarjeta = response.nombreTarjetahabiente().trim().toUpperCase();
+            reciboPOS.setTarjetaHabiente(nombreTarjeta);
+            reciboPOS.setNumAprob(response.numeroAutorizacion());
+            reciboPOS.setNomEmisor(response.chipAppName());
+            reciboPOS.setReferencia(response.referencia());
+            reciboPOS.setLote(response.lote());
+            reciboPOS.setNomAdquiriente(response.grupoTarjeta());
+            reciboPOS.setNumTarjeta(response.tarjetaTruncada());
+            reciboPOS.setResultado(response.mensajeResultado());
+            reciboPOS.setFecha(obtenerFecha());
+            reciboPOS.setHora(obtenerHora());
+            reciboPOS.setAprobado(true);
+        } else  {
+            reciboPOS.setResultado(response.mensajeResultado());
+            reciboPOS.setNumAprob(response.numeroAutorizacion());
+            reciboPOS.setReferencia(response.referencia());
+            reciboPOS.setFecha(obtenerFecha());
+            reciboPOS.setHora(obtenerHora());
+            reciboPOS.setAprobado(true);
+            reciboPOS.setAnulado(true);
+        }
+
     }
 
     private void validateDatosRecepcion(DatosRecepcionResponse response) {
