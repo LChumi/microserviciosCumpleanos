@@ -30,16 +30,16 @@ public class ApiConsumoService {
 
     private final RestTemplate restTemplate;
 
-    private static final String PROCESAR_PAGO="pos/procesarPago/";
-    private static final String ANULAR_PAGO="pos/anular-pago/";
-    private static final String ULTIMA_TRANSACCION="pos/ultima-transaccion/";
-    private static final String LISTA_PUERTOS_COM="pos/listaPuertosCom";
+    private static final String PROCESAR_PAGO = "pos/procesarPago/";
+    private static final String ANULAR_PAGO = "pos/anular-pago/";
+    private static final String ULTIMA_TRANSACCION = "pos/ultima-transaccion/";
+    private static final String LISTA_PUERTOS_COM = "pos/listaPuertosCom";
 
-    private static final String PROCESAR_PAGO_LAN="pos/procesar_pago_lan/";
-    private static final String ANULAR_PAGO_LAN="pos/anular_pago_lan/";
-    private static final String ULTIMA_TRANSACCION_LAN="pos/ultima_transaccion_lan/";
+    private static final String PROCESAR_PAGO_LAN = "pos/procesar_pago_lan/";
+    private static final String ANULAR_PAGO_LAN = "pos/anular_pago_lan/";
+    private static final String ULTIMA_TRANSACCION_LAN = "pos/ultima_transaccion_lan/";
 
-    private static final String MEDIANET_POS="pos/medianet/transaccion/";
+    private static final String MEDIANET_POS = "pos/medianet/transaccion/";
 
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
@@ -48,7 +48,7 @@ public class ApiConsumoService {
         return headers;
     }
 
-    public DatosRecepcionResponse procesarPago(String ip, String puertoCom, DatosEnvioRequest request){
+    public DatosRecepcionResponse procesarPago(String ip, String puertoCom, DatosEnvioRequest request) {
         String url = String.format("%s%s:%s%s%s", baseUrl, ip, puerto, PROCESAR_PAGO, puertoCom);
         HttpEntity<DatosEnvioRequest> entity = new HttpEntity<>(request, createHeaders());
 
@@ -71,7 +71,8 @@ public class ApiConsumoService {
 
         try {
             ResponseEntity<Map<String, String>> response = restTemplate.exchange(
-                    url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, String>>() {});
+                    url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, String>>() {
+                    });
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
@@ -85,7 +86,7 @@ public class ApiConsumoService {
     }
 
     public DatosRecepcionResponse anularPago(String ip, String puertoCom, String numReferencia) {
-        String url = String.format("%s%s:%s%s%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO, puertoCom,numReferencia);
+        String url = String.format("%s%s:%s%s%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO, puertoCom, numReferencia);
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
 
         try {
@@ -122,10 +123,10 @@ public class ApiConsumoService {
     /*
     Todo proceso que realiza Medianet por LAN
      */
-    public PagoMedResponse transaccionarMedianet(String ipEquipo, String puertoPos, String ipPos, DatosEnvioPP request){
+    public PagoMedResponse transaccionarMedianet(String ipEquipo, String puertoPos, String ipPos, DatosEnvioPP request) {
         String url = String.format("%s%s:%s%s%s/%s", baseUrl, ipEquipo, puerto, MEDIANET_POS, puertoPos, ipPos);
         HttpEntity<DatosEnvioPP> entity = new HttpEntity<>(request, createHeaders());
-        
+
         try {
             ResponseEntity<PagoMedResponse> response = restTemplate.postForEntity(url, entity, PagoMedResponse.class);
             if (response.getStatusCode().is2xxSuccessful()) {
@@ -145,7 +146,7 @@ public class ApiConsumoService {
     Todo proceso que realiza la conexion LAN a Datafast
      */
 
-    public DatosRecepcionResponse procesarPagoLan(String ip, String puertoDtf, String ipDtf, DatosEnvioRequest request){
+    public DatosRecepcionResponse procesarPagoLan(String ip, String puertoDtf, String ipDtf, DatosEnvioRequest request) {
         String url = String.format("%s%s:%s%s%s/%s", baseUrl, ip, puerto, PROCESAR_PAGO_LAN, puertoDtf, ipDtf);
         HttpEntity<DatosEnvioRequest> entity = new HttpEntity<>(request, createHeaders());
 
@@ -163,8 +164,8 @@ public class ApiConsumoService {
         }
     }
 
-    public DatosRecepcionResponse anularPagoLan(String ip, String puertoDtf,String ipDtf, String numReferencia) {
-        String url = String.format("%s%s:%s%s%s/%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO_LAN, puertoDtf, ipDtf ,numReferencia);
+    public DatosRecepcionResponse anularPagoLan(String ip, String puertoDtf, String ipDtf, String numReferencia) {
+        String url = String.format("%s%s:%s%s%s/%s?numReferencia=%s", baseUrl, ip, puerto, ANULAR_PAGO_LAN, puertoDtf, ipDtf, numReferencia);
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
 
         try {

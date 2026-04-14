@@ -198,7 +198,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
         return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
-                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa ));
+                .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa));
     }
 
     private DatosEnvioPP crearDatosEnvioMedianet(ReciboPOSView v) {
@@ -243,8 +243,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         } else {
             // "Corriente" o cualquier otro caso con cuotas
             tipoTransaccion = "01";
-            codigoDiferido  = "00";
-            plazo           = "00";
+            codigoDiferido = "00";
+            plazo = "00";
         }
 
         // Anulacion vs Compra
@@ -353,7 +353,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             reciboPOS.setFecha(obtenerFecha());
             reciboPOS.setHora(obtenerHora());
             reciboPOS.setAprobado(true);
-        } else  {
+        } else {
             reciboPOS.setResultado(response.mensajeResultado());
             reciboPOS.setNumAprob(response.numeroAutorizacion());
             reciboPOS.setReferencia(response.referencia());
@@ -383,20 +383,20 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         log.info("Transaccion Datafast aprobada respuesta {}, aprobacion #:{} referencia#: {}", response.getNombreEmisor(), response.getNumeroAprobacion(), response.getReferencia());
     }
 
-    private void validateTramaMed(PagoMedResponse response){
-        if (response == null){
+    private void validateTramaMed(PagoMedResponse response) {
+        if (response == null) {
             throw new InfoPaymentException("No se recibio respuesta del POS Medianet");
         }
 
-        if (!"00".equalsIgnoreCase(response.resultado())){
+        if (!"00".equalsIgnoreCase(response.resultado())) {
             throw new InfoPaymentException(response.mensajeResultado());
         }
 
         if (
                 isBlank(response.numeroAutorizacion())
-                || isBlank(response.lote())
-                || isBlank(response.referencia())
-        ){
+                        || isBlank(response.lote())
+                        || isBlank(response.referencia())
+        ) {
             throw new InfoPaymentException("Transaccion no aprobada por la entidad Medianet ...");
         }
         log.info("Transaccion Medianet aprobada respuesta:{}, aprobacion:{} referencia{}:", response.mensajeResultado(), response.numeroAutorizacion(), response.referencia());
