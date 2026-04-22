@@ -11,7 +11,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,11 +30,31 @@ public class ProductoObservacionServiceImpl extends GenericServiceImpl<ProductoO
 
     @Override
     public ProductoObservacion saveObservation(ProductoObservacion p) {
+        // recalcular precioTotal
         if (p.getPrecio() != null) {
             p.setPrecioTotal(p.getPrecio().multiply(BigDecimal.valueOf(p.getStock())));
         }
-        return repository.save(p);
+
+        // buscar si ya existe por item + idBodega
+        Optional<ProductoObservacion> existente = repository.findByItemAndIdBodega(p.getItem(), p.getIdBodega());
+
+        if (existente.isPresent()) {
+            ProductoObservacion obs = existente.get();
+            // actualizar campos necesarios
+            obs.setFecha(LocalDate.now()); // actualiza fecha
+            obs.setStock(p.getStock());
+            obs.setPrecio(p.getPrecio());
+            obs.setPrecioTotal(p.getPrecioTotal());
+            obs.setUsuario(p.getUsuario());
+            obs.setDetalle(p.getDetalle());
+            obs.setDiferencia(p.getDiferencia());
+            return repository.save(obs);
+        } else {
+            // insertar nuevo
+            return repository.save(p);
+        }
     }
+
 
     @Override
     public List<ProductoObservacion> findByBodega(Long idBodega) {
