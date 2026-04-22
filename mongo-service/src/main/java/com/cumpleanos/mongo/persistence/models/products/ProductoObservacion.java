@@ -1,8 +1,6 @@
 package com.cumpleanos.mongo.persistence.models.products;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,14 +42,6 @@ public class ProductoObservacion implements Comparable<ProductoObservacion> {
     private String diferencia;
 
     private ProductoCorreccion correccion;
-
-    @PrePersist
-    @PreUpdate
-    public void calcularPrecioTotal() {
-        if (precio != null) {
-            this.precioTotal = precio.multiply(BigDecimal.valueOf(stock));
-        }
-    }
 
     @Override
     public int compareTo(ProductoObservacion o) {

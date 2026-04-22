@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -23,6 +24,14 @@ public class ProductoObservacionServiceImpl extends GenericServiceImpl<ProductoO
     @Override
     public CrudRepository<ProductoObservacion, String> getRepository() {
         return repository;
+    }
+
+    @Override
+    public ProductoObservacion saveObservation(ProductoObservacion p) {
+        if (p.getPrecio() != null) {
+            p.setPrecioTotal(p.getPrecio().multiply(BigDecimal.valueOf(p.getStock())));
+        }
+        return repository.save(p);
     }
 
     @Override

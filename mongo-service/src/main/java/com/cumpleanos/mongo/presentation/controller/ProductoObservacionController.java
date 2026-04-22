@@ -23,7 +23,7 @@ public class ProductoObservacionController {
     @Operation(summary = "Guardar", description = "Guardar Observacion de Producto")
     @PostMapping("/observacion/guardar")
     public ResponseEntity<ProductoObservacion> saveProductoObservacion(@RequestBody ProductoObservacion productoObservacion) {
-        return ResponseEntity.ok(service.save(productoObservacion));
+        return ResponseEntity.ok(service.saveObservation(productoObservacion));
     }
 
     @Operation(summary = "Listar", description = "Listar Observaciones de Productos")

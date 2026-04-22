@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface IProductoObservacionService extends IGenericService<ProductoObservacion, String> {
 
+    ProductoObservacion saveObservation(ProductoObservacion productoObservacion);
+
     List<ProductoObservacion> findByBodega(Long idBodega);
 
     ProductoObservacion addCorrection(CorreccionRequest request);
