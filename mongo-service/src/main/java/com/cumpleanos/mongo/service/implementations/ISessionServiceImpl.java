@@ -2,7 +2,7 @@ package com.cumpleanos.mongo.service.implementations;
 
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.common.records.SessionDTO;
-import com.cumpleanos.mongo.persistence.models.Session;
+import com.cumpleanos.mongo.persistence.models.app.Session;
 import com.cumpleanos.mongo.persistence.repository.SessionRepository;
 import com.cumpleanos.mongo.service.interfaces.ISessionService;
 import lombok.RequiredArgsConstructor;
