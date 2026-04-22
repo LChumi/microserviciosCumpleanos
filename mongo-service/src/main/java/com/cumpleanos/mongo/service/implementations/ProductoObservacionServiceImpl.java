@@ -27,7 +27,7 @@ public class ProductoObservacionServiceImpl extends GenericServiceImpl<ProductoO
 
     @Override
     public List<ProductoObservacion> findByBodega(Long idBodega) {
-        return repository.findByBodega(idBodega);
+        return repository.findByIdBodega(idBodega);
     }
 
     @Override

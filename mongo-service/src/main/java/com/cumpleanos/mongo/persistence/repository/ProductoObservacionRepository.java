@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ProductoObservacionRepository extends MongoRepository<ProductoObservacion, String> {
 
-    List<ProductoObservacion> findByBodega(Long idBodega);
+    List<ProductoObservacion> findByIdBodega(Long idBodega);
 }

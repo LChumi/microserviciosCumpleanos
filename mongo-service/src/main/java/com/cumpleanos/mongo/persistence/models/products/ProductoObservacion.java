@@ -1,5 +1,6 @@
 package com.cumpleanos.mongo.persistence.models.products;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class ProductoObservacion implements Comparable<ProductoObservacion> {
     private String id;
 
     private Long idBodega;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fecha;
     private String item;
     private String descripcion;
