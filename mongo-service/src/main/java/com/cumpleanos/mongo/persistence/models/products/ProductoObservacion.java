@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -17,11 +18,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "producto_observacion")
+@CompoundIndex(name = "producto_unique_bodega_idx", def = "{'item' : 1, 'idBodega': 1}", unique = true)
 public class ProductoObservacion implements Comparable<ProductoObservacion> {
 
     @Id
     private String id;
 
+    private Long idBodega;
     private LocalDate fecha;
     private String item;
     private String descripcion;
