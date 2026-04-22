@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("mongo")
-@RequiredArgsConstructor(onConstructor_ =  @Autowired)
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Tag(name = "Sesiones", description = "Documentacion API Sessiones de Usuarios")
 public class SessionController {
 
