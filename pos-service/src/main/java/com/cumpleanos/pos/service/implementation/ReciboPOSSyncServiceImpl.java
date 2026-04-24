@@ -126,6 +126,19 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     }
 
     @Override
+    public String cierreLoteMedianet(Long usr, Long empresa) {
+        try {
+            return null;
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al procesar el pago Medianet: {}", e.getMessage(), e);
+            return "Error de acceso a datos Medianet: " + e.getMessage();
+        } catch (Exception e) {
+            log.error("ERROR al procesar el pago mediante: {}", e.getMessage(), e);
+            return e.getMessage();
+        }
+    }
+
+    @Override
     @Transactional
     public String anularPago(Long usrLiquida, Long empresa) {
         try {

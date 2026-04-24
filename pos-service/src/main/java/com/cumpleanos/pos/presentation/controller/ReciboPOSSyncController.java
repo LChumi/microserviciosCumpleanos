@@ -75,4 +75,15 @@ public class ReciboPOSSyncController {
         String response = service.anularMedianet(usr, empresa);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @Operation(summary = "Cierre", description = "Cierre de lote Medianet", tags = {"Medianet"})
+    @Parameters({
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "empresa", description = "Codigo de empresa")
+    })
+    @GetMapping("/medianet/cierre/{usr}/{empresa}")
+    public ResponseEntity<String> cierre(@PathVariable Long usr, @PathVariable Long empresa) {
+        String response = service.cierreLoteMedianet(usr, empresa);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

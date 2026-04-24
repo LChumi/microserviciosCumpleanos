@@ -17,4 +17,6 @@ public interface IReciboPOSSyncService {
     String transaccionMedianet(Long usrLiquida, Long empresa);
 
     String anularMedianet(Long usrLiquida, Long empresa);
+
+    String cierreLoteMedianet(Long usr, Long empresa);
 }
