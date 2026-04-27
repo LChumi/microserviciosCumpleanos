@@ -128,7 +128,20 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public String cierreLoteMedianet(Long usr, Long empresa) {
         try {
-            return null;
+            log.info("Cierre Lote Medianet");
+            ReciboPOSView v = obtenerReciboPosView(usr, empresa);
+
+            DatosEnvioPP pp = new  DatosEnvioPP();
+            pp.setMid(v.getCapMid());
+            pp.setTid(v.getCapId());
+            pp.setCid(String.valueOf(v.getPventa()));
+            pp.setLote(v.getLote());
+
+            PagoMedResponse response = apiService.transaccionarMedianet(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), pp);
+            validateTramaMed(response);
+
+            actualizarCierreMed(v,response);
+            return "1";
         } catch (DataAccessException | PersistenceException e) {
             log.error("ERROR de acceso a datos al procesar el pago Medianet: {}", e.getMessage(), e);
             return "Error de acceso a datos Medianet: " + e.getMessage();
@@ -417,6 +430,21 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private void actualizarCierreMed(ReciboPOSView v, PagoMedResponse response) {
+        ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
+        ReciboPOS recibo = reciboPOSRepository.findById(id)
+                .orElseThrow(() -> new ReciboNotFoundException(" Medianet No se encontraron datos en la vista Recibo"));
+        recibo.setResultado(response.mensajeResultado());
+        recibo.setReferencia(response.referencia());
+        recibo.setLote(response.lote());
+        recibo.setAprobado(true);
+        try {
+            reciboPOSRepository.save(recibo);
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al actualizar el pago Medianet: {}", e.getMessage(), e);
+        }
     }
 
 }
