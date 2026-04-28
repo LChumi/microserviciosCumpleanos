@@ -133,7 +133,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.info("Cierre Lote Medianet");
             ReciboPOSView v = obtenerReciboPosView(usr, empresa);
 
-            DatosEnvioPP pp = new  DatosEnvioPP();
+            DatosEnvioPP pp = new DatosEnvioPP();
             pp.setMid(v.getCapMid());
             pp.setTid(v.getCapId());
             pp.setCid(String.valueOf(v.getPventa()));
@@ -156,7 +156,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             }
 
 
-            actualizarCierreMed(v,response);
+            actualizarCierreMed(v, response);
             return "1";
         } catch (DataAccessException | PersistenceException e) {
             log.error("ERROR de acceso a datos al procesar el pago Medianet: {}", e.getMessage(), e);
