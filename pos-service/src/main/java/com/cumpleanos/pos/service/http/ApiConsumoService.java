@@ -40,6 +40,7 @@ public class ApiConsumoService {
     private static final String ULTIMA_TRANSACCION_LAN = "pos/ultima_transaccion_lan/";
 
     private static final String MEDIANET_POS = "pos/medianet/transaccion/";
+    private static final String CIERRE_MEDIANET = "pos/medianet/cierre/";
 
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
@@ -138,6 +139,24 @@ public class ApiConsumoService {
         } catch (HttpServerErrorException e) {
             log.error("ERROR: al transaccionar en el Equipo{} en Medianet {}:{} statusCode ", ipEquipo, ipPos, puertoPos, e);
             throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al Procesar el pago");
+        }
+    }
+
+    public PagoMedResponse cierreLoteMedianet(String ipEquipo, String puertoPos, String ipPos, DatosEnvioPP request) {
+        String url = String.format("%s%s:%s%s%s/%s", baseUrl, ipEquipo, puerto, CIERRE_MEDIANET, puertoPos, ipPos);
+        HttpEntity<DatosEnvioPP> entity = new HttpEntity<>(request, createHeaders());
+
+        try {
+            ResponseEntity<PagoMedResponse> response = restTemplate.postForEntity(url, entity, PagoMedResponse.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                log.error("Respuesta no satisfactoria en cierre del Equipo:{} en Medianet {}:{} statusCode:{}", ipEquipo, ipPos, puertoPos, response.getStatusCode());
+                throw new HttpServerErrorException(response.getStatusCode(), "Error en el servicio cierre Lote");
+            }
+        } catch (HttpServerErrorException e) {
+            log.error("ERROR: al cerrar lote en el Equipo{} en Medianet {}:{} statusCode ", ipEquipo, ipPos, puertoPos, e);
+            throw new HttpServerErrorException(e.getStatusCode(), "Error en el servicio Cliente al Cerrar lote");
         }
     }
 

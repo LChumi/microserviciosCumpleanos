@@ -136,7 +136,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             pp.setTid(v.getCapId());
             pp.setCid(String.valueOf(v.getPventa()));
 
-            PagoMedResponse response = apiService.transaccionarMedianet(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), pp);
+            PagoMedResponse response = apiService.cierreLoteMedianet(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), pp);
             validateTramaMed(response);
 
             actualizarCierreMed(v,response);
