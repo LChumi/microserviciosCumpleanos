@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.cumpleanos.pos.utils.DateUtils.obtenerFecha;
 import static com.cumpleanos.pos.utils.DateUtils.obtenerHora;
@@ -99,10 +100,11 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         try {
             log.info("Iniciar Anulacion Medianet");
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
+            int anulado = Optional.ofNullable(reciboPOSView.getAnulado()).orElse(0);
 
             if (reciboPOSView.getNumAprobacion() == null) {
                 throw new InfoPaymentException("El recibo no tiene registro de cobro");
-            } else if (reciboPOSView.getAnulado() == 1) {
+            } else if (anulado == 1) {
                 throw new InfoPaymentException("El recibo ya fue anulado");
             }
 
@@ -137,7 +139,22 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             pp.setCid(String.valueOf(v.getPventa()));
 
             PagoMedResponse response = apiService.cierreLoteMedianet(v.getIp(), v.getPuertoDtf(), v.getIp_dtf(), pp);
-            validateTramaMed(response);
+
+            if (response == null) {
+                throw new InfoPaymentException("No se pudo cerrar el lote en el dispositivo medianet");
+            }
+
+            if (!"00".equalsIgnoreCase(response.resultado())) {
+                throw new InfoPaymentException(response.mensajeResultado());
+            }
+
+            if (
+                    isBlank(response.lote())
+                            || isBlank(response.referencia())
+            ) {
+                throw new InfoPaymentException("Transaccion no aprobada por la entidad Medianet ...");
+            }
+
 
             actualizarCierreMed(v,response);
             return "1";
