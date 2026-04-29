@@ -86,4 +86,15 @@ public class ReciboPOSSyncController {
         String response = service.cierreLoteMedianet(usr, empresa);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @Operation(summary = "Reverso", description = "Reverso de Medianet", tags = {"Medianet"})
+    @Parameters({
+            @Parameter(name = "usr", description = "Codigo de Usuario Liquida"),
+            @Parameter(name = "empresa", description = "Codigo de empresa")
+    })
+    @GetMapping("/medianet/reverso/{usr}/{empresa}")
+    public ResponseEntity<String> reverso(@PathVariable Long usr, @PathVariable Long empresa) {
+        String response = service.reversoMedianet(usr, empresa);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
