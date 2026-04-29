@@ -77,7 +77,31 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.info("Iniciar Transaccion Medianet");
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
-            DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView);
+            DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView, false);
+
+            PagoMedResponse response = apiService.transaccionarMedianet(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
+
+            validateTramaMed(response);
+
+            actualizaGuardarMedianetPOS(reciboPOSView, response, true);
+
+            return "1";
+        } catch (DataAccessException | PersistenceException e) {
+            log.error("ERROR de acceso a datos al procesar el pago medianet: {}", e.getMessage(), e);
+            return "Error de acceso a datos medianet: " + e.getMessage();
+        } catch (Exception e) {
+            log.error("ERROR al procesar el pago medianet: {}", e.getMessage(), e);
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public String reversoMedianet(Long usrLiquida, Long empresa) {
+        try {
+            log.info("Iniciar Reverso Medianet");
+            ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
+
+            DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView, true);
 
             PagoMedResponse response = apiService.transaccionarMedianet(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
 
@@ -108,7 +132,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
                 throw new InfoPaymentException("El recibo ya fue anulado");
             }
 
-            DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView);
+            DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView, false);
 
             PagoMedResponse response = apiService.transaccionarMedianet(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
 
@@ -243,7 +267,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
                 .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa));
     }
 
-    private DatosEnvioPP crearDatosEnvioMedianet(ReciboPOSView v) {
+    private DatosEnvioPP crearDatosEnvioMedianet(ReciboPOSView v, Boolean reverso) {
         DatosEnvioPP pp = new DatosEnvioPP();
 
         //Subtotal
@@ -302,6 +326,11 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             pp.setNumeroAutorizacion(v.getNumAprobacion());
         } else {
             pp.setTipoTransaccion(tipoTransaccion);
+        }
+
+        if (reverso && v.getHora() != null && !v.getHora().isEmpty()) {
+            pp.setTipoTransaccion("04");
+            pp.setHora(v.getHora());
         }
 
         pp.setCodigoDiferido(codigoDiferido);

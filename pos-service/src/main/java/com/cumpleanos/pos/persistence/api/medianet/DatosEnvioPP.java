@@ -15,6 +15,7 @@ public class DatosEnvioPP {
     private String tid;
     private String cid;
     private String pVenta;
+    private String hora;
     //Campos anulacion
     private String referencia;
     private String lote;
