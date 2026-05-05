@@ -74,10 +74,11 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
     @Override
     public String transaccionMedianet(Long usrLiquida, Long empresa) {
         try {
-            log.info("Iniciar Transaccion Medianet");
+            log.info("Iniciar Transaccion Medianet...");
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
-            addHoraPos(reciboPOSView);
+            String hora =addHoraPos(reciboPOSView);
+            reciboPOSView.setHora(hora);
 
             DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView, false);
 
@@ -109,7 +110,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
             validateTramaMed(response);
 
-            actualizaGuardarMedianetPOS(reciboPOSView, response, true);
+            actualizaGuardarMedianetPOS(reciboPOSView, response, false);
 
             return "1";
         } catch (DataAccessException | PersistenceException e) {
@@ -253,13 +254,18 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         }
     }
 
-    private void addHoraPos(@NonNull ReciboPOSView v){
+    private String addHoraPos(@NonNull ReciboPOSView v){
         ReciboPOSId id = new ReciboPOSId();
         id.setEmpresa(v.getEmpresa());
         id.setCodigo(v.getRpoCodigo());
+
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id).orElseThrow();
-        reciboPOS.setHora(obtenerHoraActual());
+
+        String horaActual = obtenerHoraActual();
+        reciboPOS.setHora(horaActual);
         reciboPOSRepository.save(reciboPOS);
+
+        return horaActual;
     }
 
     private @NonNull String getRecibo(@NonNull ReciboPOSView v, DatosRecepcionResponse response) {
@@ -405,7 +411,6 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         reciboPOS.setNumTarjeta(response.getNumeroTarjeta());
         reciboPOS.setResultado(response.getMensajeResultado());
         reciboPOS.setFecha(obtenerFecha());
-        reciboPOS.setHora(obtenerHora());
         reciboPOS.setAprobado(true);
     }
 
