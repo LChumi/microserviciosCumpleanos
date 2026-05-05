@@ -26,8 +26,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.cumpleanos.pos.utils.DateUtils.obtenerFecha;
-import static com.cumpleanos.pos.utils.DateUtils.obtenerHora;
+import static com.cumpleanos.pos.utils.DateUtils.*;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -77,6 +76,8 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.info("Iniciar Transaccion Medianet");
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
+            addHoraPos(reciboPOSView);
+
             DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView, false);
 
             PagoMedResponse response = apiService.transaccionarMedianet(reciboPOSView.getIp(), reciboPOSView.getPuertoDtf(), reciboPOSView.getIp_dtf(), dEnvio);
@@ -93,6 +94,15 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.error("ERROR al procesar el pago medianet: {}", e.getMessage(), e);
             return e.getMessage();
         }
+    }
+
+    private void addHoraPos(ReciboPOSView v){
+        ReciboPOSId id = new ReciboPOSId();
+        id.setEmpresa(v.getEmpresa());
+        id.setCodigo(v.getRpoCodigo());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id).orElseThrow();
+        reciboPOS.setHora(obtenerHoraActual());
+        reciboPOSRepository.save(reciboPOS);
     }
 
     @Override
@@ -330,9 +340,9 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
 
         if (reverso && v.getHora() != null && !v.getHora().isEmpty()) {
             pp.setTipoTransaccion("04");
-            pp.setHora(v.getHora());
         }
 
+        pp.setHora(v.getHora());
         pp.setCodigoDiferido(codigoDiferido);
         pp.setPlazo(plazo);
 

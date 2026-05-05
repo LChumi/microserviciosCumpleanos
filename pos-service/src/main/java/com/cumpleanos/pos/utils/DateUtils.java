@@ -29,4 +29,9 @@ public final class DateUtils {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return fecha.format(formato);
     }
+
+    public static String obtenerHoraActual() {
+        LocalDateTime ahora = LocalDateTime.now();
+        return ahora.format(DateTimeFormatter.ofPattern("HHmmss"));
+    }
 }
