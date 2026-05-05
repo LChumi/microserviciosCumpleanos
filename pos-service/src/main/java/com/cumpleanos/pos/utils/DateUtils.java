@@ -12,19 +12,19 @@ public final class DateUtils {
         throw new UnsupportedOperationException("Clase de utilidades, no instanciable");
     }
 
-    public static String obtenerFechaHora(){
+    public static String obtenerFechaHora() {
         LocalDateTime fecha = LocalDateTime.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
         return fecha.format(formato);
     }
 
-    public static String obtenerHora(){
+    public static String obtenerHora() {
         LocalDateTime fecha = LocalDateTime.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");
         return fecha.format(formato);
     }
 
-    public static String obtenerFecha(){
+    public static String obtenerFecha() {
         LocalDateTime fecha = LocalDateTime.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return fecha.format(formato);

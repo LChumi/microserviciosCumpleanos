@@ -77,7 +77,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.info("Iniciar Transaccion Medianet...");
             ReciboPOSView reciboPOSView = obtenerReciboPosView(usrLiquida, empresa);
 
-            String hora =addHoraPos(reciboPOSView);
+            String hora = addHoraPos(reciboPOSView);
             reciboPOSView.setHora(hora);
 
             DatosEnvioPP dEnvio = crearDatosEnvioMedianet(reciboPOSView, false);
@@ -254,7 +254,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         }
     }
 
-    private String addHoraPos(@NonNull ReciboPOSView v){
+    private String addHoraPos(@NonNull ReciboPOSView v) {
         ReciboPOSId id = new ReciboPOSId();
         id.setEmpresa(v.getEmpresa());
         id.setCodigo(v.getRpoCodigo());
