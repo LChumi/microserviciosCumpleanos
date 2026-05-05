@@ -18,6 +18,7 @@ import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -94,15 +95,6 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             log.error("ERROR al procesar el pago medianet: {}", e.getMessage(), e);
             return e.getMessage();
         }
-    }
-
-    private void addHoraPos(ReciboPOSView v){
-        ReciboPOSId id = new ReciboPOSId();
-        id.setEmpresa(v.getEmpresa());
-        id.setCodigo(v.getRpoCodigo());
-        ReciboPOS reciboPOS = reciboPOSRepository.findById(id).orElseThrow();
-        reciboPOS.setHora(obtenerHoraActual());
-        reciboPOSRepository.save(reciboPOS);
     }
 
     @Override
@@ -261,7 +253,16 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         }
     }
 
-    private String getRecibo(ReciboPOSView v, DatosRecepcionResponse response) {
+    private void addHoraPos(@NonNull ReciboPOSView v){
+        ReciboPOSId id = new ReciboPOSId();
+        id.setEmpresa(v.getEmpresa());
+        id.setCodigo(v.getRpoCodigo());
+        ReciboPOS reciboPOS = reciboPOSRepository.findById(id).orElseThrow();
+        reciboPOS.setHora(obtenerHoraActual());
+        reciboPOSRepository.save(reciboPOS);
+    }
+
+    private @NonNull String getRecibo(@NonNull ReciboPOSView v, DatosRecepcionResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
                 .orElseThrow(() -> new ReciboNotFoundException("No se encontro recibo Datafast"));
@@ -272,12 +273,12 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         return "1";
     }
 
-    private ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
+    private @NonNull ReciboPOSView obtenerReciboPosView(Long usrLiquida, Long empresa) {
         return repositorio.findByUsrLiquidaAndEmpresa(usrLiquida, empresa)
                 .orElseThrow(() -> new ReciboNotFoundException("No se encontraron datos en la vista Recibo POS para UsrLiquida: " + usrLiquida + ", empresa: " + empresa));
     }
 
-    private DatosEnvioPP crearDatosEnvioMedianet(ReciboPOSView v, Boolean reverso) {
+    private @NonNull DatosEnvioPP crearDatosEnvioMedianet(@NonNull ReciboPOSView v, Boolean reverso) {
         DatosEnvioPP pp = new DatosEnvioPP();
 
         //Subtotal
@@ -354,7 +355,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         return pp;
     }
 
-    private DatosEnvioRequest crearDatosEnvioRequest(ReciboPOSView v) {
+    private @NonNull DatosEnvioRequest crearDatosEnvioRequest(@NonNull ReciboPOSView v) {
         DatosEnvioRequest dEnvio = new DatosEnvioRequest();
 
         if (v.getDescuento() == null || BigDecimal.ZERO.compareTo(v.getDescuento()) == 0) {
@@ -380,7 +381,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         return dEnvio;
     }
 
-    private void actualizaGuardarReciboPOS(ReciboPOSView v, DatosRecepcionResponse response) {
+    private void actualizaGuardarReciboPOS(@NonNull ReciboPOSView v, DatosRecepcionResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
                 .orElseThrow(() -> new ReciboNotFoundException("Datafast No se encontraron datos en la vista Recibo"));
@@ -393,7 +394,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         }
     }
 
-    private void actualizarReciboPOS(ReciboPOS reciboPOS, DatosRecepcionResponse response) {
+    private void actualizarReciboPOS(@NonNull ReciboPOS reciboPOS, @NonNull DatosRecepcionResponse response) {
         String tarjetaCliente = response.getTarjetaHabiente().trim().toUpperCase();
         reciboPOS.setTarjetaHabiente(tarjetaCliente);
         reciboPOS.setNumAprob(response.getNumeroAprobacion());
@@ -408,7 +409,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         reciboPOS.setAprobado(true);
     }
 
-    private void actualizaGuardarMedianetPOS(ReciboPOSView v, PagoMedResponse response, Boolean tipoTransaccion) {
+    private void actualizaGuardarMedianetPOS(@NonNull ReciboPOSView v, PagoMedResponse response, Boolean tipoTransaccion) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS reciboPOS = reciboPOSRepository.findById(id)
                 .orElseThrow(() -> new ReciboNotFoundException(" Medianet No se encontraron datos en la vista Recibo"));
@@ -420,7 +421,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         }
     }
 
-    private void actualizarMedianet(ReciboPOS reciboPOS, PagoMedResponse response, Boolean tipoTransaccion) {
+    private void actualizarMedianet(ReciboPOS reciboPOS, PagoMedResponse response, @NonNull Boolean tipoTransaccion) {
         if (tipoTransaccion) {
             String nombreTarjeta = response.nombreTarjetahabiente().trim().toUpperCase();
             reciboPOS.setTarjetaHabiente(nombreTarjeta);
@@ -487,7 +488,7 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
         return value == null || value.trim().isEmpty();
     }
 
-    private void actualizarCierreMed(ReciboPOSView v, PagoMedResponse response) {
+    private void actualizarCierreMed(@NonNull ReciboPOSView v, @NonNull PagoMedResponse response) {
         ReciboPOSId id = new ReciboPOSId(v.getRpoCodigo(), v.getEmpresa());
         ReciboPOS recibo = reciboPOSRepository.findById(id)
                 .orElseThrow(() -> new ReciboNotFoundException(" Medianet No se encontraron datos en la vista Recibo"));
