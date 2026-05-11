@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Immutable;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
@@ -19,7 +20,7 @@ public class FacVerifiFacingWebV{
     
     @Id
     @Column(name = "RM_CCO_COMPROBA")
-    private Long ccoComproba;
+    private BigInteger ccoComproba;
 
     @Column(name = "RM_COMPROBANTE", length = 4000)
     private String comprobante;

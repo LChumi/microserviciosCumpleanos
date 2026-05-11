@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface ListCcomprobaVRepository
-        extends JpaRepository<ListCcomprobaV, BigInteger>, JpaSpecificationExecutor<ListCcomprobaV> {
+public interface ListCcomprobaVRepository extends JpaRepository<ListCcomprobaV, BigInteger>, JpaSpecificationExecutor<ListCcomprobaV> {
 }

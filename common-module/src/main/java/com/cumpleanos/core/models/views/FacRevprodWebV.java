@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Immutable;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
@@ -28,7 +29,7 @@ public class FacRevprodWebV {
     private Long empresa;
 
     @Column(name = "DPR_CCO_CODIGO")
-    private Long ccoCodigo;
+    private BigInteger ccoCodigo;
 
     @Column(name = "DPR_FECHA")
     private LocalDate fecha;
