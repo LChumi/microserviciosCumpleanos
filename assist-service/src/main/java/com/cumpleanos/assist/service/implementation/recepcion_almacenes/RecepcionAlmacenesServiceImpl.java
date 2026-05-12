@@ -1,5 +1,6 @@
 package com.cumpleanos.assist.service.implementation.recepcion_almacenes;
 
+import com.cumpleanos.assist.persistence.inmutables.ComprobantesCcoRequest;
 import com.cumpleanos.assist.persistence.repository.views.PendingInvoiceHeaderViewRepository;
 import com.cumpleanos.assist.persistence.repository.views.PendingInvoiceProductDetailViewRepository;
 import com.cumpleanos.core.models.views.FacRevprodWebV;
@@ -23,5 +24,9 @@ public class RecepcionAlmacenesServiceImpl {
 
     public List<FacRevprodWebV> detalleProductoPendientes(BigInteger cco){
         return detailViewRepository.findByCcoCodigoOrderBySecuencia(cco);
+    }
+
+    public List<FacRevprodWebV> detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request){
+        return detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
     }
 }

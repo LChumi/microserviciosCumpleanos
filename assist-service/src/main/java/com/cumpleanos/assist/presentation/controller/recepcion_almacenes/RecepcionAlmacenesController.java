@@ -1,10 +1,12 @@
 package com.cumpleanos.assist.presentation.controller.recepcion_almacenes;
 
+import com.cumpleanos.assist.persistence.inmutables.ComprobantesCcoRequest;
 import com.cumpleanos.assist.service.implementation.recepcion_almacenes.RecepcionAlmacenesServiceImpl;
 import com.cumpleanos.core.models.views.FacRevprodWebV;
 import com.cumpleanos.core.models.views.FacVerifiFacingWebV;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,13 @@ public class RecepcionAlmacenesController {
     @GetMapping("/recepcion/{cco}/productos")
     public ResponseEntity<List<FacRevprodWebV>> getProductos(@PathVariable BigInteger cco){
         List<FacRevprodWebV> productos = recepcionService.detalleProductoPendientes(cco);
+        return ResponseEntity.ok(productos);
+    }
+
+    @Operation(summary = "Detalles", description = "Lista de productos de varios comrporbante")
+    @GetMapping("/recepcion/productos")
+    public ResponseEntity<List<FacRevprodWebV>> getProductosVariosComprobantes(@RequestBody ComprobantesCcoRequest request){
+        List<FacRevprodWebV> productos = recepcionService.detalleProductoPendientesVariosComprobantes(request);
         return ResponseEntity.ok(productos);
     }
 }
