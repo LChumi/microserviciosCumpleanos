@@ -1,5 +1,6 @@
 package com.cumpleanos.core.models.views;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -29,6 +30,7 @@ public class FacRevprodWebV {
     private Long empresa;
 
     @Column(name = "DPR_CCO_CODIGO")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigInteger ccoCodigo;
 
     @Column(name = "DPR_FECHA")

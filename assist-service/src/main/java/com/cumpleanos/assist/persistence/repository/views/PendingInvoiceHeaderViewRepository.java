@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigInteger;
 
-public interface PendingInvoiceHeaderView extends JpaRepository<FacVerifiFacingWebV, BigInteger> {
+public interface PendingInvoiceHeaderViewRepository extends JpaRepository<FacVerifiFacingWebV, BigInteger> {
 }

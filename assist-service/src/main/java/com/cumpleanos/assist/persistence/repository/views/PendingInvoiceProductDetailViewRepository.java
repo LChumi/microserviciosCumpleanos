@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.math.BigInteger;
 import java.util.List;
 
-public interface PendingInvoiceProductDetailView extends JpaRepository<FacRevprodWebV, String> {
+public interface PendingInvoiceProductDetailViewRepository extends JpaRepository<FacRevprodWebV, String> {
 
     List<FacRevprodWebV> findByCcoCodigo(BigInteger ccoCodigo);
 }
