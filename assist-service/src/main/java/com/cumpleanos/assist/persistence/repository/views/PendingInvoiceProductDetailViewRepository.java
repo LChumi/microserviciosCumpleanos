@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PendingInvoiceProductDetailViewRepository extends JpaRepository<FacRevprodWebV, String> {
 
-    List<FacRevprodWebV> findByCcoCodigo(BigInteger ccoCodigo);
+    List<FacRevprodWebV> findByCcoCodigoOrderBySecuencia(BigInteger ccoCodigo);
 }

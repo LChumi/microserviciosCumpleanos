@@ -58,13 +58,13 @@ public class FacRevprodWebV {
     private String proNombre;
 
     @Column(name = "DPR_PRO_PRECIO2")
-    private Long proPrecio2;
+    private BigDecimal precio;
 
     @Column(name = "DPR_HOJA")
     private Long hoja;
 
     @Column(name = "DPR_CDIGITADA", precision = 17, scale = 4)
-    private BigDecimal cdigitada;
+    private Integer cantidad;
 
     @Column(name = "DPR_CANAPR", precision = 17, scale = 4)
     private BigDecimal canapr;
