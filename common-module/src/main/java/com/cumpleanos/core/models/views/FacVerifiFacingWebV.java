@@ -1,5 +1,6 @@
 package com.cumpleanos.core.models.views;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 public class FacVerifiFacingWebV{
     
     @Id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "RM_CCO_COMPROBA")
     private BigInteger ccoComproba;
 
@@ -58,8 +60,9 @@ public class FacVerifiFacingWebV{
     @Column(name = "RM_PROVEEDOR", length = 100)
     private String proveedor;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "RM_CCO_PREPEDIDO")
-    private Long ccoPrepedido;
+    private BigInteger ccoPrepedido;
 
     @Column(name = "RM_CLI_CODIGO")
     private Long cliCodigo;

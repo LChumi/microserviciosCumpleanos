@@ -21,6 +21,7 @@ import java.time.LocalDate;
 public class FacRevprodWebV {
     
     @Id
+    @Column(name = "DPR_ROWID")
     private String rowId;
 
     @Column(name = "DPR_COMPROBANTE", length = 4000)

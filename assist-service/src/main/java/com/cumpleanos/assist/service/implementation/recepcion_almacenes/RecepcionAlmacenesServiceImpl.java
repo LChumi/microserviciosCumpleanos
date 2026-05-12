@@ -22,6 +22,10 @@ public class RecepcionAlmacenesServiceImpl {
         return headerViewRepository.findAllByOrderByFechaFacDesc();
     }
 
+    public List<FacVerifiFacingWebV> getComprobantesByEmpresa(Long empresa){
+        return headerViewRepository.findByEmpresaCompraOrderByFechaFacDesc(empresa);
+    }
+
     public List<FacRevprodWebV> detalleProductoPendientes(BigInteger cco){
         return detailViewRepository.findByCcoCodigoOrderBySecuencia(cco);
     }

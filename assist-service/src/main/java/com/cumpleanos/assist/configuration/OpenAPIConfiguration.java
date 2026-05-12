@@ -51,7 +51,8 @@ public class OpenAPIConfiguration {
                         "images",
                         "list-ccomprobav",
                         "favoritos",
-                        "index"
+                        "index",
+                        "recepcion"
                 );
         return modules.stream()
                 .map(module -> GroupedOpenApi.builder()

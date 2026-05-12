@@ -6,14 +6,10 @@ import com.cumpleanos.core.models.views.FacRevprodWebV;
 import com.cumpleanos.core.models.views.FacVerifiFacingWebV;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -33,6 +29,13 @@ public class RecepcionAlmacenesController {
         return ResponseEntity.ok(comprobantes);
     }
 
+    @Operation(summary = "Lista de Comprobantes", description = "Comprobantes por Ingresar en almacenes por empresa")
+    @GetMapping("/recepcion/{empresa}/comprobantes")
+    public ResponseEntity<List<FacVerifiFacingWebV>> getComprobantesByEmpresa(@PathVariable Long empresa){
+        List<FacVerifiFacingWebV> comprobantes = recepcionService.getComprobantesByEmpresa(empresa);
+        return ResponseEntity.ok(comprobantes);
+    }
+
     @Operation(summary = "Detalles", description = "Lista de productos de un comrporbante")
     @Parameter(name = "cco", description = "Codigo del comporbantes cabecera", required = true)
     @GetMapping("/recepcion/{cco}/productos")
@@ -42,7 +45,7 @@ public class RecepcionAlmacenesController {
     }
 
     @Operation(summary = "Detalles", description = "Lista de productos de varios comrporbante")
-    @GetMapping("/recepcion/productos")
+    @PostMapping("/recepcion/productos")
     public ResponseEntity<List<FacRevprodWebV>> getProductosVariosComprobantes(@RequestBody ComprobantesCcoRequest request){
         List<FacRevprodWebV> productos = recepcionService.detalleProductoPendientesVariosComprobantes(request);
         return ResponseEntity.ok(productos);
