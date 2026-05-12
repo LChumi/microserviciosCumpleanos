@@ -24,14 +24,14 @@ public class RecepcionAlmacenesController {
 
     @Operation(summary = "Lista de Comprobantes", description = "Comprobantes por Ingresar en almacenes")
     @GetMapping("/recepcion/comprobantes")
-    public ResponseEntity<List<FacVerifiFacingWebV>> getComprobantes(){
+    public ResponseEntity<List<FacVerifiFacingWebV>> getComprobantes() {
         List<FacVerifiFacingWebV> comprobantes = recepcionService.getComprobantes();
         return ResponseEntity.ok(comprobantes);
     }
 
     @Operation(summary = "Lista de Comprobantes", description = "Comprobantes por Ingresar en almacenes por empresa")
     @GetMapping("/recepcion/{empresa}/comprobantes")
-    public ResponseEntity<List<FacVerifiFacingWebV>> getComprobantesByEmpresa(@PathVariable Long empresa){
+    public ResponseEntity<List<FacVerifiFacingWebV>> getComprobantesByEmpresa(@PathVariable Long empresa) {
         List<FacVerifiFacingWebV> comprobantes = recepcionService.getComprobantesByEmpresa(empresa);
         return ResponseEntity.ok(comprobantes);
     }
@@ -39,14 +39,14 @@ public class RecepcionAlmacenesController {
     @Operation(summary = "Detalles", description = "Lista de productos de un comrporbante")
     @Parameter(name = "cco", description = "Codigo del comporbantes cabecera", required = true)
     @GetMapping("/recepcion/{cco}/productos")
-    public ResponseEntity<List<FacRevprodWebV>> getProductos(@PathVariable BigInteger cco){
+    public ResponseEntity<List<FacRevprodWebV>> getProductos(@PathVariable BigInteger cco) {
         List<FacRevprodWebV> productos = recepcionService.detalleProductoPendientes(cco);
         return ResponseEntity.ok(productos);
     }
 
     @Operation(summary = "Detalles", description = "Lista de productos de varios comrporbante")
     @PostMapping("/recepcion/productos")
-    public ResponseEntity<List<FacRevprodWebV>> getProductosVariosComprobantes(@RequestBody ComprobantesCcoRequest request){
+    public ResponseEntity<List<FacRevprodWebV>> getProductosVariosComprobantes(@RequestBody ComprobantesCcoRequest request) {
         List<FacRevprodWebV> productos = recepcionService.detalleProductoPendientesVariosComprobantes(request);
         return ResponseEntity.ok(productos);
     }

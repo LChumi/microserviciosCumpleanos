@@ -17,8 +17,8 @@ import java.time.LocalDate;
 @Setter
 @Immutable
 @Table(name = "FAC_VERIFI_FACING_WEB_V", schema = "DATA_USR")
-public class FacVerifiFacingWebV{
-    
+public class FacVerifiFacingWebV {
+
     @Id
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "RM_CCO_COMPROBA")

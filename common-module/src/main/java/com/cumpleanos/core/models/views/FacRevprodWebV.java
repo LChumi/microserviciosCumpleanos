@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Immutable
 @Table(name = "FAC_REVPROD_WEB_V", schema = "DATA_USR")
 public class FacRevprodWebV {
-    
+
     @Id
     @Column(name = "DPR_ROWID")
     private String rowId;

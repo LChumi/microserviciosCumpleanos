@@ -18,19 +18,19 @@ public class RecepcionAlmacenesServiceImpl {
     private final PendingInvoiceProductDetailViewRepository detailViewRepository;
     private final PendingInvoiceHeaderViewRepository headerViewRepository;
 
-    public List<FacVerifiFacingWebV> getComprobantes(){
+    public List<FacVerifiFacingWebV> getComprobantes() {
         return headerViewRepository.findAllByOrderByFechaFacDesc();
     }
 
-    public List<FacVerifiFacingWebV> getComprobantesByEmpresa(Long empresa){
+    public List<FacVerifiFacingWebV> getComprobantesByEmpresa(Long empresa) {
         return headerViewRepository.findByEmpresaCompraOrderByFechaFacDesc(empresa);
     }
 
-    public List<FacRevprodWebV> detalleProductoPendientes(BigInteger cco){
+    public List<FacRevprodWebV> detalleProductoPendientes(BigInteger cco) {
         return detailViewRepository.findByCcoCodigoOrderBySecuencia(cco);
     }
 
-    public List<FacRevprodWebV> detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request){
+    public List<FacRevprodWebV> detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request) {
         return detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
     }
 }
