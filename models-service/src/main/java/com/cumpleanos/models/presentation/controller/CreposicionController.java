@@ -37,7 +37,7 @@ public class CreposicionController {
             @Parameter(name = "empresa", description = "Codigo de la empresa")
     })
     @GetMapping("/creposicion/find/{referencia}/{empresa}")
-    public ResponseEntity<Boolean> find(@PathVariable("referencia") String referencia, @PathVariable("empresa") Long empresa) {
+    public ResponseEntity<Boolean> find(@PathVariable String referencia, @PathVariable Long empresa) {
         return ResponseEntity.ok(service.existCreposicionByEmpresaAndReferencia(referencia, empresa));
     }
 
