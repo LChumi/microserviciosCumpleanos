@@ -14,6 +14,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -69,6 +70,11 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
         c.setObservacion("FALLIDO");
         c.setLogError("REGISTRO ANULADO POR EL SISTEMA ROLLBACK");
         repository.save(c);
+    }
+
+    @Override
+    public List<Creposicion> getByUsuario(Integer tipo, String usuario, Boolean finalizado) {
+        return repository.findByTipoAndUsuarioAndFinalizado(tipo, usuario, finalizado);
     }
 
     @Override

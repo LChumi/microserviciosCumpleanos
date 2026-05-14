@@ -45,7 +45,7 @@ public class Creposicion {
     private Integer estado;
 
     @Column(name = "CRP_FINALIZADO")
-    private Integer finalizado;
+    private Boolean finalizado;
 
     @Column(name = "CRP_USR_LIQUIDA")
     private Long usrLiquida;
@@ -162,13 +162,6 @@ public class Creposicion {
 
     @Column(name = "CRP_BODEGA")
     private Long bodegaId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "CRP_BODEGA", referencedColumnName = "BOD_CODIGO", insertable = false, updatable = false),
-            @JoinColumn(name = "CRP_EMPRESA", referencedColumnName = "BOD_EMPRESA", insertable = false, updatable = false)
-    })
-    private Bodega bodega;
 
     @Column(name = "CRP_GONDOLA")
     private Long gondolaId;

@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("models")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -60,6 +62,18 @@ public class CreposicionController {
     public ResponseEntity<Void> estadoFallido(@RequestBody CreposicionId id) {
         service.updateEstadoFallidoCreposicion(id);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Lista Creposicion", description = "Listado de creposicion por Usuario Tipo y finalizado")
+    @Parameters({
+            @Parameter(name = "tipo", description = "Tipo de creposicion"),
+            @Parameter(name = "usuario", description = "Id de usuario"),
+            @Parameter(name = "finalizado", description = "Estado del documento")
+    })
+    @GetMapping("/creposicion/list-user/{tipo}/{usuario}/{finalizado}")
+    public ResponseEntity<List<Creposicion>> listByUser(@PathVariable Integer tipo,@PathVariable String usuario,@PathVariable Boolean finalizado) {
+        List<Creposicion> result = service.getByUsuario(tipo, usuario, finalizado);
+        return ResponseEntity.ok(result);
     }
 
 }
