@@ -19,8 +19,8 @@ import java.util.Set;
 public interface IModelsClient {
 
     //TODO servicio que viene del controlador Ccomproba
-    @GetMapping("/models/cco/update/cantapr{cco}/{ref}/{empresa}")
-    ResponseEntity<Boolean> updateReferencia(@PathVariable BigInteger cco, @PathVariable BigInteger ref, @PathVariable Long empresa);
+    @GetMapping("/models/cco/update/creposicion/{cco}/{ref}/{empresa}")
+    ResponseEntity<Boolean> updateCreposicion(@PathVariable BigInteger cco, @PathVariable Long ref, @PathVariable Long empresa);
 
     //TODO servicio que viene del controlador AuthController
     @GetMapping("/models/usuario/{userId}")

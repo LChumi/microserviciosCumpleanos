@@ -10,4 +10,6 @@ public interface ICcomprobaService extends GenericService<Ccomproba, CcomprobaId
     Boolean updateBodegaCco(Long empresa, BigInteger codigo, Long bodega, String observacion);
 
     Boolean addReference(BigInteger cco, BigInteger ccoRef, Long empresa);
+
+    Boolean addCreposicion(BigInteger cco, Long creposicion, Long empresa);
 }

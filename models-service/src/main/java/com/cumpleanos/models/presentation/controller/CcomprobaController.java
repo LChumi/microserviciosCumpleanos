@@ -31,4 +31,16 @@ public class CcomprobaController {
         Boolean response = service.addReference(cco, ref, empresa);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "Agregar Creposicion", description = "Agrega codigo de creposicion en el comprobante")
+    @Parameters({
+            @Parameter(name = "cco", description = "Codigo del comprobante"),
+            @Parameter(name = "crepo", description = "Referencia del creposicion"),
+            @Parameter(name = "empresa", description = "Codigo de empresa al cambio")
+    })
+    @GetMapping("/cco/update/creposicion/{cco}/{ref}/{empresa}")
+    public ResponseEntity<Boolean> updateCreposicion(@PathVariable BigInteger cco, @PathVariable Long ref, @PathVariable Long empresa) {
+        Boolean response = service.addCreposicion(cco, ref, empresa);
+        return ResponseEntity.ok(response);
+    }
 }

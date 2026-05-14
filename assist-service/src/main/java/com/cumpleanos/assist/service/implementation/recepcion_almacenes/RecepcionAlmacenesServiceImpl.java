@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.util.List;
 
+import static com.cumpleanos.assist.utils.ReposicionAlmacenUtil.crearDetalle;
 import static com.cumpleanos.assist.utils.ReposicionAlmacenUtil.generarCabeceraRevision;
 
 @Slf4j
@@ -48,7 +49,9 @@ public class RecepcionAlmacenesServiceImpl {
     }
 
     public List<FacRevprodWebV> detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request) {
-        return detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
+        List<FacRevprodWebV> items = detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
+        createRecepcionUpdateCco(request, items);
+
     }
 
     private void createRecepcionUpdateCco (ComprobantesCcoRequest r, List<FacRevprodWebV> list){
@@ -56,6 +59,7 @@ public class RecepcionAlmacenesServiceImpl {
         BodegaDTO bod = modelsService.getBodega(r.empresa(), r.bodega());
         AlmacenDTO alm = modelsService.getAlmacenDTO(bod.getAlmacen(), r.empresa());
 
+        log.info("Creando creposicion Revision Mercaderia .......");
         Creposicion creposicion = generarCabeceraRevision(r.empresa(), r.usuario(), alm.codigo(), bod.getId());
 
         Creposicion c = modelsService.saveCreposicion(creposicion);
@@ -63,11 +67,26 @@ public class RecepcionAlmacenesServiceImpl {
             log.error("No se pudo crear el registro de revision mercaderia");
             throw new EntityNotFoundException("No se pudo crear el registro Revision mercaderia");
         }
+        log.info("Creando detalles de productos......");
+        for (FacRevprodWebV f : list) {
+            Dreposicion d = crearDetalle(r.usuario(), f, c.getId().getCodigo());
+            Dreposicion detalle = modelsService.saveDreposicion(d);
+            if (detalle == null){
+                log.error("No se pudo crear el detalle de producto");
+                throw new EntityNotFoundException("No se pudo crear el detalle del producto");
+            }
+        }
+        log.info("Relacionando Creposicion a Ccomproba....");
+        for (BigInteger cco: r.ccoCodigos()){
+            Boolean up = modelsService.updateCreposicion(cco, c.getId().getCodigo(), r.empresa());
+            if (up){
+                log.info("Creposicion amarrada a  cco origen ");
+            } else {
+                log.error("hubo un problema al intentar amarrar cco con creposicion");
+            }
+        }
     }
 
-    private Dreposicion crearDetalle(){
-        final Dreposicion d = new Dreposicion();
 
-    }
 
 }

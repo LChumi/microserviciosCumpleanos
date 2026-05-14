@@ -148,16 +148,19 @@ public class Ccomproba {
     private Boolean ccoPuente;
 
     @Column(name = "CCO_TIPOCALCU")
-    private Boolean ccoTipocalcu;
+    private Boolean tipocalcu;
 
     @Column(name = "CCO_EVENTO")
-    private Long ccoEvento;
+    private Long evento;
 
     @Column(name = "CCO_IVA")
-    private Boolean ccoIva;
+    private Boolean iva;
 
     @Column(name = "CCO_NODESPACHO")
-    private Boolean ccoNodespacho;
+    private Long nodespacho;
+
+    @Column(name = "CCO_CREPOSICION")
+    private Long creposicion;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CCO_MODULO")
