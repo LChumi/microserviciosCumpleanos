@@ -2,6 +2,7 @@ package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
+import com.cumpleanos.core.models.ids.CreposicionId;
 import com.cumpleanos.models.service.interfaces.ICreposicionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -53,4 +54,12 @@ public class CreposicionController {
         ServiceResponse result = service.finalizarPedido(empresa,codigo,usrliq, estado);
         return ResponseEntity.ok(result);
     }
+
+    @Operation(summary = "Actualiza creposicion", description = "Creposicion fallida anulando estado")
+    @PutMapping("/creposicion/update-fallido")
+    public ResponseEntity<Void> EstadoFallido (@RequestBody CreposicionId id) {
+        service.updateEstadoFallidoCreposicion(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

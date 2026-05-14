@@ -6,6 +6,7 @@ import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
+import com.cumpleanos.core.models.ids.DreposicionId;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -136,6 +137,9 @@ public interface IModelsClient {
     //TODO servicio que viene del controlador DreposicionController
     @PostMapping("/models/dreposicion/save")
     ResponseEntity<Dreposicion> saveDreposicion(@RequestBody Dreposicion dreposicion);
+
+    @DeleteMapping("models/dreposicion/delete")
+    ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id);
 
     //TODO servicio que viene del controlador CreposicionController
     @PostMapping("/models/creposicion/save")

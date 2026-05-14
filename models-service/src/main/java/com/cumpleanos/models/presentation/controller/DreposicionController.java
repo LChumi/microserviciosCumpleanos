@@ -40,4 +40,11 @@ public class DreposicionController {
         Dreposicion dreposicion = service.findById(id);
         return ResponseEntity.ok(dreposicion);
     }
+
+    @Operation(summary = "Eliminar Dreposicion", description = "Elimina dreposicion en intento fallido")
+    @DeleteMapping("/dreposicion/delete")
+    public ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

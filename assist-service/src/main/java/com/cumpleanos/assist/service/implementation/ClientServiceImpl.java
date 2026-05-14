@@ -9,12 +9,12 @@ import com.cumpleanos.assist.service.http.IEmailClient;
 import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
+import com.cumpleanos.core.models.ids.DreposicionId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -176,6 +176,11 @@ public class ClientServiceImpl {
     public Dreposicion saveDreposicion(Dreposicion d) {
         return HttpResponseHandler.handle(() -> modelsClient.saveDreposicion(d),
                 "Error al guardar el dreposicion en la empresa: " + d.getId().getEmpresa());
+    }
+
+    public void deleteDreposicion(DreposicionId id) {
+        HttpResponseHandler.handle(() -> modelsClient.deleteDreposicion(id),
+                "Error al eliminar Dreposicion : " + id.toString());
     }
 
     //REPOSICIONPAGO

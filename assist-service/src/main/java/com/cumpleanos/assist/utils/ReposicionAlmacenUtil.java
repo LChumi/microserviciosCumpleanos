@@ -19,12 +19,11 @@ public final class ReposicionAlmacenUtil {
 
     private static final String OBS = "WEB";
 
-    public static Creposicion generarCabeceraRevision(Long empresa, String usuario, Long almacen, Long bodega){
-        final Creposicion c = new Creposicion();
-        final CreposicionId id = new CreposicionId();
-
+    public static Creposicion generarCabeceraRevision(Long empresa, String usuario, Long almacen, Long bodega) {
+        CreposicionId id = new CreposicionId();
         id.setEmpresa(empresa);
 
+        Creposicion c = new Creposicion();
         c.setId(id);
         c.setUsuario(usuario);
         c.setObservacion(OBS);
@@ -37,22 +36,21 @@ public final class ReposicionAlmacenUtil {
         return c;
     }
 
-    public static Dreposicion crearDetalle(String usuario, FacRevprodWebV v, Long idCreposicion){
-        final DreposicionId id = new DreposicionId();
-        final Dreposicion d = new Dreposicion();
-
+    public static Dreposicion crearDetalle(String usuario, FacRevprodWebV v, Long idCreposicion) {
+        DreposicionId id = new DreposicionId();
         id.setEmpresa(v.getEmpresa());
 
+        BigDecimal total = v.getPrecio().multiply(BigDecimal.valueOf(v.getCantidad()));
+
+        Dreposicion d = new Dreposicion();
         d.setId(id);
         d.setCreposicionId(idCreposicion);
         d.setProductoId(v.getProCodigo());
-        d.setCantSol(Long.valueOf(v.getCantidad()));
+        d.setCantSol((long) v.getCantidad());
         d.setCantApr(0L);
         d.setUsuario(usuario);
         d.setPrecio(v.getPrecio());
-        final BigDecimal total = v.getPrecio().multiply(BigDecimal.valueOf(v.getCantidad()));
         d.setTotal(total);
         return d;
-
     }
 }

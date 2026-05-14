@@ -63,6 +63,15 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     }
 
     @Override
+    public void updateEstadoFallidoCreposicion(CreposicionId id) {
+        Creposicion c = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("No se encontro Creposicion"));
+        c.setEstado(9);
+        c.setObservacion("FALLIDO");
+        c.setLogError("REGISTRO ANULADO POR EL SISTEMA ROLLBACK");
+        repository.save(c);
+    }
+
+    @Override
     public Creposicion save(Creposicion entity) {
         Long codigo = getNextSequenceValue(Sequence.CREPOSICIONCODIGO);
         CreposicionId id = new CreposicionId();
