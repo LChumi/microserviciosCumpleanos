@@ -6,6 +6,7 @@ import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
+import com.cumpleanos.core.models.ids.CreposicionId;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -150,6 +151,9 @@ public interface IModelsClient {
 
     @GetMapping("/models/creposicion/update/{empresa}/{codigo}/{usrliq}/{estado}")
     ResponseEntity<ServiceResponse> finalizarPedido(@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado);
+
+    @PutMapping("/models/creposicion/update-fallido")
+    ResponseEntity<Void> estadoFallido (@RequestBody CreposicionId id);
 
     //TODO servicio que viene del controlador ReposicionController
     @PostMapping("/models/reposicion/crear-pago")

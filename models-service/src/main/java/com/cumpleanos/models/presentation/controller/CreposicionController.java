@@ -57,7 +57,7 @@ public class CreposicionController {
 
     @Operation(summary = "Actualiza creposicion", description = "Creposicion fallida anulando estado")
     @PutMapping("/creposicion/update-fallido")
-    public ResponseEntity<Void> EstadoFallido (@RequestBody CreposicionId id) {
+    public ResponseEntity<Void> estadoFallido (@RequestBody CreposicionId id) {
         service.updateEstadoFallidoCreposicion(id);
         return ResponseEntity.ok().build();
     }

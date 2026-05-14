@@ -190,7 +190,7 @@ public class RecepcionAlmacenesServiceImpl {
             CreposicionId id = new CreposicionId();
             id.setEmpresa(empresa);
             id.setCodigo(idCreposicion);
-            modelsService.updateEstadoCreposicion(id);
+            modelsService.updateEstadoFallidoCreposicio(id);
             log.info("Cabecera {} marcada como FALLIDO", idCreposicion);
         } catch (Exception e) {
             log.error("No se pudo marcar cabecera {} como FALLIDO: {}", idCreposicion, e.getMessage());

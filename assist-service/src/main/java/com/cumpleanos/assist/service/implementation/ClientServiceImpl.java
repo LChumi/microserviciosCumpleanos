@@ -9,6 +9,7 @@ import com.cumpleanos.assist.service.http.IEmailClient;
 import com.cumpleanos.assist.service.http.IModelsClient;
 import com.cumpleanos.common.records.*;
 import com.cumpleanos.core.models.entities.*;
+import com.cumpleanos.core.models.ids.CreposicionId;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -170,6 +171,11 @@ public class ClientServiceImpl {
     public ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrliq, Integer estado) {
         return HttpResponseHandler.handle(() -> modelsClient.finalizarPedido(empresa, codigo, usrliq, estado),
                 "Error al finalizar el pedido en la empresa: " + empresa);
+    }
+
+    public void updateEstadoFallidoCreposicio(CreposicionId id){
+        HttpResponseHandler.handle(() -> modelsClient.estadoFallido(id),
+                "Error al actualizar estado fallido Creposicion ");
     }
 
     //DREPOSICION
