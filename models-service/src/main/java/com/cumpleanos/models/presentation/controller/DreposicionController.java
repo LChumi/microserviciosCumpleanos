@@ -22,7 +22,7 @@ public class DreposicionController {
 
     private final IDreposicionService service;
 
-    @Operation(summary = "Crear Dreposicion", description = "Crea la reposicion en el sistema", tags = {"Dreposicion"} , responses = {
+    @Operation(summary = "Crear Dreposicion", description = "Crea la reposicion en el sistema", tags = {"Dreposicion"}, responses = {
             @ApiResponse(responseCode = "200", description = "Dreposicion creada")
     })
     @PostMapping("/dreposicion/save")
@@ -43,7 +43,7 @@ public class DreposicionController {
 
     @Operation(summary = "Eliminar Dreposicion", description = "Elimina dreposicion en intento fallido")
     @DeleteMapping("/dreposicion/delete")
-    public ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id){
+    public ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -129,7 +129,7 @@ public interface IModelsClient {
     ResponseEntity<ImportacionDTO> getImportacion(@PathVariable BigInteger cco, @PathVariable Long empresa);
 
     @GetMapping("models/imporitem/getByCco/{cco}/{producto}")
-    ResponseEntity<List<ImporItemDTO>> getProductoImpor(@PathVariable BigInteger cco , @PathVariable Long producto);
+    ResponseEntity<List<ImporItemDTO>> getProductoImpor(@PathVariable BigInteger cco, @PathVariable Long producto);
 
     @GetMapping("models/imporitem/list-by/{cco}")
     ResponseEntity<List<ImporItemDTO>> listByCco(@PathVariable BigInteger cco);
@@ -153,7 +153,7 @@ public interface IModelsClient {
     ResponseEntity<ServiceResponse> finalizarPedido(@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado);
 
     @PutMapping("/models/creposicion/update-fallido")
-    ResponseEntity<Void> estadoFallido (@RequestBody CreposicionId id);
+    ResponseEntity<Void> estadoFallido(@RequestBody CreposicionId id);
 
     //TODO servicio que viene del controlador ReposicionController
     @PostMapping("/models/reposicion/crear-pago")

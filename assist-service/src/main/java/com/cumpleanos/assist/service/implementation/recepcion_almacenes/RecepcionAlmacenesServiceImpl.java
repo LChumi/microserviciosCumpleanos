@@ -45,7 +45,7 @@ public class RecepcionAlmacenesServiceImpl {
         return headerViewRepository.findByEmpresaCompraOrderByFechaFacDesc(empresa);
     }
 
-    public List<FacVerifiFacingWebV> getComprobantesByBodega(Long bodCodigo){
+    public List<FacVerifiFacingWebV> getComprobantesByBodega(Long bodCodigo) {
         return headerViewRepository.findByBodCodigo(bodCodigo);
     }
 
@@ -77,7 +77,7 @@ public class RecepcionAlmacenesServiceImpl {
         procesarCcos(r, idCreposicion, guardados);
     }
 
-// ── Validación ───────────────────────────────────────────────────
+    // Validación
 
     private void validarEntradas(ComprobantesCcoRequest r, List<FacRevprodWebV> list) {
         if (CollectionUtils.isEmpty(list))
@@ -86,7 +86,7 @@ public class RecepcionAlmacenesServiceImpl {
             throw new IllegalArgumentException("Lista de CCOs no puede estar vacía");
     }
 
-// ── Cabecera ─────────────────────────────────────────────────────
+    // Cabecera
 
     private Creposicion crearYGuardarCabecera(ComprobantesCcoRequest r, AlmacenDTO alm, BodegaDTO bod) {
         log.info("Creando cabecera Revision Mercaderia...");
@@ -99,12 +99,12 @@ public class RecepcionAlmacenesServiceImpl {
                 });
     }
 
-// ── Detalles ─────────────────────────────────────────────────────
+    // Detalles
 
     private List<Dreposicion> guardarDetalles(String usuario, List<FacRevprodWebV> list, Long idCreposicion) {
         log.info("Guardando {} detalles...", list.size());
 
-        List<String> errores  = new ArrayList<>();
+        List<String> errores = new ArrayList<>();
         List<Dreposicion> guardados = new ArrayList<>();
 
         for (FacRevprodWebV producto : list) {
@@ -132,7 +132,7 @@ public class RecepcionAlmacenesServiceImpl {
         return guardados;
     }
 
-// ── CCOs ─────────────────────────────────────────────────────────
+    // CCOs
 
     private void procesarCcos(ComprobantesCcoRequest r, Long idCreposicion, List<Dreposicion> guardados) {
         log.info("Relacionando {} CCOs a Creposicion {}...", r.ccoCodigos().size(), idCreposicion);
@@ -141,7 +141,7 @@ public class RecepcionAlmacenesServiceImpl {
                 .collect(Collectors.partitioningBy(cco -> relacionarCco(cco, idCreposicion, r.empresa())));
 
         List<BigInteger> exitosos = resultado.get(true);
-        List<BigInteger> fallidos  = resultado.get(false);
+        List<BigInteger> fallidos = resultado.get(false);
 
         if (exitosos.isEmpty()) {
             log.error("No se relacionó ningún CCO. Iniciando compensación...");
@@ -162,7 +162,7 @@ public class RecepcionAlmacenesServiceImpl {
         try {
             boolean resultado = Boolean.TRUE.equals(modelsService.updateCreposicion(cco, idCreposicion, empresa));
             if (resultado) log.debug("CCO {} relacionado OK", cco);
-            else           log.warn("CCO {} respondió false", cco);
+            else log.warn("CCO {} respondió false", cco);
             return resultado;
         } catch (Exception e) {
             log.error("Error relacionando CCO {}: {}", cco, e.getMessage());
@@ -170,7 +170,7 @@ public class RecepcionAlmacenesServiceImpl {
         }
     }
 
-// ── Compensación ─────────────────────────────────────────────────
+    // Compensación
 
     private void compensarCreacion(Long idCreposicion, List<Dreposicion> detallesGuardados) {
         log.warn("Iniciando compensación para Creposicion: {}", idCreposicion);

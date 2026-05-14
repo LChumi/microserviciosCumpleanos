@@ -173,7 +173,7 @@ public class ClientServiceImpl {
                 "Error al finalizar el pedido en la empresa: " + empresa);
     }
 
-    public void updateEstadoFallidoCreposicio(CreposicionId id){
+    public void updateEstadoFallidoCreposicio(CreposicionId id) {
         HttpResponseHandler.handle(() -> modelsClient.estadoFallido(id),
                 "Error al actualizar estado fallido Creposicion ");
     }

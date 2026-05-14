@@ -28,7 +28,7 @@ public class CreposicionController {
     })
     @PostMapping("/creposicion/save")
     public ResponseEntity<Creposicion> save(@RequestBody Creposicion creposicion) {
-        Creposicion create= service.save(creposicion);
+        Creposicion create = service.save(creposicion);
         return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
@@ -50,14 +50,14 @@ public class CreposicionController {
             @Parameter(name = "estado", description = "Estado de creposicion")
     })
     @GetMapping("/creposicion/update/{empresa}/{codigo}/{usrliq}/{estado}")
-    public ResponseEntity<ServiceResponse> finalizarPedido (@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado) {
-        ServiceResponse result = service.finalizarPedido(empresa,codigo,usrliq, estado);
+    public ResponseEntity<ServiceResponse> finalizarPedido(@PathVariable Long empresa, @PathVariable Long codigo, @PathVariable Long usrliq, @PathVariable Integer estado) {
+        ServiceResponse result = service.finalizarPedido(empresa, codigo, usrliq, estado);
         return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "Actualiza creposicion", description = "Creposicion fallida anulando estado")
     @PutMapping("/creposicion/update-fallido")
-    public ResponseEntity<Void> estadoFallido (@RequestBody CreposicionId id) {
+    public ResponseEntity<Void> estadoFallido(@RequestBody CreposicionId id) {
         service.updateEstadoFallidoCreposicion(id);
         return ResponseEntity.ok().build();
     }
