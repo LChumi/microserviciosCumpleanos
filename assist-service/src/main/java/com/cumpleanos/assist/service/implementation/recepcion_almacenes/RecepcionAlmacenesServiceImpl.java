@@ -7,6 +7,7 @@ import com.cumpleanos.assist.service.exception.BusinessException;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.records.AlmacenDTO;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.CreposicionId;
@@ -55,13 +56,13 @@ public class RecepcionAlmacenesServiceImpl {
         return detailViewRepository.findByCcoCodigoOrderBySecuencia(cco);
     }
 
-    public List<FacRevprodWebV> detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request) {
+    public ServiceResponse detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request) {
         List<FacRevprodWebV> items = detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
-        createRecepcionUpdateCco(request, items);
-        return items;
+        Creposicion c =createRecepcionUpdateCco(request, items);
+        return new ServiceResponse("Revision creada", true);
     }
 
-    private void createRecepcionUpdateCco(ComprobantesCcoRequest r, List<FacRevprodWebV> list) {
+    private Creposicion createRecepcionUpdateCco(ComprobantesCcoRequest r, List<FacRevprodWebV> list) {
         validarEntradas(r, list);
 
         BodegaDTO bod = modelsService.getBodega(r.empresa(), r.bodega());
@@ -75,6 +76,8 @@ public class RecepcionAlmacenesServiceImpl {
 
         List<Dreposicion> guardados = guardarDetalles(r.usuario(), list, idCreposicion);
         procesarCcos(r, idCreposicion, guardados);
+
+        return cabecera;
     }
 
     // Validación

@@ -2,6 +2,7 @@ package com.cumpleanos.assist.presentation.controller.recepcion_almacenes;
 
 import com.cumpleanos.assist.persistence.inmutables.ComprobantesCcoRequest;
 import com.cumpleanos.assist.service.implementation.recepcion_almacenes.RecepcionAlmacenesServiceImpl;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.views.FacRevprodWebV;
 import com.cumpleanos.core.models.views.FacVerifiFacingWebV;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,8 +54,8 @@ public class RecepcionAlmacenesController {
 
     @Operation(summary = "Detalles", description = "Lista de productos de varios comrporbante")
     @PostMapping("/recepcion/productos")
-    public ResponseEntity<List<FacRevprodWebV>> getProductosVariosComprobantes(@RequestBody ComprobantesCcoRequest request) {
-        List<FacRevprodWebV> productos = recepcionService.detalleProductoPendientesVariosComprobantes(request);
+    public ResponseEntity<ServiceResponse> getProductosVariosComprobantes(@RequestBody ComprobantesCcoRequest request) {
+        ServiceResponse productos = recepcionService.detalleProductoPendientesVariosComprobantes(request);
         return ResponseEntity.ok(productos);
     }
 }
