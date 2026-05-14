@@ -52,9 +52,9 @@ public class RecepcionAlmacenesController {
         return ResponseEntity.ok(productos);
     }
 
-    @Operation(summary = "Detalles", description = "Lista de productos de varios comrporbante")
-    @PostMapping("/recepcion/productos")
-    public ResponseEntity<ServiceResponse> getProductosVariosComprobantes(@RequestBody ComprobantesCcoRequest request) {
+    @Operation(summary = "Detalles", description = "Creacion cabecera detalle")
+    @PostMapping("/recepcion/crear-revision")
+    public ResponseEntity<ServiceResponse> crearRevision(@RequestBody ComprobantesCcoRequest request) {
         ServiceResponse productos = recepcionService.detalleProductoPendientesVariosComprobantes(request);
         return ResponseEntity.ok(productos);
     }
