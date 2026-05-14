@@ -27,6 +27,20 @@ public class BodegaServiceImpl extends GenericServiceImpl<Bodega, BodegaId> impl
         Bodega bod = repository.findById_EmpresaAndBodegaWebAndBodegaWebDef(empresa, (short) 1, (short) 1).orElseThrow(
                 () -> new EntityNotFoundException("BodegaWeb no encontrada en la empresa: " + empresa)
         );
+        return builderBodega(bod);
+    }
+
+    @Override
+    public BodegaDTO getById(Long empresa, Long codigo) {
+        BodegaId id =  new BodegaId();
+        id.setEmpresa(empresa);
+        id.setCodigo(codigo);
+
+        Bodega bod = findById(id);
+        return builderBodega(bod);
+    }
+
+    private BodegaDTO builderBodega(Bodega bod){
         return BodegaDTO.builder()
                 .id(bod.getId().getCodigo())
                 .empresa(bod.getId().getEmpresa())
@@ -36,4 +50,5 @@ public class BodegaServiceImpl extends GenericServiceImpl<Bodega, BodegaId> impl
                 .almacen(bod.getAlmacenId())
                 .build();
     }
+
 }

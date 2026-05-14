@@ -32,7 +32,6 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
         return getRepository().save(entity);
     }
 
-    @Transactional
     @Override
     public T findById(ID id) {
         return getRepository().findById(id).orElse(null);

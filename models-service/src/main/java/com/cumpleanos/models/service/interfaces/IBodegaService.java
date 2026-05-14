@@ -7,4 +7,6 @@ import com.cumpleanos.core.models.ids.BodegaId;
 public interface IBodegaService extends GenericService<Bodega, BodegaId>{
 
     BodegaDTO getBodegaWeb(Long empresa);
+
+    BodegaDTO getById(Long empresa, Long codigo);
 }

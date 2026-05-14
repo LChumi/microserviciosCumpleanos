@@ -108,6 +108,11 @@ public class ClientServiceImpl {
                 "Error al obtener la bodega en la empresa: " + empresa);
     }
 
+    public BodegaDTO getBodega(Long empresa, Long codigo) {
+        return HttpResponseHandler.handle(() -> modelsClient.getBodega(empresa, codigo),
+                "Error al obtener la bodega codigo: " + codigo);
+    }
+
     //ALMACEN
     public AlmacenDTO getAlmacenDTO(Long codigo, Long empresa) {
         return HttpResponseHandler.handle(() -> modelsClient.getById(empresa, codigo),

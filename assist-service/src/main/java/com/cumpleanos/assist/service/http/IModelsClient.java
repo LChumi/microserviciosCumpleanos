@@ -75,6 +75,9 @@ public interface IModelsClient {
     @GetMapping("/models/bodega/web/{empresa}")
     ResponseEntity<BodegaDTO> getBodegaWeb(@PathVariable Long empresa);
 
+    @GetMapping("/models/bodega/id/{empresa}/{codigo}")
+    ResponseEntity<BodegaDTO> getBodega(@PathVariable Long empresa, @PathVariable Long codigo);
+
     //TODO servicio que viene del controlador SistemaController
     @GetMapping("models/sistema/id-empresa/{id}")
     ResponseEntity<Sistema> getEmpresaById(@PathVariable Long id);

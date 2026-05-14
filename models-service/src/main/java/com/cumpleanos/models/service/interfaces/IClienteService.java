@@ -10,10 +10,8 @@ import java.util.Set;
 
 public interface IClienteService extends GenericService<Cliente, ClienteId> {
 
-    @Transactional
     Cliente findByCedulaRucAndEmpresa(String cedula, Short tipo, Long empresa);
 
-    @Transactional
     List<Cliente> findByCliId(String id, Long empresa);
 
     @Transactional
