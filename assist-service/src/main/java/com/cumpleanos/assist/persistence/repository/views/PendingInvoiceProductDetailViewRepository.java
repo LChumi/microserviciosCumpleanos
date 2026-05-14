@@ -12,4 +12,6 @@ public interface PendingInvoiceProductDetailViewRepository extends JpaRepository
     List<FacRevprodWebV> findByCcoCodigoOrderBySecuencia(BigInteger ccoCodigo);
 
     List<FacRevprodWebV> findByCcoCodigoIn(Collection<BigInteger> ccoCodigos);
+
+    FacRevprodWebV findByCcoCodigoAndProCodigo(BigInteger ccoCodigo, Long proCodigo);
 }

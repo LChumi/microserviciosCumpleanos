@@ -43,7 +43,7 @@ public class RecepcionAlmacenesController {
         return ResponseEntity.ok(comprobantes);
     }
 
-    @Operation(summary = "Detalles", description = "Lista de productos de un comrporbante")
+    @Operation(summary = "Detalles", description = "Lista de productos de un comrporbante en orden de secuencia")
     @Parameter(name = "cco", description = "Codigo del comporbantes cabecera", required = true)
     @GetMapping("/recepcion/{cco}/productos")
     public ResponseEntity<List<FacRevprodWebV>> getProductos(@PathVariable BigInteger cco) {
