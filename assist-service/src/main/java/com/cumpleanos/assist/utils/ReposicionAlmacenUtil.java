@@ -42,17 +42,25 @@ public final class ReposicionAlmacenUtil {
         DreposicionId id = new DreposicionId();
         id.setEmpresa(v.getEmpresa());
 
-        BigDecimal total = v.getPrecio().multiply(BigDecimal.valueOf(v.getCantidad()));
+        // Manejo seguro de cantidad
+        long cantidad = (v.getCantidad() != null)
+                ? v.getCantidad().longValue()
+                : (v.getCanapr() != null ? v.getCanapr().longValue() : 0L);
+
+        // Calcular total con protección
+        BigDecimal precio = v.getPrecio() != null ? v.getPrecio() : BigDecimal.ZERO;
+        BigDecimal total = precio.multiply(BigDecimal.valueOf(cantidad));
 
         Dreposicion d = new Dreposicion();
         d.setId(id);
         d.setCreposicionId(idCreposicion);
         d.setProductoId(v.getProCodigo());
-        d.setCantSol((long) v.getCantidad());
+        d.setCantSol(cantidad);
         d.setCantApr(0L);
         d.setUsuario(usuario);
-        d.setPrecio(v.getPrecio());
+        d.setPrecio(precio);
         d.setTotal(total);
         return d;
     }
+
 }

@@ -68,10 +68,10 @@ public class FacRevprodWebV {
     private Integer cantidad;
 
     @Column(name = "DPR_CANAPR", precision = 17, scale = 4)
-    private BigDecimal canapr;
+    private Integer canapr;
 
     @Column(name = "DPR_CANEMP", precision = 17, scale = 4)
-    private BigDecimal canemp;
+    private Integer canemp;
 
     @Column(name = "DPR_OBSERVACION", length = 500)
     private String observacion;
