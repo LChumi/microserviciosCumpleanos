@@ -30,10 +30,10 @@ public class RecepcionAlmacenesController {
         return ResponseEntity.ok(comprobantes);
     }
 
-    @Operation(summary = "Lista de Comprobantes", description = "Comprobantes por Ingresar en almacenes por empresa")
-    @GetMapping("/recepcion/{empresa}/empresa")
-    public ResponseEntity<List<FacVerifiFacingWebV>> getComprobantesByEmpresa(@PathVariable Long empresa) {
-        List<FacVerifiFacingWebV> comprobantes = recepcionService.getComprobantesByEmpresa(empresa);
+    @Operation(summary = "Lista de Comprobantes", description = "Comprobantes por Ingresar en almacenes por empresa y tipo egreso o factura")
+    @GetMapping("/recepcion/{empresa}/empresa/{tipo}")
+    public ResponseEntity<List<FacVerifiFacingWebV>> getComprobantesByEmpresa(@PathVariable Long empresa, @PathVariable Long tipo) {
+        List<FacVerifiFacingWebV> comprobantes = recepcionService.getComprobantesByEmpresaAndTipo(empresa, tipo);
         return ResponseEntity.ok(comprobantes);
     }
 

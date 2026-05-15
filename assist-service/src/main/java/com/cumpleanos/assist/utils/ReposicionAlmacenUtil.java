@@ -17,16 +17,18 @@ public final class ReposicionAlmacenUtil {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    private static final String OBS = "WEB";
+    private static final String OBS = "REVISION ";
 
-    public static Creposicion generarCabeceraRevision(Long empresa, String usuario, Long almacen, Long bodega) {
+    public static Creposicion generarCabeceraRevision(Long empresa, String usuario, Long almacen, Long bodega, String obs) {
         CreposicionId id = new CreposicionId();
         id.setEmpresa(empresa);
+
+        String observacion= OBS + obs;
 
         Creposicion c = new Creposicion();
         c.setId(id);
         c.setUsuario(usuario);
-        c.setObservacion(OBS);
+        c.setObservacion(observacion);
         c.setFecha(LocalDate.now());
         c.setEstado(ESTADO_PROCESO.getCodigo());
         c.setFinalizado(NO_FINALIZADO.getCodigo());

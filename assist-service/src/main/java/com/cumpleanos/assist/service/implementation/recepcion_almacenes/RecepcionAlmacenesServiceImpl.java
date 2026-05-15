@@ -42,8 +42,8 @@ public class RecepcionAlmacenesServiceImpl {
         return headerViewRepository.findAllByOrderByFechaFacDesc();
     }
 
-    public List<FacVerifiFacingWebV> getComprobantesByEmpresa(Long empresa) {
-        return headerViewRepository.findByEmpresaCompraOrderByFechaFacDesc(empresa);
+    public List<FacVerifiFacingWebV> getComprobantesByEmpresaAndTipo(Long empresa,Long tipo) {
+        return headerViewRepository.findByEmpresaCompraAndTipoCodigoOrderByFechaFacDesc(empresa, tipo);
     }
 
     public List<FacVerifiFacingWebV> getComprobantesByBodega(Long bodCodigo) {
@@ -74,7 +74,7 @@ public class RecepcionAlmacenesServiceImpl {
         Creposicion cabecera = crearYGuardarCabecera(r, alm, bod);
         Long idCreposicion = cabecera.getId().getCodigo();
 
-        List<Dreposicion> guardados = guardarDetalles(r.usuario(), list, idCreposicion);
+        List<Dreposicion> guardados = guardarDetalles(r.usuario(), list, idCreposicion, r.empresa());
         procesarCcos(r, idCreposicion, guardados);
 
         return cabecera;
@@ -93,7 +93,7 @@ public class RecepcionAlmacenesServiceImpl {
 
     private Creposicion crearYGuardarCabecera(ComprobantesCcoRequest r, AlmacenDTO alm, BodegaDTO bod) {
         log.info("Creando cabecera Revision Mercaderia...");
-        Creposicion cabecera = generarCabeceraRevision(r.empresa(), r.usuario(), alm.codigo(), bod.getId());
+        Creposicion cabecera = generarCabeceraRevision(r.empresa(), r.usuario(), alm.codigo(), bod.getId(), r.observacion());
 
         return Optional.ofNullable(modelsService.saveCreposicion(cabecera))
                 .orElseThrow(() -> {
@@ -104,7 +104,7 @@ public class RecepcionAlmacenesServiceImpl {
 
     // Detalles
 
-    private List<Dreposicion> guardarDetalles(String usuario, List<FacRevprodWebV> list, Long idCreposicion) {
+    private List<Dreposicion> guardarDetalles(String usuario, List<FacRevprodWebV> list, Long idCreposicion, Long empresa) {
         log.info("Guardando {} detalles...", list.size());
 
         List<String> errores = new ArrayList<>();
@@ -127,7 +127,7 @@ public class RecepcionAlmacenesServiceImpl {
 
         if (!errores.isEmpty()) {
             log.error("Fallaron {} detalles: {}", errores.size(), errores);
-            compensarCreacion(idCreposicion, guardados);
+            compensarCreacion(idCreposicion, guardados, empresa);
             throw new BusinessException("No se pudieron guardar todos los detalles: " + String.join(", ", errores));
         }
 
@@ -148,7 +148,7 @@ public class RecepcionAlmacenesServiceImpl {
 
         if (exitosos.isEmpty()) {
             log.error("No se relacionó ningún CCO. Iniciando compensación...");
-            compensarCreacion(idCreposicion, guardados);
+            compensarCreacion(idCreposicion, guardados, r.empresa());
             throw new BusinessException("No se pudo relacionar ningún CCO con Creposicion " + idCreposicion);
         }
 
@@ -175,7 +175,7 @@ public class RecepcionAlmacenesServiceImpl {
 
     // Compensación
 
-    private void compensarCreacion(Long idCreposicion, List<Dreposicion> detallesGuardados) {
+    private void compensarCreacion(Long idCreposicion, List<Dreposicion> detallesGuardados,Long  empresa) {
         log.warn("Iniciando compensación para Creposicion: {}", idCreposicion);
 
         detallesGuardados.forEach(detalle -> {
@@ -189,7 +189,6 @@ public class RecepcionAlmacenesServiceImpl {
         });
 
         try {
-            Long empresa = detallesGuardados.getFirst().getId().getEmpresa();
             CreposicionId id = new CreposicionId();
             id.setEmpresa(empresa);
             id.setCodigo(idCreposicion);

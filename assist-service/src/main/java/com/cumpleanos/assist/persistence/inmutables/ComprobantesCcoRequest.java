@@ -7,6 +7,7 @@ public record ComprobantesCcoRequest(
         Long bodega,
         String usuario,
         Long empresa,
+        String observacion,
         List<BigInteger> ccoCodigos
 ) {
 }

@@ -10,7 +10,7 @@ public interface PendingInvoiceHeaderViewRepository extends JpaRepository<FacVer
 
     List<FacVerifiFacingWebV> findAllByOrderByFechaFacDesc();
 
-    List<FacVerifiFacingWebV> findByEmpresaCompraOrderByFechaFacDesc(Long empresaCompra);
+    List<FacVerifiFacingWebV> findByEmpresaCompraAndTipoCodigoOrderByFechaFacDesc(Long empresaCompra, Long tipoCodigo);
 
     List<FacVerifiFacingWebV> findByBodCodigo(Long bodCodigo);
 

@@ -65,6 +65,7 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
 
     @Override
     public void updateEstadoFallidoCreposicion(CreposicionId id) {
+        log.info("Cambiando estado fallido creposicon con error: {} ", id.toString());
         Creposicion c = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("No se encontro Creposicion"));
         c.setEstado(9);
         c.setObservacion("FALLIDO");
