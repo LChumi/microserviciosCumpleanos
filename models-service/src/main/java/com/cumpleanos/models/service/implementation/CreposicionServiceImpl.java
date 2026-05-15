@@ -75,7 +75,7 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
 
     @Override
     public List<Creposicion> getByUsuario(Integer tipo, String usuario, Integer finalizado) {
-        return repository.findByTipoAndUsuarioAndFinalizado(tipo, usuario, finalizado);
+        return repository.findByTipoAndUsuarioAndFinalizadoAndEstadoNot(tipo, usuario, finalizado, 9);
     }
 
     @Override
