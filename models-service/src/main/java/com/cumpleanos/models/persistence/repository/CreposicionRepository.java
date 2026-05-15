@@ -12,5 +12,5 @@ public interface CreposicionRepository extends JpaRepository<Creposicion, Crepos
 
     Creposicion findByReferenciaAndId_Empresa(String referencia, Long idEmpresa);
 
-    List<Creposicion> findByTipoAndUsuarioAndFinalizado(Integer tipo, String usuario, Boolean finalizado);
+    List<Creposicion> findByTipoAndUsuarioAndFinalizado(Integer tipo, String usuario, Integer finalizado);
 }

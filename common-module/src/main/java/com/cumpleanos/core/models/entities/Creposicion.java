@@ -45,7 +45,7 @@ public class Creposicion {
     private Integer estado;
 
     @Column(name = "CRP_FINALIZADO")
-    private Boolean finalizado;
+    private Integer finalizado;
 
     @Column(name = "CRP_USR_LIQUIDA")
     private Long usrLiquida;

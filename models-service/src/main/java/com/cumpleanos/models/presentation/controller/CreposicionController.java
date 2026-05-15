@@ -71,7 +71,7 @@ public class CreposicionController {
             @Parameter(name = "finalizado", description = "Estado del documento")
     })
     @GetMapping("/creposicion/list-user/{tipo}/{usuario}/{finalizado}")
-    public ResponseEntity<List<Creposicion>> listByUser(@PathVariable Integer tipo,@PathVariable String usuario,@PathVariable Boolean finalizado) {
+    public ResponseEntity<List<Creposicion>> listByUser(@PathVariable Integer tipo,@PathVariable String usuario,@PathVariable Integer finalizado) {
         List<Creposicion> result = service.getByUsuario(tipo, usuario, finalizado);
         return ResponseEntity.ok(result);
     }
