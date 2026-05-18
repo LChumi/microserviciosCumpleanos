@@ -58,4 +58,6 @@ public class RecepcionAlmacenesController {
         ServiceResponse productos = recepcionService.detalleProductoPendientesVariosComprobantes(request);
         return ResponseEntity.ok(productos);
     }
+
+
 }

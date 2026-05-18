@@ -8,9 +8,9 @@ import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.common.records.DreposicionDTO;
+import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
-import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.CreposicionId;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.core.models.views.FacRevprodWebV;
@@ -62,6 +62,11 @@ public class RecepcionAlmacenesServiceImpl {
         List<FacRevprodWebV> items = detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
         Creposicion c = createRecepcionUpdateCco(request, items);
         return new ServiceResponse("Revision creada", true);
+    }
+
+    //SCANEO
+    public DreposicionDTO scaneo(RevisionProductoRequest request) {
+        return null;
     }
 
     private Creposicion createRecepcionUpdateCco(ComprobantesCcoRequest r, List<FacRevprodWebV> list) {

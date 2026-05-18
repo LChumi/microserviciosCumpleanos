@@ -41,6 +41,12 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
         return drepo.stream().map(this::build).toList();
     }
 
+    @Override
+    public DreposicionDTO getByCreposicionAndProducto(Long creposicion, String barra, Long empresa) {
+        Dreposicion d = repository.findByCreposicionIdAndId_EmpresaAndProducto_ProId(creposicion, empresa, barra);
+        return build(d);
+    }
+
     private DreposicionDTO build(Dreposicion d) {
         String nombre = d.getProducto() != null ? d.getProducto().getNombre() : null;
         String proId = d.getProducto() != null ? d.getProducto().getProId() : null;

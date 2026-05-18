@@ -47,4 +47,11 @@ public class DreposicionController {
         List<DreposicionDTO> dreposicion = service.getProductsByCreposicion(creposicion);
         return ResponseEntity.ok(dreposicion);
     }
+
+    @Operation(summary = "Obtener detalle", description = "Obtener el producto de dreposicon por su barra")
+    @PostMapping("/dreposicion/get/{barra}/{empresa}/{creposicion}")
+    public ResponseEntity<DreposicionDTO> getByBarra(@PathVariable String barra, @PathVariable Long empresa, @PathVariable Long creposicion) {
+        DreposicionDTO d = service.getByCreposicionAndProducto(creposicion, barra, empresa);
+        return ResponseEntity.ok(d);
+    }
 }
