@@ -139,6 +139,9 @@ public interface IModelsClient {
     @PostMapping("/models/dreposicion/save")
     ResponseEntity<DreposicionDTO> saveDreposicion(@RequestBody Dreposicion dreposicion);
 
+    @GetMapping("/models/dreposicion/get/{barra}/{empresa}/{creposicion}")
+    ResponseEntity<DreposicionDTO> getByBarra(@PathVariable String barra, @PathVariable Long empresa, @PathVariable Long creposicion);
+
     @DeleteMapping("models/dreposicion/delete")
     ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id);
 

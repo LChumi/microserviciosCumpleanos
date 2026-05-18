@@ -1,6 +1,7 @@
 package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.common.records.DreposicionDTO;
+import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.models.service.interfaces.IDreposicionService;
@@ -49,9 +50,9 @@ public class DreposicionController {
     }
 
     @Operation(summary = "Obtener detalle", description = "Obtener el producto de dreposicon por su barra")
-    @PostMapping("/dreposicion/get/{barra}/{empresa}/{creposicion}")
-    public ResponseEntity<DreposicionDTO> getByBarra(@PathVariable String barra, @PathVariable Long empresa, @PathVariable Long creposicion) {
-        DreposicionDTO d = service.getByCreposicionAndProducto(creposicion, barra, empresa);
+    @PostMapping("/dreposicion/getByBarra")
+    public ResponseEntity<DreposicionDTO> getByBarra(@RequestBody RevisionProductoRequest request) {
+        DreposicionDTO d = service.quantityAddedPerCreposicionAndProduct(request);
         return ResponseEntity.ok(d);
     }
 }

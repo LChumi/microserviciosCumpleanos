@@ -1,6 +1,7 @@
 package com.cumpleanos.models.service.implementation;
 
 import com.cumpleanos.common.records.DreposicionDTO;
+import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.models.persistence.repository.DreposicionRepository;
@@ -42,9 +43,54 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
     }
 
     @Override
-    public DreposicionDTO getByCreposicionAndProducto(Long creposicion, String barra, Long empresa) {
-        Dreposicion d = repository.findByCreposicionIdAndId_EmpresaAndProducto_ProId(creposicion, empresa, barra);
-        return build(d);
+    public DreposicionDTO quantityAddedPerCreposicionAndProduct(
+            RevisionProductoRequest r) {
+
+        Dreposicion d = repository
+                .findByCreposicionIdAndId_EmpresaAndProducto_ProId(
+                        r.creposicion(),
+                        r.empresa(),
+                        r.barra());
+
+        if (d == null) {
+            return null;
+        }
+
+        long nuevaCantidad = calcularNuevaCantidad(
+                d.getCantApr(),
+                r.cantidad(),
+                r.shouldAdd());
+
+        d.setCantApr(nuevaCantidad);
+
+        d.setObservacion(
+                "REVISADO POR: " + r.usuario());
+
+        Dreposicion actualizado = repository.save(d);
+
+        return build(actualizado);
+    }
+
+    private long calcularNuevaCantidad(
+            Long actual,
+            Long cantidad,
+            Boolean shouldAdd) {
+
+        long cantidadActual = actual != null
+                ? actual
+                : 0L;
+
+        // si viene cantidad explícita -> reemplazar
+        if (cantidad != null) {
+            return Math.max(0L, cantidad);
+        }
+
+        // si no viene cantidad -> operar +/-1
+        if (Boolean.TRUE.equals(shouldAdd)) {
+            return cantidadActual + 1;
+        }
+
+        return Math.max(0L, cantidadActual - 1);
     }
 
     private DreposicionDTO build(Dreposicion d) {
