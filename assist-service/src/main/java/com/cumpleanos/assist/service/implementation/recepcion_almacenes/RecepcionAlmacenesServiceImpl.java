@@ -44,7 +44,7 @@ public class RecepcionAlmacenesServiceImpl {
         return headerViewRepository.findAllByOrderByFechaFacDesc();
     }
 
-    public List<FacVerifiFacingWebV> getComprobantesByEmpresaAndTipo(Long empresa,Long tipo) {
+    public List<FacVerifiFacingWebV> getComprobantesByEmpresaAndTipo(Long empresa, Long tipo) {
         return headerViewRepository.findByEmpresaCompraAndTipoCodigoOrderByFechaFacDesc(empresa, tipo);
     }
 
@@ -60,7 +60,7 @@ public class RecepcionAlmacenesServiceImpl {
 
     public ServiceResponse detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request) {
         List<FacRevprodWebV> items = detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
-        Creposicion c =createRecepcionUpdateCco(request, items);
+        Creposicion c = createRecepcionUpdateCco(request, items);
         return new ServiceResponse("Revision creada", true);
     }
 
@@ -177,7 +177,7 @@ public class RecepcionAlmacenesServiceImpl {
 
     // Compensación
 
-    private void compensarCreacion(Long idCreposicion, List<DreposicionDTO> detallesGuardados,Long  empresa) {
+    private void compensarCreacion(Long idCreposicion, List<DreposicionDTO> detallesGuardados, Long empresa) {
         log.warn("Iniciando compensación para Creposicion: {}", idCreposicion);
 
         detallesGuardados.forEach(detalle -> {
