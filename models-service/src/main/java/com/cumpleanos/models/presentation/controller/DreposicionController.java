@@ -1,5 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
+import com.cumpleanos.common.records.DreposicionDTO;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.models.service.interfaces.IDreposicionService;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -26,19 +29,9 @@ public class DreposicionController {
             @ApiResponse(responseCode = "200", description = "Dreposicion creada")
     })
     @PostMapping("/dreposicion/save")
-    public ResponseEntity<Dreposicion> save(@RequestBody Dreposicion dreposicion) {
-        Dreposicion dreposicionSave = service.save(dreposicion);
+    public ResponseEntity<DreposicionDTO> save(@RequestBody Dreposicion dreposicion) {
+        DreposicionDTO dreposicionSave = service.saveDetail(dreposicion);
         return ResponseEntity.status(HttpStatus.CREATED).body(dreposicionSave);
-    }
-
-    @Operation(summary = "Obtener Dreposicion", description = "Obtiene Dreposicion por codigo y empresa ")
-    @GetMapping("/dreposicion/get/{codigo}/{empresa}")
-    public ResponseEntity<Dreposicion> getDreposicion(@PathVariable Long codigo, @PathVariable Long empresa) {
-        DreposicionId id = new DreposicionId();
-        id.setCodigo(codigo);
-        id.setEmpresa(empresa);
-        Dreposicion dreposicion = service.findById(id);
-        return ResponseEntity.ok(dreposicion);
     }
 
     @Operation(summary = "Eliminar Dreposicion", description = "Elimina dreposicion en intento fallido")
@@ -46,5 +39,12 @@ public class DreposicionController {
     public ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Obtener Lista", description = "Obtiene Lista Dreposicion por codigo cabecera creposicion ")
+    @GetMapping("/dreposicion/get/{creposicion}")
+    public ResponseEntity<List<DreposicionDTO>> getDreposicion(@PathVariable Long creposicion) {
+        List<DreposicionDTO> dreposicion = service.getProductsByCreposicion(creposicion);
+        return ResponseEntity.ok(dreposicion);
     }
 }

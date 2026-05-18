@@ -70,7 +70,7 @@ public class Dreposicion {
     @Column(name = "DRP_PRODUCTO")
     private Long productoId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DRP_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DRP_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
@@ -81,7 +81,7 @@ public class Dreposicion {
     @Column(name= "DRP_CREPOSICION")
     private Long creposicionId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DRP_CREPOSICION", referencedColumnName = "CRP_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "DRP_EMPRESA", referencedColumnName = "CRP_EMPRESA", insertable = false, updatable = false)

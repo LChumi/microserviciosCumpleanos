@@ -76,4 +76,10 @@ public class CreposicionController {
         return ResponseEntity.ok(result);
     }
 
+    @Operation(summary = "Obtiene creposicion", description = "Obtiene dato por su Id")
+    @PostMapping("/creposicion/get-by-id")
+    public ResponseEntity<Creposicion> getById(@RequestBody CreposicionId id) {
+        Creposicion result = service.findById(id);
+        return ResponseEntity.ok(result);
+    }
 }
