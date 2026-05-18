@@ -7,10 +7,12 @@ import com.cumpleanos.assist.service.exception.BusinessException;
 import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.records.AlmacenDTO;
+import com.cumpleanos.common.records.DreposicionDTO;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.CreposicionId;
+import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.core.models.views.FacRevprodWebV;
 import com.cumpleanos.core.models.views.FacVerifiFacingWebV;
 import jakarta.persistence.EntityNotFoundException;
@@ -74,7 +76,7 @@ public class RecepcionAlmacenesServiceImpl {
         Creposicion cabecera = crearYGuardarCabecera(r, alm, bod);
         Long idCreposicion = cabecera.getId().getCodigo();
 
-        List<Dreposicion> guardados = guardarDetalles(r.usuario(), list, idCreposicion, r.empresa());
+        List<DreposicionDTO> guardados = guardarDetalles(r.usuario(), list, idCreposicion, r.empresa());
         procesarCcos(r, idCreposicion, guardados);
 
         return cabecera;
@@ -104,15 +106,15 @@ public class RecepcionAlmacenesServiceImpl {
 
     // Detalles
 
-    private List<Dreposicion> guardarDetalles(String usuario, List<FacRevprodWebV> list, Long idCreposicion, Long empresa) {
+    private List<DreposicionDTO> guardarDetalles(String usuario, List<FacRevprodWebV> list, Long idCreposicion, Long empresa) {
         log.info("Guardando {} detalles...", list.size());
 
         List<String> errores = new ArrayList<>();
-        List<Dreposicion> guardados = new ArrayList<>();
+        List<DreposicionDTO> guardados = new ArrayList<>();
 
         for (FacRevprodWebV producto : list) {
             try {
-                Dreposicion d = modelsService.saveDreposicion(crearDetalle(usuario, producto, idCreposicion));
+                DreposicionDTO d = modelsService.saveDreposicion(crearDetalle(usuario, producto, idCreposicion));
                 if (d != null) {
                     guardados.add(d);
                     log.debug("Detalle guardado - producto: {}", producto.getProCodigo());
@@ -137,7 +139,7 @@ public class RecepcionAlmacenesServiceImpl {
 
     // CCOs
 
-    private void procesarCcos(ComprobantesCcoRequest r, Long idCreposicion, List<Dreposicion> guardados) {
+    private void procesarCcos(ComprobantesCcoRequest r, Long idCreposicion, List<DreposicionDTO> guardados) {
         log.info("Relacionando {} CCOs a Creposicion {}...", r.ccoCodigos().size(), idCreposicion);
 
         Map<Boolean, List<BigInteger>> resultado = r.ccoCodigos().stream()
@@ -175,16 +177,19 @@ public class RecepcionAlmacenesServiceImpl {
 
     // Compensación
 
-    private void compensarCreacion(Long idCreposicion, List<Dreposicion> detallesGuardados,Long  empresa) {
+    private void compensarCreacion(Long idCreposicion, List<DreposicionDTO> detallesGuardados,Long  empresa) {
         log.warn("Iniciando compensación para Creposicion: {}", idCreposicion);
 
         detallesGuardados.forEach(detalle -> {
+            DreposicionId id = new DreposicionId();
+            id.setEmpresa(empresa);
+            id.setCodigo(detalle.codigo());
             try {
-                modelsService.deleteDreposicion(detalle.getId());
-                log.debug("Detalle eliminado: {}", detalle.getId());
+                modelsService.deleteDreposicion(id);
+                log.debug("Detalle eliminado: {}", detalle.codigo());
             } catch (Exception e) {
-                log.error("No se pudo eliminar detalle {}: {}", detalle.getId(), e.getMessage());
-                marcarParaLimpiezaManual("detalle", detalle.getId());
+                log.error("No se pudo eliminar detalle {}: {}", id, e.getMessage());
+                marcarParaLimpiezaManual("detalle", id);
             }
         });
 

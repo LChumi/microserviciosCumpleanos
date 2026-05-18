@@ -137,7 +137,7 @@ public interface IModelsClient {
     //ECOMMERCE
     //TODO servicio que viene del controlador DreposicionController
     @PostMapping("/models/dreposicion/save")
-    ResponseEntity<Dreposicion> saveDreposicion(@RequestBody Dreposicion dreposicion);
+    ResponseEntity<DreposicionDTO> saveDreposicion(@RequestBody Dreposicion dreposicion);
 
     @DeleteMapping("models/dreposicion/delete")
     ResponseEntity<Void> deleteDreposicion(@RequestBody DreposicionId id);

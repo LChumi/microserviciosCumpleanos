@@ -179,7 +179,7 @@ public class ClientServiceImpl {
     }
 
     //DREPOSICION
-    public Dreposicion saveDreposicion(Dreposicion d) {
+    public DreposicionDTO saveDreposicion(Dreposicion d) {
         return HttpResponseHandler.handle(() -> modelsClient.saveDreposicion(d),
                 "Error al guardar el dreposicion en la empresa: " + d.getId().getEmpresa());
     }
