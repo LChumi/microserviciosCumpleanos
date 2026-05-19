@@ -3,22 +3,27 @@ package com.cumpleanos.models.service.implementation;
 import com.cumpleanos.common.records.DreposicionDTO;
 import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.core.models.entities.Dreposicion;
+import com.cumpleanos.core.models.entities.Producto;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.models.persistence.repository.DreposicionRepository;
+import com.cumpleanos.models.persistence.repository.ProductoRepository;
 import com.cumpleanos.models.service.interfaces.IDreposicionService;
 import com.cumpleanos.models.utils.enums.Sequence;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, DreposicionId> implements IDreposicionService {
 
     private final DreposicionRepository repository;
+    private final ProductoRepository productoRepository;
 
     @Override
     public CrudRepository<Dreposicion, DreposicionId> getRepository() {
@@ -43,8 +48,7 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
     }
 
     @Override
-    public DreposicionDTO quantityAddedPerCreposicionAndProduct(
-            RevisionProductoRequest r) {
+    public DreposicionDTO quantityAddedPerCreposicionAndProduct(RevisionProductoRequest r) {
 
         Dreposicion d = repository
                 .findByCreposicionIdAndId_EmpresaAndProducto_ProId(
@@ -56,19 +60,38 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
             return null;
         }
 
-        long nuevaCantidad = calcularNuevaCantidad(
-                d.getCantApr(),
-                r.cantidad(),
-                r.shouldAdd());
+        long nuevaCantidad = calcularNuevaCantidad(d.getCantApr(), r.cantidad(), r.shouldAdd());
 
         d.setCantApr(nuevaCantidad);
 
-        d.setObservacion(
-                "REVISADO POR: " + r.usuario());
+        d.setObservacion(calcularObservacion(d.getCantSol(), nuevaCantidad));
 
         Dreposicion actualizado = repository.save(d);
 
         return build(actualizado);
+    }
+
+    @Override
+    public DreposicionDTO saveDetailByProId(RevisionProductoRequest r) {
+        Producto prod = productoRepository.findById_EmpresaAndProId(r.empresa(), r.barra()).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+        Long codigo = getNextSequenceValue(Sequence.DREPOSICIONCODIGO);
+
+        DreposicionId id = new DreposicionId();
+        id.setCodigo(codigo);
+        id.setEmpresa(r.empresa());
+
+        Dreposicion d = new Dreposicion();
+        d.setId(id);
+        d.setUsuario(r.usuario());
+        d.setObservacion("PRODUCTO NO REGISTRADO EN LA LISTA ORIGNAL");
+        d.setProductoId(prod.getId().getCodigo());
+        d.setCantSol(0L);
+        d.setCantApr(1L);
+        d.setPrecio(prod.getPrecio2());
+        d.setCreposicionId(r.creposicion());
+
+        Dreposicion guardado = repository.save(d);
+        return build(guardado);
     }
 
     private long calcularNuevaCantidad(
@@ -91,6 +114,29 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
         }
 
         return Math.max(0L, cantidadActual - 1);
+    }
+
+    private String calcularObservacion(
+            Long cantSol,
+            Long cantApr) {
+
+        long solicitada = cantSol != null
+                ? cantSol
+                : 0L;
+
+        long aprobada = cantApr != null
+                ? cantApr
+                : 0L;
+
+        if (aprobada == solicitada) {
+            return "COMPLETO";
+        }
+
+        if (aprobada < solicitada) {
+            return "FALTANTE";
+        }
+
+        return "SOBRANTE";
     }
 
     private DreposicionDTO build(Dreposicion d) {

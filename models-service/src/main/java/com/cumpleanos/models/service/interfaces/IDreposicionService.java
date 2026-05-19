@@ -14,4 +14,6 @@ public interface IDreposicionService extends GenericService<Dreposicion, Dreposi
     List<DreposicionDTO> getProductsByCreposicion(Long creposicion);
 
     DreposicionDTO quantityAddedPerCreposicionAndProduct(RevisionProductoRequest request);
+
+    DreposicionDTO saveDetailByProId(RevisionProductoRequest request);
 }

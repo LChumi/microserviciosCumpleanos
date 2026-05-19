@@ -55,4 +55,11 @@ public class DreposicionController {
         DreposicionDTO d = service.quantityAddedPerCreposicionAndProduct(request);
         return ResponseEntity.ok(d);
     }
+
+    @Operation(summary = "guardar detalle", description = "Obtener el producto y le agrega en creposicion")
+    @PostMapping("/dreposicion/saveByBarra")
+    public ResponseEntity<DreposicionDTO> saveByBarra(@RequestBody RevisionProductoRequest request) {
+        DreposicionDTO d = service.saveDetailByProId(request);
+        return ResponseEntity.ok(d);
+    }
 }
