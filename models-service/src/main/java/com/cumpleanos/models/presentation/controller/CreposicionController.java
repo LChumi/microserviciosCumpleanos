@@ -64,6 +64,13 @@ public class CreposicionController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Actualiza creposicion", description = "Creposicion revision finalizado")
+    @PutMapping("/creposicion/revision-finalizado")
+    public ResponseEntity<Void> revisionFinalizado(@RequestBody CreposicionId id) {
+        service.updateRevisionFinalizado(id);
+        return ResponseEntity.ok().build();
+    }
+
     @Operation(summary = "Lista Creposicion", description = "Listado de creposicion por Usuario Tipo y finalizado")
     @Parameters({
             @Parameter(name = "tipo", description = "Tipo de creposicion"),

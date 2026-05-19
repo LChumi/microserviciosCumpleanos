@@ -16,5 +16,7 @@ public interface ICreposicionService extends GenericService<Creposicion, Creposi
 
     void updateEstadoFallidoCreposicion(CreposicionId id);
 
+    Creposicion updateRevisionFinalizado(CreposicionId id);
+
     List<Creposicion> getByUsuario(Integer tipo, String usuario, Integer finalizado);
 }

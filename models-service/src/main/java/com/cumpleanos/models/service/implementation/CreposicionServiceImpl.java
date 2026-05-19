@@ -74,6 +74,15 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     }
 
     @Override
+    public Creposicion updateRevisionFinalizado(CreposicionId id) {
+        Creposicion c = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("No se encontro Creposicion"));
+        c.setFinalizado(1);
+        String obs = c.getObservacion() + " FINALIZADO";
+        c.setObservacion(obs);
+        return repository.save(c);
+    }
+
+    @Override
     public List<Creposicion> getByUsuario(Integer tipo, String usuario, Integer finalizado) {
         return repository.findByTipoAndUsuarioAndFinalizadoAndEstadoNot(tipo, usuario, finalizado, 9);
     }
