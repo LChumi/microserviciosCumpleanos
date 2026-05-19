@@ -88,6 +88,7 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
         d.setCantApr(1L);
         d.setPrecio(prod.getPrecio2());
         d.setCreposicionId(r.creposicion());
+        d.setProducto(prod);
 
         Dreposicion guardado = repository.save(d);
         return build(guardado);
