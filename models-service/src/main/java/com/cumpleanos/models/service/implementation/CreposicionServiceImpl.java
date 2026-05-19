@@ -2,8 +2,10 @@ package com.cumpleanos.models.service.implementation;
 
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
+import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.CreposicionId;
 import com.cumpleanos.models.persistence.repository.CreposicionRepository;
+import com.cumpleanos.models.persistence.repository.DreposicionRepository;
 import com.cumpleanos.models.service.interfaces.ICreposicionService;
 import com.cumpleanos.models.utils.enums.Sequence;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +24,7 @@ import java.util.List;
 public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, CreposicionId> implements ICreposicionService {
 
     private final CreposicionRepository repository;
+    private final DreposicionRepository dreposicionRepository;
 
     @Override
     public CrudRepository<Creposicion, CreposicionId> getRepository() {
@@ -79,6 +82,23 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
         c.setFinalizado(1);
         String obs = c.getObservacion() + " FINALIZADO";
         c.setObservacion(obs);
+
+        List<Dreposicion> dList = dreposicionRepository.findByCreposicionId(id.getCodigo());
+        if (dList.isEmpty()) {
+            c.setEstado(0);
+        }else {
+            dList.forEach(d -> {
+
+                if (d.getObservacion() == null
+                        || d.getObservacion().isBlank()) {
+
+                    d.setObservacion("NO LLEGO");
+                }
+            });
+
+            dreposicionRepository.saveAll(dList);
+        }
+
         return repository.save(c);
     }
 
