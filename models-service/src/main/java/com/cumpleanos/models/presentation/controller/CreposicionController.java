@@ -82,6 +82,18 @@ public class CreposicionController {
         List<Creposicion> result = service.getByUsuario(tipo, usuario, finalizado);
         return ResponseEntity.ok(result);
     }
+    @Operation(summary = "Lista Creposicion", description = "Listado de creposicion Tipo y finalizado")
+    @Parameters({
+            @Parameter(name = "tipo", description = "Tipo de creposicion"),
+            @Parameter(name = "usuario", description = "Id de usuario"),
+            @Parameter(name = "finalizado", description = "Estado del documento")
+    })
+    @GetMapping("/creposicion/list-finalizados/{tipo}/{finalizado}")
+    public ResponseEntity<List<Creposicion>> listByFinalizados(@PathVariable Integer tipo,@PathVariable Integer finalizado) {
+        List<Creposicion> result = service.getByTipoAndFinalizado(tipo, finalizado);
+        return ResponseEntity.ok(result);
+    }
+
 
     @Operation(summary = "Obtiene creposicion", description = "Obtiene dato por su Id")
     @PostMapping("/creposicion/get-by-id")

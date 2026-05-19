@@ -108,6 +108,11 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     }
 
     @Override
+    public List<Creposicion> getByTipoAndFinalizado(Integer tipo, Integer finalizado) {
+        return repository.findByTipoAndFinalizadoAndEstadoNot(tipo, finalizado, 9);
+    }
+
+    @Override
     public Creposicion save(Creposicion entity) {
         Long codigo = getNextSequenceValue(Sequence.CREPOSICIONCODIGO);
         CreposicionId id = new CreposicionId();
