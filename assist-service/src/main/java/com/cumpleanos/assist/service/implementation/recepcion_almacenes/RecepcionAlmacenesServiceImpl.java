@@ -28,8 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.cumpleanos.assist.utils.ReposicionAlmacenUtil.crearDetalle;
-import static com.cumpleanos.assist.utils.ReposicionAlmacenUtil.generarCabeceraRevision;
+import static com.cumpleanos.assist.utils.ReposicionAlmacenUtil.*;
 
 @Slf4j
 @Service
@@ -61,12 +60,8 @@ public class RecepcionAlmacenesServiceImpl {
     public ServiceResponse detalleProductoPendientesVariosComprobantes(ComprobantesCcoRequest request) {
         List<FacRevprodWebV> items = detailViewRepository.findByCcoCodigoIn(request.ccoCodigos());
         Creposicion c = createRecepcionUpdateCco(request, items);
-        return new ServiceResponse("Revision creada", true);
-    }
-
-    //SCANEO
-    public DreposicionDTO scaneo(RevisionProductoRequest request) {
-        return null;
+        String codigo = c.getId().getCodigo().toString();
+        return new ServiceResponse(codigo, true);
     }
 
     private Creposicion createRecepcionUpdateCco(ComprobantesCcoRequest r, List<FacRevprodWebV> list) {
@@ -112,6 +107,9 @@ public class RecepcionAlmacenesServiceImpl {
     // Detalles
 
     private List<DreposicionDTO> guardarDetalles(String usuario, List<FacRevprodWebV> list, Long idCreposicion, Long empresa) {
+
+        list = agruparProductos(list);
+
         log.info("Guardando {} detalles...", list.size());
 
         List<String> errores = new ArrayList<>();

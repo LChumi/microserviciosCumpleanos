@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -141,6 +142,18 @@ public class Creposicion {
 
     @Column(name = "CRP_LOG_ERROR", length = 3000)
     private String logError;
+
+    @Column(name = "CREA_USR", length = 50)
+    private String creaUsr;
+
+    @Column(name = "CREA_FECHA")
+    private LocalDateTime creaFecha;
+
+    @Column(name = "MOD_USR", length = 50)
+    private String modUsr;
+
+    @Column(name = "MOD_FECHA")
+    private LocalDateTime modFecha;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({

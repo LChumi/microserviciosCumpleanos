@@ -8,6 +8,11 @@ import com.cumpleanos.core.models.views.FacRevprodWebV;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.cumpleanos.core.models.enums.CreposicionTiposEnum.*;
 
@@ -30,6 +35,7 @@ public final class ReposicionAlmacenUtil {
         c.setUsuario(usuario);
         c.setObservacion(observacion);
         c.setFecha(LocalDate.now());
+        c.setCreaFecha(LocalDateTime.now());
         c.setEstado(ESTADO_PROCESO.getCodigo());
         c.setFinalizado(NO_FINALIZADO.getCodigo());
         c.setAlmacenId(almacen);
@@ -62,6 +68,28 @@ public final class ReposicionAlmacenUtil {
         d.setPrecio(precio);
         d.setTotal(total);
         return d;
+    }
+
+    public static List<FacRevprodWebV> agruparProductos(List<FacRevprodWebV> list){
+        Map<Long, FacRevprodWebV> agrupados = new HashMap<>();
+
+        for (FacRevprodWebV item : list) {
+            Long proCodigo = item.getProCodigo();
+
+            if (!agrupados.containsKey(proCodigo)){
+                agrupados.put(proCodigo, item);
+                continue;
+            }
+
+            FacRevprodWebV existente = agrupados.get(proCodigo);
+
+            int cantidadActual = existente.getCantidad() != null ? existente.getCantidad() : 0;
+
+            int cantidadNueva = item.getCantidad() != null ? item.getCantidad() : 0;
+
+            existente.setCantidad(cantidadActual + cantidadNueva);
+        }
+        return new ArrayList<>(agrupados.values());
     }
 
 }

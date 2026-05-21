@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -82,6 +83,7 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
         c.setFinalizado(1);
         String obs = c.getObservacion() + " FINALIZADO";
         c.setObservacion(obs);
+        c.setModFecha(LocalDateTime.now());
 
         List<Dreposicion> dList = dreposicionRepository.findByCreposicionId(id.getCodigo());
         if (dList.isEmpty()) {
