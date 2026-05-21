@@ -28,7 +28,10 @@ public final class ReposicionAlmacenUtil {
         CreposicionId id = new CreposicionId();
         id.setEmpresa(empresa);
 
-        String observacion= OBS + obs;
+        String observacion = OBS + obs;
+        if (observacion.length() > 255) {
+            observacion = observacion.substring(0, 255);
+        }
 
         Creposicion c = new Creposicion();
         c.setId(id);
@@ -36,11 +39,11 @@ public final class ReposicionAlmacenUtil {
         c.setObservacion(observacion);
         c.setFecha(LocalDate.now());
         c.setCreaFecha(LocalDateTime.now());
-        c.setEstado(ESTADO_PROCESO.getCodigo());
+        c.setEstado(ESTADO_APROBAR.getCodigo());
         c.setFinalizado(NO_FINALIZADO.getCodigo());
         c.setAlmacenId(almacen);
         c.setBodegaId(bodega);
-        c.setReferencia(obs);
+        c.setReferencia(observacion);
         c.setTipo(TIPO_REVISION_MER.getCodigo());
         return c;
     }
