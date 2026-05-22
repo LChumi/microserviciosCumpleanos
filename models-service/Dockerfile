@@ -9,8 +9,4 @@ COPY target/*.jar app.jar
 
 USER 1000
 
-ENTRYPOINT ["java", \
-  "-Duser.timezone=America/Guayaquil",
-  "-XX:+UseContainerSupport", \
-  "-XX:MaxRAMPercentage=75.0", \
-  "-jar", "app.jar"]
+ENTRYPOINT ["java","-Duser.timezone=America/Guayaquil","-XX:+UseContainerSupport","-XX:MaxRAMPercentage=75.0","-jar","app.jar"]
