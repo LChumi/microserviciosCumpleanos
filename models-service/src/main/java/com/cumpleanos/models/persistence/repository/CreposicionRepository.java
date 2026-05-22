@@ -5,6 +5,7 @@ import com.cumpleanos.core.models.ids.CreposicionId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -12,7 +13,7 @@ public interface CreposicionRepository extends JpaRepository<Creposicion, Crepos
 
     Creposicion findByReferenciaAndId_Empresa(String referencia, Long idEmpresa);
 
-    List<Creposicion> findByTipoAndUsuarioAndFinalizadoAndEstadoNot(Integer tipo, String usuario, Integer finalizado, Integer estado);
+    List<Creposicion> findByTipoAndUsuarioAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(Integer tipo, String usuario, Integer finalizado, Integer estado, LocalDate fechaAfter, LocalDate fechaBefore);
 
-    List<Creposicion> findByTipoAndFinalizadoAndEstadoNot(Integer tipo, Integer finalizado, Integer estado);
+    List<Creposicion> findByTipoAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(Integer tipo, Integer finalizado, Integer estado, LocalDate fechaAfter, LocalDate fechaBefore);
 }

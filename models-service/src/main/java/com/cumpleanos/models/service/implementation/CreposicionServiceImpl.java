@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -106,12 +108,18 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
 
     @Override
     public List<Creposicion> getByUsuario(Integer tipo, String usuario, Integer finalizado) {
-        return repository.findByTipoAndUsuarioAndFinalizadoAndEstadoNot(tipo, usuario, finalizado, 9);
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY);
+        return repository.findByTipoAndUsuarioAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(tipo, usuario, finalizado, 9, startOfWeek, endOfWeek);
     }
 
     @Override
     public List<Creposicion> getByTipoAndFinalizado(Integer tipo, Integer finalizado) {
-        return repository.findByTipoAndFinalizadoAndEstadoNot(tipo, finalizado, 9);
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY);
+        return repository.findByTipoAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(tipo, finalizado, 9, startOfWeek, endOfWeek);
     }
 
     @Override
