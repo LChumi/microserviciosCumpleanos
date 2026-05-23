@@ -85,7 +85,6 @@ public class CreposicionController {
     @Operation(summary = "Lista Creposicion", description = "Listado de creposicion Tipo y finalizado")
     @Parameters({
             @Parameter(name = "tipo", description = "Tipo de creposicion"),
-            @Parameter(name = "usuario", description = "Id de usuario"),
             @Parameter(name = "finalizado", description = "Estado del documento")
     })
     @GetMapping("/creposicion/list-finalizados/{tipo}/{finalizado}")

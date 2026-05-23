@@ -162,6 +162,9 @@ public class Ccomproba {
     @Column(name = "CCO_CREPOSICION")
     private Long creposicion;
 
+    @Column(name = "CCO_CREP_EMP")
+    private Long crepoEmp;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CCO_MODULO")
     @OnDelete(action = OnDeleteAction.RESTRICT)

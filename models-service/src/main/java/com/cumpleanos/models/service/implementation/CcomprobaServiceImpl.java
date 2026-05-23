@@ -49,12 +49,10 @@ public class CcomprobaServiceImpl extends GenericServiceImpl<Ccomproba, Ccomprob
 
     @Override
     public Boolean addCreposicion(BigInteger cco, Long creposicion, Long empresa) {
-        CcomprobaId id = new CcomprobaId();
-        id.setCodigo(cco);
-        id.setEmpresa(empresa);
 
-        Ccomproba c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el comprobante "));
+        Ccomproba c = repository.findById_Codigo(cco).orElseThrow(() -> new EntityNotFoundException("No se encontro el comprobante "));
         c.setCreposicion(creposicion);
+        c.setCrepoEmp(empresa);
         repository.save(c);
         return true;
     }
