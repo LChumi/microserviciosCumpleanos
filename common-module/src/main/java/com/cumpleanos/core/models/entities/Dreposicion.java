@@ -78,7 +78,7 @@ public class Dreposicion {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Producto producto;
 
-    @Column(name= "DRP_CREPOSICION")
+    @Column(name = "DRP_CREPOSICION")
     private Long creposicionId;
 
     @ManyToOne(fetch = FetchType.EAGER)

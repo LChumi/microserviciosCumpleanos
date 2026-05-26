@@ -117,9 +117,15 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     @Override
     public List<Creposicion> getByTipoAndFinalizado(Integer tipo, Integer finalizado) {
         LocalDate today = LocalDate.now();
-        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
-        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY).plusWeeks(1);
-        return repository.findByTipoAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(tipo, finalizado, 9, startOfWeek, endOfWeek);
+
+        // Inicio: lunes de la semana anterior (retrocede 1 semana)
+        LocalDate startOfTwoWeeksAgo = today.with(DayOfWeek.MONDAY).minusWeeks(1);
+        // Fin: domingo de la semana actual
+        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY);
+
+        return repository.findByTipoAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(
+                tipo, finalizado, 9, startOfTwoWeeksAgo, endOfWeek
+        );
     }
 
     @Override
