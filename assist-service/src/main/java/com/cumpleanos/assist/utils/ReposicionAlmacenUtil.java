@@ -43,7 +43,7 @@ public final class ReposicionAlmacenUtil {
         c.setFinalizado(NO_FINALIZADO.getCodigo());
         c.setAlmacenId(almacen);
         c.setBodegaId(bodega);
-        c.setReferencia(observacion);
+        c.setReferencia(obs);
         c.setTipo(TIPO_REVISION_MER.getCodigo());
         return c;
     }

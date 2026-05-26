@@ -63,6 +63,8 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
 
         d.setCantApr(nuevaCantidad);
 
+        d.setUsuario(r.usuario());
+
         d.setObservacion(calcularObservacion(d.getCantSol(), nuevaCantidad));
 
         Dreposicion actualizado = repository.save(d);
@@ -81,11 +83,11 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
 
         Dreposicion d = new Dreposicion();
         d.setId(id);
-        d.setUsuario(r.usuario());
         d.setObservacion("PRODUCTO NO REGISTRADO EN LA LISTA ORIGNAL");
         d.setProductoId(prod.getId().getCodigo());
         d.setCantSol(0L);
         d.setCantApr(1L);
+        d.setUsuario(r.usuario());
         d.setPrecio(prod.getPrecio2());
         d.setCreposicionId(r.creposicion());
         d.setProducto(prod);
