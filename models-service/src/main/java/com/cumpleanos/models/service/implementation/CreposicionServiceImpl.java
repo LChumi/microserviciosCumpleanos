@@ -85,7 +85,9 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
         c.setFinalizado(1);
         String obs = c.getObservacion() + " FINALIZADO";
         c.setObservacion(obs);
-        c.setModFecha(LocalDateTime.now());
+        if (c.getModFecha() == null){
+            c.setModFecha(LocalDateTime.now());
+        }
 
         List<Dreposicion> dList = dreposicionRepository.findByCreposicionId(id.getCodigo());
         if (dList.isEmpty()) {
