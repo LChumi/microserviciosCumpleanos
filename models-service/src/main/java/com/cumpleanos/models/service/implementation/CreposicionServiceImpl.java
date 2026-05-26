@@ -87,6 +87,8 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
         c.setObservacion(obs);
         if (c.getModFecha() == null){
             c.setModFecha(LocalDateTime.now());
+        }else{
+            c.setModUsr("ADMINISTRADOR");
         }
 
         List<Dreposicion> dList = dreposicionRepository.findByCreposicionId(id.getCodigo());
