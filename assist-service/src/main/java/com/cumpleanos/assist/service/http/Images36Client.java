@@ -14,7 +14,10 @@ public interface Images36Client {
     ResponseEntity<byte[]> getImageProduct(@PathVariable String imageName);
 
     @GetMapping(value = "/producto/{imageName}/bunna", produces = MediaType.ALL_VALUE)
-     ResponseEntity<byte[]> getImageProductBunna(@PathVariable String imageName);
+    ResponseEntity<byte[]> getImageProductBunna(@PathVariable String imageName);
+
+    @GetMapping(value = "/producto/{imageName}/interiori", produces = MediaType.ALL_VALUE)
+    ResponseEntity<byte[]> getImageProductInteriori(@PathVariable String imageName);
 
     @GetMapping(value = "/usuario/{usrid}", produces = MediaType.ALL_VALUE)
     ResponseEntity<byte[]> getImageUser(@PathVariable String usrid);
