@@ -1,6 +1,7 @@
 package com.cumpleanos.core.models.entities;
 
 import com.cumpleanos.core.models.ids.ClienteId;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -269,6 +270,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "CAT_EMPRESA", insertable = false, updatable = false)
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private CatCliente catCliente;
 
     @Column(name = "CLI_TIPOCLI")
@@ -279,6 +281,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_TIPOCLI", referencedColumnName = "TCL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "TCL_EMPRESA", insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private TipCliente tipCliente;
 
@@ -290,6 +293,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_CIUDAD", referencedColumnName = "UBI_CODIGO",nullable = false, insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA",nullable = false, insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion ciudad;
 
@@ -301,6 +305,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_PARROQUIA", referencedColumnName = "UBI_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "UBI_EMPRESA", insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Ubicacion parroquia;
 
@@ -312,6 +317,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_AGENTE", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente;
 
@@ -323,6 +329,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_POLITICAS", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politica;
 
@@ -334,6 +341,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_POLITICAS_ADI", referencedColumnName = "POL_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "POL_EMPRESA", insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Politica politicaAdi;
 
@@ -345,6 +353,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_LISTAPRE", referencedColumnName = "LPR_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "LPR_EMPRESA", insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private ListaPre listaPre;
 
@@ -356,6 +365,7 @@ public class Cliente {
             @JoinColumn(name = "CLI_AGENTE2", referencedColumnName = "AGE_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CLI_EMPRESA", referencedColumnName = "AGE_EMPRESA", insertable = false, updatable = false)
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Agente agente2;
 

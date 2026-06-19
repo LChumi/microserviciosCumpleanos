@@ -1,6 +1,7 @@
 package com.cumpleanos.core.models.entities;
 
 import com.cumpleanos.core.models.ids.AlmacenId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -138,6 +139,7 @@ public class Almacen {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Bodega bodega;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "ALM_CLI_VARIOS", referencedColumnName = "CLI_CODIGO", insertable = false, updatable = false),
