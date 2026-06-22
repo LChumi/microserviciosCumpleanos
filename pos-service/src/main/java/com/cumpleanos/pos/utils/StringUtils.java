@@ -27,4 +27,8 @@ public final class StringUtils {
         }
     }
 
+    public static String convertHora(String hora){
+        return hora.replace(":", "");
+    }
+
 }

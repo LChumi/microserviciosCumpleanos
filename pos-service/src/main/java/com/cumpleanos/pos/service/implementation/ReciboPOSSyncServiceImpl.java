@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.cumpleanos.pos.utils.DateUtils.*;
+import static com.cumpleanos.pos.utils.StringUtils.convertHora;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -349,7 +350,9 @@ public class ReciboPOSSyncServiceImpl implements IReciboPOSSyncService {
             pp.setTipoTransaccion("04");
         }
 
-        pp.setHora(v.getHora());
+        if (v.getHora() != null && !v.getHora().isEmpty()){
+            pp.setHora(convertHora(v.getHora()));
+        }
         pp.setCodigoDiferido(codigoDiferido);
         pp.setPlazo(plazo);
 
