@@ -30,7 +30,7 @@ public class UsuarioFavoritoController {
             @Parameter(name = "empresa", description = "Código de la empresa", in = ParameterIn.PATH)
     })
     @GetMapping("/favoritos/{usuario}/{empresa}")
-    public ResponseEntity<Set<UsuarioFavoritos>> listByUser(@PathVariable("usuario") Long usuario, @PathVariable("empresa") Long empresa) {
+    public ResponseEntity<Set<UsuarioFavoritos>> listByUser(@PathVariable Long usuario, @PathVariable Long empresa) {
         Set<UsuarioFavoritos> favoritos = service.getFavoritosByUserAndEmpresa(usuario, empresa);
         return ResponseEntity.ok(favoritos);
     }
