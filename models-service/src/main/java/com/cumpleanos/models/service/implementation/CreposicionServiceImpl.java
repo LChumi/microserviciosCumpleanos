@@ -83,7 +83,13 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     public Creposicion updateRevisionFinalizado(CreposicionId id) {
         Creposicion c = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("No se encontro Creposicion"));
         c.setFinalizado(1);
-        String obs = c.getObservacion() + " FINALIZADO";
+        String obs = c.getObservacion();
+        if (obs == null) {
+            obs = "";
+        }
+        if (!obs.endsWith(" FINALIZADO")) {
+            obs = obs + " FINALIZADO";
+        }
         c.setObservacion(obs);
         if (c.getModFecha() == null){
             c.setModFecha(LocalDateTime.now());
