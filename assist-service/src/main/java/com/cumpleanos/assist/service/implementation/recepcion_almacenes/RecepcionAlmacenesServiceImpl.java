@@ -8,7 +8,6 @@ import com.cumpleanos.assist.service.implementation.ClientServiceImpl;
 import com.cumpleanos.common.dtos.BodegaDTO;
 import com.cumpleanos.common.records.AlmacenDTO;
 import com.cumpleanos.common.records.DreposicionDTO;
-import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.ids.CreposicionId;

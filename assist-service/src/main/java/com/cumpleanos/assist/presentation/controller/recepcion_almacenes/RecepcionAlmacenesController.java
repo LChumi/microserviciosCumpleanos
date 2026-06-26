@@ -59,5 +59,4 @@ public class RecepcionAlmacenesController {
         return ResponseEntity.ok(productos);
     }
 
-
 }
