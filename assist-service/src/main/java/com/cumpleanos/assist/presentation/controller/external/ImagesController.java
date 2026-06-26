@@ -90,7 +90,7 @@ public class ImagesController {
         headers.setContentLength(body.length);
 
         // CDN CACHE (edge friendly)
-        headers.setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic());
+        headers.setCacheControl(CacheControl.maxAge(6, TimeUnit.HOURS).cachePublic());
 
         // opcional: ayuda a proxies/CDN
 
