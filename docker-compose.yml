@@ -82,6 +82,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+      start_period: 60s
 
   gateway-service:
     <<: *common-config
