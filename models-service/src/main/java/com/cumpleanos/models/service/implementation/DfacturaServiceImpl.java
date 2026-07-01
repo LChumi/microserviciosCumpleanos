@@ -27,8 +27,6 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
     private final DfacturaRepository repository;
     private static final BigDecimal TOLERANCIA_PRECIO = new BigDecimal("1.00");
 
-// Y en el método simplemente usas TOLERANCIA_PRECIO
-
     @Override
     public CrudRepository<Dfactura, DfacturaId> getRepository() {
         return repository;
