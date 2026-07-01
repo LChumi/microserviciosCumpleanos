@@ -56,4 +56,16 @@ public class DfacturaController {
         ServiceResponse response = service.addCantApr(cco, producto, cantidad, precioReferencia);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "AgregarCanDespacho", description = "Agrego cantApr de un despacho")
+    @Parameters({
+            @Parameter(name = "cco", description = "Codigo del comprobante"),
+            @Parameter(name = "producto", description = "Codigo del producto"),
+            @Parameter(name = "cantidad", description = "Cantidad aprovada")
+    })
+    @GetMapping("/dfactura/added-cant/despacho/{cco}/{producto}/{cantidad}")
+    public ResponseEntity<ServiceResponse> addedCanAprDespacho(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad) {
+        ServiceResponse response = service.actualizarCantidadDespachada(cco, producto, cantidad);
+        return ResponseEntity.ok(response);
+    }
 }
