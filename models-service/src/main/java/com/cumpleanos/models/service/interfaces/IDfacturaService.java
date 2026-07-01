@@ -14,4 +14,6 @@ public interface IDfacturaService extends GenericService<Dfactura, DfacturaId> {
     List<DfacturaDTO> getDfacturas(BigInteger cco, Long producto);
 
     ServiceResponse addCantApr(BigInteger cco, Long producto, Integer cantidad, BigDecimal precioReferencia);
+
+    ServiceResponse actualizarCantidadDespachada(BigInteger cco, Long producto, Integer cantidad);
 }

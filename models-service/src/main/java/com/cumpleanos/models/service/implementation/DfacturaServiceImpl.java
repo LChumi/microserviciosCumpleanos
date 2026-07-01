@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,4 +106,27 @@ public class DfacturaServiceImpl extends GenericServiceImpl<Dfactura, DfacturaId
 
         return new ServiceResponse("Cantidad aprobada asignada correctamente", true);
     }
+
+    @Override
+    public ServiceResponse actualizarCantidadDespachada(BigInteger cco, Long producto, Integer cantidad) {
+        Dfactura d = repository.findByFacComprobaAndDfacProducto(cco, producto)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado en el detalle"));
+
+        if (cantidad == null || cantidad < 0) {
+            return new ServiceResponse("Cantidad inválida", false);
+        }
+
+        d.setCanapr(BigDecimal.valueOf(cantidad));
+        d.setFechaDespacho(LocalDateTime.now());
+
+        try {
+            repository.save(d);
+            return new ServiceResponse("Cantidad actualizada correctamente", true);
+        } catch (Exception e) {
+            return new ServiceResponse("Error al actualizar la cantidad: " + e.getMessage(), false);
+        }
+    }
+
 }

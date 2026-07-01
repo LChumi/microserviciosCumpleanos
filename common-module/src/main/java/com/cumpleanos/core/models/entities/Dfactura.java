@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "DFACTURA", indexes = {
@@ -240,7 +241,7 @@ public class Dfactura {
     private Long hoja;
 
     @Column(name = "DFAC_FECHA_DESPACHO")
-    private LocalDate fechaDespacho;
+    private LocalDateTime fechaDespacho;
 
     @Column(name = "DFAC_FECHA_EMPAQUE")
     private LocalDate fechaEmpaque;
