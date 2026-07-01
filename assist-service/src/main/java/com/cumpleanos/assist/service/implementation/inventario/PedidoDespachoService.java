@@ -15,9 +15,9 @@ public class PedidoDespachoService {
 
     public List<FacDespedidowebV> pedidosPendientes(String usuario, Integer estado){
         if (usuario.equalsIgnoreCase("data_usr")){
-            return repository.findByEstadoOrderByComprobanteAscHojaAsc(estado);
+            return repository.findByEstadoOrderByUrgenteDescComprobanteAscHojaAsc(estado);
         } else {
-            return repository.findByUsrIdLikeAndEstadoOrderByComprobanteAscHojaAsc(usuario, estado);
+            return repository.findByUsrIdLikeAndEstadoOrderByUrgenteDescComprobanteAscHojaAsc(usuario, estado);
         }
     }
     

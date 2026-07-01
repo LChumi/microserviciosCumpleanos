@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface PedidoDespachoRepository extends JpaRepository<FacDespedidowebV, BigInteger> {
 
-    List<FacDespedidowebV> findByEstadoOrderByComprobanteAscHojaAsc(Integer estado);
+    List<FacDespedidowebV> findByEstadoOrderByUrgenteDescComprobanteAscHojaAsc(Integer estado);
 
-    List<FacDespedidowebV> findByUsrIdLikeAndEstadoOrderByComprobanteAscHojaAsc(String usrId, Integer estado);
+    List<FacDespedidowebV> findByUsrIdLikeAndEstadoOrderByUrgenteDescComprobanteAscHojaAsc(String usrId, Integer estado);
 
 }
