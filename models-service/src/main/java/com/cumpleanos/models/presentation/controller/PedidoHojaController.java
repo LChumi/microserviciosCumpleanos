@@ -1,6 +1,5 @@
 package com.cumpleanos.models.presentation.controller;
 
-import com.cumpleanos.common.dtos.ProductoDTO;
 import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.models.service.interfaces.IPedidoHojaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,14 +26,13 @@ public class PedidoHojaController {
 
     @Operation(summary = "Estado Hoja",description = "Actualiza el estado de una Hoja")
     @Parameters({
-            @Parameter(name = "barra", description = "Barra de prodcuto"),
-            @Parameter(name = "empresa", description = "Codigo de empresa")
+            @Parameter(name = "cco", description = "Codigo comprobante"),
+            @Parameter(name = "estado", description = "Estado Hoja")
     })
     @GetMapping("/hoja/{cco}/estado/{estado}")
-    public ResponseEntity<ServiceResponse> getProductoByBarra(@PathVariable BigInteger ccp,
+    public ResponseEntity<ServiceResponse> getProductoByBarra(@PathVariable BigInteger cco,
                                                               @PathVariable Long estado) {
-        ServiceResponse response = service.updateEstadoHoja(ccp, estado);
-
+        ServiceResponse response = service.updateEstadoHoja(cco, estado);
         return ResponseEntity.ok(response);
     }
 
