@@ -52,7 +52,8 @@ public class OpenAPIConfiguration {
                         "list-ccomprobav",
                         "favoritos",
                         "index",
-                        "recepcion"
+                        "recepcion",
+                        "despachos"
                 );
         return modules.stream()
                 .map(module -> GroupedOpenApi.builder()

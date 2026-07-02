@@ -65,7 +65,9 @@ public class OpenAPIConfiguration {
                 "usuario",
                 "imppartida",
                 "imporitem",
-                "producto-partida"
+                "producto-partida",
+                "pedido-hoja",
+                "dmovinv"
         );
         return modules.stream()
                 .map(module -> GroupedOpenApi.builder()

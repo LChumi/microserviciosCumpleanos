@@ -25,7 +25,7 @@ public class PedidoDespachoController {
     private final ProductoDespachoService productoService;
 
     @Operation(summary = "Pedidos pendientes", description = "Lista de pedidos pendientes de despachar")
-    @GetMapping("/despacho/pendientes/{usuario}/{estado}")
+    @GetMapping("/despachos/pendientes/{usuario}/{estado}")
     public ResponseEntity<List<FacDespedidowebV>> pedidosPendientes(
             @PathVariable String usuario,
             @PathVariable Integer estado){
@@ -34,7 +34,7 @@ public class PedidoDespachoController {
     }
 
     @Operation(summary = "Productos Pedidos", description = "Lista de productos pendientes de despachar")
-    @GetMapping("/despacho/productos/{empresa}/{cco}")
+    @GetMapping("/despachos/productos/{empresa}/{cco}")
     public ResponseEntity<List<FacDesprodWebV>> pedidosPendientes(
             @PathVariable Long empresa,
             @PathVariable BigInteger cco,
@@ -44,7 +44,7 @@ public class PedidoDespachoController {
     }
 
     @Operation(summary = "Agregar cantidad", description = "Agregar Cantidad al producto")
-    @PostMapping("/despacho/add-cantidad")
+    @PostMapping("/despachos/add-cantidad")
     public ResponseEntity<ServiceResponse> addCantidad(
             @RequestBody FacDesprodWebV producto){
         ServiceResponse response = productoService.actualizarCantidad(producto);

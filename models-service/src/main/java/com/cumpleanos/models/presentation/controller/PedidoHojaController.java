@@ -29,7 +29,7 @@ public class PedidoHojaController {
             @Parameter(name = "cco", description = "Codigo comprobante"),
             @Parameter(name = "estado", description = "Estado Hoja")
     })
-    @GetMapping("/hoja/{cco}/estado/{estado}")
+    @GetMapping("/pedido-hoja/{cco}/estado/{estado}")
     public ResponseEntity<ServiceResponse> getProductoByBarra(@PathVariable BigInteger cco,
                                                               @PathVariable Long estado) {
         ServiceResponse response = service.updateEstadoHoja(cco, estado);
