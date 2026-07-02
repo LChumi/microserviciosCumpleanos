@@ -35,5 +35,4 @@ public class DmovinvController {
         return ResponseEntity.ok(response);
     }
 
-
 }

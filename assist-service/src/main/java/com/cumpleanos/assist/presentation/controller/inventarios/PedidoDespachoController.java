@@ -2,6 +2,7 @@ package com.cumpleanos.assist.presentation.controller.inventarios;
 
 import com.cumpleanos.assist.service.implementation.inventario.PedidoDespachoService;
 import com.cumpleanos.assist.service.implementation.inventario.ProductoDespachoService;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.views.FacDespedidowebV;
 import com.cumpleanos.core.models.views.FacDesprodWebV;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,6 +41,14 @@ public class PedidoDespachoController {
             @RequestParam(required = false) Long hoja) {
 
         return ResponseEntity.ok(productoService.getProductosDespacho(empresa, cco, hoja));
+    }
+
+    @Operation(summary = "Agregar cantidad", description = "Agregar Cantidad al producto")
+    @PostMapping("/despacho/add-cantidad")
+    public ResponseEntity<ServiceResponse> addCantidad(
+            @RequestBody FacDesprodWebV producto){
+        ServiceResponse response = productoService.actualizarCantidad(producto);
+        return ResponseEntity.ok(response);
     }
 
 }

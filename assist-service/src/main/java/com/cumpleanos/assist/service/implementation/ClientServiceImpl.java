@@ -92,6 +92,11 @@ public class ClientServiceImpl {
                 "Error al agregar la cantidad del producto: " + producto);
     }
 
+    public ServiceResponse addedCanAprDespachoDmovinv(BigInteger cco, Long producto, Integer cantidad) {
+        return HttpResponseHandler.handle(() -> modelsClient.addedCanAprDespachoDmovin(cco, producto, cantidad),
+                "Error al agregar la cantidad del producto dmovinv: " + producto);
+    }
+
     //CLIENTE
     public Cliente saveCliente(Cliente cliente) {
         return HttpResponseHandler.handle(() -> modelsClient.saveCliente(cliente),

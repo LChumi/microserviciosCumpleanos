@@ -63,8 +63,12 @@ public interface IModelsClient {
     @GetMapping("/models/dfactura/added-cant/{cco}/{producto}/{cantidad}/{precioReferencia}")
     ResponseEntity<ServiceResponse> addedCanApr(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad, @PathVariable BigDecimal precioReferencia);
 
-    @GetMapping("/dfactura/added-cant/despacho/{cco}/{producto}/{cantidad}")
+    @GetMapping("/models/dfactura/added-cant/despacho/{cco}/{producto}/{cantidad}")
     ResponseEntity<ServiceResponse> addedCanAprDespacho(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad);
+
+    //TODO servicio que viene del controlador DmovinvController
+    @GetMapping("/models/dmovinv/added-cant/despacho/{cco}/{producto}/{cantidad}")
+    ResponseEntity<ServiceResponse> addedCanAprDespachoDmovin(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad);
 
     //Todo servicio que viene del controlador ClienteController
     @GetMapping("/models/cliente/ruc/{ruc}/{tipo}/{empresa}")

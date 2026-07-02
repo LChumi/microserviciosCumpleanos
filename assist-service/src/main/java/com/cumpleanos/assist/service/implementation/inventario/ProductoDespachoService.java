@@ -36,7 +36,7 @@ public class ProductoDespachoService {
                 if (p.getTipodoc() == 26){
                     response = clientService.addedCanAprDespacho(p.getCcoCodigo(),p.getProCodigo(),p.getCanapr().intValue());
                 } else if (p.getTipodoc() == 113){
-
+                    response = clientService.addedCanAprDespachoDmovinv(p.getCcoCodigo(),p.getProCodigo(),p.getCanapr().intValue());
                 }
                 return response;
             }
