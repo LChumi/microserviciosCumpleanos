@@ -2,9 +2,13 @@ package com.cumpleanos.core.models.entities;
 
 import com.cumpleanos.core.models.ids.DmovinvId;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "DMOVINV", schema = "DATA_USR", indexes = {
@@ -22,6 +26,9 @@ import java.time.LocalDate;
         @Index(name = "DMOVINV_NIDX3", columnList = "DMO_TIPODEV, DMO_EMPRESA"),
         @Index(name = "DMOVINV_NIDX7", columnList = "DMO_CTAINV, DMO_EMPRESA")
 })
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
 public class Dmovinv {
 
     @EmbeddedId
@@ -157,7 +164,7 @@ public class Dmovinv {
     private Long hoja;
 
     @Column(name = "DMO_FECHA_DESPACHO")
-    private LocalDate fechaDespacho;
+    private LocalDateTime fechaDespacho;
 
     @Column(name = "DMO_FECHA_EMPAQUE")
     private LocalDate fechaEmpaque;
@@ -167,5 +174,8 @@ public class Dmovinv {
 
     @Column(name = "DMO_SEC_PAQUETE")
     private Long secPaquete;
+
+    @Column(name = "DMO_PRODUCTO")
+    private Long producto;
 
 }

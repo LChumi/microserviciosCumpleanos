@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ public class DmovinvId implements Serializable {
     private Long secuencia;
 
     @Column(name = "DMO_CMO_COMPROBA", nullable = false)
-    private Long cmoComproba;
+    private BigInteger cmoComproba;
 
     @Column(name = "DMO_EMPRESA", nullable = false)
     private Long empresa;

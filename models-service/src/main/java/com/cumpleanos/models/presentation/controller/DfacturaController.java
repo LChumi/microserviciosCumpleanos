@@ -61,7 +61,7 @@ public class DfacturaController {
     @Parameters({
             @Parameter(name = "cco", description = "Codigo del comprobante"),
             @Parameter(name = "producto", description = "Codigo del producto"),
-            @Parameter(name = "cantidad", description = "Cantidad aprovada")
+            @Parameter(name = "cantidad", description = "Cantidad aprobada")
     })
     @GetMapping("/dfactura/added-cant/despacho/{cco}/{producto}/{cantidad}")
     public ResponseEntity<ServiceResponse> addedCanAprDespacho(@PathVariable BigInteger cco, @PathVariable Long producto, @PathVariable Integer cantidad) {
