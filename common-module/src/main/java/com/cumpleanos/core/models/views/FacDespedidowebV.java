@@ -1,5 +1,6 @@
 package com.cumpleanos.core.models.views;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class FacDespedidowebV {
     @Column(name = "DPW_ROWID", length = 58)
     private String rowid;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "DPW_CCO_CODIGO")
     private BigInteger ccoCodigo;
 
