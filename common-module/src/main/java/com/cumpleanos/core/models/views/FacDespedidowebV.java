@@ -16,6 +16,9 @@ import java.time.LocalDate;
 public class FacDespedidowebV {
 
     @Id
+    @Column(name = "DPW_ROWID", length = 58)
+    private String rowid;
+
     @Column(name = "DPW_CCO_CODIGO")
     private BigInteger ccoCodigo;
 
@@ -78,9 +81,6 @@ public class FacDespedidowebV {
 
     @Column(name = "DPW_PEDIDO_INTERNO")
     private Long pedidoInterno;
-
-    @Column(name = "DPW_ROWID", length = 58)
-    private String rowid;
 
     @Column(name = "DPW_RESPONSABLE", length = 4000)
     private String responsable;
