@@ -8,5 +8,5 @@ import java.math.BigInteger;
 
 public interface PedidoHojaRepository extends JpaRepository<PedidoHoja, PedidoHojaId> {
 
-    PedidoHoja findById_CcoComproba(BigInteger idCcoComproba);
+    PedidoHoja findById_CcoComprobaAndId_Hoja(BigInteger idCcoComproba, Long idHoja);
 }

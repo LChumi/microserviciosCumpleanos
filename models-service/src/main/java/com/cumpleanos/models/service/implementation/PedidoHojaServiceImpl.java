@@ -5,6 +5,7 @@ import com.cumpleanos.core.models.entities.PedidoHoja;
 import com.cumpleanos.core.models.ids.PedidoHojaId;
 import com.cumpleanos.models.persistence.repository.PedidoHojaRepository;
 import com.cumpleanos.models.service.interfaces.IPedidoHojaService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.CrudRepository;
@@ -25,19 +26,10 @@ public class PedidoHojaServiceImpl extends GenericServiceImpl<PedidoHoja, Pedido
     }
 
     @Override
-    public ServiceResponse updateEstadoHoja(BigInteger cco, Long estado) {
-        PedidoHoja h = repository.findById_CcoComproba(cco);
-        if (h == null) {
-            return new ServiceResponse("No se encontró la hoja de pedido con CCO: " + cco, false);
-        }
-        try {
-            h.setEstado(estado);
-            repository.save(h);
-            return new ServiceResponse("Estado actualizado correctamente", true);
-        } catch (Exception e) {
-            log.error("Error al actualizar el estado de la hoja de pedido: {}", e.getMessage());
-            return new ServiceResponse("Error al actualizar el estado: " + e.getMessage(), false);
-        }
+    public ServiceResponse updateEstadoHoja(PedidoHojaId id, Long estado) {
+        PedidoHoja h = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el pedido"));
+        h.setEstado(estado);
+        repository.save(h);
+        return new ServiceResponse("Estado actualizado correctamente", true);
     }
-
 }

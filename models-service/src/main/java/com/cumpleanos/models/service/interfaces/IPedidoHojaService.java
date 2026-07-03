@@ -8,5 +8,5 @@ import java.math.BigInteger;
 
 public interface IPedidoHojaService extends GenericService<PedidoHoja, PedidoHojaId> {
 
-    ServiceResponse updateEstadoHoja(BigInteger cco, Long estado);
+    ServiceResponse updateEstadoHoja(PedidoHojaId id, Long estado);
 }
