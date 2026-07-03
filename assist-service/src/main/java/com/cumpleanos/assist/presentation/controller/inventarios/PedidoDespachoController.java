@@ -39,7 +39,6 @@ public class PedidoDespachoController {
             @PathVariable Long empresa,
             @PathVariable BigInteger cco,
             @RequestParam(required = false) Long hoja) {
-
         return ResponseEntity.ok(productoService.getProductosDespacho(empresa, cco, hoja));
     }
 

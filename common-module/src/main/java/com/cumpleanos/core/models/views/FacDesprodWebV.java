@@ -59,7 +59,7 @@ public class FacDesprodWebV {
     private String proNombre;
 
     @Column(name = "DPR_PRO_PRECIO2")
-    private Long proPrecio2;
+    private BigDecimal proPrecio2;
 
     @Column(name = "DPR_HOJA")
     private Long hoja;
