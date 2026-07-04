@@ -37,10 +37,10 @@ public class DmovinvServiceImpl extends GenericServiceImpl<Dmovinv, DmovinvId> i
         d.setDespachada(BigDecimal.valueOf(cantidad));
         d.setFechaDespacho(LocalDateTime.now());
 
-        try{
+        try {
             repository.save(d);
             return new ServiceResponse("Cantidad actualizada correctamente", true);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ServiceResponse("Error al actualizar la cantidad: " + e.getMessage(), false);
         }
 

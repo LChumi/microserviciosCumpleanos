@@ -28,7 +28,7 @@ public class PedidoDespachoController {
     @GetMapping("/despachos/pendientes/{usuario}/{estado}")
     public ResponseEntity<List<FacDespedidowebV>> pedidosPendientes(
             @PathVariable String usuario,
-            @PathVariable Integer estado){
+            @PathVariable Integer estado) {
 
         return ResponseEntity.ok(service.pedidosPendientes(usuario, estado));
     }
@@ -45,7 +45,7 @@ public class PedidoDespachoController {
     @Operation(summary = "Agregar cantidad", description = "Agregar Cantidad al producto")
     @PostMapping("/despachos/add-cantidad")
     public ResponseEntity<ServiceResponse> addCantidad(
-            @RequestBody FacDesprodWebV producto){
+            @RequestBody FacDesprodWebV producto) {
         ServiceResponse response = productoService.actualizarCantidad(producto);
         return ResponseEntity.ok(response);
     }

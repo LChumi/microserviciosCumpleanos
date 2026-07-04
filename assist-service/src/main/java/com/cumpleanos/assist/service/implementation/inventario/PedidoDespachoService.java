@@ -13,12 +13,12 @@ public class PedidoDespachoService {
 
     private final PedidoDespachoRepository repository;
 
-    public List<FacDespedidowebV> pedidosPendientes(String usuario, Integer estado){
-        if (usuario.equalsIgnoreCase("data_usr")){
+    public List<FacDespedidowebV> pedidosPendientes(String usuario, Integer estado) {
+        if (usuario.equalsIgnoreCase("data_usr")) {
             return repository.findByEstadoOrderByUrgenteDescComprobanteAscHojaAsc(estado);
         } else {
             return repository.findByUsrIdLikeAndEstadoOrderByUrgenteDescComprobanteAscHojaAsc(usuario, estado);
         }
     }
-    
+
 }
