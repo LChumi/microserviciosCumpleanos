@@ -49,3 +49,7 @@ info:
     name: meta-service
     description: Microservicios para integracion con Meta
     version: 1.0
+
+whatsapp:
+  verify-token: ${META_WEBHOK}
+  graph-api-token: ${META_API_TOKEN}

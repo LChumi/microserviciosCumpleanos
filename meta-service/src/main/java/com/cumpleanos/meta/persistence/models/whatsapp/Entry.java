@@ -1,4 +1,4 @@
-package com.cumpleanos.meta.persistence.models;
+package com.cumpleanos.meta.persistence.models.whatsapp;
 
 import java.util.List;
 
