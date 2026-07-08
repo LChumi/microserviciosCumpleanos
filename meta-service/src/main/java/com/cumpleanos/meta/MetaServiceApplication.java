@@ -6,13 +6,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
+@EnableFeignClients
 @SpringBootApplication
 @EnableDiscoveryClient
-@OpenAPIDefinition( info =
-		@Info(title = "Meta-service", description = "Docuemntacion Meta Api v1.0")
-)
-@EnableFeignClients
+@OpenAPIDefinition( info = @Info(title = "Meta-service", description = "Docuemntacion Meta Api v1.0"))
 public class MetaServiceApplication {
 
 	public static void main(String[] args) {
