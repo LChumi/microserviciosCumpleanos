@@ -13,7 +13,7 @@
 
 Si encuentras una vulnerabilidad, por favor repórtala a:
 
-- Email: luis.chumi@cumpleanos.com
+- Email: luis.chumi.9@gmail.com.com
 - Tiempo de respuesta inicial: 48 horas
 - Proceso: evaluaremos el reporte, confirmaremos la vulnerabilidad y publicaremos un parche en un máximo de 7 días.
 - Alcance: esta política cubre todos los módulos de **microserviciosCumpleanos**.
