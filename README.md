@@ -9,22 +9,35 @@ Este proyecto integra procesos de reposición, ventas y control de stock en tiem
 - Java 17+
 - Maven 3.8+
 - MongoDB en ejecución
-- Configuración de variables en `application.yml`
+- Configuración de variables en `.env`
+- Docker y Docker Compose instalados
 
 ---
 
 ## ⚙️ Instalación
+### Opción 1: Local con Maven
 ```bash
 git clone https://github.com/LChumi/microserviciosCumpleanos.git
 cd microserviciosCumpleanos
 mvn spring-boot:run
 ```
+### Opción 2: Docker Compose
+```bash
+git clone https://github.com/LChumi/microserviciosCumpleanos.git
+cd microserviciosCumpleanos
+docker-compose up -d
+```
+Las variables de entorno se configuran en el archivo .env.
 
-📂 Estructura
-confiteria → módulo de gestión de productos y stock.
-reposiciones → módulo de control de pedidos y reposiciones.
-ventas → módulo de registro de ventas.
+
+## 📂 Estructura
+- **Spring Administration** → administración general del sistema
+- **Spring Config** → configuración centralizada
+- **Spring Eureka** → servicio de descubrimiento
+- **Spring Gateway** → API Gateway para enrutar peticiones
+- **Microservicios (Spring Boot)** → lógica de negocio (ventas, reposiciones, confitería, etc.)
+
 
 📜 Licencia
-Este proyecto está bajo la licencia MIT.
+Este proyecto está bajo la licencia Apache 2.0.
 
