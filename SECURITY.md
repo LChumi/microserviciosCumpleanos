@@ -13,9 +13,12 @@
 
 Si encuentras una vulnerabilidad, por favor repórtala a:
 
-- Email: luis.chumi.9@gmail.com.com
+- Email: luischumi.9@gmail.com
 - Tiempo de respuesta inicial: 48 horas
 - Proceso: evaluaremos el reporte, confirmaremos la vulnerabilidad y publicaremos un parche en un máximo de 7 días.
 - Alcance: esta política cubre todos los módulos de **microserviciosCumpleanos**.
 
-Gracias por ayudarnos a mantener el proyecto seguro.
+## Dependencias
+
+Este proyecto utiliza **Dependabot** para monitorear y actualizar librerías vulnerables.  
+Ejemplo: vulnerabilidades detectadas en **Apache POI OOXML** se corrigen actualizando la versión segura recomendada.
