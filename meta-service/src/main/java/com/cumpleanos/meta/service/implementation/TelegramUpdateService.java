@@ -36,11 +36,6 @@ public class TelegramUpdateService {
 
         try {
 
-            if (!chatId.equals(properties.getGroupAdminId())) {
-                log.warn("Mensaje ignorado. Chat no autorizado: {}", chatId);
-                return;
-            }
-
             String command = normalizeCommand(text);
 
             TelegramCommandHandler handler = commands.get(command);

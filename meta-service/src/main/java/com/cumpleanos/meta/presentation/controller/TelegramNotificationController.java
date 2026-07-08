@@ -21,7 +21,7 @@ public class TelegramNotificationController {
 
     @PostMapping("/send-message")
     public ResponseEntity<Void> sendMessage(@RequestBody TelegramSendRequest request) {
-        telegramBotService.sendMessage(request.chatId(), request.text());
+        telegramBotService.sendMessage(request);
         return ResponseEntity.ok().build();
     }
 

@@ -1,8 +1,6 @@
 package com.cumpleanos.meta.presentation.controller;
 
-import com.cumpleanos.meta.configuration.properties.TelegramProperties;
 import com.cumpleanos.meta.configuration.properties.WhatsappProperties;
-import com.cumpleanos.meta.persistence.models.telegram.TelegramMessage;
 import com.cumpleanos.meta.persistence.models.telegram.TelegramUpdate;
 import com.cumpleanos.meta.persistence.models.whatsapp.WebhookPayLoad;
 import com.cumpleanos.meta.service.implementation.TelegramUpdateService;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class WebhookController {
 
     private final WhatsappProperties prop;
-    private final TelegramProperties properties;
     private final WebhookServiceImpl webhookService;
     private final TelegramUpdateService telegramUpdateService;
 
@@ -49,12 +46,7 @@ public class WebhookController {
 
     @PostMapping("/telegram/webhook")
     public ResponseEntity<Void> webhook(
-            @RequestHeader("X-Telegram-Bot-Api-Secret-Token") String secretToken,
             @RequestBody TelegramUpdate update) {
-
-        if (!properties.getBotToken().equals(secretToken)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         try {
             if (update == null || update.getMessage() == null || update.getMessage().getChat() == null) {
