@@ -12,5 +12,5 @@ public interface WhatsappClient {
     @PostMapping("/{phoneNumberId}/messages")
     void sendMessage(@RequestHeader("Authorization") String authorization,
                      @RequestBody Object message,
-                     @PathVariable("phoneNumberId") String phoneNumberId);
+                     @PathVariable String phoneNumberId);
 }
