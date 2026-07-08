@@ -53,3 +53,7 @@ info:
 whatsapp:
   verify-token: ${META_WEBHOK}
   graph-api-token: ${META_API_TOKEN}
+
+telegram:
+  bot-token: ${TELEGRAM_BOT_TOKEN}
+  group-admin-id: ${TELEGRAM_GROUP_ADMIN}
