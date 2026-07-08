@@ -2,23 +2,29 @@
 
 ## Supported Versions
 
+Actualmente mantenemos soporte de seguridad únicamente para la rama principal (`main`).
+Las versiones anteriores no reciben parches de seguridad.
+
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | ✅ |
-| 5.0.x   | ❌ |
-| 4.0.x   | ✅ |
-| < 4.0   | ❌ |
+| main    | ✅                 |
+| < main  | ❌                 |
 
 ## Reporting a Vulnerability
 
-Si encuentras una vulnerabilidad, por favor repórtala a:
+Si encuentras una vulnerabilidad en microserviciosCumpleanos, por favor repórtala de la siguiente manera:
 
-- Email: luischumi.9@gmail.com
-- Tiempo de respuesta inicial: 48 horas
-- Proceso: evaluaremos el reporte, confirmaremos la vulnerabilidad y publicaremos un parche en un máximo de 7 días.
-- Alcance: esta política cubre todos los módulos de **microserviciosCumpleanos**.
+- Envía un correo a **luischumi.9@gmail.com** con los detalles del hallazgo.
+- Incluye pasos para reproducir el problema y, si es posible, ejemplos de código o capturas.
+- No publiques la vulnerabilidad en issues públicos para evitar exposición indebida.
 
-## Dependencias
+### Tiempo de respuesta
+Nos comprometemos a responder dentro de **72 horas** después de recibir el reporte.
 
-Este proyecto utiliza **Dependabot** para monitorear y actualizar librerías vulnerables.  
-Ejemplo: vulnerabilidades detectadas en **Apache POI OOXML** se corrigen actualizando la versión segura recomendada.
+### Proceso
+1. Revisaremos y confirmaremos la vulnerabilidad.
+2. Si es válida, trabajaremos en un parche en la rama principal.
+3. Notificaremos al reportante cuando la corrección esté disponible.
+4. Si el reporte no es aceptado, explicaremos la razón.
+
+Gracias por ayudarnos a mantener microserviciosCumpleanos seguro y confiable.
