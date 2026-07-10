@@ -28,7 +28,6 @@ public class RolMenu {
     private RolW rolW;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "RLM_MENU_W")
+    @JoinColumn(name = "RLM_MENU_W", referencedColumnName = "MNW_CODIGO")
     private MenuW menuW;
 }

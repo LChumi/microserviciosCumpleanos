@@ -1,6 +1,6 @@
 package com.cumpleanos.core.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -22,7 +22,6 @@ public class MenuW {
 
     @Id
     @Column(name = "MNW_CODIGO")
-    //@Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MENU_W_S_CODIGO")
     private Long id;
 
@@ -45,7 +44,7 @@ public class MenuW {
     @Column(name = "MNW_ORDEN")
     private Long orden;
 
-    @ManyToOne(fetch = FetchType.EAGER  )
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "MNW_PROGRAMA", referencedColumnName = "PRW_CODIGO")
     private ProgramaW programa;
@@ -55,16 +54,17 @@ public class MenuW {
     @JoinColumn(name = "MNW_SEGURIDAD", referencedColumnName = "SEG_CODIGO")
     private Seguridad seguridad;
 
+    // Ya no lo necesitas en el JSON: el frontend arma el árbol con "reporta"
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "MNW_REPORTA", referencedColumnName = "MNW_CODIGO", insertable = false, updatable = false)
     private MenuW menuW;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "menuW")
     private List<MenuW> menuWs;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "menuW")
     private List<RolMenu> rolMenus;
 }
