@@ -1,12 +1,8 @@
 package com.cumpleanos.core.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -16,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "PROGRAMA_W")
 @SequenceGenerator(name = "PROGRAMA_W_S_CODIGO", sequenceName = "PROGRAMA_W_S_CODIGO", allocationSize = 1)
-@ToString(exclude = { "menuWs", })
 public class ProgramaW {
 
     @Id
@@ -37,9 +32,4 @@ public class ProgramaW {
     @ColumnDefault("0")
     @Column(name = "PRW_INACTIVO")
     private Boolean inactivo;
-
-    @JsonIgnore
-    @JsonManagedReference
-    @OneToMany(mappedBy = "programa")
-    private List<MenuW> menuWs;
 }

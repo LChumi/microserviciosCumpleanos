@@ -1,13 +1,10 @@
 package com.cumpleanos.core.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -16,7 +13,6 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "MENU_W")
-@ToString(exclude = {"menuWs", "rolMenus"})
 @SequenceGenerator(name = "MENU_W_S_CODIGO", sequenceName = "MENU_W_S_CODIGO", allocationSize = 1)
 public class MenuW {
 
@@ -53,18 +49,4 @@ public class MenuW {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "MNW_SEGURIDAD", referencedColumnName = "SEG_CODIGO")
     private Seguridad seguridad;
-
-    // Ya no lo necesitas en el JSON: el frontend arma el árbol con "reporta"
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "MNW_REPORTA", referencedColumnName = "MNW_CODIGO", insertable = false, updatable = false)
-    private MenuW menuW;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "menuW")
-    private List<MenuW> menuWs;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "menuW")
-    private List<RolMenu> rolMenus;
 }
