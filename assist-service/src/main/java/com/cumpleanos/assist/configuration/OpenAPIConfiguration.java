@@ -55,7 +55,7 @@ public class OpenAPIConfiguration {
                         "recepcion",
                         "despachos",
                         "rol-menu",
-                        "menu"
+                        "menuw"
                 );
         return modules.stream()
                 .map(module -> GroupedOpenApi.builder()

@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("assist")
 @RequiredArgsConstructor
-@Tag(name = "menu", description = "Documentacion de Menus Assist")
+@Tag(name = "menuw", description = "Documentacion de Menus Assist")
 public class MenuWController {
 
     private final IMenuWService service;
