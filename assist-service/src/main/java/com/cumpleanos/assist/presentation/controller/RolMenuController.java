@@ -14,31 +14,31 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("assist")
-@Tag(name = "rol-menu", description = "Documentacion de Roles del Menus Assist")
+@Tag(name = "rol-menu", description = "Documentacion de Relacion de Rol con Menu Assist")
 public class RolMenuController {
 
     private final IRolMenuService service;
 
-    @Operation(summary = "Listar todos los roles")
+    @Operation(summary = "Listar todos lsas relaciones Rol-Menu")
     @GetMapping("/rol-menu/all")
     public ResponseEntity<List<RolMenu>> getAll(){
         return ResponseEntity.ok(service.findAll());
     }
 
-    @Operation(summary = "Por ID", description = "Obtiene el rol por su ID")
+    @Operation(summary = "Por ID", description = "Obtiene relacion por su ID")
     @Parameter(name = "id", description = "ID del menu", required = true)
     @GetMapping("/rol-menu/{id}")
     public ResponseEntity<RolMenu> getById(@PathVariable Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @Operation(summary = "Crear", description = "Crear un nuevo menu")
+    @Operation(summary = "Crear", description = "Crear una nueva Relacion de Rol Menu")
     @PostMapping("/rol-menu")
     public ResponseEntity<RolMenu> create(@RequestBody RolMenu rol){
         return ResponseEntity.ok(service.save(rol));
     }
 
-    @Operation(summary = "Actualizar", description = "Actualizar un menu existente")
+    @Operation(summary = "Actualizar", description = "Actualizar una relacion rol-menu existente")
     @PutMapping("/rol-menu")
     public ResponseEntity<RolMenu> update(@RequestBody RolMenu rol){
         return ResponseEntity.ok(service.save(rol));
