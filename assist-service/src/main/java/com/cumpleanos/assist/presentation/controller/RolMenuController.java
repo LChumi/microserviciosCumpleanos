@@ -21,26 +21,26 @@ public class RolMenuController {
 
     @Operation(summary = "Listar todos lsas relaciones Rol-Menu")
     @GetMapping("/rol-menu/all")
-    public ResponseEntity<List<RolMenu>> getAll(){
+    public ResponseEntity<List<RolMenu>> getAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @Operation(summary = "Por ID", description = "Obtiene relacion por su ID")
     @Parameter(name = "id", description = "ID del menu", required = true)
     @GetMapping("/rol-menu/{id}")
-    public ResponseEntity<RolMenu> getById(@PathVariable Long id){
+    public ResponseEntity<RolMenu> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @Operation(summary = "Crear", description = "Crear una nueva Relacion de Rol Menu")
     @PostMapping("/rol-menu")
-    public ResponseEntity<RolMenu> create(@RequestBody RolMenu rol){
+    public ResponseEntity<RolMenu> create(@RequestBody RolMenu rol) {
         return ResponseEntity.ok(service.save(rol));
     }
 
     @Operation(summary = "Actualizar", description = "Actualizar una relacion rol-menu existente")
     @PutMapping("/rol-menu")
-    public ResponseEntity<RolMenu> update(@RequestBody RolMenu rol){
+    public ResponseEntity<RolMenu> update(@RequestBody RolMenu rol) {
         return ResponseEntity.ok(service.save(rol));
     }
 

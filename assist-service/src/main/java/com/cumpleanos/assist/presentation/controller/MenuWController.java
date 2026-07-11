@@ -21,26 +21,26 @@ public class MenuWController {
 
     @Operation(summary = "Listar todos los menus")
     @GetMapping("/menuw/all")
-    public ResponseEntity<List<MenuW>> getAll(){
+    public ResponseEntity<List<MenuW>> getAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @Operation(summary = "Por ID", description = "Obtiene el menu por su ID")
     @Parameter(name = "id", description = "ID del menu", required = true)
     @GetMapping("/menuw/{id}")
-    public ResponseEntity<MenuW> getById(@PathVariable Long id){
+    public ResponseEntity<MenuW> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @Operation(summary = "Crear", description = "Crear un nuevo menu")
     @PostMapping("/menuw")
-    public ResponseEntity<MenuW> create(@RequestBody MenuW menu){
+    public ResponseEntity<MenuW> create(@RequestBody MenuW menu) {
         return ResponseEntity.ok(service.save(menu));
     }
 
     @Operation(summary = "Actualizar", description = "Actualizar un menu existente")
     @PutMapping("/menuw")
-    public ResponseEntity<MenuW> update(@RequestBody MenuW menu){
+    public ResponseEntity<MenuW> update(@RequestBody MenuW menu) {
         return ResponseEntity.ok(service.save(menu));
     }
 
