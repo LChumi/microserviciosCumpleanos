@@ -40,5 +40,4 @@ jobs:
           package-type: 'container'
           min-versions-to-keep: 5
           delete-only-pre-release-versions: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GHCR_PAT }}
+          token: ${{ secrets.GHCR_PAT }}
