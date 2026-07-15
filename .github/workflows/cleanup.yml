@@ -4,6 +4,9 @@ on:
     - cron: '0 0 * * 0'   # cada domingo
   workflow_dispatch:
 
+permissions:
+  packages: write
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
@@ -11,22 +14,22 @@ jobs:
       fail-fast: false
       matrix:
         package:
-          - adminserver-service
-          - assist-service
-          - common-module
-          - config-service
-          - ecommerce-service
-          - emails-service
-          - eureka-service
-          - gateway-service
-          - meta-service
-          - models-service
-          - mongo-service
-          - pos-service
-          - recep-service
-          - scheduler-service
-          - utility-classes-module
-          - ws-service
+          - "microservicioscumpleanos/adminserver-service"
+          - "microservicioscumpleanos/assist-service"
+          - "microservicioscumpleanos/common-module"
+          - "microservicioscumpleanos/config-service"
+          - "microservicioscumpleanos/ecommerce-service"
+          - "microservicioscumpleanos/emails-service"
+          - "microservicioscumpleanos/eureka-service"
+          - "microservicioscumpleanos/gateway-service"
+          - "microservicioscumpleanos/meta-service"
+          - "microservicioscumpleanos/models-service"
+          - "microservicioscumpleanos/mongo-service"
+          - "microservicioscumpleanos/pos-service"
+          - "microservicioscumpleanos/recep-service"
+          - "microservicioscumpleanos/scheduler-service"
+          - "microservicioscumpleanos/utility-classes-module"
+          - "microservicioscumpleanos/ws-service"
     steps:
       - name: Delete old images - ${{ matrix.package }}
         uses: actions/delete-package-versions@v4
@@ -35,3 +38,5 @@ jobs:
           package-type: 'container'
           min-versions-to-keep: 5
           delete-only-pre-release-versions: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
