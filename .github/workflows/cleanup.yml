@@ -1,0 +1,37 @@
+name: cleanup.yml
+on:
+  schedule:
+    - cron: '0 0 * * 0'   # cada domingo
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - adminserver-service
+          - assist-service
+          - common-module
+          - config-service
+          - ecommerce-service
+          - emails-service
+          - eureka-service
+          - gateway-service
+          - meta-service
+          - models-service
+          - mongo-service
+          - pos-service
+          - recep-service
+          - scheduler-service
+          - utility-classes-module
+          - ws-service
+    steps:
+      - name: Delete old images - ${{ matrix.package }}
+        uses: actions/delete-package-versions@v4
+        with:
+          package-name: ${{ matrix.package }}
+          package-type: 'container'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: false
