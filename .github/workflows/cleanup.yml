@@ -1,7 +1,8 @@
-name: cleanup.yml
+name: Cleanup old container images
+
 on:
   schedule:
-    - cron: '0 0 * * 0'   # cada domingo
+    - cron: '0 0 * * 0'
   workflow_dispatch:
 
 permissions:
@@ -34,6 +35,7 @@ jobs:
       - name: Delete old images - ${{ matrix.package }}
         uses: actions/delete-package-versions@v4
         with:
+          owner: 'LChumi'
           package-name: ${{ matrix.package }}
           package-type: 'container'
           min-versions-to-keep: 5
