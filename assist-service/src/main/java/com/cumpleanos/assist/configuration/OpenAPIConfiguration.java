@@ -53,7 +53,7 @@ public class OpenAPIConfiguration {
                         "favoritos",
                         "index",
                         "recepcion",
-                        "despachos",
+                        "pedidos",
                         "rol-menu",
                         "menuw"
                 );
