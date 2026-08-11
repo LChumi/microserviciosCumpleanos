@@ -12,3 +12,6 @@ spring:
         max-attempts: 20
         max-interval: 30000
         multiplier: 1.5
+
+server:
+  forward-headers-strategy: framework
