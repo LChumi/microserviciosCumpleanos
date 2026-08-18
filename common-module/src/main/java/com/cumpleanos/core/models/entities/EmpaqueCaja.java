@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
+
 @Entity
 @Getter
 @Setter
@@ -26,32 +28,17 @@ public class EmpaqueCaja {
     private Long caja;
 
     @Column(name = "EMC_BODEGUERO")
-    private Object emcBodeguero;
+    private Long emcBodeguero;
 
     @Column(name = "EMC_PESO")
-    private Object emcPeso;
+    private Integer emcPeso;
 
     @Column(name = "EMC_ESTADO")
-    private Object emcEstado;
+    private Integer emcEstado;
 
     @Column(name = "EMC_EMP_COMPROBA")
-    private Object emcEmpComproba;
+    private Long emcEmpComproba;
 
     @Column(name = "EMC_CCO_COMPROBA")
-    private Object emcCcoComproba;
-
-    @Column(name = "CREA_USR")
-    private Object creaUsr;
-
-    @Column(name = "MOD_USR")
-    private Object modUsr;
-
-    @Column(name = "CREA_FECHA")
-    private Object creaFecha;
-
-    @Column(name = "MOD_FECHA")
-    private Object modFecha;
-
-    @Column(name = "EMC_CODIGO")
-    private Object emcCodigo;
+    private BigInteger emcCcoComproba;
 }
