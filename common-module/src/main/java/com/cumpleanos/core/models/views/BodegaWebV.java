@@ -19,87 +19,87 @@ public class BodegaWebV {
 
     @Id
     @Column(name = "BOD_CODIGO")
-    private Long bodCodigo;
+    private Long codigo;
 
     @Column(name = "BOD_USUARIO")
-    private Long bodUsuario;
+    private Long usuario;
 
     @Column(name = "BOD_EMPRESA")
-    private Long bodEmpresa;
+    private Long empresa;
 
     @Column(name = "BOD_ID")
-    private String bodId;
+    private String id;
 
     @Column(name = "BOD_NOMBRE")
-    private String bodNombre;
+    private String nombre;
 
     @Column(name = "BOD_CONSIGNA")
-    private Integer bodConsigna;
+    private Integer consigna;
 
     @Column(name = "BOD_UBICACION")
-    private String bodUbicacion;
+    private String ubicacion;
 
     @Column(name = "BOD_CIUDAD")
-    private Integer bodCiudad;
+    private Integer ciudad;
 
     @Column(name = "BOD_ZONA")
-    private Long bodZona;
+    private Long zona;
 
     @Column(name = "BOD_INACTIVO")
-    private Integer bodInactivo;
+    private Integer inactivo;
 
     @Column(name = "BOD_IMPRESORA")
-    private String bodImpresora;
+    private String impresora;
 
     @Column(name = "BOD_LIQUIDACION")
-    private Integer bodLiquidacion;
+    private Integer liquidacion;
 
     @Column(name = "BOD_PROBLEMAS")
-    private Integer bodProblemas;
+    private Integer problemas;
 
     @Column(name = "BOD_EMPLEADO")
-    private Long bodEmpleado;
+    private Long empleado;
 
     @Column(name = "BOD_CUSTODIO")
-    private String bodCustodio;
+    private String custodio;
 
     @Column(name = "BOD_DIRECTO")
-    private Integer bodDirecto;
+    private Integer directo;
 
     @Column(name = "BOD_ALMACEN")
-    private Long bodAlmacen;
+    private Long almacen;
 
     @Column(name = "BOD_FECHA_INICIO")
-    private LocalDateTime bodFechaInicio;
+    private LocalDateTime fechaInicio;
 
     @Column(name = "BOD_FECHA_FINAL")
-    private LocalDateTime bodFechaFinal;
+    private LocalDateTime fechaFinal;
 
     @Column(name = "BOD_PROMOCION")
-    private Long bodPromocion;
+    private Long promocion;
 
     @Column(name = "BOD_CENTRO")
-    private Integer bodCentro;
+    private Integer centro;
 
     @Column(name = "BOD_VER_CAL")
     private Integer bodVerCal;
 
     @Column(name = "BOD_TIPO")
-    private Integer bodTipo;
+    private Integer tipo;
 
     @Column(name = "BOD_PROVEEDOR")
-    private Integer bodProveedor;
+    private Integer proveedor;
 
     @Column(name = "BOD_COMPRA")
-    private Integer bodCompra;
+    private Integer compra;
 
     @Column(name = "BOD_MAYORISTA")
-    private Integer bodMayorista;
+    private Integer mayorista;
 
     @Column(name = "BOD_BODEGA_WEB")
-    private Long bodBodegaWeb;
+    private Long bodegaWeb;
 
     @Column(name = "BOD_BODEGA_WEB_DEF")
-    private Long bodBodegaWebDef;
+    private Long bodegaWebDef;
     
 }
