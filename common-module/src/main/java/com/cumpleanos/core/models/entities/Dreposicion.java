@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {})
+@ToString(exclude = {"producto", "creposicion", "drpGondola"})
 @EqualsAndHashCode(of = "id")
 @Table(name = "DREPOSICION", schema = "DATA_USR", indexes = {
         @Index(name = "DREPOSICION_NIDX2", columnList = "DRP_CREPOSICION, DRP_EMPRESA"),
@@ -88,4 +88,12 @@ public class Dreposicion {
     })
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private Creposicion creposicion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "DRP_GONDOLA", referencedColumnName = "GON_CODIGO", insertable = false, updatable = false),
+            @JoinColumn(name = "DRP_EMPRESA", referencedColumnName = "GON_EMPRESA", insertable = false, updatable = false)
+    })
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private Gondola drpGondola;
 }

@@ -1,5 +1,6 @@
 package com.cumpleanos.models.service.interfaces;
 
+import com.cumpleanos.common.dtos.ProductoReposicionDTO;
 import com.cumpleanos.common.records.DreposicionDTO;
 import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.core.models.entities.Dreposicion;
@@ -16,4 +17,6 @@ public interface IDreposicionService extends GenericService<Dreposicion, Dreposi
     DreposicionDTO quantityAddedPerCreposicionAndProduct(RevisionProductoRequest request);
 
     DreposicionDTO saveDetailByProId(RevisionProductoRequest request);
+
+    List<ProductoReposicionDTO> getProductosByCreposicion(Long creposicion);
 }

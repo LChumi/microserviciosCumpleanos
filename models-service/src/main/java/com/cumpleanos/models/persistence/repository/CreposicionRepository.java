@@ -19,4 +19,6 @@ public interface CreposicionRepository extends JpaRepository<Creposicion, Crepos
 
     List<Creposicion> findByEstadoAndBodegaIdAndTipo(Integer estado, Long bodegaId, Integer tipo);
 
+    Creposicion findById_Codigo(Long idCodigo);
+
 }
