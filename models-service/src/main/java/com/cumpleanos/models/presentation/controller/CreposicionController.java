@@ -100,4 +100,15 @@ public class CreposicionController {
         Creposicion result = service.findById(id);
         return ResponseEntity.ok(result);
     }
+
+    @Operation(summary = "Listar Pedidos ", description = "Lista pedidos por tipo y bodega")
+    @GetMapping("/creposicion/load-finalizados/{estado}/{bodega}/{tipo}")
+    public ResponseEntity<List<Creposicion>> getByEstadoBodegaTipo(
+            @PathVariable Integer estado,
+            @PathVariable Long bodega,
+            @PathVariable Integer tipo
+    ){
+        List<Creposicion> lista= service.findByEstadoAndBodegaIdAndTipo(estado, bodega, tipo);
+        return ResponseEntity.ok(lista);
+    }
 }

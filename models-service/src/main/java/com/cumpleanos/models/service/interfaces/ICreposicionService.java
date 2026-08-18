@@ -21,4 +21,6 @@ public interface ICreposicionService extends GenericService<Creposicion, Creposi
     List<Creposicion> getByUsuario(Integer tipo, String usuario, Integer finalizado);
 
     List<Creposicion> getByTipoAndFinalizado(Integer tipo, Integer finalizado);
+
+    List<Creposicion> findByEstadoAndBodegaIdAndTipo(Integer estado, Long bodegaId, Integer tipo);
 }

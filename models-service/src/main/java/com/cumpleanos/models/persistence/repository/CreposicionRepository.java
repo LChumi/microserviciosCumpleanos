@@ -16,4 +16,7 @@ public interface CreposicionRepository extends JpaRepository<Creposicion, Crepos
     List<Creposicion> findByTipoAndUsuarioAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(Integer tipo, String usuario, Integer finalizado, Integer estado, LocalDate fechaAfter, LocalDate fechaBefore);
 
     List<Creposicion> findByTipoAndFinalizadoAndEstadoNotAndFechaBetweenOrderByFechaDesc(Integer tipo, Integer finalizado, Integer estado, LocalDate fechaAfter, LocalDate fechaBefore);
+
+    List<Creposicion> findByEstadoAndBodegaIdAndTipo(Integer estado, Long bodegaId, Integer tipo);
+
 }
