@@ -19,7 +19,7 @@ public class InvProdinfgenWebV {
 
     @Id
     @Column(name = "SECUENCIA")
-    private Long secuencia;
+    private String secuencia;
 
     @Column(name = "BULTO")
     private String bulto;
@@ -94,10 +94,10 @@ public class InvProdinfgenWebV {
     private String gprNombre;
 
     @Column(name = "TPR_CODIGO")
-    private Object tprCodigo;
+    private Long tprCodigo;
 
     @Column(name = "TPR_ID")
-    private Long tprId;
+    private String tprId;
 
     @Column(name = "TPR_NOMBRE")
     private String tprNombre;
@@ -127,7 +127,7 @@ public class InvProdinfgenWebV {
     private String umdId;
 
     @Column(name = "PRO_FOTO_S")
-    private String proFotoS;
+    private Integer proFotoS;
 
     @Column(name = "SIS_EMPRESA_GRUPO")
     private Long sisEmpresaGrupo;
