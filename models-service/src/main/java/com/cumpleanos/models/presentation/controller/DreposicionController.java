@@ -1,5 +1,6 @@
 package com.cumpleanos.models.presentation.controller;
 
+import com.cumpleanos.common.dtos.ProductoReposicionDTO;
 import com.cumpleanos.common.records.DreposicionDTO;
 import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.core.models.entities.Dreposicion;
@@ -61,5 +62,12 @@ public class DreposicionController {
     public ResponseEntity<DreposicionDTO> saveByBarra(@RequestBody RevisionProductoRequest request) {
         DreposicionDTO d = service.saveDetailByProId(request);
         return ResponseEntity.ok(d);
+    }
+
+    @Operation(summary = "Obtener vista de productos", description = "Obtener productos por creposicion")
+    @GetMapping("/dreposicion/productos-reposicion/{creposicion}")
+    public ResponseEntity<List<ProductoReposicionDTO>> getProductosByCreposicion(@PathVariable Long creposicion) {
+        List<ProductoReposicionDTO> productos = service.getProductosByCreposicion(creposicion);
+        return ResponseEntity.ok(productos);
     }
 }
