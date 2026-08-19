@@ -70,6 +70,9 @@ public class Dreposicion {
     @Column(name = "DRP_PRODUCTO")
     private Long productoId;
 
+    @Column(name = "DRP_GONDOLA")
+    private Long gondolaId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "DRP_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),

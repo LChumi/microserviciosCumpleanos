@@ -13,4 +13,6 @@ public interface DreposicionRepository extends JpaRepository<Dreposicion, Drepos
     List<Dreposicion> findByCreposicionId(Long creposicionId);
 
     Dreposicion findByCreposicionIdAndId_EmpresaAndProducto_ProId(Long creposicionId, Long empresa, String barra);
+
+    List<Dreposicion> findByCreposicionIdIn(List<Long> creposicionIds);
 }
