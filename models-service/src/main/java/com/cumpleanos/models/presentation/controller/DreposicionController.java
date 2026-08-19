@@ -64,7 +64,7 @@ public class DreposicionController {
         return ResponseEntity.ok(d);
     }
 
-    @Operation(summary = "Obtener vista de productos", description = "Obtener productos por creposicion")
+    @Operation(summary = "Obtener vista de productos", description = "Obtener productos reposicion por creposicion")
     @GetMapping("/dreposicion/productos-reposicion/{creposicion}")
     public ResponseEntity<List<ProductoReposicionDTO>> getProductosByCreposicion(@PathVariable Long creposicion) {
         List<ProductoReposicionDTO> productos = service.getProductosByCreposicion(creposicion);
