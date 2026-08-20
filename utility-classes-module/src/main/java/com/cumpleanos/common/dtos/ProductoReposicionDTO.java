@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ProductoReposicionDTO {
+    private Long creposicion;
     private Long codigo;
     private String descripcion;
     private String observacion;

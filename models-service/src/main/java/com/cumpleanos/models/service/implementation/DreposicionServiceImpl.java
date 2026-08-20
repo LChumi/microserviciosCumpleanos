@@ -3,6 +3,7 @@ package com.cumpleanos.models.service.implementation;
 import com.cumpleanos.common.dtos.ProductoReposicionDTO;
 import com.cumpleanos.common.records.DreposicionDTO;
 import com.cumpleanos.common.records.RevisionProductoRequest;
+import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.entities.Producto;
@@ -107,6 +108,7 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
         return build(guardado);
     }
 
+    //Productos reposicion
     @Override
     public List<ProductoReposicionDTO> getProductosByCreposicion(Long creposicion) {
 
@@ -151,11 +153,29 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
                 .toList();
     }
 
+    @Override
+    public ServiceResponse updateProductoReposicion(Long creposicion, Long productoId, Long cantidad, Long gondola) {
+        Dreposicion d = repository.findByCreposicionIdAndProductoId(creposicion,productoId);
+        if (d == null ) {throw new EntityNotFoundException("Producto no encontrado");}
+
+        if (gondola != null) {
+            d.setGondolaId(gondola);
+        }
+        if (cantidad != null) {
+            d.setCantApr(cantidad);
+        }
+        repository.save(d);
+        return new ServiceResponse("Producto actualizado", true);
+
+    }
+
+    //Productos-reposicion
     private ProductoReposicionDTO build(
             Dreposicion d,
             InvProdinfgenWebV i
     ) {
         return ProductoReposicionDTO.builder()
+                .creposicion(d.getCreposicionId())
                 .codigo(d.getProductoId())
                 .descripcion(i.getProNombre())
                 .observacion(d.getObservacion())
