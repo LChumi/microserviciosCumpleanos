@@ -8,8 +8,10 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ProductoReposicionDTO {
+    private Long id;
+    private Long empresa;
     private Long creposicion;
-    private Long codigo;
+    private Long codigoProducto;
     private String descripcion;
     private String observacion;
     private String gondola;
@@ -17,4 +19,5 @@ public class ProductoReposicionDTO {
     private Integer canApr;
     private Integer stock;
     private Integer transito;
+    private Integer stockOptimo;
 }

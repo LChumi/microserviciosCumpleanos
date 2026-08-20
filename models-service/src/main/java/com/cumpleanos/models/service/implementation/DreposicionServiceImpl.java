@@ -190,8 +190,10 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
             InvProdinfgenWebV i
     ) {
         return ProductoReposicionDTO.builder()
+                .empresa(d.getId().getEmpresa())
+                .id(d.getId().getCodigo())
                 .creposicion(d.getCreposicionId())
-                .codigo(d.getProductoId())
+                .codigoProducto(d.getProductoId())
                 .descripcion(i.getProNombre())
                 .observacion(d.getObservacion())
                 .gondola(

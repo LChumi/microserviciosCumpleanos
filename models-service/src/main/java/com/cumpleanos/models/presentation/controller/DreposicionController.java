@@ -70,4 +70,11 @@ public class DreposicionController {
         List<ProductoReposicionDTO> productos = service.getProductosByCreposicion(creposicion);
         return ResponseEntity.ok(productos);
     }
+
+    @Operation(summary = "Eliminar dreposicon", description = "Elimina el producto de reposicon")
+    @DeleteMapping("/dreposicion/delete")
+    public ResponseEntity<Void> delete(@RequestBody DreposicionId id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
