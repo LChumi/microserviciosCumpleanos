@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {})
+@ToString(exclude = {"ccomproba", "empleado", "bodegaFin", "empresaGrupo", "cliente", "producto", "almacen"})
 @EqualsAndHashCode(of = "id")
 @Table(name = "CREPOSICION", indexes = {
         @Index(name = "CREPOSICION_UIDX7", columnList = "CRP_CCO_COMPROBA, CRP_EMP_REFER"),
@@ -213,7 +213,7 @@ public class Creposicion {
             @JoinColumn(name = "CRP_PRODUCTO", referencedColumnName = "PRO_CODIGO", insertable = false, updatable = false),
             @JoinColumn(name = "CRP_EMPRESA", referencedColumnName = "PRO_EMPRESA", insertable = false, updatable = false)
     })
-    @OnDelete (action = OnDeleteAction.RESTRICT)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private Producto producto;
 
     @Column(name = "CRP_ALMACEN")

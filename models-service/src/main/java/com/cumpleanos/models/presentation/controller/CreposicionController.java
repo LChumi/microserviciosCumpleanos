@@ -67,7 +67,7 @@ public class CreposicionController {
     @Operation(summary = "Actualiza creposicion", description = "Creposicion revision finalizado")
     @PutMapping("/creposicion/revision-finalizado")
     public ResponseEntity<Creposicion> revisionFinalizado(@RequestBody CreposicionId id) {
-        Creposicion c =service.updateRevisionFinalizado(id);
+        Creposicion c = service.updateRevisionFinalizado(id);
         return ResponseEntity.ok(c);
     }
 
@@ -78,17 +78,18 @@ public class CreposicionController {
             @Parameter(name = "finalizado", description = "Estado del documento")
     })
     @GetMapping("/creposicion/list-user/{tipo}/{usuario}/{finalizado}")
-    public ResponseEntity<List<Creposicion>> listByUser(@PathVariable Integer tipo,@PathVariable String usuario,@PathVariable Integer finalizado) {
+    public ResponseEntity<List<Creposicion>> listByUser(@PathVariable Integer tipo, @PathVariable String usuario, @PathVariable Integer finalizado) {
         List<Creposicion> result = service.getByUsuario(tipo, usuario, finalizado);
         return ResponseEntity.ok(result);
     }
+
     @Operation(summary = "Lista Creposicion", description = "Listado de creposicion Tipo y finalizado")
     @Parameters({
             @Parameter(name = "tipo", description = "Tipo de creposicion"),
             @Parameter(name = "finalizado", description = "Estado del documento")
     })
     @GetMapping("/creposicion/list-finalizados/{tipo}/{finalizado}")
-    public ResponseEntity<List<Creposicion>> listByFinalizados(@PathVariable Integer tipo,@PathVariable Integer finalizado) {
+    public ResponseEntity<List<Creposicion>> listByFinalizados(@PathVariable Integer tipo, @PathVariable Integer finalizado) {
         List<Creposicion> result = service.getByTipoAndFinalizado(tipo, finalizado);
         return ResponseEntity.ok(result);
     }
@@ -107,8 +108,8 @@ public class CreposicionController {
             @PathVariable Integer estado,
             @PathVariable Long bodega,
             @PathVariable Integer tipo
-    ){
-        List<Creposicion> lista= service.findByEstadoAndBodegaIdAndTipo(estado, bodega, tipo);
+    ) {
+        List<Creposicion> lista = service.findByEstadoAndBodegaIdAndTipo(estado, bodega, tipo);
         return ResponseEntity.ok(lista);
     }
 }

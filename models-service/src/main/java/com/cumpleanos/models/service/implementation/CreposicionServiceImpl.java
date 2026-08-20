@@ -50,7 +50,7 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     }
 
     @Override
-    public ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrLiquida,Integer estado) {
+    public ServiceResponse finalizarPedido(Long empresa, Long codigo, Long usrLiquida, Integer estado) {
         CreposicionId id = new CreposicionId();
         id.setEmpresa(empresa);
         id.setCodigo(codigo);
@@ -72,7 +72,7 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
     @Override
     public void updateEstadoFallidoCreposicion(CreposicionId id) {
         log.info("Cambiando estado fallido creposicon con error: {} ", id.toString());
-        Creposicion c = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("No se encontro Creposicion"));
+        Creposicion c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro Creposicion"));
         c.setEstado(9);
         c.setObservacion("FALLIDO");
         c.setLogError("REGISTRO ANULADO POR EL SISTEMA ROLLBACK");
@@ -81,7 +81,7 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
 
     @Override
     public Creposicion updateRevisionFinalizado(CreposicionId id) {
-        Creposicion c = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("No se encontro Creposicion"));
+        Creposicion c = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro Creposicion"));
         c.setFinalizado(1);
         String obs = c.getObservacion();
         if (obs == null) {
@@ -91,16 +91,16 @@ public class CreposicionServiceImpl extends GenericServiceImpl<Creposicion, Crep
             obs = obs + " FINALIZADO";
         }
         c.setObservacion(obs);
-        if (c.getModFecha() == null){
+        if (c.getModFecha() == null) {
             c.setModFecha(LocalDateTime.now());
-        }else{
+        } else {
             c.setModUsr("ADMINISTRADOR");
         }
 
         List<Dreposicion> dList = dreposicionRepository.findByCreposicionId(id.getCodigo());
         if (dList.isEmpty()) {
             c.setEstado(0);
-        }else {
+        } else {
             dList.forEach(d -> {
 
                 if (d.getObservacion() == null

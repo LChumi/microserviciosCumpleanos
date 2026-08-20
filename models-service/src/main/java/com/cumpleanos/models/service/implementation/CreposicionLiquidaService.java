@@ -45,7 +45,7 @@ public class CreposicionLiquidaService {
         Map<Long, Long> bodegaPorCreposicion = creposiciones.stream()
                 .filter(c -> Integer.valueOf(1).equals(c.getTipo()))
                 .collect(Collectors.toMap(
-                        c-> c.getId().getCodigo(),
+                        c -> c.getId().getCodigo(),
                         Creposicion::getBodegaId)
                 );
 
@@ -56,7 +56,7 @@ public class CreposicionLiquidaService {
         return usrLiquida;
     }
 
-    private void asignarGondolasBatch (Long empresa, Map<Long, Long> bodegaPorCreposicion) {
+    private void asignarGondolasBatch(Long empresa, Map<Long, Long> bodegaPorCreposicion) {
 
         List<Long> codigosGondola = List.copyOf(bodegaPorCreposicion.keySet());
 

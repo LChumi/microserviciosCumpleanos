@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public abstract class GenericServiceImpl <T, ID extends Serializable> implements GenericService<T, ID> {
+public abstract class GenericServiceImpl<T, ID extends Serializable> implements GenericService<T, ID> {
 
     @PersistenceContext
     protected EntityManager em;
@@ -39,7 +39,7 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
 
     @Override
     public List<T> findAll() {
-        return StreamSupport.stream(getRepository().findAll().spliterator(),false)
+        return StreamSupport.stream(getRepository().findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 
