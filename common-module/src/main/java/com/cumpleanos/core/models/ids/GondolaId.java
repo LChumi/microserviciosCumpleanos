@@ -21,8 +21,8 @@ public class GondolaId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "GON_CODIGO", nullable = false)
-    private Long gonCodigo;
+    private Long codigo;
 
     @Column(name = "GON_EMPRESA", nullable = false)
-    private Long gonEmpresa;
+    private Long empresa;
 }
