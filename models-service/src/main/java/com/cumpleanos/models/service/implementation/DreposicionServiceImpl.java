@@ -16,6 +16,7 @@ import com.cumpleanos.models.persistence.repository.views.InvProdinfgenWebVRespo
 import com.cumpleanos.models.service.interfaces.IDreposicionService;
 import com.cumpleanos.models.utils.enums.Sequence;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -153,20 +154,34 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
                 .toList();
     }
 
+    @Transactional
     @Override
-    public ServiceResponse updateProductoReposicion(Long creposicion, Long productoId, Long cantidad, Long gondola) {
-        Dreposicion d = repository.findByCreposicionIdAndProductoId(creposicion,productoId);
-        if (d == null ) {throw new EntityNotFoundException("Producto no encontrado");}
+    public ServiceResponse updateProductoReposicion(
+            Long creposicion,
+            Long productoId,
+            Long cantidad,
+            Long gondola
+    ) {
+        Dreposicion d = repository.findByCreposicionIdAndProductoId(creposicion, productoId);
+
+        if (d == null) {
+            throw new EntityNotFoundException("Producto no encontrado");
+        }
+
+        if (cantidad != null) {
+            if (cantidad < 0) {
+                throw new IllegalArgumentException("La cantidad no puede ser negativa");
+            }
+            d.setCantApr(cantidad);
+        }
 
         if (gondola != null) {
             d.setGondolaId(gondola);
         }
-        if (cantidad != null) {
-            d.setCantApr(cantidad);
-        }
-        repository.save(d);
-        return new ServiceResponse("Producto actualizado", true);
 
+        repository.save(d);
+
+        return new ServiceResponse("Producto actualizado", true);
     }
 
     //Productos-reposicion
