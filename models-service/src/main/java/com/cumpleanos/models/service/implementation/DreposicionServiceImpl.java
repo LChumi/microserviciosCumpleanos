@@ -136,7 +136,7 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
 
         Dreposicion primera = drepo.getFirst();
 
-        return construirLista(drepo, primera.getId().getEmpresa(), primera.getCreposicion().getAlmacenId());
+        return construirLista(drepo, primera.getId().getEmpresa(), primera.getCreposicion().getBodegaId());
     }
 
     @Transactional

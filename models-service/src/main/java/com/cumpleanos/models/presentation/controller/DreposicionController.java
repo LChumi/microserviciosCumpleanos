@@ -71,4 +71,11 @@ public class DreposicionController {
         return ResponseEntity.ok(productos);
     }
 
+    @Operation(summary = "Obtener vista de productos", description = "Obtener productos reposicion por usrLiquida")
+    @GetMapping("/dreposicion/productos-reposicion/{usrliquida}/liquida")
+    public ResponseEntity<List<ProductoReposicionDTO>> getProductosByUsrLiquida(@PathVariable Long usrliquida) {
+        List<ProductoReposicionDTO> productos = service.getProductosByUsrLiquida(usrliquida);
+        return ResponseEntity.ok(productos);
+    }
+
 }
