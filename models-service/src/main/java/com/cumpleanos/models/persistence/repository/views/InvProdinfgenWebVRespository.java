@@ -10,6 +10,6 @@ public interface InvProdinfgenWebVRespository extends JpaRepository<InvProdinfge
 
     InvProdinfgenWebV findByProEmpresaAndBodCodigoAndProId(Long proEmpresa, Long bodCodigo, String proId);
 
-    List<InvProdinfgenWebV> findByProEmpresaAndBodCodigoAndProIdIn(Long proEmpresa, Long bodCodigo, Collection<String> proIds);
+    List<InvProdinfgenWebV> findByProEmpresaAndBodCodigoAndProCodigoIn(Long proEmpresa, Long bodCodigo, Collection<Long> proCodigos);
 
 }
