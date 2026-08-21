@@ -8,6 +8,7 @@ import com.cumpleanos.models.persistence.repository.DreposicionRepository;
 import com.cumpleanos.models.persistence.repository.ProductoGondolaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static com.cumpleanos.models.utils.enums.Sequence.USRLIQUIDACODIGO;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreposicionLiquidaService {
@@ -28,6 +30,7 @@ public class CreposicionLiquidaService {
 
     @Transactional
     public Long generaUsrLiquidaWebBatch(Long empresa, List<Long> codigos) {
+        log.info("Generando usrLiquida para lote de creposiciones , empresa: {}, codigos: {}", empresa, codigos);
 
         //creposiciones del lote
         List<Creposicion> creposiciones = creposicionRepository.findById_CodigoIn(codigos);

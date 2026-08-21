@@ -20,6 +20,7 @@ import com.cumpleanos.models.utils.enums.Sequence;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, DreposicionId> implements IDreposicionService {
@@ -129,6 +131,7 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
 
     @Override
     public List<ProductoReposicionDTO> getProductosByUsrLiquida(Long usrLiquida) {
+        log.info("ListandoProducto por usrliquida: {}", usrLiquida);
 
         List<Dreposicion> drepo= repository.findByCreposicion_UsrLiquida(usrLiquida);
 

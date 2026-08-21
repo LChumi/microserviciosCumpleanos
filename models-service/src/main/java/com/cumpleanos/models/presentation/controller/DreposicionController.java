@@ -2,9 +2,11 @@ package com.cumpleanos.models.presentation.controller;
 
 import com.cumpleanos.common.dtos.ProductoReposicionDTO;
 import com.cumpleanos.common.records.DreposicionDTO;
+import com.cumpleanos.common.records.EmpresaCodigosRequest;
 import com.cumpleanos.common.records.RevisionProductoRequest;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.ids.DreposicionId;
+import com.cumpleanos.models.service.implementation.CreposicionLiquidaService;
 import com.cumpleanos.models.service.interfaces.IDreposicionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,6 +28,7 @@ import java.util.List;
 public class DreposicionController {
 
     private final IDreposicionService service;
+    private final CreposicionLiquidaService usrLiquidaService;
 
     @Operation(summary = "Crear Dreposicion", description = "Crea la reposicion en el sistema", tags = {"Dreposicion"}, responses = {
             @ApiResponse(responseCode = "200", description = "Dreposicion creada")
@@ -75,6 +78,14 @@ public class DreposicionController {
     @GetMapping("/dreposicion/productos-reposicion/{usrliquida}/liquida")
     public ResponseEntity<List<ProductoReposicionDTO>> getProductosByUsrLiquida(@PathVariable Long usrliquida) {
         List<ProductoReposicionDTO> productos = service.getProductosByUsrLiquida(usrliquida);
+        return ResponseEntity.ok(productos);
+    }
+
+    @Operation(summary = "Genera usrLiquida y lista productos", description = "Procesa los codigos de creposicion asignando productos sin goldola genera usrLiquida y lista loo productos de la misma")
+    @PostMapping("/dreposicion/productos-reposicion/usrliquida")
+    public ResponseEntity<List<ProductoReposicionDTO>> generateAndListReposicion(@RequestBody EmpresaCodigosRequest r) {
+        Long usrLiquida = usrLiquidaService.generaUsrLiquidaWebBatch(r.empresa(), r.codigos());
+        List<ProductoReposicionDTO> productos = service.getProductosByUsrLiquida(usrLiquida);
         return ResponseEntity.ok(productos);
     }
 
