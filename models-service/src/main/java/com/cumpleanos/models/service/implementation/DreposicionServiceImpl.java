@@ -7,11 +7,13 @@ import com.cumpleanos.common.records.ServiceResponse;
 import com.cumpleanos.core.models.entities.Creposicion;
 import com.cumpleanos.core.models.entities.Dreposicion;
 import com.cumpleanos.core.models.entities.Producto;
+import com.cumpleanos.core.models.entities.StockOptimo;
 import com.cumpleanos.core.models.ids.DreposicionId;
 import com.cumpleanos.core.models.views.InvProdinfgenWebV;
 import com.cumpleanos.models.persistence.repository.CreposicionRepository;
 import com.cumpleanos.models.persistence.repository.DreposicionRepository;
 import com.cumpleanos.models.persistence.repository.ProductoRepository;
+import com.cumpleanos.models.persistence.repository.StockOptimoRepository;
 import com.cumpleanos.models.persistence.repository.views.InvProdinfgenWebVRespository;
 import com.cumpleanos.models.service.interfaces.IDreposicionService;
 import com.cumpleanos.models.utils.enums.Sequence;
@@ -36,6 +38,7 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
     private final ProductoRepository productoRepository;
     private final CreposicionRepository creposicionRepository;
     private final InvProdinfgenWebVRespository invProdRepository;
+    private final StockOptimoRepository stockOptimoRepository;
 
     @Override
     public CrudRepository<Dreposicion, DreposicionId> getRepository() {
@@ -121,37 +124,19 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
             return List.of();
         }
 
-        Long empresa = c.getId().getEmpresa();
+        return construirLista(drepo, c.getId().getEmpresa(), c.getBodegaId());
+    }
 
-        List<String> productoIds = drepo.stream()
-                .map(d -> d.getProducto().getProId())
-                .distinct()
-                .toList();
+    @Override
+    public List<ProductoReposicionDTO> getProductosByUsrLiquida(Long usrLiquida) {
 
-        List<InvProdinfgenWebV> productos =
-                invProdRepository.findByProEmpresaAndBodCodigoAndProIdIn(
-                        empresa,
-                        c.getBodegaId(),
-                        productoIds
-                );
+        List<Dreposicion> drepo= repository.findByCreposicion_UsrLiquida(usrLiquida);
 
-        Map<String, InvProdinfgenWebV> productoMap = productos.stream()
-                .collect(Collectors.toMap(
-                        InvProdinfgenWebV::getProId,
-                        Function.identity()
-                ));
+        if (drepo.isEmpty()){return List.of();}
 
-        return drepo.stream()
-                .map(d -> {
-                    InvProdinfgenWebV producto =
-                            productoMap.get(d.getProducto().getProId());
+        Dreposicion primera = drepo.getFirst();
 
-                    return producto != null
-                            ? build(d, producto)
-                            : null;
-                })
-                .filter(Objects::nonNull)
-                .toList();
+        return construirLista(drepo, primera.getId().getEmpresa(), primera.getCreposicion().getAlmacenId());
     }
 
     @Transactional
@@ -184,10 +169,53 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
         return new ServiceResponse("Producto actualizado", true);
     }
 
+    private List<ProductoReposicionDTO> construirLista(List<Dreposicion> drepo, Long empresa, Long bodega) {
+        List<Long> productoIds = drepo.stream()
+                .map(d-> d.getProducto().getId().getCodigo())
+                .distinct()
+                .toList();
+
+        //Informacion de inventarios de todos los productos en una sola consulta
+        List<InvProdinfgenWebV> productos= invProdRepository.findByProEmpresaAndBodCodigoAndProCodigoIn(empresa, bodega, productoIds);
+
+        Map<Long, InvProdinfgenWebV> productoMap = productos.stream()
+                .collect(
+                        Collectors.toMap(
+                                InvProdinfgenWebV::getProCodigo,
+                                Function.identity()
+                        ));
+
+        //Traer el stock optimo de todos los productos de la bodega en una sola consulta
+        List<StockOptimo> stocks = stockOptimoRepository.findByBodegaAndProductoIn(bodega, productoIds);
+
+        Map<Long, StockOptimo> stockMap = stocks.stream()
+                .collect(Collectors.toMap(
+                        StockOptimo::getProducto,
+                        Function.identity()
+                ));
+
+        return drepo.stream()
+                .map(d -> {
+                    Long productoId = d.getProducto().getId().getCodigo();
+                    InvProdinfgenWebV producto = productoMap.get(productoId);
+                    //si el producto no existe en la lista de inventarios, se omite del resultado
+                    if (producto == null) {
+                        return null;
+                    }
+                    //stock optimo puede no existir para un producto
+                    StockOptimo stock = stockMap.get(productoId);
+
+                    return build(d, producto, stock);
+                })
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
     //Productos-reposicion
     private ProductoReposicionDTO build(
             Dreposicion d,
-            InvProdinfgenWebV i
+            InvProdinfgenWebV i,
+            StockOptimo st
     ) {
         return ProductoReposicionDTO.builder()
                 .empresa(d.getId().getEmpresa())
@@ -196,6 +224,7 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
                 .codigoProducto(d.getProductoId())
                 .descripcion(i.getProNombre())
                 .observacion(d.getObservacion())
+                .usuario(d.getUsuario())
                 .gondola(
                         d.getDrpGondola() != null
                                 ? d.getDrpGondola().getGonId()
@@ -205,6 +234,9 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
                 .canApr(Math.toIntExact(d.getCantApr()))
                 .stock(i.getStockDisp())
                 .transito(i.getCantPendIng())
+                .codigoStock(st != null ? st.getId().getCodigo() : null)
+                .min(st != null ? Math.toIntExact(st.getMinimo()) : null)
+                .max(st != null ? Math.toIntExact(st.getMaximo()) : null)
                 .build();
     }
 

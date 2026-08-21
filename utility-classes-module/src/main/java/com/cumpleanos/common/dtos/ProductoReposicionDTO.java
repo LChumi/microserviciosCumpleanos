@@ -14,10 +14,13 @@ public class ProductoReposicionDTO {
     private Long codigoProducto;
     private String descripcion;
     private String observacion;
+    private String usuario;
     private String gondola;
     private Integer canSol;
     private Integer canApr;
     private Integer stock;
     private Integer transito;
-    private Integer stockOptimo;
+    private Long codigoStock;
+    private Integer min;
+    private Integer max;
 }
