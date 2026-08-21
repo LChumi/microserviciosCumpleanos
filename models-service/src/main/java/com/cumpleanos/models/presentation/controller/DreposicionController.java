@@ -81,7 +81,13 @@ public class DreposicionController {
         return ResponseEntity.ok(productos);
     }
 
-    @Operation(summary = "Genera usrLiquida y lista productos", description = "Procesa los codigos de creposicion asignando productos sin goldola genera usrLiquida y lista loo productos de la misma")
+    @Operation(summary = "Genera usrLiquida y lista productos",
+            description = """
+        Procesa las creposiciones seleccionadas, asigna el usrLiquida,
+        asigna las góndolas correspondientes y devuelve los productos
+        de la reposición para su revisión.
+        """
+    )
     @PostMapping("/dreposicion/productos-reposicion/usrliquida")
     public ResponseEntity<List<ProductoReposicionDTO>> generateAndListReposicion(@RequestBody EmpresaCodigosRequest r) {
         Long usrLiquida = usrLiquidaService.generaUsrLiquidaWebBatch(r.empresa(), r.codigos());
