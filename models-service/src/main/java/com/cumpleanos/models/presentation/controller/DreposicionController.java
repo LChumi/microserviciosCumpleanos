@@ -83,10 +83,10 @@ public class DreposicionController {
 
     @Operation(summary = "Genera usrLiquida y lista productos",
             description = """
-        Procesa las creposiciones seleccionadas, asigna el usrLiquida,
-        asigna las góndolas correspondientes y devuelve los productos
-        de la reposición para su revisión.
-        """
+                    Procesa las creposiciones seleccionadas, asigna el usrLiquida,
+                    asigna las góndolas correspondientes y devuelve los productos
+                    de la reposición para su revisión.
+                    """
     )
     @PostMapping("/dreposicion/productos-reposicion/usrliquida")
     public ResponseEntity<List<ProductoReposicionDTO>> generateAndListReposicion(@RequestBody EmpresaCodigosRequest r) {

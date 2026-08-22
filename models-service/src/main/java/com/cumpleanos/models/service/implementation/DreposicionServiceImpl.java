@@ -133,9 +133,11 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
     public List<ProductoReposicionDTO> getProductosByUsrLiquida(Long usrLiquida) {
         log.info("ListandoProducto por usrliquida: {}", usrLiquida);
 
-        List<Dreposicion> drepo= repository.findByCreposicion_UsrLiquida(usrLiquida);
+        List<Dreposicion> drepo = repository.findByCreposicion_UsrLiquida(usrLiquida);
 
-        if (drepo.isEmpty()){return List.of();}
+        if (drepo.isEmpty()) {
+            return List.of();
+        }
 
         Dreposicion primera = drepo.getFirst();
 
@@ -174,12 +176,12 @@ public class DreposicionServiceImpl extends GenericServiceImpl<Dreposicion, Drep
 
     private List<ProductoReposicionDTO> construirLista(List<Dreposicion> drepo, Long empresa, Long bodega) {
         List<Long> productoIds = drepo.stream()
-                .map(d-> d.getProducto().getId().getCodigo())
+                .map(d -> d.getProducto().getId().getCodigo())
                 .distinct()
                 .toList();
 
         //Informacion de inventarios de todos los productos en una sola consulta
-        List<InvProdinfgenWebV> productos= invProdRepository.findByProEmpresaAndBodCodigoAndProCodigoIn(empresa, bodega, productoIds);
+        List<InvProdinfgenWebV> productos = invProdRepository.findByProEmpresaAndBodCodigoAndProCodigoIn(empresa, bodega, productoIds);
 
         Map<Long, InvProdinfgenWebV> productoMap = productos.stream()
                 .collect(
