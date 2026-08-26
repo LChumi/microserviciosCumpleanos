@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 public class SchedulerServiceApplication {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(SchedulerServiceApplication.class, args);
     }
 

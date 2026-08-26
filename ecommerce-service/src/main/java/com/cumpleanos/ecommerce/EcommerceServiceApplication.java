@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 public class EcommerceServiceApplication {
 
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		SpringApplication.run(EcommerceServiceApplication.class, args);
 	}
 

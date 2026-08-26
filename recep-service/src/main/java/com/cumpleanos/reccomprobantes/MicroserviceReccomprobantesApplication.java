@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class MicroserviceReccomprobantesApplication {
 
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		SpringApplication.run(MicroserviceReccomprobantesApplication.class, args);
 	}
 

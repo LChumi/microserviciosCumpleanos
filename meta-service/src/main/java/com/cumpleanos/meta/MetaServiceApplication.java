@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @OpenAPIDefinition( info = @Info(title = "Meta-service", description = "Docuemntacion Meta Api v1.0"))
 public class MetaServiceApplication {
 
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		SpringApplication.run(MetaServiceApplication.class, args);
 	}
 
