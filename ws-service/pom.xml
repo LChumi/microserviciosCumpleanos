@@ -11,13 +11,9 @@
     <groupId>com.cumpleanos.ws</groupId>
     <artifactId>ws-service</artifactId>
     <name>ws-service</name>
-    <description>microservice to send notifications real time</description>
+    <description>microservice to send notifications in real time</description>
 
-    <properties>
-        <java.version>21</java.version>
-        <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
-    </properties>
+    <properties/>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,12 +56,6 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-        <!--Dependencia Caffeine -->
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
         </dependency>
         <!--Dependencia Redis Reactivo -->
         <dependency>
@@ -73,25 +63,6 @@
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-dependencies</artifactId>
-                <version>${spring-boot-admin.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
