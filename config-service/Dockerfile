@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 
 # Instalar curl y tzdata en una sola capa
 RUN apt-get update && \
