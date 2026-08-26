@@ -48,6 +48,7 @@
         <module>ecommerce-service</module>
         <module>scheduler-service</module>
         <module>ws-service</module>
+        <module>pedidos-service</module>
     </modules>
 
     <properties>
