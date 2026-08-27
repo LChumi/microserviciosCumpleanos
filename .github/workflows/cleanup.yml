@@ -38,6 +38,6 @@ jobs:
           owner: 'LChumi'
           package-name: ${{ matrix.package }}
           package-type: 'container'
-          min-versions-to-keep: 5
+          min-versions-to-keep: 1
           delete-only-pre-release-versions: false
           token: ${{ secrets.GHCR_PAT }}
